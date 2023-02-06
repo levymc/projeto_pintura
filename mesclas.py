@@ -9,8 +9,8 @@ try:
     cursor = banco.cursor()
 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 agora = datetime.today().strftime('%d-%m-%Y_%H.%M')
-path = r"//NasTecplas/Pintura/Forms/Form_161.xlsx"
-new = r"//NasTecplas/Pintura/Forms/"+agora+r".xlsx"
+path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
+new = r"//NasTecplas/Pintura/Forms/Form_161/"+agora+r".xlsx"
 
 def tamanho():
     try:
@@ -42,7 +42,7 @@ class Mesclas(Toplevel):
         for i in range(valor):
             mescla_number = tudo[i][1]
             b = Button(self, text=f"Mescla: {mescla_number}", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda i=i:abrir(i))
-            b.place(x=x, y=y, height=40, width=120)
+            b.place(x=x, y=y, height=40, width=135)
             if i<=3:
                 x+=180
                 y=100
@@ -95,7 +95,7 @@ class Mesclas(Toplevel):
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
                         impressora = lista_impressoras[4]
                         win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, r"//NasTecplas/Pintura/Forms/", 0)
+                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, r"//NasTecplas/Pintura/Forms/Form_161/", 0)
 
                         cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
