@@ -70,8 +70,9 @@ class App(Toplevel):
         self.y = 50
         self.ocs = []
         self.ocs_label = []
+        self.contador = 0
         def campo_oc():
-            if self.numero_ocs < 10:
+            if self.contador == 0:
                 add_oc = Label(quadro, text=f"{self.numero_ocs+1}ª OC: ", foreground='white', background="#041536", font='Helvetica 9 bold')
                 add_oc.place(x=10, y=self.y)
                 qnt = Label(quadro, text="Qnt.: ", foreground='white', background="#041536", font='Helvetica 9 bold')
@@ -84,8 +85,8 @@ class App(Toplevel):
                 self.ocs.append((self.oc_campo, self.qnt_campo))
                 self.y+=40
                 self.numero_ocs +=1
-            else:
-                messagebox.showinfo(message="Não é possível adicionar mais campos!")
+                self.contador += 1
+            
         
         def delete_campo_oc(event):
             try:
@@ -103,11 +104,18 @@ class App(Toplevel):
         # Pendências - Campo direito, auxiliar
         quadro = Frame(self, width = 250, height = 460, bg="#041536")
         quadro.pack(side=RIGHT)
-        plus = Button (quadro, font='Helvetica 12 bold', text="+", anchor='center', command=campo_oc, bg='#99d199')
-        plus.place(y=18, x=220, width=18, height=18)
-        minus = Button (quadro, font='Helvetica 12 bold', text="-", anchor='center', bg='#ffb3b3')
-        minus.bind('<Button-1>', delete_campo_oc)
-        minus.place(y=437, x=220, width=18, height=18)
+        
+        add_oc = Label(quadro, text=f"OC: ", foreground='white', background="#041536", font='Helvetica 9 bold')
+        add_oc.place(x=10, y=50)
+        qnt = Label(quadro, text="Qnt.: ", foreground='white', background="#041536", font='Helvetica 9 bold')
+        qnt.place(x=186, y=50)
+        self.oc_campo = Entry(quadro)
+        self.oc_campo.place(x=55, y=50)
+        self.qnt_campo = Entry(quadro)
+        self.qnt_campo.place(x=220, y=50, width=20)    
+        buttonAddOC = Button (quadro, font='Helvetica 8 bold', text="Adicionar OC", anchor='center', command=campo_oc, bg='#99d199')
+        buttonAddOC.place(y=90, x=160, width=80, height=22)
+
         y = Label(quadro, text = "OC's utilizadas no lote: ",foreground='white', background="#041536", font='Impact 15')
         y.place(x=30, y=10)
 
