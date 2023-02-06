@@ -42,7 +42,7 @@ class Login(Toplevel):
         print(user,password)
         s = hashlib.md5(password.encode()).hexdigest()
         try:
-            banco = sqlite3.connect(r'//NasTecplas/Public/Levy/dig_pintura/pintura.db')
+            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conectar no DB")
         

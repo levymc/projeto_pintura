@@ -5,12 +5,12 @@ import xlwings as xw
 import hashlib, json, sqlite3, form_40, login_40, shutil, win32print, win32api
 
 try:
-    banco = sqlite3.connect(r'//NasTecplas/Public/Levy/dig_pintura/pintura.db')
+    banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
     cursor = banco.cursor()
 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 agora = datetime.today().strftime('%d-%m-%Y_%H.%M')
-path = r"//NasTecplas/Public/Levy/dig_pintura/Form_161.xlsx"
-new = r"//NasTecplas/Public/Levy/dig_pintura/"+agora+r".xlsx"
+path = r"//NasTecplas/Pintura/Forms/Form_161.xlsx"
+new = r"//NasTecplas/Pintura/Forms/"+agora+r".xlsx"
 
 def tamanho():
     try:

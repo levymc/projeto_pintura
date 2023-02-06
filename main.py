@@ -6,7 +6,7 @@ import form_173, pend_new, form_40, login_173, mesclas
 from datetime import datetime
 
 try:
-    banco = sqlite3.connect(r'//NasTecplas/Public/Levy/dig_pintura/pintura.db')
+    banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
     cursor = banco.cursor()
 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 

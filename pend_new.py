@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import hashlib, json, sqlite3, form_40, login_40
 
-banco = sqlite3.connect(r'//NasTecplas/Public/Levy/dig_pintura/pintura.db')
+banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
 cursor = banco.cursor()
 
 def pend():
@@ -55,10 +55,8 @@ class Pendencias(Toplevel):
 
             def abrir(i):
                 self.destroy()
-                valor = pend()
+                ids = pend()
                 ocs = [()]
-                cursor.execute("SELECT * FROM form_173 WHERE pendencia=1")
-                ids = cursor.fetchall()
                 x = ids[i]
                 id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = x
                 cursor.execute(f"SELECT oc FROM ocs WHERE track_form173 = '{id_form173}'")

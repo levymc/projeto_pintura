@@ -5,7 +5,7 @@ from datetime import timedelta
 from datetime import datetime
 
 try:
-        banco = sqlite3.connect(r'//NasTecplas/Public/Levy/dig_pintura/pintura.db')
+        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
         cursor = banco.cursor()
 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 
@@ -23,7 +23,7 @@ def conteudo_form40():
 
 def ultima_mescla():
         try:
-                banco = sqlite3.connect(r'//NasTecplas/Public/Levy/dig_pintura/pintura.db')
+                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                 cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conctar no DB")
         cursor.execute("SELECT mescla FROM form_40")
