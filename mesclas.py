@@ -93,9 +93,9 @@ class Mesclas(Toplevel):
                         excel_app.quit()
 
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
-                        impressora = lista_impressoras[0]
+                        impressora = lista_impressoras[4]
                         win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, "//NasTecplas/Public/Levy/dig_pintura/", 0)
+                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, r"//NasTecplas/Pintura/Forms/", 0)
 
                         cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
