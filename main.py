@@ -127,9 +127,9 @@ class Main(Tk):
         solicit_scroll.config(command=mylistbox.yview)
 
         b1 = Button(quadro, text="Formulário 173 - Solicitações", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[login_173.Login()])
-        b1.place(x = 50, y= 110)
+        b1.place(x = 50, y= 40)
         b2 = Button(quadro, text="Solicitações de Mescla Pendentes", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[pend_new.Pendencias()])
-        b2.place(x = 50, y= 40)
+        b2.place(x = 50, y= 110)
         b3 = Button(quadro, text="Gerar e Imprimir Form. 161", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[mesclas.Mesclas()])
         b3.place(x = 50, y= 180)
 

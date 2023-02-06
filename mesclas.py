@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from datetime import datetime
 import xlwings as xw
-import hashlib, json, sqlite3, form_40, login_40, shutil, win32print, win32api
+import sqlite3, shutil, win32print, win32api, pend_new
 
 try:
     banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
@@ -110,7 +110,7 @@ class Mesclas(Toplevel):
         banco.commit()
     
     def atualizar(self):
-        valor = len(pend())
+        valor = len(pend_new.pend())
         self.label_.config(text=f"{valor}  Solicitações Pendentes")
         # print(valor)
 

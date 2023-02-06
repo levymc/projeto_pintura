@@ -125,8 +125,8 @@ if __name__ == "__main__":
     banco.commit()
 
 def conteudo_form40():
-    cursor.execute("SELECT * FROM form_40")
-    conteudo = cursor.fetchall()
+    tudo = cursor.execute("SELECT * FROM form_40")
+    conteudo = tudo.fetchall()
     tamanho = len(tudo)
     return conteudo, tamanho
 
