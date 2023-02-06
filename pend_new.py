@@ -38,7 +38,9 @@ class Pendencias(Toplevel):
         y=100
         
         for i in range(valor):
-            b = Button(self, text=f"{i+1}ª Solicitação", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda i=i:abrir(i))
+            ids = pend()
+            id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = ids[i]
+            b = Button(self, text=f"Formulário: {formulario}", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda i=i:abrir(i))
             b.place(x=x, y=y, width=110, height=40)
             if i<=3:
                 x+=160
@@ -55,12 +57,9 @@ class Pendencias(Toplevel):
 
             def abrir(i):
                 self.destroy()
-                ids = pend()
+                id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = ids[i]
                 ocs = [()]
-                x = ids[i]
-                id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = x
-                cursor.execute(f"SELECT oc FROM ocs WHERE track_form173 = '{id_form173}'")
-                oc_ = cursor.fetchall()
+                oc_ = cursor.execute(f"SELECT oc FROM ocs WHERE track_form173 = '{id_form173}'").fetchall()
                 ocs.append((id_form173, oc_))
                 try:
                     pend_2 = Toplevel()
