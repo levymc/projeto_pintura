@@ -69,55 +69,38 @@ class App(Toplevel):
         self.numero_ocs = 0
         self.y = 50
         self.ocs = []
-        self.ocs_label = []
-        self.contador = 0
-        def campo_oc():
-            if self.contador == 0:
-                add_oc = Label(quadro, text=f"{self.numero_ocs+1}ª OC: ", foreground='white', background="#041536", font='Helvetica 9 bold')
-                add_oc.place(x=10, y=self.y)
-                qnt = Label(quadro, text="Qnt.: ", foreground='white', background="#041536", font='Helvetica 9 bold')
-                qnt.place(x=186, y=self.y)
-                self.oc_campo = Entry(quadro)
-                self.oc_campo.place(x=55, y=self.y)
-                self.qnt_campo = Entry(quadro)
-                self.qnt_campo.place(x=220, y=self.y, width=20)
-                self.ocs_label.append((add_oc, qnt))
-                self.ocs.append((self.oc_campo, self.qnt_campo))
-                self.y+=40
-                self.numero_ocs +=1
-                self.contador += 1
-            
+        self.ocsAux = {}
         
-        def delete_campo_oc(event):
-            try:
-                self.ocs[-1][0].place_forget()
-                self.ocs[-1][1].place_forget()
-                self.ocs_label[-1][0].place_forget()
-                self.ocs_label[-1][1].place_forget()
-                if not self.numero_ocs == 0:
-                    self.y -= 40
-                    self.numero_ocs -= 1
-                    self.ocs.remove((self.ocs[-1][0],self.ocs[-1][1]))
-                    self.ocs_label.remove((self.ocs_label[-1][0], self.ocs_label[-1][1]))
-            except Exception as ex: print(ex)
+        def campo_oc():
+            self.ocs.append({"oc":self.oc_campo.get(), "qnt": self.qnt_campo.get()})
+            self.ocsAux['oc'] = self.oc_campo.get()
+            self.ocsAux['qnt'] = self.qnt_campo.get()
+            mylistbox.insert(END, f"OC: {self.ocsAux['oc']} - QNT: {self.ocsAux['qnt']}" )
+            self.ocsAux.clear()
 
         # Pendências - Campo direito, auxiliar
         quadro = Frame(self, width = 250, height = 460, bg="#041536")
         quadro.pack(side=RIGHT)
         
         add_oc = Label(quadro, text=f"OC: ", foreground='white', background="#041536", font='Helvetica 9 bold')
-        add_oc.place(x=10, y=50)
+        add_oc.place(x=10, y=55)
         qnt = Label(quadro, text="Qnt.: ", foreground='white', background="#041536", font='Helvetica 9 bold')
-        qnt.place(x=186, y=50)
+        qnt.place(x=186, y=55)
         self.oc_campo = Entry(quadro)
-        self.oc_campo.place(x=55, y=50)
+        self.oc_campo.place(x=55, y=55)
         self.qnt_campo = Entry(quadro)
-        self.qnt_campo.place(x=220, y=50, width=20)    
-        buttonAddOC = Button (quadro, font='Helvetica 8 bold', text="Adicionar OC", anchor='center', command=campo_oc, bg='#99d199')
+        self.qnt_campo.place(x=220, y=55, width=20)    
+        buttonAddOC = Button (quadro, font='Helvetica 8 bold', text="Adicionar OC", anchor='center', command=campo_oc,  bg='#99d199')
         buttonAddOC.place(y=90, x=160, width=80, height=22)
 
         y = Label(quadro, text = "OC's utilizadas no lote: ",foreground='white', background="#041536", font='Impact 15')
         y.place(x=30, y=10)
+        
+
+        mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
+        mylistbox.place(x=35,y=150, width=190, height=250)
+        infoOC = Label(quadro, text="OC's adicionadas", foreground='white', background="#041536", font='Helvetica 9 bold')
+        infoOC.place(x=33, y=405)
 
         self.mainloop()
 

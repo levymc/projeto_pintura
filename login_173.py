@@ -39,7 +39,6 @@ class Login(Toplevel):
     def confere(self, event):
         user = self.usuario.get()
         password = self.senha.get()
-        print(user,password)
         s = hashlib.md5(password.encode()).hexdigest()
         try:
             banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
@@ -47,10 +46,8 @@ class Login(Toplevel):
         except: messagebox.showerror(message="Error ao conctar no DB")
         try:
             cursor.execute(f"SELECT * FROM operadores WHERE usuario = '{user}' AND senha = '{s}'")
-            conteudo = cursor.fetchall()[0]
             self.destroy()
             form_173.App(user)
-            print(conteudo)
         except: messagebox.showerror(message="Usuário ou senha inválidos!")
 
 # if __name__ == "__main__":
