@@ -41,7 +41,7 @@ class Login(Toplevel):
         password = self.senha.get()
         s = hashlib.md5(password.encode()).hexdigest()
         try:
-            banco = sqlite3.connect(r'pintura.db')
+            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conctar no DB")
         try:

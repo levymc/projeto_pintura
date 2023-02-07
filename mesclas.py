@@ -5,14 +5,13 @@ import xlwings as xw
 import sqlite3, shutil, win32print, win32api, pend_new
 
 
-agora = datetime.today().strftime('%d-%m-%Y_%H.%M')
-path = r"Forms/Form_161.xlsx"
-new = r"Forms/Form_161_Gerado/"+agora+r".xlsx"
-path_maior = r"Forms/Form_161_maior.xlsx"
+
+path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
+path_maior = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_maior.xlsx"
 
 def tamanho():
     try:
-        banco = sqlite3.connect(r'pintura.db')
+        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
         cursor = banco.cursor()
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     try:
@@ -61,8 +60,10 @@ class Mesclas(Toplevel):
                 y = 9999
 
             def abrir(i):
+                agora = datetime.today().strftime('%d-%m-%Y_%H.%M')
+                new = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+agora+r".xlsx"
                 try:
-                    banco = sqlite3.connect(r'pintura.db')
+                    banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
@@ -131,7 +132,7 @@ class Mesclas(Toplevel):
 
     def finalizar(self,id_form173):
         try:
-            banco = sqlite3.connect(r'pintura.db')
+            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
             cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=["mescla4", ex, type(ex)])
         x = messagebox.askquestion(message="Deve finalizar?")

@@ -6,7 +6,7 @@ from datetime import datetime
 
 def conteudo_form173():
         try:
-                banco = sqlite3.connect(r'pintura.db')
+                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                 cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         cursor.execute("SELECT * FROM form_173")
@@ -18,7 +18,7 @@ def conteudo_form173():
 
 def conteudo_form40():
         try:
-                banco = sqlite3.connect(r'pintura.db')
+                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                 cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         cursor.execute("SELECT * FROM form_40")
@@ -30,7 +30,7 @@ def conteudo_form40():
 
 def ultima_mescla():
         try:
-                banco = sqlite3.connect(r'pintura.db')
+                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                 cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         
@@ -59,7 +59,7 @@ class Form_40(Toplevel):
         def __init__(self, id_form173, user):
                 super().__init__()
                 try:
-                        banco = sqlite3.connect(r'pintura.db')
+                        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                         cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                 self.geometry("1230x230")
@@ -164,7 +164,7 @@ class Form_40(Toplevel):
                         pattern = r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
                         pattern = re.compile(pattern)
                         try:
-                                banco = sqlite3.connect(r'pintura.db')
+                                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                                 cursor = banco.cursor()
                         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                         try:

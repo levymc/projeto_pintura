@@ -4,22 +4,20 @@ import hashlib, json, sqlite3, form_40, login_40
 
 def pend():
     try:
-        banco = sqlite3.connect(r'pintura.db')
+        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
         cursor = banco.cursor()
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-    cursor.execute("SELECT * FROM form_173 WHERE pendencia=1")
-    valor = cursor.fetchall()
+    valor = cursor.execute("SELECT * FROM form_173 WHERE pendencia=1").fetchall()
     cursor.close()
     banco.close()
     return valor
 
 def tamanho():
     try:
-        banco = sqlite3.connect(r'pintura.db')
+        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
         cursor = banco.cursor()
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-    cursor.execute("SELECT * FROM form_173")
-    tudo = cursor.fetchall()
+    tudo = cursor.execute("SELECT * FROM form_173").fetchall()
     tamanho = len(tudo)
     cursor.close()
     banco.close()
@@ -47,8 +45,8 @@ class Pendencias(Toplevel):
         y=100
         
         for i in range(valor):
-            ids = pend()
-            id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = ids[i]
+            id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = pendencias[i]
+            print(formulario)
             b = Button(self, text=f"Formulário: {formulario}", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda i=i:abrir(i))
             b.place(x=x, y=y, width=110, height=40)
             if i<=3:
@@ -67,10 +65,10 @@ class Pendencias(Toplevel):
             def abrir(i):
                 self.destroy()
                 try:
-                    banco = sqlite3.connect(r'pintura.db')
+                    banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-                id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = ids[i]
+                id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = pendencias[i]
                 ocs = [()]
                 oc_ = cursor.execute(f"SELECT oc FROM ocs WHERE track_form173 = '{id_form173}'").fetchall()
                 ocs.append((id_form173, oc_))
@@ -126,7 +124,7 @@ class Pendencias(Toplevel):
 
     def finalizar(self,id_form173, pend_2):
         try:
-            banco = sqlite3.connect(r'pintura.db')
+            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
             cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         x = messagebox.askquestion(message="Deve finalizar?")
@@ -140,7 +138,7 @@ class Pendencias(Toplevel):
 
 def conteudo_form40():
     try:
-        banco = sqlite3.connect(r'pintura.db')
+        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
         cursor = banco.cursor()
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     tudo = cursor.execute("SELECT * FROM form_40")

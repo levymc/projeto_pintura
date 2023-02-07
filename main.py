@@ -8,7 +8,7 @@ from datetime import datetime
 
 def pend():
     try:
-        banco = sqlite3.connect(r'pintura.db')
+        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
         cursor = banco.cursor()
         cursor.execute("SELECT * FROM form_173 WHERE pendencia=1")
         valor = cursor.fetchall()
@@ -19,7 +19,7 @@ def pend():
 
 def tamanho():
     try:
-        banco = sqlite3.connect(r'pintura.db')
+        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
         cursor = banco.cursor()
         cursor.execute("SELECT * FROM form_173")
         tudo = cursor.fetchall()
@@ -43,7 +43,7 @@ class Main(Tk):
 
     def create_wigets(self):
         try:
-            banco = sqlite3.connect(r'pintura.db')
+            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
             cursor = banco.cursor()
             pendencias = pend()
             cursor.execute(f"SELECT * FROM form_173 WHERE pendencia={0}")
@@ -61,7 +61,7 @@ class Main(Tk):
         def proc_solicitacao():
             x = consulta_field.get()
             try:
-                banco = sqlite3.connect(r'pintura.db')
+                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
                 cursor = banco.cursor()
                 cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={x[0]}")
                 vetor_inform = cursor.fetchall()
@@ -125,7 +125,7 @@ class Main(Tk):
         mylistbox.place(x=420,y=79)
 
         def popular():
-            banco = sqlite3.connect(r'pintura.db')
+            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
             cursor = banco.cursor()
             mylistbox.delete(0, END)
             cursor.execute(f"SELECT Id_form_173, solicitante, formulario, cemb, quantidade, pintor FROM form_173 WHERE data_solicitacao='{self.hoje}'")
