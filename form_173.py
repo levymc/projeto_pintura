@@ -5,7 +5,7 @@ from PIL import ImageTk, Image
 from datetime import datetime
 
 try:
-    banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+    banco = sqlite3.connect(r'//NasTecplas/Public/1 PROCESSO/Levy/DB/pintura.db')
     cursor = banco.cursor()
 except Exception as ex: messagebox.showerror(message=(ex, type(ex)))
 
@@ -75,7 +75,7 @@ class App(Toplevel):
             self.ocs.append({"oc":self.oc_campo.get(), "qnt": self.qnt_campo.get()})
             self.ocsAux['oc'] = self.oc_campo.get()
             self.ocsAux['qnt'] = self.qnt_campo.get()
-            mylistbox.insert(END, f"OC: {self.ocsAux['oc']} - QNT: {self.ocsAux['qnt']}" )
+            self.mylistbox.insert(END, f"OC: {self.ocsAux['oc']} - QNT: {self.ocsAux['qnt']}" )
             self.ocsAux.clear()
 
         # Pendências - Campo direito, auxiliar
@@ -97,8 +97,8 @@ class App(Toplevel):
         y.place(x=30, y=10)
         
 
-        mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
-        mylistbox.place(x=35,y=150, width=190, height=250)
+        self.mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
+        self.mylistbox.place(x=35,y=150, width=190, height=250)
         infoOC = Label(quadro, text="OC's adicionadas", foreground='white', background="#041536", font='Helvetica 9 bold')
         infoOC.place(x=33, y=405)
 
@@ -110,13 +110,12 @@ class App(Toplevel):
         ### CONFERINDO OS CAMPOS VAZIOS
         cont = 0
         for i in range(len(self.ocs)):
-            if self.ocs[i][0].get() != '':
-                cont += 1
-        if (self.numero_field.get() == "" and 
-            self.cemb_field.get() == "" and
-            self.qnt_field.get() == "" and
+            cont += 1
+        if (self.numero_field.get() == "" or 
+            self.cemb_field.get() == "" or
+            self.qnt_field.get() == "" or
             self.pintor_field.get() == ""             
-        ): messagebox.showinfo(message="Os campos estão vazios!")
+        ): messagebox.showinfo(message="Preencha os campos para continuar!")
         elif cont == 0: messagebox.showinfo(message="Os campos de OC's estão vazios!")
 
         else: 
@@ -128,32 +127,32 @@ class App(Toplevel):
                         f"""INSERT INTO form_173 (solicitante, formulario, data_solicitacao, cemb, quantidade, pintor)
                         VALUES (?,?,?,?,?,?)
                         """,(dic[0], dic[1], dic[2], dic[3], dic[4], dic[5]))
-                    cursor.execute("""SELECT rowid FROM form_173 WHERE rowid=(SELECT MAX(rowid) FROM form_173)""")
-                    id_form173 = cursor.fetchone()[0] #Retorna o ID da última linha
                     banco.commit()
-                except Exception as ex: messagebox.showerror(message=(ex, type(ex)))
+                    id_form173 = cursor.lastrowid
+                except Exception as ex:
+                    print(ex)
+                    messagebox.showerror(message=(ex, type(ex)))
 
                 for i in self.ocs:
-                    if not i[0] == "":
-                        try:  #INSERINDO AS OCS NO DB
-                            text = """INSERT INTO ocs (oc, quantidade,track_form173) VALUES (?,?,?)"""
-                            cursor.execute(text, [i[0].get(), i[1].get(), id_form173])
-                            banco.commit()
-                        except Exception as ex: messagebox.showerror(message=(ex, type(ex)))
+                    try:  #INSERINDO AS OCS NO DB
+                        text = """INSERT INTO ocs (oc, quantidade,track_form173) VALUES (?,?,?)"""
+                        cursor.execute(text, [i['oc'], i['qnt'], id_form173])
+                        banco.commit()
+                    except Exception as ex:
+                        print(ex)
+                        messagebox.showerror(message=("ERRO: ",ex, type(ex)))
+                    
+                messagebox.showinfo(message="Informações enviadas!!")
                 
                 # APAGANDO OS CAMPOS APÓS O ENVIO DAS INFO..
                 self.numero_field.focus_set()
                 self.numero_field.delete(0, END)
                 self.pintor_field.delete(0, END)
                 self.cemb_field.delete(0, END)
+                self.oc_campo.delete(0, END)
                 self.qnt_field.delete(0, END)
-                for i in self.ocs:
-                    i[0].focus_set()
-                    i[0].delete(0,END)
-                    i[1].focus_set()
-                    i[1].delete(0,END)
-                self.numero_field.focus_set()  
-                self.destroy()
+                self.qnt_campo.delete(0, END)
+                self.mylistbox.delete(0, END)
             else: self.numero_field.focus_set()
 
     def limpar(self):
@@ -161,13 +160,10 @@ class App(Toplevel):
         self.numero_field.delete(0, END)
         self.pintor_field.delete(0, END)
         self.cemb_field.delete(0, END)
+        self.oc_campo.delete(0, END)
         self.qnt_field.delete(0, END)
-        for i in self.ocs:
-            i[0].focus_set()
-            i[0].delete(0,END)
-            i[1].focus_set()
-            i[1].delete(0,END)
-        self.numero_field.focus_set()
+        self.qnt_campo.delete(0, END)
+        self.mylistbox.delete(0, END)
 
 # if __name__ == "__main__":
 #     app = App()
