@@ -118,7 +118,6 @@ class Pendencias(Toplevel):
                     
       
         self.mainloop()
-        banco.commit()
     
     def atualizar(self):
         valor = len(pend())

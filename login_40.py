@@ -46,8 +46,8 @@ class Login(Toplevel):
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conectar no DB")
         
-        cursor.execute(f"SELECT * FROM operadores WHERE usuario = '{user}' AND senha = '{s}'")
-        conteudo = cursor.fetchall()[0]
+        
+        conteudo = cursor.execute(f"SELECT * FROM operadores WHERE usuario = '{user}' AND senha = '{s}'").fetchall()[0]
         self.destroy()
         form_40.Form_40(self.id_passar, user)
         cursor.close()

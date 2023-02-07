@@ -6,9 +6,9 @@ import sqlite3, shutil, win32print, win32api, pend_new
 
 
 agora = datetime.today().strftime('%d-%m-%Y_%H.%M')
-path = r"/Forms/Form_161.xlsx"
-new = r"/Forms/Form_161_Gerado/"+agora+r".xlsx"
-path_maior = r"/Forms/Form_161_maior.xlsx"
+path = r"Forms/Form_161.xlsx"
+new = r"Forms/Form_161_Gerado/"+agora+r".xlsx"
+path_maior = r"Forms/Form_161_maior.xlsx"
 
 def tamanho():
     try:
@@ -22,7 +22,7 @@ def tamanho():
         cursor.close()
         banco.close()
         return tudo, tamanho
-    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
+    except Exception as ex: messagebox.showerror(message=["mescla1",ex, type(ex)])
 
 class Mesclas(Toplevel):
     def __init__(self):
@@ -64,23 +64,23 @@ class Mesclas(Toplevel):
                 try:
                     banco = sqlite3.connect(r'pintura.db')
                     cursor = banco.cursor()
-                except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
+                except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
                     idform173 = tudo[i][22]
-                    print(tudo[i][1])
-                    cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}")
-                    form_173_tudo=cursor.fetchall()
+                    
+                    form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
                     if x=='yes':
                         print(form_173_tudo, idform173)
                         
                         try:
-                            cursor.execute(f"SELECT * FROM ocs WHERE track_form173={form_173_tudo[0][0]}")
-                            ocs = cursor.fetchall()
-                            cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][1]}")
-                            nome = cursor.fetchall()[0][0]
+                            
+                            ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
+                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][1]}").fetchall()[0][0]
+                            print(form_173_tudo[0][1])
                             mescla_n = tudo[i][1]
-                            if len(ocs) < 15:
+                            print('Tamanho: ', len(ocs))
+                            if len(ocs) <= 15:
                                 shutil.copyfile(path, new)
                             else:
                                 shutil.copyfile(path_maior, new)
@@ -92,6 +92,7 @@ class Mesclas(Toplevel):
                         ws = wks[0]
                         linha = 35
                         for i in ocs:
+                            print(i)
                             ws.range("F"+f"{linha}").value = i[1]
                             ws.range("I"+f"{linha}").value = i[2]
                             linha += 1
@@ -104,12 +105,13 @@ class Mesclas(Toplevel):
                         wb.close()
                         excel_app.quit()
 
-                        lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
-                        impressora = lista_impressoras[4]
-                        win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, r"//NasTecplas/Pintura/Forms/Form_161/", 0)
-
-                        cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
+                        # lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
+                        # impressora = lista_impressoras[4]
+                        # win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
+                        # win32api.ShellExecute(0, "print", agora+r".xlsx", None, r"//NasTecplas/Pintura/Forms/Form_161/", 0)
+                        
+                        print(mescla_n)
+                        # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
                         cursor.close()
                         banco.close()
@@ -118,10 +120,9 @@ class Mesclas(Toplevel):
                     else: 
                         self.mainloop()
                         pass
-                except Exception as ex: messagebox.showerror(message=ex)
+                except Exception as ex: messagebox.showerror(message=["mescla3",ex])
 
         self.mainloop()
-        banco.commit()
     
     def atualizar(self):
         valor = len(pend_new.pend())
@@ -132,7 +133,7 @@ class Mesclas(Toplevel):
         try:
             banco = sqlite3.connect(r'pintura.db')
             cursor = banco.cursor()
-        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
+        except Exception as ex: messagebox.showerror(message=["mescla4", ex, type(ex)])
         x = messagebox.askquestion(message="Deve finalizar?")
         if x =='yes':
             try:

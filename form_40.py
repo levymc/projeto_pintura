@@ -5,28 +5,39 @@ from datetime import timedelta
 from datetime import datetime
 
 def conteudo_form173():
-    cursor.execute("SELECT * FROM form_173")
-    conteudo = cursor.fetchall()
-    tamanho = len(conteudo)
-    cursor.close()
-    banco.close()
-    return conteudo, tamanho
+        try:
+                banco = sqlite3.connect(r'pintura.db')
+                cursor = banco.cursor()
+        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
+        cursor.execute("SELECT * FROM form_173")
+        conteudo = cursor.fetchall()
+        tamanho = len(conteudo)
+        cursor.close()
+        banco.close()
+        return conteudo, tamanho
 
 def conteudo_form40():
-    cursor.execute("SELECT * FROM form_40")
-    conteudo = cursor.fetchall()
-    tamanho = len(conteudo)
-    cursor.close()
-    banco.close()
-    return conteudo, tamanho
+        try:
+                banco = sqlite3.connect(r'pintura.db')
+                cursor = banco.cursor()
+        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
+        cursor.execute("SELECT * FROM form_40")
+        conteudo = cursor.fetchall()
+        tamanho = len(conteudo)
+        cursor.close()
+        banco.close()
+        return conteudo, tamanho
 
 def ultima_mescla():
         try:
                 banco = sqlite3.connect(r'pintura.db')
                 cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-        cursor.execute("SELECT mescla FROM form_40")
-        ultima_mescla = cursor.fetchall()[-1][0]
+        
+        if (len(cursor.execute("SELECT mescla FROM form_40").fetchall()) != 0):
+                ultima_mescla = cursor.execute("SELECT mescla FROM form_40").fetchall()[-1][0]
+        else:
+                ultima_mescla = '23-000'
         cursor.close()
         banco.close()
         return ultima_mescla
