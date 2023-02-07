@@ -4,30 +4,31 @@ import hashlib, json, sqlite3, re
 from datetime import timedelta
 from datetime import datetime
 
-try:
-        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
-        cursor = banco.cursor()
-except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-
 def conteudo_form173():
     cursor.execute("SELECT * FROM form_173")
     conteudo = cursor.fetchall()
     tamanho = len(conteudo)
+    cursor.close()
+    banco.close()
     return conteudo, tamanho
 
 def conteudo_form40():
     cursor.execute("SELECT * FROM form_40")
     conteudo = cursor.fetchall()
     tamanho = len(conteudo)
+    cursor.close()
+    banco.close()
     return conteudo, tamanho
 
 def ultima_mescla():
         try:
-                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                banco = sqlite3.connect(r'pintura.db')
                 cursor = banco.cursor()
-        except: messagebox.showerror(message="Error ao conctar no DB")
+        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         cursor.execute("SELECT mescla FROM form_40")
         ultima_mescla = cursor.fetchall()[-1][0]
+        cursor.close()
+        banco.close()
         return ultima_mescla
 def somar_mescla():
         x = ultima_mescla()
@@ -46,6 +47,10 @@ def somar_mescla():
 class Form_40(Toplevel):
         def __init__(self, id_form173, user):
                 super().__init__()
+                try:
+                        banco = sqlite3.connect(r'pintura.db')
+                        cursor = banco.cursor()
+                except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                 self.geometry("1230x230")
                 self.title('Form_40')
                 self.configure(bg='white')
@@ -65,6 +70,8 @@ class Form_40(Toplevel):
                 ultima_mesc = ultima_mescla()
                 self.mescla_atual = somar_mescla()
                 self.create_wigets() # chama a função que cria os widgets
+                cursor.close()
+                banco.close()
 
         def create_wigets(self):
                 self.mescla_field = Label(self, text=self.mescla_atual, font="Arial 8 bold", bg='white') 
@@ -146,6 +153,10 @@ class Form_40(Toplevel):
                         pattern = r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
                         pattern = re.compile(pattern)
                         try:
+                                banco = sqlite3.connect(r'pintura.db')
+                                cursor = banco.cursor()
+                        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
+                        try:
                                 cursor.execute(f"SELECT viscosidade_min,viscosidade_max FROM relacao_tintas WHERE cemb={self.cod_mp[0][0]}")
                                 visc_max_min = cursor.fetchall()[0]
                                 # print(self.cod_mp[0][0], visc_max_min[1])
@@ -208,12 +219,9 @@ class Form_40(Toplevel):
                                                         cursor.execute(f"UPDATE form_40 SET ter_agitador='{str(ter_agitador)}' WHERE mescla='{dados[0]}'")
                                                         banco.commit()
                                                 self.destroy()
-                                                banco.commit()
-
+                                                cursor.close()
+                                                banco.close()
                         except Exception as ex: 
                                 messagebox.showerror(message="Ocorreu um erro!!")
                                 print(ex, type(ex)) 
                                         
-# if __name__ == "__main__":
-#     app = Form_40()
-#     app.mainloop()

@@ -4,20 +4,23 @@ from datetime import datetime
 import xlwings as xw
 import sqlite3, shutil, win32print, win32api, pend_new
 
-try:
-    banco = sqlite3.connect(r'//NasTecplas/Public/1 PROCESSO/Levy/DB/pintura.db')
-    cursor = banco.cursor()
-except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
+
 agora = datetime.today().strftime('%d-%m-%Y_%H.%M')
-path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
-new = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+agora+r".xlsx"
-path_maior = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_maior.xlsx"
+path = r"/Forms/Form_161.xlsx"
+new = r"/Forms/Form_161_Gerado/"+agora+r".xlsx"
+path_maior = r"/Forms/Form_161_maior.xlsx"
 
 def tamanho():
+    try:
+        banco = sqlite3.connect(r'pintura.db')
+        cursor = banco.cursor()
+    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     try:
         cursor.execute(f"SELECT * FROM form_40 WHERE print={0}")
         tudo = cursor.fetchall()
         tamanho = len(tudo)
+        cursor.close()
+        banco.close()
         return tudo, tamanho
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 
@@ -58,6 +61,10 @@ class Mesclas(Toplevel):
                 y = 9999
 
             def abrir(i):
+                try:
+                    banco = sqlite3.connect(r'pintura.db')
+                    cursor = banco.cursor()
+                except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                 try:
                     idform173 = tudo[i][22]
                     print(tudo[i][1])
@@ -104,6 +111,8 @@ class Mesclas(Toplevel):
 
                         cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
+                        cursor.close()
+                        banco.close()
                         print("IMPRIMIU!!!")
                         self.destroy()
                     else: 
@@ -120,15 +129,16 @@ class Mesclas(Toplevel):
         # print(valor)
 
     def finalizar(self,id_form173):
+        try:
+            banco = sqlite3.connect(r'pintura.db')
+            cursor = banco.cursor()
+        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         x = messagebox.askquestion(message="Deve finalizar?")
         if x =='yes':
             try:
                 cursor.execute(f"UPDATE form_173 SET pendencia={0} WHERE Id_form_173={id_form173}")
+                banco.commit()
+                cursor.close()
+                banco.close()
             except Exception as ex: messagebox.showerror(message=ex)
         else: pass
-
-
-# if __name__ == "__main__":
-#     app = Mesclas()
-#     app.mainloop()
-#     banco.commit()

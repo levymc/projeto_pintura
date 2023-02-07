@@ -2,18 +2,27 @@ from tkinter import *
 from tkinter import messagebox
 import hashlib, json, sqlite3, form_40, login_40
 
-banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
-cursor = banco.cursor()
-
 def pend():
+    try:
+        banco = sqlite3.connect(r'pintura.db')
+        cursor = banco.cursor()
+    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     cursor.execute("SELECT * FROM form_173 WHERE pendencia=1")
     valor = cursor.fetchall()
+    cursor.close()
+    banco.close()
     return valor
 
 def tamanho():
+    try:
+        banco = sqlite3.connect(r'pintura.db')
+        cursor = banco.cursor()
+    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     cursor.execute("SELECT * FROM form_173")
     tudo = cursor.fetchall()
     tamanho = len(tudo)
+    cursor.close()
+    banco.close()
     return tudo, tamanho
 
 class Pendencias(Toplevel):
@@ -57,10 +66,16 @@ class Pendencias(Toplevel):
 
             def abrir(i):
                 self.destroy()
+                try:
+                    banco = sqlite3.connect(r'pintura.db')
+                    cursor = banco.cursor()
+                except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                 id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = ids[i]
                 ocs = [()]
                 oc_ = cursor.execute(f"SELECT oc FROM ocs WHERE track_form173 = '{id_form173}'").fetchall()
                 ocs.append((id_form173, oc_))
+                cursor.close()
+                banco.close()
                 try:
                     pend_2 = Toplevel()
                     pend_2.geometry("886x300")
@@ -111,22 +126,29 @@ class Pendencias(Toplevel):
         # print(valor)
 
     def finalizar(self,id_form173, pend_2):
+        try:
+            banco = sqlite3.connect(r'pintura.db')
+            cursor = banco.cursor()
+        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         x = messagebox.askquestion(message="Deve finalizar?")
         if x =='yes':
             pend_2.destroy()
             cursor.execute(f"UPDATE form_173 SET pendencia={0} WHERE Id_form_173={id_form173}")
+            banco.commit()
+            cursor.close()
+            banco.close()
         else: pass
 
-
-if __name__ == "__main__":
-    app = Pendencias()
-    app.mainloop()
-    banco.commit()
-
 def conteudo_form40():
+    try:
+        banco = sqlite3.connect(r'pintura.db')
+        cursor = banco.cursor()
+    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     tudo = cursor.execute("SELECT * FROM form_40")
     conteudo = tudo.fetchall()
     tamanho = len(tudo)
+    cursor.close()
+    banco.close()
     return conteudo, tamanho
 
 

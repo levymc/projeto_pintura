@@ -41,12 +41,14 @@ class Login(Toplevel):
         password = self.senha.get()
         s = hashlib.md5(password.encode()).hexdigest()
         try:
-            banco = sqlite3.connect(r'//NasTecplas/Public/1 PROCESSO/Levy/DB/pintura.db')
+            banco = sqlite3.connect(r'pintura.db')
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conctar no DB")
         try:
             cursor.execute(f"SELECT * FROM operadores WHERE usuario = '{user}' AND senha = '{s}'")
             self.destroy()
+            cursor.close()
+            banco.close()
             form_173.App(user)
         except: messagebox.showerror(message="Usuário ou senha inválidos!")
 

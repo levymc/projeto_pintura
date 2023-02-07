@@ -5,23 +5,27 @@ from PIL import ImageTk, Image
 import form_173, pend_new, form_40, login_173, mesclas
 from datetime import datetime
 
-try:
-    banco = sqlite3.connect(r'//NasTecplas/Public/1 PROCESSO/Levy/DB/pintura.db')
-    cursor = banco.cursor()
-except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 
 def pend():
     try:
+        banco = sqlite3.connect(r'pintura.db')
+        cursor = banco.cursor()
         cursor.execute("SELECT * FROM form_173 WHERE pendencia=1")
         valor = cursor.fetchall()
+        cursor.close()
+        banco.close()
         return valor
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 
 def tamanho():
     try:
+        banco = sqlite3.connect(r'pintura.db')
+        cursor = banco.cursor()
         cursor.execute("SELECT * FROM form_173")
         tudo = cursor.fetchall()
         tamanho = len(tudo)
+        cursor.close()
+        banco.close()
         return tudo, tamanho
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 
@@ -39,9 +43,13 @@ class Main(Tk):
 
     def create_wigets(self):
         try:
+            banco = sqlite3.connect(r'pintura.db')
+            cursor = banco.cursor()
             pendencias = pend()
             cursor.execute(f"SELECT * FROM form_173 WHERE pendencia={0}")
             n_pend = cursor.fetchall()[0][0]
+            cursor.close()
+            banco.close()
         except:pass
         titulo = Label(self,  font='Impact 35 bold', text=f"Processos Pintura",foreground='#f0f5ff', bg='#041536')
         titulo.place(x =160 , y= 8)
@@ -53,10 +61,14 @@ class Main(Tk):
         def proc_solicitacao():
             x = consulta_field.get()
             try:
+                banco = sqlite3.connect(r'pintura.db')
+                cursor = banco.cursor()
                 cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={x[0]}")
                 vetor_inform = cursor.fetchall()
                 print(vetor_inform[0])
                 id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = vetor_inform[0]
+                cursor.close()
+                banco.close()
             except:
                 messagebox.showinfo(message="Solicitação não encontrada!")
             try:
@@ -113,6 +125,8 @@ class Main(Tk):
         mylistbox.place(x=420,y=79)
 
         def popular():
+            banco = sqlite3.connect(r'pintura.db')
+            cursor = banco.cursor()
             mylistbox.delete(0, END)
             cursor.execute(f"SELECT Id_form_173, solicitante, formulario, cemb, quantidade, pintor FROM form_173 WHERE data_solicitacao='{self.hoje}'")
             dados_solicitacao = cursor.fetchall()
@@ -121,6 +135,8 @@ class Main(Tk):
                     cursor.execute(f"SELECT nome FROM operadores WHERE codigo = {dados_solicitacao[i][0]}")
                     nome = cursor.fetchall()
                     mylistbox.insert(END,str(dados_solicitacao[i][0])+" | "+ nome[0][0]+" - "+str(dados_solicitacao[i][1])+" | "+ str(dados_solicitacao[i][2])+" | "+ str(dados_solicitacao[i][3])+" | "+ str(dados_solicitacao[i][4])+" | "+ str(dados_solicitacao[i][5]))
+                    cursor.close()
+                    banco.close()
                 except: 
                     mylistbox.insert(END,str(dados_solicitacao[i][0])+" | "+str(dados_solicitacao[i][1])+" | "+ str(dados_solicitacao[i][2])+" | "+ str(dados_solicitacao[i][3])+" | "+ str(dados_solicitacao[i][4])+" | "+ str(dados_solicitacao[i][5]))
         popular()
@@ -132,9 +148,9 @@ class Main(Tk):
         b2.place(x = 50, y= 110)
         b3 = Button(quadro, text="Gerar e Imprimir Form. 161", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[mesclas.Mesclas()])
         b3.place(x = 50, y= 180)
+        
 
 if __name__ == "__main__":
     app = Main()
     app.mainloop()
-    banco.commit()
 

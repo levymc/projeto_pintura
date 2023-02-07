@@ -4,10 +4,6 @@ import hashlib, json, sqlite3
 from PIL import ImageTk, Image 
 from datetime import datetime
 
-try:
-    banco = sqlite3.connect(r'//NasTecplas/Public/1 PROCESSO/Levy/DB/pintura.db')
-    cursor = banco.cursor()
-except Exception as ex: messagebox.showerror(message=(ex, type(ex)))
 
 class App(Toplevel):
     def __init__(self, user):
@@ -22,8 +18,12 @@ class App(Toplevel):
         self.image = Image.open(r"logo.png")
         self.img = ImageTk.PhotoImage(self.image)
         try:
+            banco = sqlite3.connect(r'pintura.db')
+            cursor = banco.cursor()
             cursor.execute(f"SELECT codigo FROM operadores WHERE usuario='{self.user}'")
             self.cod_operador = cursor.fetchall()[0][0]
+            cursor.close()
+            banco.close()
         except Exception as ex: messagebox.showerror(message=(ex, type(ex)))
 
         self.create_wigets()
@@ -120,6 +120,8 @@ class App(Toplevel):
             x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")
             if x == "yes":
                 try:
+                    banco = sqlite3.connect(r'pintura.db')
+                    cursor = banco.cursor()
                     ### INSERINDO AS INFORMAÇÕES NO DB QUE SE ENCONTRA NO SERVIDOR NAS
                     cursor.execute(
                         f"""INSERT INTO form_173 (solicitante, formulario, data_solicitacao, cemb, quantidade, pintor)
@@ -132,14 +134,14 @@ class App(Toplevel):
                     print("133 - ",ex)
                     messagebox.showerror(message=(ex, type(ex)))
 
-                for i in self.ocs:
-                    try:  #INSERINDO AS OCS NO DB
-                        text = """INSERT INTO ocs (oc, quantidade,track_form173) VALUES (?,?,?)"""
-                        cursor.execute(text, [i['oc'], i['qnt'], id_form173])
-                        banco.commit()
-                    except Exception as ex:
-                        print(ex)
-                        messagebox.showerror(message=("ERRO: ",ex, type(ex)))
+                # for i in self.ocs:
+                #     try:  #INSERINDO AS OCS NO DB
+                #         text = """INSERT INTO ocs (oc, quantidade,track_form173) VALUES (?,?,?)"""
+                #         cursor.execute(text, (i['oc'], i['qnt'], id_form173))
+                #         banco.commit()
+                #     except Exception as ex:
+                #         print(ex)
+                #         messagebox.showerror(message=("ERRO: ",ex, type(ex)))
                     
                 messagebox.showinfo(message="Informações enviadas!!")
                 self.ocs = []
@@ -153,6 +155,8 @@ class App(Toplevel):
                 self.qnt_field.delete(0, END)
                 self.qnt_campo.delete(0, END)
                 self.mylistbox.delete(0, END)
+                cursor.close()
+                banco.close()
             else: self.numero_field.focus_set()
 
     def limpar(self):

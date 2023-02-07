@@ -42,7 +42,7 @@ class Login(Toplevel):
         print(user,password)
         s = hashlib.md5(password.encode()).hexdigest()
         try:
-            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+            banco = sqlite3.connect(r'pintura.db') #//NasTecplas/Pintura/DB/
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conectar no DB")
         
@@ -50,8 +50,5 @@ class Login(Toplevel):
         conteudo = cursor.fetchall()[0]
         self.destroy()
         form_40.Form_40(self.id_passar, user)
-        print(conteudo)
-        # except: messagebox.showerror(message="Usuário ou senha inválidos!")
-
-# if __name__ == "__main__":
-#     log = Login()
+        cursor.close()
+        banco.close()
