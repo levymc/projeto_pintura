@@ -5,12 +5,13 @@ import xlwings as xw
 import sqlite3, shutil, win32print, win32api, pend_new
 
 try:
-    banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+    banco = sqlite3.connect(r'//NasTecplas/Public/1 PROCESSO/Levy/DB/pintura.db')
     cursor = banco.cursor()
 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
 agora = datetime.today().strftime('%d-%m-%Y_%H.%M')
 path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
-new = r"//NasTecplas/Pintura/Forms/Form_161/"+agora+r".xlsx"
+new = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+agora+r".xlsx"
+path_maior = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_maior.xlsx"
 
 def tamanho():
     try:
@@ -65,13 +66,17 @@ class Mesclas(Toplevel):
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
                     if x=='yes':
                         print(form_173_tudo, idform173)
-                        shutil.copyfile(path, new)
+                        
                         try:
                             cursor.execute(f"SELECT * FROM ocs WHERE track_form173={form_173_tudo[0][0]}")
                             ocs = cursor.fetchall()
                             cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][1]}")
                             nome = cursor.fetchall()[0][0]
                             mescla_n = tudo[i][1]
+                            if len(ocs) < 15:
+                                shutil.copyfile(path, new)
+                            else:
+                                shutil.copyfile(path_maior, new)
                         except:messagebox.showinfo(message='Provavelmente o código do operador está errado!')
 
                         excel_app = xw.App(visible=False)

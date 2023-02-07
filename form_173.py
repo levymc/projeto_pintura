@@ -106,17 +106,15 @@ class App(Toplevel):
 
     def insert(self, event): 
         dic = (self.cod_operador, self.numero_field.get(), self.hoje, self.cemb_field.get(), self.qnt_field.get(),self.pintor_field.get())
-
+        
         ### CONFERINDO OS CAMPOS VAZIOS
-        cont = 0
-        for i in range(len(self.ocs)):
-            cont += 1
         if (self.numero_field.get() == "" or 
             self.cemb_field.get() == "" or
             self.qnt_field.get() == "" or
             self.pintor_field.get() == ""             
         ): messagebox.showinfo(message="Preencha os campos para continuar!")
-        elif cont == 0: messagebox.showinfo(message="Os campos de OC's estão vazios!")
+        
+        elif len(self.ocs) == 0: messagebox.showinfo(message="Os campos de OC's estão vazios!")
 
         else: 
             x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")
@@ -129,8 +127,9 @@ class App(Toplevel):
                         """,(dic[0], dic[1], dic[2], dic[3], dic[4], dic[5]))
                     banco.commit()
                     id_form173 = cursor.lastrowid
+                    print(id_form173)
                 except Exception as ex:
-                    print(ex)
+                    print("133 - ",ex)
                     messagebox.showerror(message=(ex, type(ex)))
 
                 for i in self.ocs:
@@ -143,6 +142,7 @@ class App(Toplevel):
                         messagebox.showerror(message=("ERRO: ",ex, type(ex)))
                     
                 messagebox.showinfo(message="Informações enviadas!!")
+                self.ocs = []
                 
                 # APAGANDO OS CAMPOS APÓS O ENVIO DAS INFO..
                 self.numero_field.focus_set()
