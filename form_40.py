@@ -4,6 +4,16 @@ import hashlib, json, sqlite3, re
 from datetime import timedelta
 from datetime import datetime
 
+def validar_horario(novo_valor):
+    """Função de validação para aceitar apenas horários no formato HH:MM"""
+    # Verifica se o novo valor contém apenas números e dois pontos
+    if re.match(r'^\d\d:\d\d$', novo_valor) is not None:
+        # Verifica se as horas e minutos estão dentro dos limites válidos
+        horas, minutos = novo_valor.split(':')
+        if 0 <= int(horas) <= 23 and 0 <= int(minutos) <= 59:
+            return True
+    return False
+
 def conteudo_form173():
         try:
                 banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
