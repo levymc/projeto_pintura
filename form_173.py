@@ -72,11 +72,19 @@ class App(Toplevel):
         self.ocsAux = {}
         
         def campo_oc():
-            self.ocs.append({"oc":self.oc_campo.get(), "qnt": self.qnt_campo.get()})
-            self.ocsAux['oc'] = self.oc_campo.get()
-            self.ocsAux['qnt'] = self.qnt_campo.get()
-            self.mylistbox.insert(END, f"OC: {self.ocsAux['oc']} - QNT: {self.ocsAux['qnt']}" )
-            self.ocsAux.clear()
+            if self.oc_campo.get() == "" or self.qnt_campo.get() == "":
+                messagebox.showinfo(message="O campo de OC ou Quantidade estão vazios!")
+            else:
+                exist = 0
+                for i in self.ocs:
+                    if str(self.oc_campo.get()) in i['oc']:
+                        exist = 1
+                        messagebox.showinfo(message="Já tem!!")
+                if exist == 0:
+                    self.ocs.append({"oc":self.oc_campo.get(), "qnt": self.qnt_campo.get()})
+                    self.mylistbox.insert(END, f"OC: {self.oc_campo.get()} - QNT: {self.qnt_campo.get()}" )
+                    self.oc_campo.delete(0, END)
+                    self.qnt_campo.delete(0, END)
 
         # Pendências - Campo direito, auxiliar
         quadro = Frame(self, width = 250, height = 460, bg="#041536")
