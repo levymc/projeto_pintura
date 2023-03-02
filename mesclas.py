@@ -77,9 +77,10 @@ class Mesclas(Toplevel):
                         try:
                             
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
-                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][1]}").fetchall()[0][0]
+                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][7]}").fetchall()[0][0]
                             print(form_173_tudo[0][1])
                             mescla_n = tudo[i][1]
+                            print("mescla: ", mescla_n)
                             print('Tamanho: ', len(ocs))
                             if len(ocs) <= 15:
                                 shutil.copyfile(path, new)
@@ -98,20 +99,25 @@ class Mesclas(Toplevel):
                             ws.range("I"+f"{linha}").value = i[2]
                             linha += 1
                         ws.range("I4").value = datetime.today().strftime('%m-%d-%Y')
-                        ws.range("C3").value = str(mescla_n).replace(",",".")
+                        ws.range("C3").value = str(mescla_n)
                         ws.range("C4").value = nome
+                        print("aqui0")
                         ws.range("J3").value = form_173_tudo[0][4]
                         ws.range("K4").value = form_173_tudo[0][7]
                         wb.save()
                         wb.close()
                         excel_app.quit()
-
+                        print("aqui1")
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
-                        impressora = lista_impressoras[4]
+                        impressora = lista_impressoras[3]
+                        
                         win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
                         win32api.ShellExecute(0, "print", agora+r".xlsx", None, r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/", 0)
+                        print("aqui2")
                         
                         cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
+                        print("aqui3")
+                        
                         banco.commit()
                         cursor.close()
                         banco.close()
@@ -120,7 +126,9 @@ class Mesclas(Toplevel):
                     else: 
                         self.mainloop()
                         pass
-                except Exception as ex: messagebox.showerror(message=["mescla3",ex])
+                except Exception as ex: 
+                    print(ex)
+                    messagebox.showerror(message=["mescla3",ex])
 
         self.mainloop()
     
