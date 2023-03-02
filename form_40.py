@@ -170,10 +170,10 @@ class Form_40(Toplevel):
                         try:
                                 cursor.execute(f"SELECT viscosidade_min,viscosidade_max FROM relacao_tintas WHERE cemb={self.cod_mp[0][0]}")
                                 visc_max_min = cursor.fetchall()[0]
-                                # print(self.cod_mp[0][0], visc_max_min[1])
-                                if dados[10]== "" and int(dados[10])>int(visc_max_min[1]) or int(dados[10])<int(visc_max_min[0]):
-                                        messagebox.showinfo(message='O valor da viscosidade está fora da norma')
-                                elif not self.iagi_field.get() == '' and not pattern.match(self.iagi_field.get()):
+                                print(self.cod_mp[0][0], visc_max_min[1])
+                                # if dados[10]== "" and int(dados[10])>int(visc_max_min[1]) or int(dados[10])<int(visc_max_min[0]):
+                                #         messagebox.showinfo(message='O valor da viscosidade está fora da norma')
+                                if not self.iagi_field.get() == '' and not pattern.match(self.iagi_field.get()):
                                         messagebox.showinfo(message="O valor de 'Agitação de Tintas' foi digitado de forma errada!")   
                                 elif not self.imcom_field.get() == '' and not pattern.match(self.imcom_field.get()):
                                         messagebox.showinfo(message="O valor de 'Mistura dos Componentes' foi digitado de forma errada!")
