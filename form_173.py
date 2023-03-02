@@ -1,8 +1,10 @@
 from tkinter import * 
 from tkinter import messagebox
-import hashlib, json, sqlite3
+import hashlib, json, sqlite3, re
 from PIL import ImageTk, Image 
 from datetime import datetime
+import tkinter.font as font
+
 
 
 class App(Toplevel):
@@ -15,6 +17,7 @@ class App(Toplevel):
         self.iconbitmap(r'logo.ico')
         self.oc = StringVar()
         self.user = user
+        self.fonte_fa = font.Font(family="FontAwesome", size=9)
         self.image = Image.open(r"logo.png")
         self.img = ImageTk.PhotoImage(self.image)
         try:
@@ -85,6 +88,24 @@ class App(Toplevel):
                     self.mylistbox.insert(END, f"OC: {self.oc_campo.get()} - QNT: {self.qnt_campo.get()}" )
                     self.oc_campo.delete(0, END)
                     self.qnt_campo.delete(0, END)
+                    atualizar_contador()
+        
+        def deletar_oc():
+            selecionados = self.mylistbox.curselection()
+            for selecionado in selecionados:
+                s = self.mylistbox.get(selecionado)
+                match = re.search(r'OC:\s*(\d+)', s)
+                if match:
+                    valor = match.group(1)
+                    print(valor) # saída: "123"
+                else:
+                    print("Valor não encontrado")
+                for i in self.ocs:
+                    if valor in i['oc']:
+                        self.ocs.remove(i)
+                        print("OC removida!")
+                self.mylistbox.delete(selecionado)
+            atualizar_contador()
 
         # Pendências - Campo direito, auxiliar
         quadro = Frame(self, width = 250, height = 460, bg="#041536")
@@ -104,11 +125,15 @@ class App(Toplevel):
         y = Label(quadro, text = "OC's utilizadas no lote: ",foreground='white', background="#041536", font='Impact 15')
         y.place(x=30, y=10)
         
+        def atualizar_contador():
+            infoOC.config(text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#041536", font='Helvetica 9 bold')
 
         self.mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
         self.mylistbox.place(x=35,y=150, width=190, height=250)
-        infoOC = Label(quadro, text="OC's adicionadas", foreground='white', background="#041536", font='Helvetica 9 bold')
+        infoOC = Label(quadro, text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#041536", font='Helvetica 9 bold')
         infoOC.place(x=33, y=405)
+        deletarOC = Button(quadro, font=self.fonte_fa, text=u"\uf1f8", anchor='center', command=deletar_oc,  bg='red', fg='black')
+        deletarOC.place(x=200, y=405)
 
         self.mainloop()
 
