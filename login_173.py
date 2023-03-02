@@ -1,8 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import hashlib, sqlite3
-import json
-import main, form_173
+import form_173
 
 class Login(Toplevel):
     def __init__(self):
@@ -45,11 +44,15 @@ class Login(Toplevel):
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conctar no DB")
         try:
-            cursor.execute(f"SELECT * FROM operadores WHERE usuario = '{user}' AND senha = '{s}'")
-            self.destroy()
-            cursor.close()
-            banco.close()
-            form_173.App(user)
+            dados = cursor.execute(f"SELECT senha FROM operadores WHERE usuario='{user}' ").fetchall()[0][0]
+            dados2 = cursor.execute(f"SELECT usuario FROM operadores WHERE senha='{s}' ").fetchall()[0][0]
+            if dados and dados2:
+                self.destroy()
+                cursor.close()
+                banco.close()
+                form_173.App(user)
+            else:
+                messagebox.showerror(message="Usuário ou senha inválidos!")
         except: messagebox.showerror(message="Usuário ou senha inválidos!")
 
 # if __name__ == "__main__":
