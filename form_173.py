@@ -8,8 +8,9 @@ import tkinter.font as font
 
 
 class App(Toplevel):
-    def __init__(self, user):
+    def __init__(self, user, db):
         super().__init__()
+        self.db = db
         self.geometry("700x460")
         self.title('Form 173 - Solicitações')
         self.configure(background='#f0f5ff')
@@ -21,7 +22,7 @@ class App(Toplevel):
         self.image = Image.open(r"logo.png")
         self.img = ImageTk.PhotoImage(self.image)
         try:
-            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+            banco = sqlite3.connect(self.db)
             cursor = banco.cursor()
             cursor.execute(f"SELECT codigo FROM operadores WHERE usuario='{self.user}'")
             self.cod_operador = cursor.fetchall()[0][0]
@@ -153,7 +154,7 @@ class App(Toplevel):
             x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")
             if x == "yes":
                 try:
-                    banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                    banco = sqlite3.connect(self.db)
                     cursor = banco.cursor()
                     ### INSERINDO AS INFORMAÇÕES NO DB QUE SE ENCONTRA NO SERVIDOR NAS
                     cursor.execute(

@@ -14,9 +14,9 @@ def validar_horario(novo_valor):
             return True
     return False
 
-def conteudo_form173():
+def conteudo_form173(db):
         try:
-                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                banco = sqlite3.connect(db)
                 cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         cursor.execute("SELECT * FROM form_173")
@@ -26,9 +26,9 @@ def conteudo_form173():
         banco.close()
         return conteudo, tamanho
 
-def conteudo_form40():
+def conteudo_form40(db):
         try:
-                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                banco = sqlite3.connect(db)
                 cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         cursor.execute("SELECT * FROM form_40")
@@ -38,9 +38,9 @@ def conteudo_form40():
         banco.close()
         return conteudo, tamanho
 
-def ultima_mescla():
+def ultima_mescla(db):
         try:
-                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                banco = sqlite3.connect(db)
                 cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         
@@ -51,8 +51,8 @@ def ultima_mescla():
         cursor.close()
         banco.close()
         return ultima_mescla
-def somar_mescla():
-        x = ultima_mescla()
+def somar_mescla(db):
+        x = ultima_mescla(db)
         x_sep = x.split('-')
         prox = int(x_sep[1])+1
         if len(str(prox))==4:
@@ -66,10 +66,11 @@ def somar_mescla():
         else: print("O número da mescla está inválido!")
 
 class Form_40(Toplevel):
-        def __init__(self, id_form173, user):
+        def __init__(self, id_form173, user, db):
+                self.db = db
                 super().__init__()
                 try:
-                        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                        banco = sqlite3.connect(self.db)
                         cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                 self.geometry("1230x230")
@@ -80,7 +81,7 @@ class Form_40(Toplevel):
                 self.img_frame = Label(self, image=self.loadimage_form40, background='white')
                 self.img_frame.place(x=0,y=0)
                 self.agora = datetime.today().strftime('%d-%m-%Y %H:%M')
-                self.conteudo_form173,self._ = conteudo_form173()
+                self.conteudo_form173,self._ = conteudo_form173(self.db)
                 self.user = user
                 self.id_form173 = id_form173
                 self.resizable(0,0)
@@ -88,8 +89,8 @@ class Form_40(Toplevel):
                 self.cod_ope = cursor.fetchall()[0][0]
                 cursor.execute(f"SELECT cemb FROM form_173 WHERE Id_form_173 = {self.id_form173}")
                 self.cod_mp = cursor.fetchall()
-                ultima_mesc = ultima_mescla()
-                self.mescla_atual = somar_mescla()
+                ultima_mesc = ultima_mescla(self.db)
+                self.mescla_atual = somar_mescla(self.db)
                 self.create_wigets() # chama a função que cria os widgets
                 cursor.close()
                 banco.close()
@@ -174,7 +175,7 @@ class Form_40(Toplevel):
                         pattern = r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
                         pattern = re.compile(pattern)
                         try:
-                                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                                banco = sqlite3.connect(self.db)
                                 cursor = banco.cursor()
                         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                         try:

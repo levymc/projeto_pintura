@@ -4,8 +4,9 @@ import main, form_40, sqlite3, hashlib
 
 
 class Login(Toplevel):
-    def __init__(self,id_form173):
+    def __init__(self,id_form173, db):
         super().__init__()
+        self.db = db
         self.title("LOGIN") 
         self.geometry("260x130")
         self.configure(bg='white')
@@ -42,13 +43,13 @@ class Login(Toplevel):
         print(user,password)
         s = hashlib.md5(password.encode()).hexdigest()
         try:
-            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db') #//NasTecplas/Pintura/DB/
+            banco = sqlite3.connect(self.db) #//NasTecplas/Pintura/DB/
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conectar no DB")
         
         
         conteudo = cursor.execute(f"SELECT * FROM operadores WHERE usuario = '{user}' AND senha = '{s}'").fetchall()[0]
         self.destroy()
-        form_40.Form_40(self.id_passar, user)
+        form_40.Form_40(self.id_passar, user, self.db)
         cursor.close()
         banco.close()

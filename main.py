@@ -5,10 +5,22 @@ from PIL import ImageTk, Image
 import form_173, pend_new, form_40, login_173, mesclas
 from datetime import datetime
 
+local = "casa"
+
+if local == "casa":
+    db = r"pintura.db"
+    path = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161.xlsx"
+    path_maior = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_maior.xlsx"
+    path_gerado = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_Gerado/"
+elif local == "tecplas":
+    db = r'//NasTecplas/Pintura/DB/pintura.db'
+    path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
+    path_maior = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_maior.xlsx"
+    path_gerado = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"
 
 def pend():
     try:
-        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+        banco = sqlite3.connect(db)
         cursor = banco.cursor()
         cursor.execute("SELECT * FROM form_173 WHERE pendencia=1")
         valor = cursor.fetchall()
@@ -19,7 +31,7 @@ def pend():
 
 def tamanho():
     try:
-        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+        banco = sqlite3.connect(db)
         cursor = banco.cursor()
         cursor.execute("SELECT * FROM form_173")
         tudo = cursor.fetchall()
@@ -43,7 +55,7 @@ class Main(Tk):
 
     def create_wigets(self):
         try:
-            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+            banco = sqlite3.connect(db)
             cursor = banco.cursor()
             pendencias = pend()
             cursor.execute(f"SELECT * FROM form_173 WHERE pendencia={0}")
@@ -61,7 +73,7 @@ class Main(Tk):
         def proc_solicitacao():
             x = consulta_field.get()
             try:
-                banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                banco = sqlite3.connect(db)
                 cursor = banco.cursor()
                 cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={x[0]}")
                 vetor_inform = cursor.fetchall()
@@ -125,7 +137,7 @@ class Main(Tk):
         mylistbox.place(x=420,y=79)
 
         def popular():
-            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+            banco = sqlite3.connect(db)
             cursor = banco.cursor()
             mylistbox.delete(0, END)
             cursor.execute(f"SELECT Id_form_173, solicitante, formulario, cemb, quantidade, pintor FROM form_173 WHERE data_solicitacao='{self.hoje}'")
@@ -142,11 +154,11 @@ class Main(Tk):
         popular()
         solicit_scroll.config(command=mylistbox.yview)
 
-        b1 = Button(quadro, text="Formulário 173 - Solicitações", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[login_173.Login()])
+        b1 = Button(quadro, text="Formulário 173 - Solicitações", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[login_173.Login(db)])
         b1.place(x = 50, y= 40)
-        b2 = Button(quadro, text="Solicitações de Mescla Pendentes", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[pend_new.Pendencias()])
+        b2 = Button(quadro, text="Solicitações de Mescla Pendentes", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[pend_new.Pendencias(db)])
         b2.place(x = 50, y= 110)
-        b3 = Button(quadro, text="Gerar e Imprimir Form. 161", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[mesclas.Mesclas()])
+        b3 = Button(quadro, text="Gerar e Imprimir Form. 161", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[mesclas.Mesclas(db,path, path_maior, path_gerado)])
         b3.place(x = 50, y= 180)
         
 

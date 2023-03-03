@@ -4,7 +4,8 @@ import hashlib, sqlite3
 import form_173
 
 class Login(Toplevel):
-    def __init__(self):
+    def __init__(self, db):
+        self.db = db
         super().__init__()
         self.title("LOGIN") 
         self.geometry("260x130")
@@ -40,7 +41,7 @@ class Login(Toplevel):
         password = self.senha.get()
         s = hashlib.md5(password.encode()).hexdigest()
         try:
-            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+            banco = sqlite3.connect(self.db)
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conctar no DB")
         try:
@@ -50,7 +51,7 @@ class Login(Toplevel):
                 self.destroy()
                 cursor.close()
                 banco.close()
-                form_173.App(user)
+                form_173.App(user, self.db)
             else:
                 messagebox.showerror(message="Usuário ou senha inválidos!")
         except: messagebox.showerror(message="Usuário ou senha inválidos!")

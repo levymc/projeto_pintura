@@ -2,9 +2,9 @@ from tkinter import *
 from tkinter import messagebox
 import hashlib, json, sqlite3, form_40, login_40
 
-def pend():
+def pend(db):
     try:
-        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+        banco = sqlite3.connect(db)
         cursor = banco.cursor()
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     valor = cursor.execute("SELECT * FROM form_173 WHERE pendencia=1").fetchall()
@@ -12,9 +12,9 @@ def pend():
     banco.close()
     return valor
 
-def tamanho():
+def tamanho(db):
     try:
-        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+        banco = sqlite3.connect(db)
         cursor = banco.cursor()
     except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     tudo = cursor.execute("SELECT * FROM form_173").fetchall()
@@ -24,8 +24,9 @@ def tamanho():
     return tudo, tamanho
 
 class Pendencias(Toplevel):
-    def __init__(self):
+    def __init__(self, db):
         super().__init__()
+        self.db = db
         self.geometry("640x300")
         self.configure(background='#f0f5ff')
         self.iconbitmap(r'logo.ico')
@@ -35,7 +36,7 @@ class Pendencias(Toplevel):
         self.create_wigets()
     
     def create_wigets(self):
-        pendencias = pend()
+        pendencias = pend(self.db)
         valor = len(pendencias)
         q = Frame(self, width = self.screen_width, height = 60, background='#041536')
         q.place(x=0)
@@ -65,7 +66,7 @@ class Pendencias(Toplevel):
             def abrir(i):
                 self.destroy()
                 try:
-                    banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+                    banco = sqlite3.connect(self.db)
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                 id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = pendencias[i]
@@ -101,7 +102,7 @@ class Pendencias(Toplevel):
                     quantidades = Label(pend_2, text = f"{qnt}", bg='white', font='Trebuchet 16 bold')
                     quantidades.place(x=300, y=220)
 
-                    form_40_button = Button(pend_2, text='Formulário 40', border=5,  font='Trebuchet 14 bold', bg='#c3cdde', activebackground='#b4b5b8', command=lambda:login_40.Login(id_form173))
+                    form_40_button = Button(pend_2, text='Formulário 40', border=5,  font='Trebuchet 14 bold', bg='#c3cdde', activebackground='#b4b5b8', command=lambda:login_40.Login(id_form173, self.db))
                     form_40_button.place(x=700, y=225)
 
                     finalizar_message = Label(pend_2, text='<-- Ao terminar de enviar o Formulário 40, finalize esta pendência!!!', fg='#940000',  font='Trebuchet 10 bold')
@@ -124,7 +125,7 @@ class Pendencias(Toplevel):
 
     def finalizar(self,id_form173, pend_2):
         try:
-            banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
+            banco = sqlite3.connect(self.db)
             cursor = banco.cursor()
         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
         x = messagebox.askquestion(message="Deve finalizar?")
@@ -135,19 +136,6 @@ class Pendencias(Toplevel):
             cursor.close()
             banco.close()
         else: pass
-
-def conteudo_form40():
-    try:
-        banco = sqlite3.connect(r'//NasTecplas/Pintura/DB/pintura.db')
-        cursor = banco.cursor()
-    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-    tudo = cursor.execute("SELECT * FROM form_40")
-    conteudo = tudo.fetchall()
-    tamanho = len(tudo)
-    cursor.close()
-    banco.close()
-    return conteudo, tamanho
-
 
 
 # if __name__ == "__main__":
