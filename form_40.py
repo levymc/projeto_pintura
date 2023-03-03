@@ -134,6 +134,10 @@ class Form_40(Toplevel):
                 self.submit = Button(self, text="Enviar Informações", fg="Black", bg="Red", font="Arial 8 bold")
                 self.submit.bind('<Button-1>', self.insert)
                 self.submit.place(x=1106, y=200)
+                
+                self.autorizar = Button(self, text="Autorizar", fg='white', bg='blue', font="Arial 7 bold")
+                self.autorizar.bind('<Button-1>')
+                self.autorizar.place(x=10, y=205)
 
         def insert(self, event):
                 if (
