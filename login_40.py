@@ -46,8 +46,6 @@ class Login(Toplevel):
             banco = sqlite3.connect(self.db) #//NasTecplas/Pintura/DB/
             cursor = banco.cursor()
         except: messagebox.showerror(message="Error ao conectar no DB")
-        
-        
         conteudo = cursor.execute(f"SELECT * FROM operadores WHERE usuario = '{user}' AND senha = '{s}'").fetchall()[0]
         self.destroy()
         form_40.Form_40(self.id_passar, user, self.db)

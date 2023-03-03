@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-import hashlib, json, sqlite3, re
+import hashlib, json, sqlite3, re, login_processo
 from datetime import timedelta
 from datetime import datetime
 
@@ -131,15 +131,32 @@ class Form_40(Toplevel):
                 self.plife_field.place(x=1108, y=167, width=50)
                 self.resp.place(x=1180, y=167)
 
-                self.submit = Button(self, text="Enviar Informações", fg="Black", bg="Red", font="Arial 8 bold")
-                self.submit.bind('<Button-1>', self.insert)
+                self.submit = Button(self, text="Enviar Informações", fg="Black", bg="Red", font="Arial 8 bold", command=lambda:[self.insert()])
                 self.submit.place(x=1106, y=200)
                 
-                self.autorizar = Button(self, text="Autorizar", fg='white', bg='blue', font="Arial 7 bold")
-                self.autorizar.bind('<Button-1>')
+                dados = (self.mescla_atual ,
+                        self.agora ,
+                        self.temp_field.get() ,
+                        self.um_field.get() ,
+                        self.cod_mp[0][0] ,
+                        self.lotemp.get(),
+                        self.shelf_field.get() ,
+                        self.iagi_field.get() ,
+                        self.imcom_field.get() ,
+                        self.imdil_field.get() ,
+                        self.visc_field.get() ,
+                        self.prop_field.get() ,
+                        self.iniade_field.get() ,
+                        self.ii_field.get() ,
+                        self.plife_field.get()
+                        )
+                
+                self.autorizar = Button(self, text="Autorizar", fg='white', bg='blue', font="Arial 7 bold", command=lambda:[login_processo.Login(self.db, dados, self.id_form173)])
                 self.autorizar.place(x=10, y=205)
+                self.autorizarText = Label(self, text="Em caso de excessões, acionar o processo!", font="Arial 8 bold", bg='white', fg="red")
+                self.autorizarText.place(x=70, y=205)
 
-        def insert(self, event):
+        def insert(self):
                 if (
                 self.mescla_atual == "" and
                 self.temp_field.get() == "" and
@@ -183,8 +200,7 @@ class Form_40(Toplevel):
                                 cursor = banco.cursor()
                         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                         try:
-                                cursor.execute(f"SELECT viscosidade_min,viscosidade_max FROM relacao_tintas WHERE cemb={self.cod_mp[0][0]}")
-                                visc_max_min = cursor.fetchall()[0]
+                                visc_max_min = cursor.execute(f"SELECT viscosidade_min,viscosidade_max FROM relacao_tintas WHERE cemb={self.cod_mp[0][0]}").fetchall()[0]
                                 print(self.cod_mp[0][0], visc_max_min[1])
                                 # if dados[10]== "" and int(dados[10])>int(visc_max_min[1]) or int(dados[10])<int(visc_max_min[0]):
                                 #         messagebox.showinfo(message='O valor da viscosidade está fora da norma')

@@ -5,7 +5,7 @@ from PIL import ImageTk, Image
 import form_173, pend_new, form_40, login_173, mesclas
 from datetime import datetime
 
-local = "casa"
+local = "tecplas"
 
 if local == "casa":
     db = r"pintura.db"
@@ -136,7 +136,7 @@ class Main(Tk):
         mylistbox.bind('<<ListboxSelect>>',CurSelet)
         mylistbox.place(x=420,y=79)
 
-        def popular():
+        def popular(db):
             banco = sqlite3.connect(db)
             cursor = banco.cursor()
             mylistbox.delete(0, END)
@@ -151,7 +151,7 @@ class Main(Tk):
                     banco.close()
                 except: 
                     mylistbox.insert(END,str(dados_solicitacao[i][0])+" | "+str(dados_solicitacao[i][1])+" | "+ str(dados_solicitacao[i][2])+" | "+ str(dados_solicitacao[i][3])+" | "+ str(dados_solicitacao[i][4])+" | "+ str(dados_solicitacao[i][5]))
-        popular()
+        popular(db)
         solicit_scroll.config(command=mylistbox.yview)
 
         b1 = Button(quadro, text="Formulário 173 - Solicitações", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[login_173.Login(db)])

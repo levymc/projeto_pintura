@@ -106,11 +106,11 @@ class Mesclas(Toplevel):
                         wb.close()
                         excel_app.quit()
                         print("aqui1")
-                        # lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
-                        # impressora = lista_impressoras[3]
+                        lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
+                        impressora = lista_impressoras[3]
                         
-                        # win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        # win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
+                        win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
+                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
                         print("aqui2")
                         
                         cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
