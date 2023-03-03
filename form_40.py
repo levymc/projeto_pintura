@@ -73,7 +73,7 @@ class Form_40(Toplevel):
                         banco = sqlite3.connect(self.db)
                         cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-                self.geometry("1230x230")
+                self.geometry("1280x230")
                 self.title('Form_40')
                 self.configure(bg='white')
                 self.iconbitmap(r'logo.ico')
@@ -114,25 +114,29 @@ class Form_40(Toplevel):
                 self.plife_field = Entry(self)
                 self.resp = Label(self, text=self.cod_ope, font="Arial 8 bold", bg='white')
 
-                self.mescla_field.place(x=8, y=167, width=70) 
-                self.data_field.place(x=90, y=167) 
-                self.temp_field.place(x=158, y=167, width=87)
-                self.um_field.place(x=258, y=167, width=67)
-                self.codmp_field.place(x=337, y=167, width=58)
-                self.lotemp.place(x=403, y=167, width=60) 
-                self.shelf_field.place(x=475, y=167, width=64)
-                self.iagi_field.place(x=552, y=167, width=64)
-                self.imcom_field.place(x=624, y=167, width=78)
-                self.imdil_field.place(x=713, y=167, width=60)
-                self.visc_field.place(x=780, y=167, width=60)
-                self.prop_field.place(x=846, y=167, width=76)
-                self.iniade_field.place(x=933, y=167, width=60)
-                self.ii_field.place(x=1003, y=167, width=95)
-                self.plife_field.place(x=1108, y=167, width=50)
-                self.resp.place(x=1180, y=167)
+                self.mescla_field.place(x=8, y=157, width=70) 
+                self.data_field.place(x=90, y=157) 
+                self.temp_field.place(x=157, y=157, width=81)
+                self.um_field.place(x=247, y=157, width=67)
+                self.codmp_field.place(x=327, y=157, width=58)
+                self.lotemp.place(x=395, y=157, width=60) 
+                self.shelf_field.place(x=468, y=157, width=64)
+                self.iagi_field.place(x=542, y=157, width=64)
+                self.imcom_field.place(x=616, y=157, width=78)
+                self.imdil_field.place(x=705, y=157, width=60)
+                
+                self.ii_field.place(x=772, y=157, width=93)
+                
+                #Copo Viscosimetro
+                
+                self.visc_field.place(x=961, y=157, width=36)
+                self.prop_field.place(x=1008, y=157, width=69)
+                self.iniade_field.place(x=1085, y=157, width=60)
+                self.plife_field.place(x=1156, y=157, width=50)
+                self.resp.place(x=1223, y=157)
 
                 self.submit = Button(self, text="Enviar Informações", fg="Black", bg="Red", font="Arial 8 bold", command=lambda:[self.insert()])
-                self.submit.place(x=1106, y=200)
+                self.submit.place(x=1108, y=200)
                 
                 dados = (self.mescla_atual ,
                         self.agora ,
