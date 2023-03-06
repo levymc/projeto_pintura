@@ -5,7 +5,7 @@ from PIL import ImageTk, Image
 import form_173, pend_new, form_40, login_173, mesclas
 from datetime import datetime
 
-local = "tecplas"
+local = "casa"
 
 if local == "casa":
     db = r"pintura.db"

@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 import hashlib, json, sqlite3, re, login_processo
 from datetime import timedelta
 from datetime import datetime
@@ -13,6 +13,28 @@ def validar_horario(novo_valor):
         if 0 <= int(horas) <= 23 and 0 <= int(minutos) <= 59:
             return True
     return False
+
+def opcoesViscosimetros(db, id_form173):
+        opcoesViscosimetros = []
+        try:
+            banco = sqlite3.connect(db)
+            cursor = banco.cursor()
+            cemb_tinta = cursor.execute(f"SELECT cemb FROM form_173 WHERE Id_form_173 = {id_form173}").fetchall()[0][0]
+            new_cemb = ''
+            for i in cemb_tinta:
+                if not i=="E":
+                    new_cemb += i
+            opcoes = cursor.execute(f"SELECT viscosimetro FROM relacao_tintas WHERE cemb = {int(new_cemb)}").fetchall()
+            cursor.close()
+            banco.close()
+            
+            for copo in opcoes:
+                copo = copo[0].replace("Copo", "").replace("COPO", "")
+                opcoesViscosimetros.append(copo)
+            
+            return opcoesViscosimetros
+        except Exception as ex:
+            print("Error: ", ex, type(ex))
 
 def conteudo_form173(db):
         try:
@@ -107,10 +129,11 @@ class Form_40(Toplevel):
                 self.iagi_field = Entry(self) 
                 self.imcom_field = Entry(self)
                 self.imdil_field = Entry(self)
+                self.ii_field = Entry(self)
+                self.viscosimetro = ttk.Combobox(self, values=opcoesViscosimetros(self.db, self.id_form173), state="readonly")
                 self.visc_field = Entry(self)
                 self.prop_field = Entry(self)
                 self.iniade_field = Entry(self)
-                self.ii_field = Entry(self)
                 self.plife_field = Entry(self)
                 self.resp = Label(self, text=self.cod_ope, font="Arial 8 bold", bg='white')
 
@@ -124,10 +147,8 @@ class Form_40(Toplevel):
                 self.iagi_field.place(x=542, y=157, width=64)
                 self.imcom_field.place(x=616, y=157, width=78)
                 self.imdil_field.place(x=705, y=157, width=60)
-                
                 self.ii_field.place(x=772, y=157, width=93)
-                
-                #Copo Viscosimetro
+                self.viscosimetro.place(x=879, y=157, width=74)
                 
                 self.visc_field.place(x=961, y=157, width=36)
                 self.prop_field.place(x=1008, y=157, width=69)
@@ -135,27 +156,43 @@ class Form_40(Toplevel):
                 self.plife_field.place(x=1156, y=157, width=50)
                 self.resp.place(x=1223, y=157)
 
+                
+                print(opcoesViscosimetros(self.db, self.id_form173))
+                
+                # Defina a variável que vai armazenar o valor selecionado
+                self.valor_selecionado = StringVar()
+                self.dados = tuple()
+                # Defina uma função para atualizar a variável sempre que o valor da Combobox mudar
+                def atualizar_valor(*args):
+                        self.valor_selecionado.set(self.viscosimetro.get())
+                        # print(self.valor_selecionado.get())
+                        self.dados = (self.mescla_atual ,
+                                self.agora ,
+                                self.temp_field.get() ,
+                                self.um_field.get() ,
+                                self.cod_mp[0][0] ,
+                                self.lotemp.get(),
+                                self.shelf_field.get() ,
+                                self.iagi_field.get() ,
+                                self.imcom_field.get() ,
+                                self.imdil_field.get() ,
+                                self.ii_field.get() ,
+                                self.valor_selecionado.get() ,
+                                self.visc_field.get() ,
+                                self.prop_field.get() ,
+                                self.iniade_field.get() ,
+                                self.plife_field.get()
+                                )
+
+                # Associe a função à Combobox
+                self.viscosimetro.bind("<<ComboboxSelected>>", lambda event: atualizar_valor())
+                
+                
+                
                 self.submit = Button(self, text="Enviar Informações", fg="Black", bg="Red", font="Arial 8 bold", command=lambda:[self.insert()])
-                self.submit.place(x=1108, y=200)
+                self.submit.place(x=1128, y=200)
                 
-                dados = (self.mescla_atual ,
-                        self.agora ,
-                        self.temp_field.get() ,
-                        self.um_field.get() ,
-                        self.cod_mp[0][0] ,
-                        self.lotemp.get(),
-                        self.shelf_field.get() ,
-                        self.iagi_field.get() ,
-                        self.imcom_field.get() ,
-                        self.imdil_field.get() ,
-                        self.visc_field.get() ,
-                        self.prop_field.get() ,
-                        self.iniade_field.get() ,
-                        self.ii_field.get() ,
-                        self.plife_field.get()
-                        )
-                
-                self.autorizar = Button(self, text="Autorizar", fg='white', bg='blue', font="Arial 7 bold", command=lambda:[login_processo.Login(self.db, dados, self.id_form173)])
+                self.autorizar = Button(self, text="Autorizar", fg='white', bg='blue', font="Arial 7 bold", command=lambda:[login_processo.Login(self.db, self.dados, self.id_form173)])
                 self.autorizar.place(x=10, y=205)
                 self.autorizarText = Label(self, text="Em caso de excessões, acionar o processo!", font="Arial 8 bold", bg='white', fg="red")
                 self.autorizarText.place(x=70, y=205)
@@ -170,10 +207,11 @@ class Form_40(Toplevel):
                 self.iagi_field.get() == "" and
                 self.imcom_field.get() == "" and
                 self.imdil_field.get() == "" and
+                self.ii_field.get() == "" and
+                self.valor_selecionado.get() == "" and
                 self.visc_field.get() == "" and
                 self.prop_field.get() == "" and
                 self.iniade_field.get() == "" and
-                self.ii_field.get() == "" and
                 self.plife_field.get() == "" 
                 ): 
                         messagebox.showinfo(message="Campos não preenchidos.") 
@@ -189,13 +227,13 @@ class Form_40(Toplevel):
                         self.iagi_field.get() ,
                         self.imcom_field.get() ,
                         self.imdil_field.get() ,
+                        self.ii_field.get() ,
+                        self.valor_selecionado.get() ,
                         self.visc_field.get() ,
                         self.prop_field.get() ,
                         self.iniade_field.get() ,
-                        self.ii_field.get() ,
                         self.plife_field.get()
                         )
-
                         ### Conferindo o formato dos horários
                         pattern = r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
                         pattern = re.compile(pattern)
@@ -205,7 +243,7 @@ class Form_40(Toplevel):
                         except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
                         try:
                                 visc_max_min = cursor.execute(f"SELECT viscosidade_min,viscosidade_max FROM relacao_tintas WHERE cemb={self.cod_mp[0][0]}").fetchall()[0]
-                                print(self.cod_mp[0][0], visc_max_min[1])
+                                # print(self.cod_mp[0][0], visc_max_min[1])
                                 # if dados[10]== "" and int(dados[10])>int(visc_max_min[1]) or int(dados[10])<int(visc_max_min[0]):
                                 #         messagebox.showinfo(message='O valor da viscosidade está fora da norma')
                                 if not self.iagi_field.get() == '' and not pattern.match(self.iagi_field.get()):
