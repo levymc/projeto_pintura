@@ -32,7 +32,7 @@ def opcoesViscosimetros(db, id_form173):
                 copo = copo[0].replace("Copo", "").replace("COPO", "")
                 opcoesViscosimetros.append(copo)
             
-            return opcoesViscosimetros
+            return opcoesViscosimetros, new_cemb
         except Exception as ex:
             print("Error: ", ex, type(ex))
 
@@ -130,7 +130,7 @@ class Form_40(Toplevel):
                 self.imcom_field = Entry(self)
                 self.imdil_field = Entry(self)
                 self.ii_field = Entry(self)
-                self.viscosimetro = ttk.Combobox(self, values=opcoesViscosimetros(self.db, self.id_form173), state="readonly")
+                self.viscosimetro = ttk.Combobox(self, values=opcoesViscosimetros(self.db, self.id_form173)[0], state="readonly")
                 self.visc_field = Entry(self)
                 self.prop_field = Entry(self)
                 self.iniade_field = Entry(self)
@@ -156,7 +156,6 @@ class Form_40(Toplevel):
                 self.plife_field.place(x=1156, y=157, width=50)
                 self.resp.place(x=1223, y=157)
 
-                
                 print(opcoesViscosimetros(self.db, self.id_form173))
                 
                 # Defina a variável que vai armazenar o valor selecionado
@@ -240,12 +239,17 @@ class Form_40(Toplevel):
                         try:
                                 banco = sqlite3.connect(self.db)
                                 cursor = banco.cursor()
-                        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
+                        except Exception as ex: messagebox.showerror(message=[ex, type(ex)]) 
                         try:
-                                visc_max_min = cursor.execute(f"SELECT viscosidade_min,viscosidade_max FROM relacao_tintas WHERE cemb={self.cod_mp[0][0]}").fetchall()[0]
-                                # print(self.cod_mp[0][0], visc_max_min[1])
-                                # if dados[10]== "" and int(dados[10])>int(visc_max_min[1]) or int(dados[10])<int(visc_max_min[0]):
-                                #         messagebox.showinfo(message='O valor da viscosidade está fora da norma')
+                                print("Copo:", self.valor_selecionado.get())
+                                visc_max_min = cursor.execute(f"""SELECT viscosidade_min,viscosidade_max 
+                                                              FROM relacao_tintas 
+                                                              WHERE cemb={opcoesViscosimetros(self.db, self.id_form173)[1]}
+                                                              AND viscosimetro LIKE '%{self.valor_selecionado.get()}%'""").fetchall()[0]
+                                print("Viscodidade:",visc_max_min[0], visc_max_min[1])
+                                print("Dados10: ", dados)
+                                if dados[12]== "" or int(dados[12])>int(visc_max_min[1]) or int(dados[12])<int(visc_max_min[0]):
+                                        messagebox.showinfo(message='O valor da viscosidade está fora da norma')
                                 if not self.iagi_field.get() == '' and not pattern.match(self.iagi_field.get()):
                                         messagebox.showinfo(message="O valor de 'Agitação de Tintas' foi digitado de forma errada!")   
                                 elif not self.imcom_field.get() == '' and not pattern.match(self.imcom_field.get()):
@@ -307,5 +311,5 @@ class Form_40(Toplevel):
                                                 banco.close()
                         except Exception as ex: 
                                 messagebox.showerror(message="Ocorreu um erro!!")
-                                print(ex, type(ex)) 
+                                print("Ultimo except: ", ex, type(ex)) 
                                         
