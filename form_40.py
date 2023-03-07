@@ -250,7 +250,7 @@ class Form_40(Toplevel):
                                 print("Dados10: ", dados)
                                 if dados[12]== "" or int(dados[12])>int(visc_max_min[1]) or int(dados[12])<int(visc_max_min[0]):
                                         messagebox.showinfo(message='O valor da viscosidade está fora da norma')
-                                if not self.iagi_field.get() == '' and not pattern.match(self.iagi_field.get()):
+                                elif not self.iagi_field.get() == '' and not pattern.match(self.iagi_field.get()):
                                         messagebox.showinfo(message="O valor de 'Agitação de Tintas' foi digitado de forma errada!")   
                                 elif not self.imcom_field.get() == '' and not pattern.match(self.imcom_field.get()):
                                         messagebox.showinfo(message="O valor de 'Mistura dos Componentes' foi digitado de forma errada!")

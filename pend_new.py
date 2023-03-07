@@ -46,7 +46,7 @@ class Pendencias(Toplevel):
         y=100
         
         for i in range(valor):
-            id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = pendencias[i]
+            id_form173,solicitantes,formulario,data,cemb,qnt,unidade,p,pintor = pendencias[i]
             print(formulario)
             b = Button(self, text=f"Formulário: {formulario}", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda i=i:abrir(i))
             b.place(x=x, y=y, width=110, height=40)
@@ -69,7 +69,7 @@ class Pendencias(Toplevel):
                     banco = sqlite3.connect(self.db)
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-                id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = pendencias[i]
+                id_form173,solicitantes,formulario,data,cemb,qnt,unidade,p,pintor = pendencias[i]
                 ocs = [()]
                 oc_ = cursor.execute(f"SELECT oc FROM ocs WHERE track_form173 = '{id_form173}'").fetchall()
                 ocs.append((id_form173, oc_))
@@ -99,7 +99,7 @@ class Pendencias(Toplevel):
                     cembs = Label(pend_2, text ="E"+f"{cemb}", bg='white', font='Trebuchet 16 bold')
                     cembs.place(x=590, y=160)
 
-                    quantidades = Label(pend_2, text = f"{qnt}", bg='white', font='Trebuchet 16 bold')
+                    quantidades = Label(pend_2, text = f"{str(qnt)+unidade}", bg='white', font='Trebuchet 16 bold')
                     quantidades.place(x=300, y=220)
 
                     form_40_button = Button(pend_2, text='Formulário 40', border=5,  font='Trebuchet 14 bold', bg='#c3cdde', activebackground='#b4b5b8', command=lambda:login_40.Login(id_form173, self.db))

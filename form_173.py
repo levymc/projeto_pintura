@@ -21,6 +21,7 @@ class App(Toplevel):
         self.fonte_fa = font.Font(family="FontAwesome", size=9)
         self.image = Image.open(r"logo.png")
         self.img = ImageTk.PhotoImage(self.image)
+        self.selected_option = IntVar()
         try:
             banco = sqlite3.connect(self.db)
             cursor = banco.cursor()
@@ -46,24 +47,28 @@ class App(Toplevel):
         self.solicitante_field.place(x=190, y=60)
         numero = Label(self, text="Formulário Nº\n(Form Nº)", font='Helvetica 9 bold', foreground='#011336', background='#f0f5ff')
         numero.place(x=40, y=120)
-        self.numero_field = Entry(self)
+        self.numero_field = Entry(self, highlightthickness=1)
         self.numero_field.place(x=190, y=120, width=150, height=30)
         pintor = Label(self, text="Pintor\n(Painter)", font='Helvetica 10 bold', foreground='#011336', background='#f0f5ff')
         pintor.place(x=40, y=180)
         self.hoje = datetime.today().strftime('%d-%m-%Y')
         self.agora = datetime.today().strftime('%d-%m-%Y %H:%M')
-        self.pintor_field = Entry(self)
+        self.pintor_field = Entry(self, highlightthickness=1)
         self.pintor_field.place(x=190, y=180, width=150, height=30)
         cemb = Label(self, text="CEMB Tinta\n(Paint CODE)", font='Helvetica 9 bold', foreground='#011336', background='#f0f5ff')
         cemb.place(x=40, y=240)
-        self.cemb_field = Entry(self)
+        self.cemb_field = Entry(self, highlightthickness=1)
         self.cemb_field.place(x=190, y=240, width=150, height=30)
         qnt = Label(self, text="Quantidade Solicitada\n(Quantity Requested)", font='Helvetica 9 bold', foreground='#011336', background='#f0f5ff')
         qnt.place(x=40, y=300)
-        self.qnt_field = Entry(self)
+        self.qnt_field = Entry(self, highlightthickness=1)
         self.qnt_field.place(x=190, y=300, width=150, height=30)
-        g_ml = Label(self, text="g ou ml", font='Helvetica 8 bold', foreground='#011336', background='#f0f5ff')
-        g_ml.place(x=345, y=310)
+        
+        self.grama = Checkbutton(self, text="grama", variable=self.selected_option, onvalue=1, offvalue=0)
+        self.grama.place(x=345, y=290)
+        self.mililitro = Checkbutton(self, text="mililitro", variable=self.selected_option, onvalue=2, offvalue=0)
+        self.mililitro.place(x=345, y=320)
+        
         botao = Button(self, text="Enviar Solicitação")
         botao.bind('<Button-1>', self.insert)
         botao.place(x=330, y=370,height=30)
@@ -116,9 +121,9 @@ class App(Toplevel):
         add_oc.place(x=10, y=55)
         qnt = Label(quadro, text="Qnt.: ", foreground='white', background="#041536", font='Helvetica 9 bold')
         qnt.place(x=186, y=55)
-        self.oc_campo = Entry(quadro)
+        self.oc_campo = Entry(quadro, highlightthickness=1)
         self.oc_campo.place(x=55, y=55)
-        self.qnt_campo = Entry(quadro)
+        self.qnt_campo = Entry(quadro, highlightthickness=1)
         self.qnt_campo.place(x=220, y=55, width=20)    
         buttonAddOC = Button (quadro, font='Helvetica 8 bold', text="Adicionar OC", anchor='center', command=campo_oc,  bg='#99d199')
         buttonAddOC.place(y=90, x=160, width=80, height=22)
@@ -138,13 +143,22 @@ class App(Toplevel):
 
         self.mainloop()
 
+    def select_grama(self):
+        self.mililitro.deselect()
+        
+    def select_mililitro(self):
+        self.grama.deselect()
+
     def insert(self, event): 
-        dic = (self.cod_operador, self.numero_field.get(), self.hoje, self.cemb_field.get(), self.qnt_field.get(),self.pintor_field.get())
+        unidade = 'ml' if self.selected_option.get() == 2 else 'g'
+        unidade = '' if self.selected_option.get() == 0 else unidade
+        dic = (self.cod_operador, self.numero_field.get(), self.hoje, self.cemb_field.get(), self.qnt_field.get(), unidade,self.pintor_field.get())
         
         ### CONFERINDO OS CAMPOS VAZIOS
         if (self.numero_field.get() == "" or 
             self.cemb_field.get() == "" or
             self.qnt_field.get() == "" or
+            unidade == "" or
             self.pintor_field.get() == ""             
         ): messagebox.showinfo(message="Preencha os campos para continuar!")
         
@@ -158,12 +172,11 @@ class App(Toplevel):
                     cursor = banco.cursor()
                     ### INSERINDO AS INFORMAÇÕES NO DB QUE SE ENCONTRA NO SERVIDOR NAS
                     cursor.execute(
-                        f"""INSERT INTO form_173 (solicitante, formulario, data_solicitacao, cemb, quantidade, pintor)
-                        VALUES (?,?,?,?,?,?)
-                        """,(dic[0], dic[1], dic[2], dic[3], dic[4], dic[5]))
+                        f"""INSERT INTO form_173 (solicitante, formulario, data_solicitacao, cemb, quantidade, unidade, pintor)
+                        VALUES (?,?,?,?,?,?,?)
+                        """,(dic[0], dic[1], dic[2], dic[3], dic[4], dic[5], dic[6]))
                     banco.commit()
                     id_form173 = cursor.lastrowid
-                    print(id_form173)
                 except Exception as ex:
                     print("133 - ",ex)
                     messagebox.showerror(message=(ex, type(ex)))
@@ -188,6 +201,7 @@ class App(Toplevel):
                 self.oc_campo.delete(0, END)
                 self.qnt_field.delete(0, END)
                 self.qnt_campo.delete(0, END)
+                self.selected_option.set(0)
                 self.mylistbox.delete(0, END)
                 cursor.close()
                 banco.close()
