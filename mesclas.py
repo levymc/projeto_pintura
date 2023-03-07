@@ -99,23 +99,16 @@ class Mesclas(Toplevel):
                         ws.range("I4").value = datetime.today().strftime('%m-%d-%Y')
                         ws.range("C3").value = str(mescla_n)
                         ws.range("C4").value = nome
-                        print("aqui0")
                         ws.range("J3").value = form_173_tudo[0][4]
                         ws.range("K4").value = form_173_tudo[0][7]
                         wb.save()
                         wb.close()
                         excel_app.quit()
-                        print("aqui1")
-                        # lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
-                        # impressora = lista_impressoras[3]
-                        
-                        # win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        # win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
-                        # print("aqui2")
-                        
+                        lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
+                        impressora = lista_impressoras[3]
+                        win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
+                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
                         cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
-                        print("aqui3")
-                        
                         banco.commit()
                         cursor.close()
                         banco.close()
