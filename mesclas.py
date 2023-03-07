@@ -74,9 +74,7 @@ class Mesclas(Toplevel):
                     if x=='yes':
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
-                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][7]}").fetchall()[0]
-                            print("Good Bye")
-                            
+                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
                             mescla_n = tudo[i][1]
                             print("mescla: ", mescla_n)
                             print('Tamanho: ', len(ocs))
@@ -100,12 +98,13 @@ class Mesclas(Toplevel):
                         ws.range("C3").value = str(mescla_n)
                         ws.range("C4").value = nome
                         ws.range("J3").value = form_173_tudo[0][4]
-                        ws.range("K4").value = form_173_tudo[0][7]
+                        ws.range("K4").value = form_173_tudo[0][8]
                         wb.save()
                         wb.close()
                         excel_app.quit()
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
-                        impressora = lista_impressoras[3]
+                        impressora = lista_impressoras[4]
+                        
                         win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
                         win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
                         cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
@@ -118,7 +117,7 @@ class Mesclas(Toplevel):
                         self.mainloop()
                         pass
                 except Exception as ex: 
-                    print(ex)
+                    print("mescla3",ex)
                     messagebox.showerror(message=["mescla3",ex])
 
         self.mainloop()
