@@ -5,14 +5,14 @@ from PIL import ImageTk, Image
 import form_173, pend_new, form_40, login_173, mesclas
 from datetime import datetime
 
-local = "tecplas"
+local = "prod"
 
-if local == "casa":
+if local == "dev":
     db = r"pintura.db"
     path = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161.xlsx"
     path_maior = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_maior.xlsx"
     path_gerado = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_Gerado/"
-elif local == "tecplas":
+elif local == "prod":
     db = r'//NasTecplas/Pintura/DB/pintura.db'
     path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
     path_maior = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_maior.xlsx"
@@ -70,7 +70,7 @@ class Main(Tk):
         img_frame = Label(quadro,image=self.img, background='#f0f5ff')
         img_frame.place(x=0, y=240)
 
-        def proc_solicitacao():
+        def proc_solicitacao(db):
             x = consulta_field.get()
             try:
                 banco = sqlite3.connect(db)
@@ -114,9 +114,9 @@ class Main(Tk):
         consulta.place(x=500, y = 215)
         consulta_field = Entry(quadro, background='white')
         consulta_field.place(x=430, y=245, width=200)
-        consulta_botao = Button(quadro, text="OK", bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:proc_solicitacao())
+        consulta_botao = Button(quadro, text="OK", bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:proc_solicitacao(db))
         consulta_botao.place(x=635, y=245, width=26, height=20)
-        atualizar_bt = Button(quadro, text="Atualizar", bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:popular())
+        atualizar_bt = Button(quadro, text="Atualizar", bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:popular(db))
         atualizar_bt.place(x=615, y=196)
         solicit = Label(quadro, text=f"Solicitações {self.hoje}: ",foreground='#041536', bg='#f0f5ff',  font='Trebuchet 12 bold')
         solicit.place(x=450,y=50)

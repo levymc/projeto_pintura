@@ -263,31 +263,30 @@ class Form_40(Toplevel):
                                 else:
                                         x = messagebox.askquestion(title="Double-Check", message="Confirma o Envio dos Dados??")
                                         if x=='yes':
-                                                try:                                                                                                       
-                                                        cursor.execute("""INSERT INTO form_40 (mescla, data_prep, temperatura, umidade, cod_mp, lotemp, shelf_life, ini_agitador, ini_mistura, ini_diluentes, viscosidade, proporcao, ini_adequacao, ini_inducao, pot_life, responsavel, Id_form173)
-                                                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-                                                        """, (dados[0],dados[1],dados[2],dados[3],dados[4],dados[5],dados[6],dados[7] ,dados[8],dados[9],dados[10],dados[11],dados[12],dados[13],dados[14], self.cod_ope, self.id_form173))
+                                                try:                
+                                                        print(1)                                                                                       
+                                                        cursor.execute("""INSERT INTO form_40 (mescla, data_prep, temperatura, umidade, cod_mp,
+                                                                       lotemp, shelf_life, ini_agitador, ini_mistura, ini_diluentes, viscosimetro, viscosidade,
+                                                                       proporcao, ini_adequacao, ini_inducao, pot_life, responsavel, Id_form173)
+                                                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                                                        """, (dados[0],dados[1],dados[2],dados[3],dados[4],dados[5],dados[6],dados[7] ,dados[8],dados[9],
+                                                              dados[11],dados[12],dados[13],dados[14],dados[15], dados[10], self.cod_ope, self.id_form173))
                                                         cursor.execute("INSERT INTO form_161 (track_form173, print) VALUES(?,?)", (self.id_form173, 0))
-                                                except Exception as ex: messagebox.showerror(message=ex)
-                                                if not dados[13] == '':
-                                                        (h,m) = dados[13].split(':')
+                                                except Exception as ex: 
+                                                        print("Erro:", ex)
+                                                        messagebox.showerror(message=ex)
+                                                if not dados[10] == '':
+                                                        (h,m) = dados[10].split(':')
                                                         term_inducao = timedelta(hours=int(h), minutes=int(m)+30)
                                                         term_inducao = str(term_inducao)[:-3]
                                                         cursor.execute(f"UPDATE form_40 SET term_inducao='{str(term_inducao)}' WHERE mescla='{dados[0]}'")
                                                         banco.commit()
-                                                        # except ValueError: 
-                                                        #         messagebox.showinfo(message='O horário de "Indução" foi digitado errôneamente')
-                                                        #         # cursor.execute(f"DELETE FROM form_40 WHERE mescla='{dados[0]}'")
-                                                if not dados[12] == '':
-                                                        if not dados[12] == r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$':
-                                                                messagebox.showinfo(message='O valor digitado para "Início da Adequação" está no formato errado!')
-                                                        else:
-                                                                (h,m) = dados[12].split(':')
-                                                                term_adequacao = timedelta(hours=int(h), minutes=int(m)+12)
-                                                                term_adequacao = str(term_adequacao)[:-3]
-                                                                # cursor.execute("INSERT INTO form_40 (term_adequacao) VALUES (?)", str(term_adequcao))
-                                                                cursor.execute(f"UPDATE form_40 SET term_adequacao='{str(term_adequacao)}' WHERE mescla='{dados[0]}'")
-                                                                banco.commit()
+                                                if not dados[14] == '':
+                                                        (h,m) = dados[14].split(':')
+                                                        term_adequacao = timedelta(hours=int(h), minutes=int(m)+12)
+                                                        term_adequacao = str(term_adequacao)[:-3]
+                                                        cursor.execute(f"UPDATE form_40 SET term_adequacao='{str(term_adequacao)}' WHERE mescla='{dados[0]}'")
+                                                        banco.commit()
                                                 if not dados[9] == '':
                                                         (h,m) = dados[9].split(':')
                                                         ter_diluentes = timedelta(hours=int(h), minutes=int(m)+12)
