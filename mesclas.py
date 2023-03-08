@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from datetime import datetime
 import xlwings as xw
-import sqlite3, shutil, win32print, win32api, pend_new
+import sqlite3, shutil, win32print, win32api, pend_new, os
 
 
 def tamanho(db):
@@ -60,7 +60,7 @@ class Mesclas(Toplevel):
                 y = 9999
 
             def abrir(i):
-                agora = datetime.today().strftime('%d-%m-%Y_%H.%M')
+                agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
                 new = self.path_gerado + agora + r".xlsx"
                 try:
                     banco = sqlite3.connect(self.db)
@@ -80,9 +80,17 @@ class Mesclas(Toplevel):
                             print("mescla: ", mescla_n)
                             print('Tamanho: ', len(ocs))
                             if len(ocs) <= 15:
-                                shutil.copyfile(self.path, new)
+                                if os.path.exists(self.path_gerado):
+                                    shutil.copyfile(self.path, new)
+                                else: 
+                                    os.makedirs(self.path_gerado)
+                                    shutil.copyfile(self.path, new)
                             else:
-                                shutil.copyfile(self.path_maior, new)
+                                if os.path.exists(self.path_gerado):
+                                    shutil.copyfile(self.path_maior, new)
+                                else: 
+                                    os.makedirs(self.path_gerado)
+                                    shutil.copyfile(self.path_maior, new)
                         except:messagebox.showinfo(message='Provavelmente o código do operador está errado!')
 
                         excel_app = xw.App(visible=False)

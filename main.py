@@ -5,18 +5,23 @@ from PIL import ImageTk, Image
 import form_173, pend_new, form_40, login_173, mesclas
 from datetime import datetime
 
+agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
+meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+anoAtual = agora[6:10]+"/"
+mesAtual = meses[int(agora[3:5])-1]+"/"
+dia_mesAtual = agora[:5]+"/"
 local = "dev"
 
 if local == "dev":
     db = r"pintura.db"
     path = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161.xlsx"
     path_maior = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_maior.xlsx"
-    path_gerado = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_Gerado/"
+    path_gerado = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_Gerado/" + anoAtual + mesAtual + dia_mesAtual
 elif local == "prod":
     db = r'//NasTecplas/Pintura/DB/pintura.db'
     path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
     path_maior = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_maior.xlsx"
-    path_gerado = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"
+    path_gerado = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+anoAtual+mesAtual+dia_mesAtual
 
 def pend():
     try:
