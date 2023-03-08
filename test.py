@@ -1,18 +1,41 @@
-import os
-from datetime import datetime
+import tkinter as tk
+from tkinter import ttk
 
-agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
-meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-anoAtual = agora[6:10]+"/"
-mesAtual = meses[int(agora[3:5])-1]+"/"
-dia_mesAtual = agora[:5]+"/"
+root = tk.Tk()
 
+# Cria o widget Treeview
+tree = ttk.Treeview(root, columns=('Nome', 'Idade'))
 
-path_gerado = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_Gerado/" + anoAtual + mesAtual + dia_mesAtual
+# Adiciona as colunas à tabela
+tree.heading('#0', text='ID')
+tree.heading('#1', text='Nome')
+tree.heading('#2', text='Idade')
 
-if os.path.exists(path_gerado):
-     print('a')
-else: 
-    print(1)
-    os.makedirs(path_gerado)
-    print('b')
+# Adiciona algumas linhas de exemplo
+tree.insert('', 'end', text='1', values=('João', '30'))
+tree.insert('', 'end', text='2', values=('Maria', '25'))
+tree.insert('', 'end', text='3', values=('Pedro', '40'))
+
+# Cria uma variável para armazenar as informações da linha selecionada
+linha_selecionada = {}
+
+# Define uma função para o botão que carrega as informações da linha selecionada
+def carrega_linha_selecionada():
+    # Obtém o ID da linha selecionada
+    id_linha = tree.selection()[0]
+    # Obtém as informações da linha selecionada
+    info_linha = tree.item(id_linha)['values']
+    # Armazena as informações na variável linha_selecionada
+    linha_selecionada['nome'] = info_linha[0]
+    linha_selecionada['idade'] = info_linha[1]
+    # Exibe as informações na tela
+    print(linha_selecionada)
+
+# Cria o botão para carregar as informações da linha selecionada
+btn_carregar = tk.Button(root, text='Carregar linha selecionada', command=carrega_linha_selecionada)
+btn_carregar.pack()
+
+# Exibe a tabela na tela
+tree.pack()
+
+root.mainloop()
