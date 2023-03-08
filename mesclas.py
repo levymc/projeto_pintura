@@ -74,11 +74,8 @@ class Mesclas(Toplevel):
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
                     if x=='yes':
                         try:
-                            print(1)
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
-                            print(form_173_tudo)
                             nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
-                            print(3)
                             mescla_n = tudo[i][1]
                             print("mescla: ", mescla_n)
                             print('Tamanho: ', len(ocs))
@@ -94,8 +91,10 @@ class Mesclas(Toplevel):
                         ws = wks[0]
                         linha = 35
                         for i in ocs:
+                            padrao = i[1][:9]
+                            oc = padrao + i[1].replace(padrao, '/')
                             print(i)
-                            ws.range("F"+f"{linha}").value = i[1]
+                            ws.range("F"+f"{linha}").value = oc
                             ws.range("I"+f"{linha}").value = i[2]
                             linha += 1
                         ws.range("I4").value = datetime.today().strftime('%m-%d-%Y')
