@@ -32,6 +32,12 @@ class App(Toplevel):
         except Exception as ex: messagebox.showerror(message=(ex, type(ex)))
 
         self.create_wigets()
+        
+    def validate_entry_text(self, text):
+        if text.isdigit() or text == "":
+            return True
+        else:
+            return False
 
     def create_wigets(self):
         # Form 173 - Campo Principal
@@ -49,19 +55,27 @@ class App(Toplevel):
         numero.place(x=40, y=120)
         self.numero_field = Entry(self, highlightthickness=1)
         self.numero_field.place(x=190, y=120, width=150, height=30)
-        pintor = Label(self, text="Pintor\n(Painter)", font='Helvetica 10 bold', foreground='#011336', background='#f0f5ff')
+        pintor = Label(self, text="Código do Pintor\n(Painter)", font='Helvetica 10 bold', foreground='#011336', background='#f0f5ff')
         pintor.place(x=40, y=180)
         self.hoje = datetime.today().strftime('%d-%m-%Y')
         self.agora = datetime.today().strftime('%d-%m-%Y %H:%M')
         self.pintor_field = Entry(self, highlightthickness=1)
+        validate_pintor = (self.pintor_field.register(self.validate_entry_text), '%P')
+        self.pintor_field.config(validate='key', validatecommand=validate_pintor)
         self.pintor_field.place(x=190, y=180, width=150, height=30)
         cemb = Label(self, text="CEMB Tinta\n(Paint CODE)", font='Helvetica 9 bold', foreground='#011336', background='#f0f5ff')
         cemb.place(x=40, y=240)
+        
         self.cemb_field = Entry(self, highlightthickness=1)
+        validate_cemb = (self.cemb_field.register(self.validate_entry_text), '%P')
+        self.cemb_field.config(validate='key', validatecommand=validate_cemb)
         self.cemb_field.place(x=190, y=240, width=150, height=30)
+        
         qnt = Label(self, text="Quantidade Solicitada\n(Quantity Requested)", font='Helvetica 9 bold', foreground='#011336', background='#f0f5ff')
         qnt.place(x=40, y=300)
         self.qnt_field = Entry(self, highlightthickness=1)
+        validate_qnt = (self.qnt_field.register(self.validate_entry_text), '%P')
+        self.qnt_field.config(validate='key', validatecommand=validate_qnt)
         self.qnt_field.place(x=190, y=300, width=150, height=30)
         
         self.grama = Checkbutton(self, text="grama", variable=self.selected_option, onvalue=1, offvalue=0)
@@ -122,9 +136,13 @@ class App(Toplevel):
         add_oc.place(x=10, y=55)
         qnt = Label(quadro, text="Qnt.: ", foreground='white', background="#041536", font='Helvetica 9 bold')
         qnt.place(x=186, y=55)
-        self.oc_campo = Entry(quadro, highlightthickness=1)
+        self.oc_campo = Entry(quadro, highlightthickness=1, validate='key')
+        validate_cmd = (self.oc_campo.register(self.validate_entry_text), '%P')
+        self.oc_campo.config(validate='key', validatecommand=validate_cmd)
         self.oc_campo.place(x=55, y=55)
         self.qnt_campo = Entry(quadro, highlightthickness=1)
+        validate_qntOC = (self.qnt_campo.register(self.validate_entry_text), '%P')
+        self.qnt_campo.config(validate='key', validatecommand=validate_qntOC)
         self.qnt_campo.place(x=220, y=55, width=20)    
         buttonAddOC = Button (quadro, font='Helvetica 8 bold', text="Adicionar OC", anchor='center', command=campo_oc,  bg='#99d199')
         buttonAddOC.place(y=90, x=160, width=80, height=22)
