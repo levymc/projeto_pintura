@@ -94,6 +94,7 @@ class App(Toplevel):
                     self.mylistbox.insert(END, f"OC: {self.oc_campo.get()} - QNT: {self.qnt_campo.get()}" )
                     self.oc_campo.delete(0, END)
                     self.qnt_campo.delete(0, END)
+                    self.oc_campo.focus_set()
                     atualizar_contador()
         
         def deletar_oc():
