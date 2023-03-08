@@ -68,7 +68,8 @@ class Mesclas(Toplevel):
                     print("conectou")
                 except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
-                    idform173 = tudo[i][22]
+                    print(tudo)
+                    idform173 = tudo[i][23]
                     form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
                     if x=='yes':
