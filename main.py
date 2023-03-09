@@ -10,6 +10,7 @@ meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'A
 anoAtual = agora[6:10]+"/"
 mesAtual = meses[int(agora[3:5])-1]+"/"
 dia_mesAtual = agora[:5]+"/"
+
 local = "dev"
 
 if local == "dev":
