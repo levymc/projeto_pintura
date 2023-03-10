@@ -15,9 +15,9 @@ local = "dev"
 
 if local == "dev":
     db = r"pintura.db"
-    path = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161.xlsx"
-    path_maior = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_maior.xlsx"
-    path_gerado = r"C:/Users/levym/OneDrive/Documentos/Projects/Tecplas/Sis-Pint/projeto_pintura/Forms/Form_161_Gerado/" + anoAtual + mesAtual + dia_mesAtual
+    path = r"./Forms/Form_161.xlsx"
+    path_maior = r"./Forms/Form_161_maior.xlsx"
+    path_gerado = r"./Forms/Form_161_Gerado/" + anoAtual + mesAtual + dia_mesAtual
 elif local == "prod":
     db = r'//NasTecplas/Pintura/DB/pintura.db'
     path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
