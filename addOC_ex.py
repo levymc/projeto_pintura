@@ -4,7 +4,7 @@ import tkinter as tk
 from DBfuncs import conteudoForm173_pendente
 from OC_ex import OC_ex
 
-class addOC_ex(Tk):
+class addOC_ex(Toplevel):
     def __init__(self):
         super().__init__()
         self.geometry("640x300")
@@ -65,7 +65,7 @@ class addOC_ex(Tk):
         btn_carregar.pack()
         
         
-if __name__ == "__main__":
-    app = addOC_ex()
-    app.mainloop()
+# if __name__ == "__main__":
+#     app = addOC_ex()
+#     app.mainloop()
 

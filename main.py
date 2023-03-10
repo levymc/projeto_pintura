@@ -1,9 +1,10 @@
 from tkinter import * 
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 import hashlib, json, sqlite3
 from PIL import ImageTk, Image 
-import form_173, pend_new, form_40, login_173, mesclas
+import form_173, pend_new, form_40, login_173, mesclas, addOC_ex
 from datetime import datetime
+from ttkthemes import ThemedStyle
 
 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -57,6 +58,7 @@ class Main(Tk):
         self.title('TECPLAS - Pintura (main)')
         self.iconbitmap(r'logo.ico')
         self.img = PhotoImage(file="logo.png")
+        self.style = ThemedStyle()
         self.create_wigets()
 
     def create_wigets(self):
@@ -77,7 +79,7 @@ class Main(Tk):
         img_frame.place(x=0, y=240)
 
         def proc_solicitacao(db):
-            x = consulta_field.get()
+            # x = consulta_field.get()
             try:
                 banco = sqlite3.connect(db)
                 cursor = banco.cursor()
@@ -113,15 +115,23 @@ class Main(Tk):
                 pend_.destroy()
                 messagebox.showinfo(message="Solicitação não encontrada!")
                 pass
-            consulta_field.delete(0, END)
+            # consulta_field.delete(0, END)
             pend_.mainloop()
 
-        consulta = Label(quadro, text="Pesquisar",foreground='#041536', bg='#f0f5ff',  font='Trebuchet 12 bold')
-        consulta.place(x=500, y = 215)
-        consulta_field = Entry(quadro, background='white')
-        consulta_field.place(x=430, y=245, width=200)
-        consulta_botao = Button(quadro, text="OK", bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:proc_solicitacao(db))
-        consulta_botao.place(x=635, y=245, width=26, height=20)
+
+        self.style.set_theme("clearlooks")
+        self.style.configure("TButton", padding=0, borderwidth=0, font='Roboto 8 bold', foreground="#3b0202")
+        self.style.map("TButton", background=[("active", "#4CAF50")])
+        self.style.map("TButton", background=[("disabled", "#f0f5ff")])
+
+        # self.style.configure('Custom.TButton', 
+        #         borderwidth=5,
+        #         relief='groove',
+        #         background='red', # cor de fundo
+        #         foreground='white') #font='Trebuchet 11 bold',
+        addOC_after = ttk.Button(quadro, text="Add OC a um Formulário",   style='TButton', command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
+        addOC_after.place(x=450, y=250)
+        
         atualizar_bt = Button(quadro, text="Atualizar", bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:popular(db))
         atualizar_bt.place(x=615, y=196)
         solicit = Label(quadro, text=f"Solicitações {self.hoje}: ",foreground='#041536', bg='#f0f5ff',  font='Trebuchet 12 bold')
@@ -131,15 +141,15 @@ class Main(Tk):
         legenda = Label(quadro, text="Id | Solicitante - Cód. | Formulário | CEMB | Quantidade | Pintor",foreground='#041536', bg='#f0f5ff',  font='Trebuchet 6 bold')
         legenda.place(x=420, y= 178)
 
-        def CurSelet(evt):
-            try:
-                value=str((mylistbox.get(mylistbox.curselection())))
-                consulta_field.delete(0, END)
-                consulta_field.insert(0, value)
-            except:pass
+        # def CurSelet(evt):
+        #     try:
+        #         value=str((mylistbox.get(mylistbox.curselection())))
+        #         consulta_field.delete(0, END)
+        #         consulta_field.insert(0, value)
+        #     except:pass
 
         mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
-        mylistbox.bind('<<ListboxSelect>>',CurSelet)
+        # mylistbox.bind('<<ListboxSelect>>',CurSelet)
         mylistbox.place(x=420,y=79)
 
         def popular(db):
