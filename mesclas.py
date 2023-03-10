@@ -166,21 +166,28 @@ class Mesclas(Toplevel):
                         wb.close()
                         excel_app.quit()
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
-                        impressora = lista_impressoras[3]
+                        impressora = lista_impressoras[4]
                         
-                        handle = win32print.OpenPrinter(impressora[2])
-                        level = 2
-                        attributes = win32print.GetPrinter(handle, level)["pDevMode"]
-                        win32print.ClosePrinter(handle)
-                        # habilitar o duplex horizontal
-                        attributes['dmDuplex'] = win32con.DMDUP_VERTICAL
-                        handle = win32print.OpenPrinter(impressora[2])
-                        level = 2
-                        win32print.SetPrinter(handle, level, attributes, 0)
-                        win32print.ClosePrinter(handle)
+                       
+
+                        # configurar a impressora com as novas informações
+                        # handle = win32print.OpenPrinter(printer_name)
+                        # level = 2
+                        # win32print.SetPrinter(handle, level, devmode, 0)
+                        # win32print.ClosePrinter(handle)
                         
                         win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
+                        # obter a impressora padrão
+                        printer_name = win32print.GetDefaultPrinter()
+                        print(printer_name)
+                        # obter o objeto PyDEVMODEW atual
+                        handle = win32print.OpenPrinter(printer_name)
+                        devmode = win32print.DocumentProperties(0, handle, printer_name, None, None, 5)
+                        win32print.ClosePrinter(handle)
+
+                        # atualizar o campo dmDuplex
+                        devmode['dmDuplex'] = win32con.DMDUP_HORIZONTAL
+                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0, level=2, pDevMode=devmode, command="SET DEVMODE")
                         cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
                         cursor.close()
