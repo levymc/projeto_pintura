@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from datetime import datetime
 import xlwings as xw
+import win32api, win32con
 import win32com.client as win32
 import sqlite3, shutil, win32print, re, pend_new, os
 
@@ -146,10 +147,10 @@ class Mesclas(Toplevel):
                         ws.range("K4").value = form_173_tudo[0][8]
                         
                         # Selecionar a área de impressão
-                        # print_area = ws.range(self.area)
+                        print_area = ws.range(self.area)
 
-                        # # Definir a área de impressão
-                        # ws.api.PageSetup.PrintArea = print_area.address
+                        # Definir a área de impressão
+                        ws.api.PageSetup.PrintArea = print_area.address
                         
                         wb.save()
                         wb.close()
@@ -157,12 +158,23 @@ class Mesclas(Toplevel):
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
                         impressora = lista_impressoras[3]
                         
-                        # win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        # win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
-                        # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
-                        # banco.commit()
-                        # cursor.close()
-                        # banco.close()
+                        handle = win32print.OpenPrinter(impressora[2])
+                        level = 2
+                        attributes = win32print.GetPrinter(handle, level)["pDevMode"]
+                        win32print.ClosePrinter(handle)
+                        # habilitar o duplex horizontal
+                        attributes['dmDuplex'] = win32con.DMDUP_VERTICAL
+                        handle = win32print.OpenPrinter(impressora[2])
+                        level = 2
+                        win32print.SetPrinter(handle, level, attributes, 0)
+                        win32print.ClosePrinter(handle)
+                        
+                        win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
+                        win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
+                        cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
+                        banco.commit()
+                        cursor.close()
+                        banco.close()
                         print("IMPRIMIU!!!")
                         self.destroy()
                     else: 
