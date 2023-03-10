@@ -3,6 +3,7 @@ from tkinter import messagebox
 from datetime import datetime
 import xlwings as xw
 import win32com.client as win32
+import win32api
 import sqlite3, shutil, win32print, re, pend_new, os
 
 
@@ -74,12 +75,18 @@ class Mesclas(Toplevel):
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
                     if x=='yes':
                         try:
+                            print(1)
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
+                            print(2)
                             nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
                             contador = 1
                             mescla_n = tudo[i][1]
                             
+                            # O FOCO AQUI É
+                            
+                            print(self.path_gerado)
                             print("AAAA", os.listdir(self.path_gerado))
+                            print(3)
                             
                             if os.listdir(self.path_gerado) == []:
                                 new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
@@ -146,10 +153,10 @@ class Mesclas(Toplevel):
                         ws.range("K4").value = form_173_tudo[0][8]
                         
                         # Selecionar a área de impressão
-                        # print_area = ws.range(self.area)
+                        print_area = ws.range(self.area)
 
-                        # # Definir a área de impressão
-                        # ws.api.PageSetup.PrintArea = print_area.address
+                        # Definir a área de impressão
+                        ws.api.PageSetup.PrintArea = print_area.address
                         
                         wb.save()
                         wb.close()
@@ -157,12 +164,12 @@ class Mesclas(Toplevel):
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
                         impressora = lista_impressoras[3]
                         
-                        # win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        # win32api.ShellExecute(0, "print", agora+r".xlsx", None, self.path_gerado, 0)
-                        # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
-                        # banco.commit()
-                        # cursor.close()
-                        # banco.close()
+                        win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
+                        win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
+                        cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
+                        banco.commit()
+                        cursor.close()
+                        banco.close()
                         print("IMPRIMIU!!!")
                         self.destroy()
                     else: 
