@@ -4,7 +4,9 @@ import hashlib, json, sqlite3
 from PIL import ImageTk, Image 
 import form_173, pend_new, form_40, login_173, mesclas, addOC_ex
 from datetime import datetime
-from ttkbootstrap import Style
+from ttkbootstrap import Style as BsStyle
+from ttkbootstrap.constants import *
+from ttkbootstrap.widgets import Frame
 
 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -58,7 +60,7 @@ class Main(Tk):
         self.title('TECPLAS - Pintura (main)')
         self.iconbitmap(r'logo.ico')
         self.img = PhotoImage(file="logo.png")
-        self.style = Style(theme='flatly')
+        self.style = BsStyle(theme='flatly')
         self.create_wigets()
 
     def create_wigets(self):
@@ -73,8 +75,12 @@ class Main(Tk):
         except:pass
         titulo = Label(self,  font='Impact 35 bold', text=f"Processos Pintura",foreground='#f0f5ff', bg='#041536')
         titulo.place(x =160 , y= 8)
-        quadro = Frame(self, width= 683, height=320, bg='#f0f5ff')
+        
+        self.style.configure('TFrame', background='#f0f5ff')
+        quadro = Frame(self, width= 683, height=320, style='TFrame')
         quadro.place(x=0, y=80)
+        
+        
         img_frame = Label(quadro,image=self.img, background='#f0f5ff')
         img_frame.place(x=0, y=240)
 
@@ -140,7 +146,7 @@ class Main(Tk):
         #         relief='groove',
         #         background='red', # cor de fundo
         #         foreground='white') #font='Trebuchet 11 bold',
-        addOC_after = ttk.Button(quadro, text="Add OC a um Formulário",   style='TButton', command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
+        addOC_after = ttk.Button(quadro, text="Add OC a um Formulário", bootstyle=SUCCESS, command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
         addOC_after.place(x=450, y=250)
         
         atualizar_bt = Button(quadro, text="Atualizar", bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:popular(db))
