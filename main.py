@@ -54,13 +54,14 @@ class Main(Tk):
     def __init__(self):
         super().__init__()
         self.geometry("683x384")
-        self.configure(background='#041536')
+        # self.configure(background='#041536')
         self.resizable(0,0)
         self.hoje = datetime.today().strftime('%d-%m-%Y')
         self.title('TECPLAS - Pintura (main)')
         self.iconbitmap(r'logo.ico')
         self.img = PhotoImage(file="logo.png")
         self.style = BsStyle(theme='flatly')
+        self.style.configure('TFrame', background='#960222')
         self.create_wigets()
 
     def create_wigets(self):
@@ -73,7 +74,7 @@ class Main(Tk):
             cursor.close()
             banco.close()
         except:pass
-        titulo = Label(self,  font='Impact 35 bold', text=f"Processos Pintura",foreground='#f0f5ff', bg='#041536')
+        titulo = Label(self,  font='Impact 35 bold', text=f"Processos Pintura")
         titulo.place(x =160 , y= 8)
         
         self.style.configure('TFrame', background='#f0f5ff')
