@@ -74,7 +74,11 @@ class Main(Tk):
             cursor.close()
             banco.close()
         except:pass
-        titulo = Label(self,  font='Impact 35 bold', text=f"Processos Pintura")
+        
+        self.style.configure('Frame1.TFrame', background='#041536')
+        quadro0 = Frame(self, width= 683, height=80, style='Frame1.TFrame')
+        quadro0.place(x=0, y=0)
+        titulo = ttk.Label(quadro0,  font='Impact 35 bold', text=f"Processos Pintura", background='#041536', foreground='#f0f5ff')
         titulo.place(x =160 , y= 8)
         
         self.style.configure('TFrame', background='#f0f5ff')
@@ -82,7 +86,7 @@ class Main(Tk):
         quadro.place(x=0, y=80)
         
         
-        img_frame = Label(quadro,image=self.img, background='#f0f5ff')
+        img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')
         img_frame.place(x=0, y=240)
 
         def proc_solicitacao(db):
@@ -142,11 +146,6 @@ class Main(Tk):
                 highlightthickness=1)
 
 
-        # self.style.configure('Custom.TButton', 
-        #         borderwidth=5,
-        #         relief='groove',
-        #         background='red', # cor de fundo
-        #         foreground='white') #font='Trebuchet 11 bold',
         addOC_after = ttk.Button(quadro, text="Add OC a um Formulário", bootstyle=SUCCESS, command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
         addOC_after.place(x=450, y=250)
         
