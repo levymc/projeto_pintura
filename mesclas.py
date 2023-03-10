@@ -61,7 +61,6 @@ class Mesclas(Toplevel):
 
             def abrir(i):
                 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
-                new = self.path_gerado + agora + r".xlsx"
                 try:
                     banco = sqlite3.connect(self.db)
                     cursor = banco.cursor()
@@ -76,6 +75,7 @@ class Mesclas(Toplevel):
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
                             nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
+                            new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] + r".xlsx"
                             mescla_n = tudo[i][1]
                             print("mescla: ", mescla_n)
                             print('Tamanho: ', len(ocs))
