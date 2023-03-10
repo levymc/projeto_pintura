@@ -4,6 +4,7 @@ from datetime import datetime
 import xlwings as xw
 import win32api, win32con
 import win32com.client as win32
+import win32api
 import sqlite3, shutil, win32print, re, pend_new, os
 
 
@@ -75,12 +76,18 @@ class Mesclas(Toplevel):
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
                     if x=='yes':
                         try:
+                            print(1)
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
+                            print(2)
                             nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
                             contador = 1
                             mescla_n = tudo[i][1]
                             
+                            # O FOCO AQUI É
+                            
+                            print(self.path_gerado)
                             print("AAAA", os.listdir(self.path_gerado))
+                            print(3)
                             
                             if os.listdir(self.path_gerado) == []:
                                 new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
@@ -148,7 +155,10 @@ class Mesclas(Toplevel):
                         
                         # Selecionar a área de impressão
                         print_area = ws.range(self.area)
+                        print_area = ws.range(self.area)
 
+                        # Definir a área de impressão
+                        ws.api.PageSetup.PrintArea = print_area.address
                         # Definir a área de impressão
                         ws.api.PageSetup.PrintArea = print_area.address
                         
