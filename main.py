@@ -4,7 +4,7 @@ import hashlib, json, sqlite3
 from PIL import ImageTk, Image 
 import form_173, pend_new, form_40, login_173, mesclas, addOC_ex
 from datetime import datetime
-from ttkthemes import ThemedStyle
+from ttkbootstrap import Style
 
 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -58,7 +58,7 @@ class Main(Tk):
         self.title('TECPLAS - Pintura (main)')
         self.iconbitmap(r'logo.ico')
         self.img = PhotoImage(file="logo.png")
-        self.style = ThemedStyle()
+        self.style = Style(theme='flatly')
         self.create_wigets()
 
     def create_wigets(self):
@@ -119,10 +119,21 @@ class Main(Tk):
             pend_.mainloop()
 
 
-        self.style.set_theme("clearlooks")
-        self.style.configure("TButton", padding=0, borderwidth=0, font='Roboto 8 bold', foreground="#3b0202")
-        self.style.map("TButton", background=[("active", "#4CAF50")])
-        self.style.map("TButton", background=[("disabled", "#f0f5ff")])
+        self.style.configure('Custom.TButton', 
+                borderwidth=5,
+                relief='ridge',
+                background='#4CAF50', 
+                foreground='white',
+                font=('Helvetica', 12))
+        
+        self.style.map('Custom.TButton', background=[('active', '#3e3e3e')], 
+          foreground=[('active', 'white')])
+
+        self.style.configure('Custom.TButton', background='#4CAF50', 
+                highlightbackground='#4CAF50', 
+                highlightcolor='#4CAF50', 
+                highlightthickness=1)
+
 
         # self.style.configure('Custom.TButton', 
         #         borderwidth=5,
