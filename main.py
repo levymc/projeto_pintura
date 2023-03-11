@@ -109,17 +109,17 @@ class Main(Tk):
                     loadimage_form173 = PhotoImage(file=r"form_173.png")
                     pend_.configure(background='white')
                     pend_.resizable(0,0)
-                    img_frame_173 = Label(pend_, image=loadimage_form173, background='#f0f5ff')
+                    img_frame_173 = ttk.Label(pend_, image=loadimage_form173, background='#f0f5ff')
                     img_frame_173.place(x=0,y=0)
-                    solicitante = Label(pend_, text = f"{solicitantes}", bg='white', font='Trebuchet 16 bold')
+                    solicitante = ttk.Label(pend_, text = f"{solicitantes}", background='white', font='Trebuchet 16 bold')
                     solicitante.place(x=210, y=105)
-                    form = Label(pend_, text = f"{formulario}", bg='white', font='Trebuchet 16 bold')
+                    form = ttk.Label(pend_, text = f"{formulario}", background='white', font='Trebuchet 16 bold')
                     form.place(x=220, y=160)
-                    data = Label(pend_, text = ""+ f"{data}", bg='white', font='Trebuchet 16 bold')
+                    data = ttk.Label(pend_, text = ""+ f"{data}", background='white', font='Trebuchet 16 bold')
                     data.place(x=680, y=102)
-                    cembs = Label(pend_, text ="E"+f"{cemb}", bg='white', font='Trebuchet 16 bold')
+                    cembs = ttk.Label(pend_, text ="E"+f"{cemb}", background='white', font='Trebuchet 16 bold')
                     cembs.place(x=590, y=160)
-                    quantidades = Label(pend_, text = f"{qnt}", bg='white', font='Trebuchet 16 bold')
+                    quantidades = ttk.Label(pend_, text = f"{qnt}", background='white', font='Trebuchet 16 bold')
                     quantidades.place(x=300, y=220)
 
             except: 
@@ -133,14 +133,14 @@ class Main(Tk):
         self.style.configure('Custom.TButton', 
                 borderwidth=5,
                 relief='ridge',
-                background='#4CAF50', 
+                background='#1a2f57', 
                 foreground='white',
-                font=('Helvetica', 12))
+                font=('Helvetica bold', 10, 'bold'))
         
         self.style.map('Custom.TButton', background=[('active', '#3e3e3e')], 
           foreground=[('active', 'white')])
 
-        self.style.configure('Custom.TButton', background='#4CAF50', 
+        self.style.configure('Custom.TButton', background='#384a6e', 
                 highlightbackground='#4CAF50', 
                 highlightcolor='#4CAF50', 
                 highlightthickness=1)
@@ -149,24 +149,16 @@ class Main(Tk):
         addOC_after = ttk.Button(quadro, text="Add OC a um Formulário", bootstyle=SUCCESS, command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
         addOC_after.place(x=450, y=250)
         
-        atualizar_bt = Button(quadro, text="Atualizar", bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:popular(db))
-        atualizar_bt.place(x=615, y=196)
-        solicit = Label(quadro, text=f"Solicitações {self.hoje}: ",foreground='#041536', bg='#f0f5ff',  font='Trebuchet 12 bold')
+        atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db))
+        atualizar_bt.place(x=600, y=196)
+        solicit = ttk.Label(quadro, text=f"Solicitações {self.hoje}: ",foreground='#041536', background='#f0f5ff',  font='Trebuchet 10 bold')
         solicit.place(x=450,y=50)
-        solicit_scroll = Scrollbar(quadro, orient='vertical', bg='white')
+        solicit_scroll = Scrollbar(quadro, orient='vertical', background='white')
         solicit_scroll.place(x=400, y=80, height=90)
-        legenda = Label(quadro, text="Id | Solicitante - Cód. | Formulário | CEMB | Quantidade | Pintor",foreground='#041536', bg='#f0f5ff',  font='Trebuchet 6 bold')
+        legenda = ttk.Label(quadro, text="Id | Solicitante - Cód. | Formulário | CEMB | Quantidade | Pintor",foreground='#041536', background='#f0f5ff',  font='Trebuchet 6 bold')
         legenda.place(x=420, y= 178)
 
-        # def CurSelet(evt):
-        #     try:
-        #         value=str((mylistbox.get(mylistbox.curselection())))
-        #         consulta_field.delete(0, END)
-        #         consulta_field.insert(0, value)
-        #     except:pass
-
-        mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
-        # mylistbox.bind('<<ListboxSelect>>',CurSelet)
+        mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', background='white', selectmode=SINGLE)
         mylistbox.place(x=420,y=79)
 
         def popular(db):
@@ -187,11 +179,11 @@ class Main(Tk):
         popular(db)
         solicit_scroll.config(command=mylistbox.yview)
 
-        b1 = Button(quadro, text="Formulário 173 - Solicitações", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[login_173.Login(db)])
+        b1 = ttk.Button(quadro, text="Formulário 173 - Solicitações", command=lambda:[login_173.Login(db)], style='Custom.TButton', takefocus=False)
         b1.place(x = 50, y= 40)
-        b2 = Button(quadro, text="Solicitações de Mescla Pendentes", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[pend_new.Pendencias(db)])
+        b2 = ttk.Button(quadro, text="Solicitações de Mescla Pendentes", command=lambda:[pend_new.Pendencias(db)], style='Custom.TButton', takefocus=False)
         b2.place(x = 50, y= 110)
-        b3 = Button(quadro, text="Gerar e Imprimir Form. 161", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda:[mesclas.Mesclas(db,path, path_maior, path_gerado)])
+        b3 = ttk.Button(quadro, text="Gerar e Imprimir Form. 161", command=lambda:[mesclas.Mesclas(db,path, path_maior, path_gerado)], style='Custom.TButton', takefocus=False)
         b3.place(x = 50, y= 180)
         
 
