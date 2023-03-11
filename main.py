@@ -7,6 +7,7 @@ from datetime import datetime
 from ttkbootstrap import Style as BsStyle
 from ttkbootstrap.constants import *
 from ttkbootstrap.widgets import Frame
+import tkinter.font as font
 
 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -61,6 +62,8 @@ class Main(Tk):
         self.iconbitmap(r'logo.ico')
         self.img = PhotoImage(file="logo.png")
         self.style = BsStyle(theme='flatly')
+        self.fonte_fa = font.Font(family="FontAwesome", size=12)
+        
         
         self.style.configure('TFrame', background='#960222')
         self.style.map('Custom.TButton', background=[('active', '#3e3e3e')], 
@@ -73,13 +76,25 @@ class Main(Tk):
                 foreground='white',
                 borderwidth=5,
                 relief='ridge',)
+        self.style.map('Atualizar.TButton', 
+                       background=[('active', '#c44c2b'), ('pressed', 'white')],
+                       )
         self.style.configure('Atualizar.TButton', 
-                            font=('Helvetica', 8, 'bold'),
-                            background='#f55151',
-                            highlightbackground='#f55151', 
-                            highlightcolor='#f55151', 
-                            highlightthickness=1,
-                            bordercolor='#f55151')
+                            font=('Roboto', 8, 'bold'),
+                            background='#f26c46',
+                            borderwidth=0)
+        self.style.configure('Frame1.TFrame', background='#041536')
+        self.style.configure('TFrame', background='#f0f5ff')
+        self.style.configure('FrameOC.TFrame', borderwidth=5,
+                            highlightbackground='black',
+                            bordercolor='#f26c46',
+                            background='white',
+                            relief='solid',
+                             )
+        self.style.configure('infoOC.TLabel', 
+                            font=('Helvetica', 9, 'bold'),
+                            )
+        
         
         self.create_wigets()
 
@@ -94,13 +109,11 @@ class Main(Tk):
             banco.close()
         except:pass
         
-        self.style.configure('Frame1.TFrame', background='#041536')
         quadro0 = Frame(self, width= 683, height=80, style='Frame1.TFrame')
         quadro0.place(x=0, y=0)
         titulo = ttk.Label(quadro0,  font='Impact 35 bold', text=f"Processos Pintura", background='#041536', foreground='#f0f5ff')
         titulo.place(x =160 , y= 8)
         
-        self.style.configure('TFrame', background='#f0f5ff')
         quadro = Frame(self, width= 683, height=320, style='TFrame')
         quadro.place(x=0, y=80)
         
@@ -148,21 +161,24 @@ class Main(Tk):
             # consulta_field.delete(0, END)
             pend_.mainloop()
 
-
-        addOC_after = ttk.Button(quadro, text="Add OC a um Formulário", style='Atualizar.TButton', bootstyle=SUCCESS, command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
-        addOC_after.place(x=450, y=250)
+        frameOC = ttk.Frame(quadro, width=270, height=60, style='FrameOC.TFrame')
+        frameOC.place(x=380, y=220)
+        addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário adicionar OC após \n finalizar o Form 173, clique no botão")
+        addOC_info.place(x=395, y=230)
+        addOC_after = ttk.Button(quadro, text=u'+',style='Atualizar.TButton', bootstyle="outline", command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
+        addOC_after.place(x=615, y=248)
         
-        atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db))
-        atualizar_bt.place(x=600, y=196)
+        atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db), takefocus=False)
+        atualizar_bt.place(x=600, y=176)
         solicit = ttk.Label(quadro, text=f"Solicitações {self.hoje}: ",foreground='#041536', background='#f0f5ff',  font='Trebuchet 10 bold')
-        solicit.place(x=450,y=50)
+        solicit.place(x=450,y=30)
         solicit_scroll = Scrollbar(quadro, orient='vertical', background='white')
-        solicit_scroll.place(x=400, y=80, height=90)
+        solicit_scroll.place(x=400, y=60, height=90)
         legenda = ttk.Label(quadro, text="Id | Solicitante - Cód. | Formulário | CEMB | Quantidade | Pintor",foreground='#041536', background='#f0f5ff',  font='Trebuchet 6 bold')
-        legenda.place(x=420, y= 178)
+        legenda.place(x=420, y= 158)
 
         mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', background='white', selectmode=SINGLE)
-        mylistbox.place(x=420,y=79)
+        mylistbox.place(x=420,y=59)
 
         def popular(db):
             banco = sqlite3.connect(db)
