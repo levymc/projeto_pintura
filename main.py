@@ -61,7 +61,26 @@ class Main(Tk):
         self.iconbitmap(r'logo.ico')
         self.img = PhotoImage(file="logo.png")
         self.style = BsStyle(theme='flatly')
+        
         self.style.configure('TFrame', background='#960222')
+        self.style.map('Custom.TButton', background=[('active', '#3e3e3e')], 
+          foreground=[('active', 'white')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
+        self.style.configure('Custom.TButton', background='#384a6e',  #.configure serve para configurações de estilo no geral
+                highlightbackground='#4CAF50', 
+                highlightcolor='#4CAF50', 
+                highlightthickness=1,
+                font=('Helvetica', 12, 'bold'),
+                foreground='white',
+                borderwidth=5,
+                relief='ridge',)
+        self.style.configure('Atualizar.TButton', 
+                            font=('Helvetica', 8, 'bold'),
+                            background='#f55151',
+                            highlightbackground='#f55151', 
+                            highlightcolor='#f55151', 
+                            highlightthickness=1,
+                            bordercolor='#f55151')
+        
         self.create_wigets()
 
     def create_wigets(self):
@@ -130,23 +149,7 @@ class Main(Tk):
             pend_.mainloop()
 
 
-        self.style.configure('Custom.TButton', 
-                borderwidth=5,
-                relief='ridge',
-                background='#1a2f57', 
-                foreground='white',
-                font=('Helvetica bold', 10, 'bold'))
-        
-        self.style.map('Custom.TButton', background=[('active', '#3e3e3e')], 
-          foreground=[('active', 'white')])
-
-        self.style.configure('Custom.TButton', background='#384a6e', 
-                highlightbackground='#4CAF50', 
-                highlightcolor='#4CAF50', 
-                highlightthickness=1)
-
-
-        addOC_after = ttk.Button(quadro, text="Add OC a um Formulário", bootstyle=SUCCESS, command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
+        addOC_after = ttk.Button(quadro, text="Add OC a um Formulário", style='Atualizar.TButton', bootstyle=SUCCESS, command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
         addOC_after.place(x=450, y=250)
         
         atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db))
