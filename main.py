@@ -165,7 +165,13 @@ class Main(Tk):
         frameOC.place(x=380, y=220)
         addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário adicionar OC após \n finalizar o Form 173, clique no botão")
         addOC_info.place(x=395, y=230)
-        addOC_after = ttk.Button(quadro, text=u'+',style='Atualizar.TButton', bootstyle="outline", command=lambda:[addOC_ex.addOC_ex()], takefocus=False)
+        x = 0
+        def clica(func,x):
+            x += 1
+            if not x > 1:
+                func
+            else: return True
+        addOC_after = ttk.Button(quadro, text=u'+',style='Atualizar.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(), x)], takefocus=False)
         addOC_after.place(x=615, y=248)
         
         atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db), takefocus=False)

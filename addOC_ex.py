@@ -4,16 +4,27 @@ import tkinter as tk
 from DBfuncs import conteudoForm173_pendente
 from OC_ex import OC_ex
 
+
 class addOC_ex(Toplevel):
+    janela_aberta = False
     def __init__(self):
-        super().__init__()
-        self.geometry("640x300")
-        self.configure(background='#f0f5ff')
-        self.iconbitmap(r'logo.ico')
-        self.resizable(0,0)
-        self.title('Adicionar OC após o Form 173')
-        self.screen_width = self.winfo_screenheight()
-        self.create_wigets()
+        if not addOC_ex.janela_aberta:
+            addOC_ex.janela_aberta = True
+            super().__init__()
+            self.protocol("WM_DELETE_WINDOW", lambda: self.on_closing())
+            self.geometry("640x300")
+            self.configure(background='#f0f5ff')
+            self.iconbitmap(r'logo.ico')
+            self.resizable(0,0)
+            self.title('Adicionar OC após o Form 173')
+            self.screen_width = self.winfo_screenheight()
+            self.create_wigets()
+        else: messagebox.showerror(message="Janela já aberta!", icon='warning')
+        
+        
+    def on_closing(self):
+        addOC_ex.janela_aberta = False
+        self.destroy()
         
     def create_wigets(self):
         teste = Label(self, text="  ")
@@ -53,7 +64,9 @@ class addOC_ex(Toplevel):
             info_linha = self.tree.item(id_linha)['values']
             # Armazena as informações na variável linha_selecionada
             linha_selecionada['Id_form173'] = info_linha[0]
-            OC_ex(info_linha[0])
+            self.on_closing()
+            if not addOC_ex.janela_aberta:
+                OC_ex(info_linha[0])
             # Exibe as informações na tela
             self.destroy()
             print(linha_selecionada)
