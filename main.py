@@ -8,6 +8,7 @@ from ttkbootstrap import Style as BsStyle
 from ttkbootstrap.constants import *
 from ttkbootstrap.widgets import Frame
 import tkinter.font as font
+from enviar_email import Interface
 
 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -125,7 +126,8 @@ class Main(Tk):
         
         quadro = Frame(self, width= 683, height=320, style='TFrame')
         quadro.place(x=0, y=80)
-        processo = ttk.Button(quadro, text="Email Processo", style='Processo.TButton').place(x = 595, y=280)
+        processo = ttk.Button(quadro, text="Email Processo", style='Processo.TButton', command=lambda:[Interface()])
+        processo.place(x = 595, y=280)
         
         
         img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')

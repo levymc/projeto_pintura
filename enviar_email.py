@@ -53,10 +53,10 @@ class Email():
             messagebox.showinfo(message="Email Enviado!")
 
 
-class Interface(Tk):
+class Interface(Toplevel):
     def __init__(self):
         super().__init__()
-        self.geometry("600x400")
+        self.geometry("580x400")
         self.resizable(0,0)
         self.title('TECPLAS - Pintura (main)')
         self.iconbitmap(r'logo.ico')
@@ -109,12 +109,10 @@ class Interface(Tk):
             else:
                 Email(msg, assunto).enviar()
                 
-        
-
         self.enviar = ttk.Button(self.frame,width=10, text="Enviar", style='Atualizar.TButton', command=lambda:[conferindo(self.msg.get("1.0", "end-1c"), self.assunto.get())])
         self.enviar.grid(row=3, column=1, padx=5, pady=(10,0), sticky='e')
+        self.mainloop()
 
-if __name__ == "__main__":
-    app = Interface()
-    app.mainloop()
-
+# if __name__ == "__main__":
+#     app = Interface()
+#     app.mainloop()
