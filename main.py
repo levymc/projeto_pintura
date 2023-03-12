@@ -55,7 +55,6 @@ class Main(Tk):
     def __init__(self):
         super().__init__()
         self.geometry("683x384")
-        # self.configure(background='#041536')
         self.resizable(0,0)
         self.hoje = datetime.today().strftime('%d-%m-%Y')
         self.title('TECPLAS - Pintura (main)')
@@ -98,7 +97,9 @@ class Main(Tk):
                              padding=2,
                              font=('Helvetica', 7),
                              foreground='red',
-                             background='white')
+                             background='white',
+                             border=0.5,
+                             )
         self.style.map('Processo.TButton',
                        background=[('active', '#d4d2d2')])
         
@@ -124,7 +125,7 @@ class Main(Tk):
         
         quadro = Frame(self, width= 683, height=320, style='TFrame')
         quadro.place(x=0, y=80)
-        processo = ttk.Button(quadro, text="Acionar o Processo", style='Processo.TButton').place(x = 580, y=280)
+        processo = ttk.Button(quadro, text="Email Processo", style='Processo.TButton').place(x = 595, y=280)
         
         
         img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')
