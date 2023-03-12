@@ -94,6 +94,13 @@ class Main(Tk):
         self.style.configure('infoOC.TLabel', 
                             font=('Helvetica', 9, 'bold'),
                             )
+        self.style.configure('Processo.TButton',
+                             padding=2,
+                             font=('Helvetica', 7),
+                             foreground='red',
+                             background='white')
+        self.style.map('Processo.TButton',
+                       background=[('active', '#d4d2d2')])
         
         
         self.create_wigets()
@@ -114,8 +121,10 @@ class Main(Tk):
         titulo = ttk.Label(quadro0,  font='Impact 35 bold', text=f"Processos Pintura", background='#041536', foreground='#f0f5ff')
         titulo.place(x =160 , y= 8)
         
+        
         quadro = Frame(self, width= 683, height=320, style='TFrame')
         quadro.place(x=0, y=80)
+        processo = ttk.Button(quadro, text="Acionar o Processo", style='Processo.TButton').place(x = 580, y=280)
         
         
         img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')
@@ -162,9 +171,9 @@ class Main(Tk):
             pend_.mainloop()
 
         frameOC = ttk.Frame(quadro, width=270, height=60, style='FrameOC.TFrame')
-        frameOC.place(x=380, y=220)
+        frameOC.place(x=380, y=200)
         addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário adicionar OC após \n finalizar o Form 173, clique no botão")
-        addOC_info.place(x=395, y=230)
+        addOC_info.place(x=395, y=210)
         x = 0
         def clica(func,x):
             x += 1
@@ -172,19 +181,19 @@ class Main(Tk):
                 func
             else: return True
         addOC_after = ttk.Button(quadro, text=u'+',style='Atualizar.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(), x)], takefocus=False)
-        addOC_after.place(x=615, y=248)
+        addOC_after.place(x=615, y=228)
         
         atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db), takefocus=False)
-        atualizar_bt.place(x=600, y=176)
+        atualizar_bt.place(x=600, y=156)
         solicit = ttk.Label(quadro, text=f"Solicitações {self.hoje}: ",foreground='#041536', background='#f0f5ff',  font='Trebuchet 10 bold')
-        solicit.place(x=450,y=30)
+        solicit.place(x=460,y=15)
         solicit_scroll = Scrollbar(quadro, orient='vertical', background='white')
-        solicit_scroll.place(x=400, y=60, height=90)
+        solicit_scroll.place(x=400, y=40, height=90)
         legenda = ttk.Label(quadro, text="Id | Solicitante - Cód. | Formulário | CEMB | Quantidade | Pintor",foreground='#041536', background='#f0f5ff',  font='Trebuchet 6 bold')
-        legenda.place(x=420, y= 158)
+        legenda.place(x=420, y= 138)
 
         mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', background='white', selectmode=SINGLE)
-        mylistbox.place(x=420,y=59)
+        mylistbox.place(x=420,y=39)
 
         def popular(db):
             banco = sqlite3.connect(db)
