@@ -1,41 +1,38 @@
 import tkinter as tk
 from tkinter import ttk
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
-root = tk.Tk()
+# Configurações do servidor SMTP
+smtp_server = 'smtp.gmail.com'
+smtp_port = 587
 
-# Cria o widget Treeview
-tree = ttk.Treeview(root, columns=('Nome', 'Idade'))
+# Informações do remetente
+email_remetente = 'levytecplas@gmail.com'
+senha_remetente = 'rcgbcfjidtznpcku'
 
-# Adiciona as colunas à tabela
-tree.heading('#0', text='ID')
-tree.heading('#1', text='Nome')
-tree.heading('#2', text='Idade')
+# Informações do destinatário
+email_destinatario = 'levymcruz@gmail.com'
 
-# Adiciona algumas linhas de exemplo
-tree.insert('', 'end', text='1', values=('João', '30'))
-tree.insert('', 'end', text='2', values=('Maria', '25'))
-tree.insert('', 'end', text='3', values=('Pedro', '40'))
+# Cria uma mensagem
+msg = MIMEMultipart()
+msg['From'] = email_remetente
+msg['To'] = email_destinatario
+msg['Subject'] = 'Assunto do e-mail'
 
-# Cria uma variável para armazenar as informações da linha selecionada
-linha_selecionada = {}
+# Adiciona o corpo da mensagem
+corpo_mensagem = 'Olá, este é um exemplo de e-mail enviado através de Python!'
+msg.attach(MIMEText(corpo_mensagem))
 
-# Define uma função para o botão que carrega as informações da linha selecionada
-def carrega_linha_selecionada():
-    # Obtém o ID da linha selecionada
-    id_linha = tree.selection()[0]
-    # Obtém as informações da linha selecionada
-    info_linha = tree.item(id_linha)['values']
-    # Armazena as informações na variável linha_selecionada
-    linha_selecionada['nome'] = info_linha[0]
-    linha_selecionada['idade'] = info_linha[1]
-    # Exibe as informações na tela
-    print(linha_selecionada)
+# Conecta-se ao servidor SMTP
+smtp = smtplib.SMTP(smtp_server, smtp_port)
+smtp.starttls()
+smtp.login(email_remetente, senha_remetente)
 
-# Cria o botão para carregar as informações da linha selecionada
-btn_carregar = tk.Button(root, text='Carregar linha selecionada', command=carrega_linha_selecionada)
-btn_carregar.pack()
+# Envia o e-mail
+smtp.sendmail(email_remetente, email_destinatario, msg.as_string())
 
-# Exibe a tabela na tela
-tree.pack()
+# Encerra a conexão com o servidor SMTP
+smtp.quit()
 
-root.mainloop()
