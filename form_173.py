@@ -31,20 +31,28 @@ class App(Tk):
         self.style.configure('Principal.TFrame',
                              background='#f0f5ff',
                              )            
-        self.style.map('Custom.TButton', background=[('active', '#cbd8f2')], 
+        self.style.map('Custom.TButton', background=[('active', '#d9fae1')], 
           foreground=[('active', 'black')],
           bordercolor=[('active', '#384a6e')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
-        self.style.configure('Custom.TButton', background='#294c91',  #.configure serve para configurações de estilo no geral
-                font=('Helvetica', 9, 'bold'),
+        self.style.configure('Custom.TButton', background='#248239',  #.configure serve para configurações de estilo no geral
+                font=('Helvetica', 10, 'bold'),
                 foreground='white',
                 borderwidth=5,
                 relief='solid',
+                border_radius=10,
                 bordercolor='#cbd8f2')   
         self.style.map('Limpar.TButton', background=[('active', '#b3c9f5')], 
           foreground=[('active', 'white')])  
         self.style.configure('Limpar.TButton',
                             background='#cbd8f2',
                             foreground='black',
+                            font=('Helvetica', 7, 'bold'),
+                             )
+        self.style.map('Deletar.TButton', background=[('active', '#f2bfbf')], 
+          foreground=[('active', '#380101')])  
+        self.style.configure('Deletar.TButton',
+                            background='#a61919',
+                            foreground='#f2bfbf',
                             font=('Helvetica', 7, 'bold'),
                              )
         
@@ -113,7 +121,7 @@ class App(Tk):
         
         botao = ttk.Button(q1, text="Enviar Solicitação", style='Custom.TButton')
         botao.bind('<Button-1>', self.insert)
-        botao.place(x=310, y=370,height=50)
+        botao.place(x=295, y=370,height=40)
         limpar = ttk.Button(q1, text="Limpar Dados", command=self.limpar, style='Limpar.TButton')
         limpar.place(x=35, y=360,height=30)
 
@@ -185,8 +193,8 @@ class App(Tk):
         self.mylistbox.place(x=35,y=150, width=190, height=250)
         infoOC = ttk.Label(quadro, text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#041536", font='Helvetica 9 bold')
         infoOC.place(x=33, y=405)
-        deletarOC = Button(quadro, font=self.fonte_fa, text=u"\uf1f8", anchor='center', command=deletar_oc,  bg='red', fg='black')
-        deletarOC.place(x=200, y=405)
+        deletarOC = ttk.Button(quadro, style='Deletar.TButton', text=u"Deletar", command=deletar_oc)
+        deletarOC.place(x=180, y=405)
 
         self.mainloop()
 
