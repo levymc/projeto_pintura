@@ -127,7 +127,7 @@ class Main(Tk):
         quadro = Frame(self, width= 683, height=320, style='TFrame')
         quadro.place(x=0, y=80)
         processo = ttk.Button(quadro, text="Email Processo", style='Processo.TButton', command=lambda:[Interface()])
-        processo.place(x = 595, y=280)
+        processo.place(x = 595, y=274)
         
         
         img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')

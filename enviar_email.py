@@ -20,7 +20,7 @@ class Email():
         self.senha_remetente = 'rcgbcfjidtznpcku'
 
         # Informações do destinatário
-        self.email_destinatario = 'levymcruz@gmail.com'
+        self.email_destinatario = 'processo5@tecplas.com.br'
         
         self.msg = msg
         self.assunto = assunto
