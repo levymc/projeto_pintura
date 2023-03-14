@@ -2,6 +2,7 @@ import sqlite3
 from tkinter import messagebox
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.ext.hybrid import hybrid_property
 
 engine = create_engine('sqlite:///pintura.db', echo=True)
 Session = sessionmaker(bind=engine)
@@ -36,9 +37,85 @@ class Form_173(Base):
     def conteudoEspecifico(coluna, id_form173):
         conteudoEspecifico = [row[0] for row in session.query(getattr(Form_173, coluna)).filter(Form_173.Id_form_173 == id_form173).all()]
         return conteudoEspecifico
+
+class DBForm_40(Base):
+    __tablename__= 'form_40'
+    
+    Id_form_40 = Column(Integer, primary_key=True)
+    mescla = Column(String)
+    data_prep = Column(String)
+    temperatura = Column(Integer)
+    umidade = Column(Integer)
+    cod_mp = Column(String)
+    lotemp = Column(String)
+    shelf_life = Column(String)
+    ini_agitador = Column(String)
+    ter_agitador = Column(String)
+    ini_diluentes = Column(String)
+    ter_diluentes = Column(String)
+    ini_inducao = Column(String)
+    term_inducao = Column(String)
+    viscosimetro = Column(String)
+    viscosidade = Column(Integer)
+    proporcao = Column(String)
+    ini_adequacao = Column(String)
+    term_adequacao = Column(String)
+    pot_life = Column(String)
+    responsavel = Column(String)
+    Id_form173 = Column(Integer)
+    print = Column(Integer)
+    excessao = Column(Integer)
+    
+    def __repr__(self):
+        return f"""
+                id: {self.Id_form_40}  -  Mescla: {self.mescla}, Data Preparação: {self.data_prep}, Temperatura: {self.temperatura}, 
+                Umidade: {self.umidade}, CEMB: {self.cod_mp}, Lote: {self.lotemp}, Validade: {self.shelf_life}, Início Agitador: {self.ini_agitador}, 
+                Término Agitador: {self.ter_agitador}, Início Diluentes: {self.ini_diluentes}, Término Diluentes: {self.ter_diluentes}, 
+                Início Indução: {self.ini_inducao}, Término Indução: {self.term_inducao}, Viscosímetro: {self.viscosimetro}, Viscosidade: {self.viscosidade},
+                Proporção: {self.proporcao}, Início Adequação: {self.ini_adequacao}, Término Adequação: {self.term_adequacao}, Pot Life: {self.pot_life}, 
+                Responsável: {self.responsavel}, Id_form173: {self.Id_form173}, Imprimiu?: {self.print}, Excessão?: {self.excessao}
+                """
+    
+    @hybrid_property
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    
+    @classmethod
+    def consulta(cls):
+        conteudo  = [operador.as_dict for operador in session.query(cls).all()]
+        return conteudo
+    
+    def obter_ultima_linha():
+        ultima_linha = session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first()
+        return ultima_linha
+
+class Operadores(Base):
+    __tablename__= 'operadores'
+    
+    codigo = Column(Integer, primary_key=True)
+    nome = Column(String)
+    usuario = Column(String)
+    senha = Column(String)
+    priority = Column(String)    
+    
+    def __repr__(self):
+        return f"Código: {self.codigo}, Nome: {self.nome}, Usuário: {self.usuario}, Prioridade: {self.priority}"
+    
+    @hybrid_property
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    
+    @classmethod
+    def consulta(cls):
+        conteudo  = [operador.as_dict for operador in session.query(cls).all()]
+        return conteudo
+    
+    
+# print(Operadores.consulta())
+# print(DBForm_40.consulta())
    
 class Relacao_Tintas(Base):
-    __tablename__='relacao_tintas'
+    __tablename__ = 'relacao_tintas'
     
     cemb = Column(Integer, primary_key=True)
     descricao = Column(String)

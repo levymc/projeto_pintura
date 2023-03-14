@@ -1,4 +1,3 @@
-from DBfuncs import Relacao_Tintas
+from DBfuncs import Relacao_Tintas, Form_40
 
-opcoes = Relacao_Tintas.consulta(int(91721))
-print('opcoes:::', opcoes)
+print(Form_40.obter_ultima_linha().mescla)
