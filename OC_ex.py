@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox, ttk
 import tkinter as tk
 from DBfuncs import conteudoForm173_pendente
+from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
 
@@ -21,6 +22,39 @@ class OC_ex(Toplevel):
         self.ocs = []
         self.ocsAux = {}
         self.id_form173 = id_form173
+        
+        self.style = BsStyle(theme='flatly')
+        self.style.configure('FundoOC.TFrame', background='#203C75')
+        self.style.configure('Principal.TFrame',
+                             background='#f0f5ff',
+                             )            
+        self.style.map('Enviar.TButton', background=[('active', '#a35c33')], 
+          foreground=[('active', 'white')],
+          bordercolor=[('active', '#384a6e')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
+        self.style.configure('Enviar.TButton', background='#f75c02',  #.configure serve para configurações de estilo no geral
+                font=('Roboto', 9, 'bold'),
+                foreground='white',
+                borderwidth=0.3,
+                relief='solid',
+                border_radius=10,
+                bordercolor='#cbd8f2')   
+        self.style.map('Limpar.TButton', background=[('active', '#b3c9f5')], 
+          foreground=[('active', 'white')])  
+        self.style.configure('Limpar.TButton',
+                            background='#cbd8f2',
+                            foreground='black',
+                            borderwidth=0.1,
+                            font=('Roboto', 7, 'bold'),
+                             )
+        self.style.map('Deletar.TButton', background=[('active', '#f2bfbf')], 
+          foreground=[('active', '#380101')])  
+        self.style.configure('Deletar.TButton',
+                            background='#a61919',
+                            foreground='#f2bfbf',
+                            borderwidth=0.3,
+                            font=('Roboto', 7, 'bold'),
+                             )
+        
         self.create_wigets()
         
     def validate_entry_text(self, text):
@@ -30,31 +64,34 @@ class OC_ex(Toplevel):
             return False
         
     def create_wigets(self):
-        print(self.id_form173)
-        add_oc = Label(self, text=f"OC: ", foreground='white', background="#041536", font='Helvetica 9 bold')
-        add_oc.place(x=10, y=55)
-        qnt = Label(self, text="Qnt.: ", foreground='white', background="#041536", font='Helvetica 9 bold')
-        qnt.place(x=186, y=55)
-        self.oc_campo = Entry(self, highlightthickness=1, validate='key')
+        quadro = ttk.Frame(self, width = 255, height = 460, style='FundoOC.TFrame')#,bg="#041536"
+        quadro.pack(side=RIGHT)
+        
+        add_oc = ttk.Label(quadro, text=f"OC: ", foreground='#f0f5ff', background="#203C75", font='Roboto 9 bold')
+        add_oc.place(x=10, y=60)
+        qnt = ttk.Label(quadro, text="Qnt.: ", foreground='#f0f5ff', background="#203C75", font='Roboto 9 bold')
+        qnt.place(x=170, y=60)
+        self.oc_campo = ttk.Entry(quadro, validate='key')
         validate_cmd = (self.oc_campo.register(self.validate_entry_text), '%P')
         self.oc_campo.config(validate='key', validatecommand=validate_cmd)
-        self.oc_campo.place(x=55, y=55)
-        self.qnt_campo = Entry(self, highlightthickness=1)
+        self.oc_campo.place(x=45, y=55, width=120)
+        self.qnt_campo = ttk.Entry(quadro)
         validate_qntOC = (self.qnt_campo.register(self.validate_entry_text), '%P')
         self.qnt_campo.config(validate='key', validatecommand=validate_qntOC)
-        self.qnt_campo.place(x=220, y=55, width=20)    
-        buttonAddOC = Button (self, font='Helvetica 8 bold', text="Adicionar OC", anchor='center', command=self.campo_oc,  bg='#99d199')
-        buttonAddOC.place(y=90, x=160, width=80, height=22)
+        self.qnt_campo.place(x=204, y=55, width=30)    
+        buttonAddOC = ttk.Button (quadro, text="Adicionar OC", command=lambda:[self.campo_oc()], style='Limpar.TButton')
+        buttonAddOC.place(y=100, x=150, width=84, height=25)
 
-        y = Label(self, text = "Adicionar OC: ",foreground='white', background="#041536", font='Impact 15')
-        y.place(x=30, y=10)
-        
-        self.mylistbox=Listbox(self,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
-        self.mylistbox.place(x=35,y=150, width=190, height=250)
-        self.infoOC = Label(self, text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#041536", font='Helvetica 9 bold')
-        self.infoOC.place(x=33, y=405)
-        deletarOC = Button(self, font=self.fonte_fa, text=u"\uf1f8", anchor='center', command=self.deletar_oc,  bg='red', fg='black')
-        deletarOC.place(x=200, y=405)
+        y = ttk.Label(quadro, text = "OC's utilizadas no lote: ",foreground='#f0f5ff', background="#203C75", font='Impact 14')
+        y.place(x=40, y=10)
+
+        self.mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
+        self.mylistbox.place(x=42,y=150, width=190, height=250)
+        infoOC = ttk.Label(quadro, text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#203C75", font='Roboto 9 bold')
+        infoOC.place(x=40, y=405)
+        deletarOC = ttk.Button(quadro, style='Deletar.TButton', text=u"Deletar", command=lambda:[self.deletar_oc()])
+        deletarOC.place(x=181, y=405)
+
         OC_ex.mainloop(self)
     
     def atualizar_contador(self):
@@ -95,8 +132,6 @@ class OC_ex(Toplevel):
         self.atualizar_contador()
     
     
-    
 # if __name__ == "__main__":
-#     app = addOC_ex()
+#     app = OC_ex(1)
 #     app.mainloop()
-

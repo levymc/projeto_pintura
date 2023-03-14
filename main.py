@@ -80,9 +80,10 @@ class Main(Tk):
                        background=[('active', '#c44c2b'), ('pressed', 'white')],
                        )
         self.style.configure('Atualizar.TButton', 
-                            font=('Roboto', 8, 'bold'),
+                            font=('Roboto', 10, 'bold'),
                             background='#f26c46',
-                            borderwidth=0)
+                            borderwidth=0.1,
+                            highlightthickness=0.5)
         self.style.configure('Frame1.TFrame', background='#041536')
         self.style.configure('TFrame', background='#f0f5ff')
         self.style.configure('FrameOC.TFrame', borderwidth=5,
@@ -175,7 +176,7 @@ class Main(Tk):
 
         frameOC = ttk.Frame(quadro, width=270, height=60, style='FrameOC.TFrame')
         frameOC.place(x=380, y=200)
-        addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário adicionar OC após \n finalizar o Form 173, clique no botão")
+        addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário adicionar OC após \n finalizar o Form 173, clique ao lado")
         addOC_info.place(x=395, y=210)
         x = 0
         def clica(func,x):
@@ -183,8 +184,8 @@ class Main(Tk):
             if not x > 1:
                 func
             else: return True
-        addOC_after = ttk.Button(quadro, text=u'+',style='Atualizar.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(), x)], takefocus=False)
-        addOC_after.place(x=615, y=228)
+        addOC_after = ttk.Button(quadro, padding=(5,1), text=u'+',style='Atualizar.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(), x)], takefocus=False)
+        addOC_after.place(x=615, y=232)
         
         atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db), takefocus=False)
         atualizar_bt.place(x=600, y=156)
