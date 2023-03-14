@@ -47,7 +47,7 @@ class Pendencias(Toplevel):
         
         for i in range(valor):
             id_form173,solicitantes,formulario,data,cemb,qnt,unidade,p,pintor = pendencias[i]
-            print(formulario)
+            # print(formulario)
             b = ttk.Button(self, text=f"Form: {formulario}", style='Custom.TButton', command=lambda i=i:abrir(i))
             b.place(x=x, y=y, height=40)
             if i<=3:

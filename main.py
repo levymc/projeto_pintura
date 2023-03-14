@@ -100,7 +100,6 @@ class Main(Tk):
                 cursor = banco.cursor()
                 cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={x[0]}")
                 vetor_inform = cursor.fetchall()
-                print(vetor_inform[0])
                 id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = vetor_inform[0]
                 cursor.close()
                 banco.close()
