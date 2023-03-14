@@ -76,6 +76,17 @@ class Main(Tk):
                 foreground='white',
                 borderwidth=5,
                 relief='ridge',)
+        self.style.map('Mescla.TButton', background=[('active', '#3e3e3e')], 
+          foreground=[('active', 'white')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
+        self.style.configure('Mescla.TButton', background='#384a6e',  #.configure serve para configurações de estilo no geral
+                highlightbackground='#4CAF50', 
+                highlightcolor='#4CAF50', 
+                highlightthickness=1,
+                padding=3,
+                font=('Helvetica', 12, 'bold'),
+                foreground='white',
+                borderwidth=5,
+                relief='ridge',)
         self.style.map('Add.TButton', 
                        background=[('active', '#c44c2b'), ('pressed', 'white')],
                        )

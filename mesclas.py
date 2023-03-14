@@ -47,8 +47,8 @@ class Mesclas(Toplevel):
         
         for i in range(valor):
             mescla_number = tudo[i][1]
-            b = ttk.Button(self, text=f"Mescla: {mescla_number}", style='Custom.TButton', command=lambda i=i:abrir(i))
-            b.place(x=x, y=y, height=40, width=135)
+            b = ttk.Button(self, text=f"Mescla: {mescla_number}", style='Mescla.TButton', command=lambda i=i:abrir(i))
+            b.place(x=x, y=y)
             if i<=3:
                 x+=180
                 y=100
@@ -85,18 +85,18 @@ class Mesclas(Toplevel):
                             
                             # O FOCO AQUI É
                             
-                            print(self.path_gerado)
-                            print("AAAA", os.listdir(self.path_gerado))
-                            print(3)
-                            
-                            if os.listdir(self.path_gerado) == []:
-                                new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
-                            else:
-                                for nome_arquivo in os.listdir(self.path_gerado):
-                                    if re.search(form_173_tudo[0][4], nome_arquivo):
-                                        contador += 1
-                                        new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
-                                    else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                            if not os.path.exists(self.path_gerado):
+                                os.makedirs(self.path_gerado)
+                                print("CRIANDO O DIR: ",self.path_gerado)
+                                print(3)
+                                if os.listdir(self.path_gerado) == []:
+                                    new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                                else:
+                                    for nome_arquivo in os.listdir(self.path_gerado):
+                                        if re.search(form_173_tudo[0][4], nome_arquivo):
+                                            contador += 1
+                                            new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                                        else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                     
                             
                             print("mescla: ", mescla_n)
