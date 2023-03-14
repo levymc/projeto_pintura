@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 import hashlib, json, sqlite3, form_40, login_40
 
 def pend(db):
@@ -38,9 +38,9 @@ class Pendencias(Toplevel):
     def create_wigets(self):
         pendencias = pend(self.db)
         valor = len(pendencias)
-        q = Frame(self, width = self.screen_width, height = 60, background='#041536')
+        q = ttk.Frame(self, width = self.screen_width, height = 60, style='Frame1.TFrame')
         q.place(x=0)
-        self.label_ = Label(self,  text=f'{valor}  Solicitações Pendentes', font='Impact 24 ', bg='#041536', foreground='white')
+        self.label_ = ttk.Label(q,  text=f'{valor}  Solicitações Pendentes', font='Impact 24 ', background='#041536', foreground='white')
         self.label_.place(x=170, y=14)
         x=20
         y=100
@@ -48,8 +48,8 @@ class Pendencias(Toplevel):
         for i in range(valor):
             id_form173,solicitantes,formulario,data,cemb,qnt,unidade,p,pintor = pendencias[i]
             print(formulario)
-            b = Button(self, text=f"Formulário: {formulario}", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda i=i:abrir(i))
-            b.place(x=x, y=y, width=110, height=40)
+            b = ttk.Button(self, text=f"Form: {formulario}", style='Custom.TButton', command=lambda i=i:abrir(i))
+            b.place(x=x, y=y, height=40)
             if i<=3:
                 x+=160
                 y=100
@@ -102,12 +102,12 @@ class Pendencias(Toplevel):
                     quantidades = Label(pend_2, text = f"{str(qnt)+unidade}", bg='white', font='Trebuchet 16 bold')
                     quantidades.place(x=300, y=220)
 
-                    form_40_button = Button(pend_2, text='Formulário 40', border=5,  font='Trebuchet 14 bold', bg='#c3cdde', activebackground='#b4b5b8', command=lambda:login_40.Login(id_form173, self.db))
+                    form_40_button = ttk.Button(pend_2, text='Formulário 40', style='Custom.TButton', command=lambda:login_40.Login(id_form173, self.db))
                     form_40_button.place(x=700, y=225)
 
                     finalizar_message = Label(pend_2, text='<-- Ao terminar de enviar o Formulário 40, finalize esta pendência!!!', fg='#940000',  font='Trebuchet 10 bold')
                     finalizar_message.place(x=75, y=265)
-                    finalizar_button = Button(pend_2, text='Finalizar', border=5,  font='Trebuchet 8 bold', foreground='black', bg='#f26f6f', activebackground='#b4b5b8', command=lambda:self.finalizar(id_form173, pend_2))
+                    finalizar_button = ttk.Button(pend_2, text='Finalizar', style='FinalizarForm40.TButton', command=lambda:self.finalizar(id_form173, pend_2))
                     finalizar_button.place(x=10, y=260)
                     pend_2.mainloop()
 

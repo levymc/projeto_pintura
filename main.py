@@ -113,21 +113,30 @@ class Main(Tk):
                             relief='solid',
                              )
         self.style.configure('infoOC.TLabel', 
-                            font=('Helvetica', 9, 'bold'),
+                            font=('Roboto', 9, 'bold'),
                             )
         self.style.configure('TituloMenor.TLabel',
                              font=('Roboto', 12, 'bold'),
                              )
         self.style.configure('Processo.TButton',
                              padding=2,
-                             font=('Helvetica', 7),
+                             font=('Roboto', 7),
                              foreground='red',
                              background='white',
                              border=0.5,
                              )
-        self.style.map('Processo.TButton',
-                       background=[('active', '#d4d2d2')])
-        
+        self.style.map('FinalizarForm40.TButton',
+                       background=[('active', '#750701')],
+                       foreground=[('active', '#f7dedc')])
+        self.style.configure('FinalizarForm40.TButton',
+                             font=('Roboto', 8, 'bold'),
+                             foreground='#750701',
+                             background='#f7dedc'
+                             )
+        self.style.configure('Form40.TEntry',
+                             font=('Roboto', 6),
+                             padding=0
+                             )
         
         self.create_wigets()
 
@@ -142,7 +151,7 @@ class Main(Tk):
             banco.close()
         except:pass
         
-        quadro0 = Frame(self, width= 683, height=80, style='Frame1.TFrame')
+        quadro0 = ttk.Frame(self, width= 683, height=80, style='Frame1.TFrame')
         quadro0.place(x=0, y=0)
         titulo = ttk.Label(quadro0,  font='Impact 35 bold', text=f"Processos Pintura", background='#041536', foreground='#f0f5ff')
         titulo.place(x =160 , y= 8)
