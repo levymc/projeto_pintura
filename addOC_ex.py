@@ -10,7 +10,7 @@ from OC_ex import OC_ex
 
 class addOC_ex(Toplevel):
     janela_aberta = False
-    def __init__(self):
+    def __init__(self, db):
         if not addOC_ex.janela_aberta:
             addOC_ex.janela_aberta = True
             super().__init__()
@@ -21,6 +21,7 @@ class addOC_ex(Toplevel):
             self.resizable(0,0)
             self.title('Adicionar OC após o Form 173')
             self.screen_width = self.winfo_screenheight()
+            self.db = db
             self.create_wigets()
         else: messagebox.showerror(message="Janela já aberta!", icon='warning')
         
@@ -52,7 +53,7 @@ class addOC_ex(Toplevel):
         self.tree.heading('#6', text='Quantidade')
         
         #Adicionando linhas na tabela
-        for i in conteudoForm173_pendente():
+        for i in conteudoForm173_pendente(self.db):
             self.tree.insert('', 'end', text='1', values=(i[0], i[2], i[1], i[3], i[4], str(i[5])+i[6]))
         self.tree.pack()
         
@@ -81,7 +82,7 @@ class addOC_ex(Toplevel):
         print(self.linha_selecionada)
         self.on_closing()
         if not addOC_ex.janela_aberta:
-            OC_ex(self.linha_selecionada)
+            OC_ex(self.linha_selecionada, self.db)
         
 # if __name__ == "__main__":
 #     app = addOC_ex()

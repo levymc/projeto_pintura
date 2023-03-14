@@ -207,7 +207,7 @@ class Main(Tk):
             if not x > 1:
                 func
             else: return True
-        addOC_after = ttk.Button(quadro, padding=(5,1), text=u'+',style='Add.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(), x)], takefocus=False)
+        addOC_after = ttk.Button(quadro, padding=(5,1), text=u'+',style='Add.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(db), x)], takefocus=False)
         addOC_after.place(x=615, y=232)
         
         atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db), takefocus=False, style='Att.TButton')

@@ -1,9 +1,7 @@
 import sqlite3
 from tkinter import messagebox
 
-db = r"pintura.db"
-
-def conteudoForm173_pendente():
+def conteudoForm173_pendente(db):
     banco = sqlite3.connect(db)
     cursor = banco.cursor()
     conteudo = cursor.execute(f"SELECT * FROM form_173 WHERE pendencia=1").fetchall()
@@ -11,7 +9,7 @@ def conteudoForm173_pendente():
     banco.close()
     return conteudo
 
-def insertOC(id_form173, ocs):
+def insertOC(id_form173, ocs, db):
     banco = sqlite3.connect(db)
     cursor = banco.cursor()
     print("AQUIII", ocs)

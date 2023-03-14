@@ -8,7 +8,7 @@ import re
 
 
 class OC_ex(Toplevel):
-    def __init__(self, dados):
+    def __init__(self, dados, db):
         super().__init__()
         self.geometry("250x480")
         self.configure(background='#041536')
@@ -22,6 +22,7 @@ class OC_ex(Toplevel):
         self.ocsAux = {}
         self.id_form173 = dados['Id_form173']
         self.dados = dados
+        self.db = db
         print("ID: ", self.id_form173)
         
         self.style = BsStyle(theme='flatly')
@@ -139,7 +140,7 @@ class OC_ex(Toplevel):
         else: 
             x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")
             if x == "yes":
-                insertOC(self.id_form173, self.ocs)
+                insertOC(self.id_form173, self.ocs, self.db)
                 messagebox.showinfo(message="Informações enviadas!!")
                 self.ocs = []
                 
