@@ -305,6 +305,7 @@ class Form_40(Toplevel):
                                                         ter_agitador = str(ter_agitador)[:-3]
                                                         cursor.execute(f"UPDATE form_40 SET ter_agitador='{str(ter_agitador)}' WHERE mescla='{dados[0]}'")
                                                         banco.commit()
+                                                messagebox.showinfo(message="Formulário 40 enviado !!")
                                                 self.destroy()
                                                 cursor.close()
                                                 banco.close()
