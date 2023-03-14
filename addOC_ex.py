@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import messagebox, ttk
 import tkinter as tk
 from DBfuncs import conteudoForm173_pendente
+from ttkbootstrap import Style as BsStyle
+import tkinter.font as font
+import re
 from OC_ex import OC_ex
 
 
@@ -12,7 +15,7 @@ class addOC_ex(Toplevel):
             addOC_ex.janela_aberta = True
             super().__init__()
             self.protocol("WM_DELETE_WINDOW", lambda: self.on_closing())
-            self.geometry("640x300")
+            self.geometry("590x310")
             self.configure(background='#f0f5ff')
             self.iconbitmap(r'logo.ico')
             self.resizable(0,0)
@@ -27,8 +30,8 @@ class addOC_ex(Toplevel):
         self.destroy()
         
     def create_wigets(self):
-        teste = Label(self, text="  ")
-        teste.pack()
+        teste = ttk.Label(self, text="Selecione um dos formulários abaixo para adicionar OCs.", style='TituloMenor.TLabel', background='#f0f5ff')
+        teste.pack(pady=20)
         
         self.tree = ttk.Treeview(self, columns=('id_form173', 'Formulário', 'Solicitante', 'Data', 'CEMB', 'Quantidade'))
         self.tree.column('#0',width=0, minwidth=0)
@@ -54,29 +57,31 @@ class addOC_ex(Toplevel):
         self.tree.pack()
         
         # Cria uma variável para armazenar as informações da linha selecionada
-        linha_selecionada = {}
-
-        # Define uma função para o botão que carrega as informações da linha selecionada
-        def carrega_linha_selecionada():
-            # Obtém o ID da linha selecionada
-            id_linha = self.tree.selection()[0]
-            # Obtém as informações da linha selecionada
-            info_linha = self.tree.item(id_linha)['values']
-            # Armazena as informações na variável linha_selecionada
-            linha_selecionada['Id_form173'] = info_linha[0]
-            self.on_closing()
-            if not addOC_ex.janela_aberta:
-                OC_ex(info_linha[0])
-            # Exibe as informações na tela
-            self.destroy()
-            print(linha_selecionada)
+        self.linha_selecionada = {}
 
         # Cria o botão para carregar as informações da linha selecionada
-        teste2 = Label(self, text="  ")
-        teste2.pack()
-        btn_carregar = tk.Button(self, text='Carregar linha selecionada', command=carrega_linha_selecionada)
-        btn_carregar.pack()
+        btn_carregar = ttk.Button(self, text='Selecionar Formulário', command=lambda:self.carrega_linha_selecionada(), style='Att.TButton')
+        btn_carregar.pack(pady=20)
         
+    # Define uma função para o botão que carrega as informações da linha selecionada
+    def carrega_linha_selecionada(self):
+        # Obtém o ID da linha selecionada
+        id_linha = self.tree.selection()[0]
+        # Obtém as informações da linha selecionada
+        info_linha = self.tree.item(id_linha)['values']
+        # Armazena as informações na variável linha_selecionada
+        self.linha_selecionada = {
+            'formulario': info_linha[1],
+            'Id_form173': info_linha[0],
+            'solicitante': info_linha[2],
+            'data': info_linha[3],
+            'cemb': info_linha[4],
+            'qnt': info_linha[5]
+        }
+        print(self.linha_selecionada)
+        self.on_closing()
+        if not addOC_ex.janela_aberta:
+            OC_ex(self.linha_selecionada)
         
 # if __name__ == "__main__":
 #     app = addOC_ex()

@@ -1,38 +1,39 @@
 from tkinter import *
 from tkinter import messagebox, ttk
 import tkinter as tk
-from DBfuncs import conteudoForm173_pendente
+from DBfuncs import conteudoForm173_pendente, insertOC
 from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
 
 
 class OC_ex(Toplevel):
-    def __init__(self, id_form173):
+    def __init__(self, dados):
         super().__init__()
-        self.geometry("250x460")
+        self.geometry("250x480")
         self.configure(background='#041536')
         self.iconbitmap(r'logo.ico')
         self.resizable(0,0)
         self.title('Adicionar OC após o Form 173')
         self.screen_width = self.winfo_screenheight()
-        self.fonte_fa = font.Font(family="FontAwesome", size=9)
         self.numero_ocs = 0
         self.y = 50
         self.ocs = []
         self.ocsAux = {}
-        self.id_form173 = id_form173
+        self.id_form173 = dados['Id_form173']
+        self.dados = dados
+        print("ID: ", self.id_form173)
         
         self.style = BsStyle(theme='flatly')
         self.style.configure('FundoOC.TFrame', background='#203C75')
         self.style.configure('Principal.TFrame',
                              background='#f0f5ff',
                              )            
-        self.style.map('Enviar.TButton', background=[('active', '#a35c33')], 
+        self.style.map('Enviar2.TButton', background=[('active', '#a35c33')], 
           foreground=[('active', 'white')],
           bordercolor=[('active', '#384a6e')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
-        self.style.configure('Enviar.TButton', background='#f75c02',  #.configure serve para configurações de estilo no geral
-                font=('Roboto', 9, 'bold'),
+        self.style.configure('Enviar2.TButton', background='#f75c02',  #.configure serve para configurações de estilo no geral
+                font=('Roboto', 8, 'bold'),
                 foreground='white',
                 borderwidth=0.3,
                 relief='solid',
@@ -64,7 +65,7 @@ class OC_ex(Toplevel):
             return False
         
     def create_wigets(self):
-        quadro = ttk.Frame(self, width = 255, height = 460, style='FundoOC.TFrame')#,bg="#041536"
+        quadro = ttk.Frame(self, width = 255, height = 480, style='FundoOC.TFrame')#,bg="#041536"
         quadro.pack(side=RIGHT)
         
         add_oc = ttk.Label(quadro, text=f"OC: ", foreground='#f0f5ff', background="#203C75", font='Roboto 9 bold')
@@ -87,15 +88,17 @@ class OC_ex(Toplevel):
 
         self.mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
         self.mylistbox.place(x=42,y=150, width=190, height=250)
-        infoOC = ttk.Label(quadro, text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#203C75", font='Roboto 9 bold')
-        infoOC.place(x=40, y=405)
+        self.infoOC = ttk.Label(quadro, text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#203C75", font='Roboto 9 bold')
+        self.infoOC.place(x=40, y=405)
         deletarOC = ttk.Button(quadro, style='Deletar.TButton', text=u"Deletar", command=lambda:[self.deletar_oc()])
         deletarOC.place(x=181, y=405)
+        botao = ttk.Button(quadro, text="Enviar OCs", style='Enviar2.TButton', command=lambda:self.insert())
+        botao.place(x=165, y=445,height=30)
 
         OC_ex.mainloop(self)
     
     def atualizar_contador(self):
-        self.infoOC.config(text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#041536", font='Helvetica 9 bold')
+        self.infoOC.config(text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#203C75", font='Roboto 9 bold')
         
     def campo_oc(self):
         if self.oc_campo.get() == "" or self.qnt_campo.get() == "":
@@ -131,6 +134,20 @@ class OC_ex(Toplevel):
             self.mylistbox.delete(selecionado)
         self.atualizar_contador()
     
+    def insert(self): 
+        if len(self.ocs) == 0: messagebox.showinfo(message="Os campos de OC's estão vazios!")
+        else: 
+            x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")
+            if x == "yes":
+                insertOC(self.id_form173, self.ocs)
+                messagebox.showinfo(message="Informações enviadas!!")
+                self.ocs = []
+                
+                # APAGANDO OS CAMPOS APÓS O ENVIO DAS INFO..
+                self.oc_campo.delete(0, END)
+                self.qnt_campo.delete(0, END)
+                self.mylistbox.delete(0, END)
+            else: self.oc_campo.focus_set()
     
 # if __name__ == "__main__":
 #     app = OC_ex(1)

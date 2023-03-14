@@ -76,14 +76,34 @@ class Main(Tk):
                 foreground='white',
                 borderwidth=5,
                 relief='ridge',)
-        self.style.map('Atualizar.TButton', 
+        self.style.map('Add.TButton', 
                        background=[('active', '#c44c2b'), ('pressed', 'white')],
                        )
-        self.style.configure('Atualizar.TButton', 
+        self.style.configure('Add.TButton', 
                             font=('Roboto', 10, 'bold'),
                             background='#f26c46',
+                            highlightbackground='#4CAF50', 
+                            highlightcolor='#4CAF50',
                             borderwidth=0.1,
                             highlightthickness=0.5)
+        self.style.map('Att.TButton', 
+                       background=[('active', '#3e3e3e'), ('pressed', 'white')],
+                       )
+        self.style.configure('Att.TButton', 
+                            font=('Roboto', 8, 'bold'),
+                            background='#384a6e',
+                            borderwidth=0.1,
+                            highlightthickness=0.5)
+        self.style.map('Enviar.TButton', background=[('active', '#a35c33')], 
+          foreground=[('active', 'white')],
+          bordercolor=[('active', '#384a6e')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
+        self.style.configure('Enviar.TButton', background='#f75c02',  #.configure serve para configurações de estilo no geral
+                font=('Roboto', 9, 'bold'),
+                foreground='white',
+                borderwidth=0.3,
+                relief='solid',
+                border_radius=10,
+                bordercolor='#cbd8f2')   
         self.style.configure('Frame1.TFrame', background='#041536')
         self.style.configure('TFrame', background='#f0f5ff')
         self.style.configure('FrameOC.TFrame', borderwidth=5,
@@ -95,6 +115,9 @@ class Main(Tk):
         self.style.configure('infoOC.TLabel', 
                             font=('Helvetica', 9, 'bold'),
                             )
+        self.style.configure('TituloMenor.TLabel',
+                             font=('Roboto', 12, 'bold'),
+                             )
         self.style.configure('Processo.TButton',
                              padding=2,
                              font=('Helvetica', 7),
@@ -184,10 +207,10 @@ class Main(Tk):
             if not x > 1:
                 func
             else: return True
-        addOC_after = ttk.Button(quadro, padding=(5,1), text=u'+',style='Atualizar.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(), x)], takefocus=False)
+        addOC_after = ttk.Button(quadro, padding=(5,1), text=u'+',style='Add.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(), x)], takefocus=False)
         addOC_after.place(x=615, y=232)
         
-        atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db), takefocus=False)
+        atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db), takefocus=False, style='Att.TButton')
         atualizar_bt.place(x=600, y=156)
         solicit = ttk.Label(quadro, text=f"Solicitações {self.hoje}: ",foreground='#041536', background='#f0f5ff',  font='Trebuchet 10 bold')
         solicit.place(x=460,y=15)
