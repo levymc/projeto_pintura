@@ -10,7 +10,7 @@ from ttkbootstrap.widgets import Frame
 
 
 
-class App(Tk):
+class App(Toplevel):
     def __init__(self, user, db):
         super().__init__()
         self.db = db
@@ -274,7 +274,7 @@ class App(Tk):
         self.qnt_campo.delete(0, END)
         self.mylistbox.delete(0, END)
 
-if __name__ == "__main__":
-    app = App('levymc', r"pintura.db")
-    app.mainloop()
+# if __name__ == "__main__":
+#     app = App('levymc', r"pintura.db")
+#     app.mainloop()
 # App('teste')

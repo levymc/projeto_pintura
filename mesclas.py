@@ -97,12 +97,21 @@ class Mesclas(Toplevel):
                                             contador += 1
                                             new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                         else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                            else:
+                                if os.listdir(self.path_gerado) == []:
+                                    new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                                else:
+                                    for nome_arquivo in os.listdir(self.path_gerado):
+                                        if re.search(form_173_tudo[0][4], nome_arquivo):
+                                            contador += 1
+                                            new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                                        else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                     
                             
                             print("mescla: ", mescla_n)
                             print('Tamanho: ', len(ocs))
                             if len(ocs) <= 15:
-                                self.area = 'A1:K56'
+                                self.area = '$A$1:$K$56'
                                 if os.path.exists(self.path_gerado):
                                     if os.path.isfile(str(new)):
                                         contador += 1
@@ -117,7 +126,7 @@ class Mesclas(Toplevel):
                                         os.makedirs(self.path_gerado)
                                         shutil.copyfile(self.path, str(new))
                             else:
-                                self.area = 'A1:K103'
+                                self.area = '$A$1:$K$103'
                                 if os.path.exists(self.path_gerado):
                                     if os.path.isfile(str(new)):
                                         contador += 1
@@ -153,11 +162,8 @@ class Mesclas(Toplevel):
                         ws.range("J3").value = form_173_tudo[0][4]
                         ws.range("K4").value = form_173_tudo[0][8]
                         
-                        # Selecionar a área de impressão
-                        print_area = ws.range(self.area)
-
-                        # Definir a área de impressão
-                        ws.api.PageSetup.PrintArea = print_area.address
+                        # # Definir a área de impressão
+                        ws.api.PageSetup.PrintArea = self.area
                         
                         wb.save()
                         wb.close()
@@ -165,11 +171,11 @@ class Mesclas(Toplevel):
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
                         impressora = lista_impressoras[3]
                         
-                        win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
-                        win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
-                        cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
-                        banco.commit()
-                        cursor.close()
+                        # win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
+                        # win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
+                        # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
+                        # banco.commit()
+                        # cursor.close()
                         banco.close()
                         print("IMPRIMIU!!!")
                         self.destroy()
