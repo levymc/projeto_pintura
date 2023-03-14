@@ -193,7 +193,7 @@ class Form_40(Toplevel):
                 
                 self.autorizar = ttk.Button(self, text="Autorizar", style='Processo.TButton', command=lambda:[login_processo.Login(self.db, self.dados, self.id_form173)])
                 self.autorizar.place(x=10, y=205)
-                self.autorizarText = ttk.Label(self, text="Em caso de excessões, acionar o processo!", font=("Arial", 8, "bold"), background='white', fg="red")
+                self.autorizarText = ttk.Label(self, text="Em caso de excessões, acionar o processo!", font=("Arial", 8, "bold"), background='white', foreground="red")
                 self.autorizarText.place(x=70, y=205)
 
         def insert(self):

@@ -26,37 +26,6 @@ class App(Toplevel):
         self.img = ImageTk.PhotoImage(self.image)
         self.selected_option = IntVar()
         
-        self.style = BsStyle(theme='flatly')
-        self.style.configure('FundoOC.TFrame', background='#203C75')
-        self.style.configure('Principal.TFrame',
-                             background='#f0f5ff',
-                             )            
-        self.style.map('Enviar.TButton', background=[('active', '#a35c33')], 
-          foreground=[('active', 'white')],
-          bordercolor=[('active', '#384a6e')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
-        self.style.configure('Enviar.TButton', background='#f75c02',  #.configure serve para configurações de estilo no geral
-                font=('Roboto', 9, 'bold'),
-                foreground='white',
-                borderwidth=0.3,
-                relief='solid',
-                border_radius=10,
-                bordercolor='#cbd8f2')   
-        self.style.map('Limpar.TButton', background=[('active', '#b3c9f5')], 
-          foreground=[('active', 'white')])  
-        self.style.configure('Limpar.TButton',
-                            background='#cbd8f2',
-                            foreground='black',
-                            borderwidth=0.1,
-                            font=('Roboto', 7, 'bold'),
-                             )
-        self.style.map('Deletar.TButton', background=[('active', '#f2bfbf')], 
-          foreground=[('active', '#380101')])  
-        self.style.configure('Deletar.TButton',
-                            background='#a61919',
-                            foreground='#f2bfbf',
-                            borderwidth=0.3,
-                            font=('Roboto', 7, 'bold'),
-                             )
         
         try:
             banco = sqlite3.connect(self.db)

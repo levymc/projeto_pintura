@@ -61,29 +61,8 @@ class Interface(Toplevel):
         self.title('TECPLAS - Pintura (main)')
         self.iconbitmap(r'logo.ico')
         self.img = PhotoImage(file="logo.png")
-        self.style = BsStyle(theme='flatly')
         self.screen_width = self.winfo_screenheight()
         
-        self.style.configure('Titulo.TLabel',
-                             font=('Roboto', 16, 'bold'),
-                             background='#f0f5ff',
-                             foreground='#041536'
-                             )
-        self.style.configure('Principal.TFrame',
-                             background='#f0f5ff',
-                             )
-        self.style.configure('Escritos.TLabel', 
-                             font=('Roboto', 12),
-                             background='#f0f5ff',
-                             )
-        self.style.configure('Entry.TEntry',
-                             borderwidth = 0,
-                             highlightthickness = 0.5
-                             )
-        self.style.configure('Atualizar.TButton', 
-                            font=('Roboto', 10, 'bold'),
-                            background='#f26c46',
-                            borderwidth=0)
         self.create_widget()
     
     def create_widget(self):
