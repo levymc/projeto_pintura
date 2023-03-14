@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 from datetime import datetime
 import xlwings as xw
 import win32com.client as win32
@@ -33,20 +33,21 @@ class Mesclas(Toplevel):
         self.iconbitmap(r'logo.ico')
         self.resizable(0,0)
         self.title('Solicitações Pendentes')
+        self.screen_width = self.winfo_screenheight()
         self.create_wigets()
     
     def create_wigets(self):
         tudo, valor = tamanho(self.db)
-        q = Frame(self, width = 710, height = 60, background='#041536')
+        q = ttk.Frame(self, width = self.screen_width, height = 60, style='Frame1.TFrame')
         q.place(x=0)
-        self.label_ = Label(self,  text=f'{valor}  Mesclas Prontas', font='Impact 24 ', bg='#041536', foreground='white')
+        self.label_ = ttk.Label(self,  text=f'{valor}  Mesclas Prontas', font='Impact 24 ', background='#041536', foreground='white')
         self.label_.place(x=250, y=14)
         x=20
         y=100
         
         for i in range(valor):
             mescla_number = tudo[i][1]
-            b = Button(self, text=f"Mescla: {mescla_number}", border=5,  font='Trebuchet 11 bold', bg='#d1d6e0', activebackground='#b4b5b8', command=lambda i=i:abrir(i))
+            b = ttk.Button(self, text=f"Mescla: {mescla_number}", style='Custom.TButton', command=lambda i=i:abrir(i))
             b.place(x=x, y=y, height=40, width=135)
             if i<=3:
                 x+=180
@@ -183,7 +184,7 @@ class Mesclas(Toplevel):
     
     def atualizar(self):
         valor = len(pend_new.pend())
-        self.label_.config(text=f"{valor}  Solicitações Pendentes")
+        self.ttk.Label_.config(text=f"{valor}  Solicitações Pendentes")
         # print(valor)
 
     def finalizar(self,id_form173):
