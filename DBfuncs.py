@@ -15,12 +15,12 @@ def insertOC(id_form173, ocs):
     banco = sqlite3.connect(db)
     cursor = banco.cursor()
     print("AQUIII", ocs)
-    # for i in ocs:
-    #     try:
-    #         cursor.execute(f"INSERT INTO ocs (oc, quantidade,track_form173) VALUES (?,?,?)",
-    #                        ())
-    #     except Exception as e:messagebox.showerror(message=f"Erro: {e} - {type(e)}")
-    # banco.commit()
+    for i in ocs:
+        try:
+            cursor.execute(f"INSERT INTO ocs (oc, quantidade,track_form173) VALUES (?,?,?)",
+                           (i['oc'], i['qnt'], id_form173))
+        except Exception as e:messagebox.showerror(message=f"Erro: {e} - {type(e)}")
+    banco.commit()
     cursor.close()
     banco.close()
 
