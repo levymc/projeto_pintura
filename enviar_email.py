@@ -20,7 +20,7 @@ class Email():
         self.senha_remetente = 'rcgbcfjidtznpcku'
 
         # Informações do destinatário
-        self.email_destinatario = 'processo5@tecplas.com.br'
+        self.email_destinatario = ['processo5@tecplas.com.br','levymcruz@gmail.com']
         
         self.msg = msg
         self.assunto = assunto
@@ -33,7 +33,7 @@ class Email():
             # Cria uma mensagem
             msg = MIMEMultipart()
             msg['From'] = self.email_remetente
-            msg['To'] = self.email_destinatario
+            msg['To'] = ', '.join(self.email_destinatario)
             msg['Subject'] = self.assunto
 
             # Adiciona o corpo da mensagem
