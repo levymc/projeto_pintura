@@ -3,6 +3,7 @@ from tkinter import messagebox, ttk
 import hashlib, json, sqlite3, re, login_processo
 from datetime import timedelta
 from datetime import datetime
+from DBfuncs import Relacao_Tintas, Form_173
 
 def validar_horario(novo_valor):
     """Função de validação para aceitar apenas horários no formato HH:MM"""
@@ -17,22 +18,26 @@ def validar_horario(novo_valor):
 def opcoesViscosimetros(db, id_form173):
         opcoesViscosimetros = []
         try:
-            banco = sqlite3.connect(db)
-            cursor = banco.cursor()
-            cemb_tinta = cursor.execute(f"SELECT cemb FROM form_173 WHERE Id_form_173 = {id_form173}").fetchall()[0][0]
+        #     banco = sqlite3.connect(db)
+        #     cursor = banco.cursor()
+        #     cemb_tinta = cursor.execute(f"SELECT cemb FROM form_173 WHERE Id_form_173 = {id_form173}").fetchall()[0][0]
+            cemb_tinta = Form_173.conteudoEspecifico('cemb', id_form173)
+            print("cemb:::: ", cemb_tinta)
             new_cemb = ''
             for i in cemb_tinta:
                 if not i=="E":
                     new_cemb += i
-            opcoes = cursor.execute(f"SELECT viscosimetro FROM relacao_tintas WHERE cemb = {int(new_cemb)}").fetchall()
-            cursor.close()
-            banco.close()
+        #     opcoes = cursor.execute(f"SELECT viscosimetro FROM relacao_tintas WHERE cemb = {int(new_cemb)}").fetchall()
+            opcoes = Relacao_Tintas.consulta(int(new_cemb))
+            print('opcoes:::', opcoes)
+        #     cursor.close()
+        #     banco.close()
             
-            for copo in opcoes:
-                copo = copo[0].replace("Copo", "").replace("COPO", "")
-                opcoesViscosimetros.append(copo)
+        #     for copo in opcoes:
+        #         copo = copo[0].replace("Copo", "").replace("COPO", "")
+        #         opcoesViscosimetros.append(copo)
             
-            return opcoesViscosimetros, new_cemb
+            return opcoes, new_cemb
         except Exception as ex:
             print("Error: ", ex, type(ex))
 
