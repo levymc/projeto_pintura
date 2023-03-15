@@ -31,7 +31,7 @@ class addOC_ex(Toplevel):
         self.destroy()
         
     def create_wigets(self):
-        teste = ttk.Label(self, text="Selecione um dos formulários abaixo para adicionar OCs.", style='TituloMenor.TLabel', background='#f0f5ff')
+        teste = ttk.Label(self, text="Selecione um dos formulários abaixo.", style='TituloMenor.TLabel', background='#f0f5ff')
         teste.pack(pady=20)
         
         self.tree = ttk.Treeview(self, columns=('id_form173', 'Formulário', 'Solicitante', 'Data', 'CEMB', 'Quantidade'))
