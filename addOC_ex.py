@@ -6,6 +6,7 @@ from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
 from OC_ex import OC_ex
+from OC_apagar import OC_apagar
 
 
 class addOC_ex(Toplevel):
@@ -64,7 +65,7 @@ class addOC_ex(Toplevel):
         btn_carregar = ttk.Button(self, text='Adicionar OCs', command=lambda:self.carrega_linha_selecionada('add'), style='Att.TButton')
         btn_carregar.pack(pady=20, padx=(180,0), side=LEFT)
         
-        btn_deletar = ttk.Button(self, text='Apagar OCs', style='ApagarOCexcessao.TButton')
+        btn_deletar = ttk.Button(self, text='Apagar OCs', command=lambda:self.carrega_linha_selecionada('remove'), style='ApagarOCexcessao.TButton')
         btn_deletar.pack(pady=20, padx=(0, 180), side=RIGHT)
         
     # Define uma função para o botão que carrega as informações da linha selecionada
@@ -93,7 +94,7 @@ class addOC_ex(Toplevel):
                 if func == 'add':
                     OC_ex(self.linha_selecionada, self.db)
                 elif func == 'remove':
-                    pass
+                    OC_apagar()
             
 # if __name__ == "__main__":
 #     app = addOC_ex()

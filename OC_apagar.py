@@ -7,7 +7,7 @@ import tkinter.font as font
 import re
 
 
-class OC_apagar(Tk):
+class OC_apagar(Toplevel):
     def __init__(self):
         super().__init__()
         self.geometry("350x480")
@@ -27,5 +27,3 @@ class OC_apagar(Tk):
         titulo.pack()
         
         self.mainloop()
-
-OC_apagar()
