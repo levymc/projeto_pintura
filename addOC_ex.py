@@ -64,29 +64,33 @@ class addOC_ex(Toplevel):
         btn_carregar = ttk.Button(self, text='Adicionar OCs', command=lambda:self.carrega_linha_selecionada(), style='Att.TButton')
         btn_carregar.pack(pady=20, padx=(180,0), side=LEFT)
         
-        btn_deletar = ttk.Button(self, text='Apagar OCs', style='Att.TButton')
+        btn_deletar = ttk.Button(self, text='Apagar OCs', style='ApagarOCexcessao.TButton')
         btn_deletar.pack(pady=20, padx=(0, 180), side=RIGHT)
         
     # Define uma função para o botão que carrega as informações da linha selecionada
     def carrega_linha_selecionada(self):
         # Obtém o ID da linha selecionada
-        id_linha = self.tree.selection()[0]
-        # Obtém as informações da linha selecionada
-        info_linha = self.tree.item(id_linha)['values']
-        # Armazena as informações na variável linha_selecionada
-        self.linha_selecionada = {
-            'formulario': info_linha[1],
-            'Id_form173': info_linha[0],
-            'solicitante': info_linha[2],
-            'data': info_linha[3],
-            'cemb': info_linha[4],
-            'qnt': info_linha[5]
-        }
-        print(self.linha_selecionada)
-        self.on_closing()
-        if not addOC_ex.janela_aberta:
-            OC_ex(self.linha_selecionada, self.db)
-        
+        if not self.tree.selection():
+            messagebox.showinfo(message="Selecione um formulário.")
+            # return self.carrega_linha_selecionada()
+        else:
+            id_linha = self.tree.selection()[0]
+            # Obtém as informações da linha selecionada
+            info_linha = self.tree.item(id_linha)['values']
+            # Armazena as informações na variável linha_selecionada
+            self.linha_selecionada = {
+                'formulario': info_linha[1],
+                'Id_form173': info_linha[0],
+                'solicitante': info_linha[2],
+                'data': info_linha[3],
+                'cemb': info_linha[4],
+                'qnt': info_linha[5]
+            }
+            print(self.linha_selecionada)
+            self.on_closing()
+            if not addOC_ex.janela_aberta:
+                OC_ex(self.linha_selecionada, self.db)
+            
 # if __name__ == "__main__":
 #     app = addOC_ex()
 #     app.mainloop()

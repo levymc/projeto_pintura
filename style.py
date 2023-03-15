@@ -51,6 +51,14 @@ class Estilos():
                             highlightcolor='#4CAF50',
                             borderwidth=0.1,
                             highlightthickness=0.5)
+        self.style.map('ApagarOCexcessao.TButton', 
+                       background=[('active', '#451d1c')],
+                       )
+        self.style.configure('ApagarOCexcessao.TButton',
+                            font=('Roboto', 8, 'bold'),
+                            background="#803734",
+                            borderwidth=0
+                            )
         
         self.style.map('Att.TButton', 
                        background=[('active', '#3e3e3e'), ('pressed', 'white')],
