@@ -25,7 +25,6 @@ class OC_ex(Toplevel):
         self.db = db
         print("ID: ", self.id_form173)
         
-        
         self.create_wigets()
         
     def validate_entry_text(self, text):

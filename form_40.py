@@ -3,6 +3,7 @@ from tkinter import messagebox, ttk
 import hashlib, json, sqlite3, re, login_processo
 from datetime import timedelta
 from datetime import datetime
+from DBfuncs import Relacao_Tintas, DBForm_173, DBForm_40, Operadores
 
 def validar_horario(novo_valor):
     """Função de validação para aceitar apenas horários no formato HH:MM"""
@@ -14,68 +15,25 @@ def validar_horario(novo_valor):
             return True
     return False
 
-def opcoesViscosimetros(db, id_form173):
-        opcoesViscosimetros = []
+def opcoesViscosimetros(id_form173):
         try:
-            banco = sqlite3.connect(db)
-            cursor = banco.cursor()
-            cemb_tinta = cursor.execute(f"SELECT cemb FROM form_173 WHERE Id_form_173 = {id_form173}").fetchall()[0][0]
+            cemb_tinta = DBForm_173.conteudoEspecifico('cemb', id_form173)
+        #     print("cemb:::: ", cemb_tinta)
             new_cemb = ''
             for i in cemb_tinta:
                 if not i=="E":
                     new_cemb += i
-            opcoes = cursor.execute(f"SELECT viscosimetro FROM relacao_tintas WHERE cemb = {int(new_cemb)}").fetchall()
-            cursor.close()
-            banco.close()
+            opcoes = Relacao_Tintas.consultaViscosimetro(int(new_cemb))
+        #     print('opcoes:::', opcoes)
             
-            for copo in opcoes:
-                copo = copo[0].replace("Copo", "").replace("COPO", "")
-                opcoesViscosimetros.append(copo)
-            
-            return opcoesViscosimetros, new_cemb
+            return opcoes, new_cemb
         except Exception as ex:
             print("Error: ", ex, type(ex))
 
-def conteudo_form173(db):
-        try:
-                banco = sqlite3.connect(db)
-                cursor = banco.cursor()
-        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-        cursor.execute("SELECT * FROM form_173")
-        conteudo = cursor.fetchall()
-        tamanho = len(conteudo)
-        cursor.close()
-        banco.close()
-        return conteudo, tamanho
 
-def conteudo_form40(db):
-        try:
-                banco = sqlite3.connect(db)
-                cursor = banco.cursor()
-        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-        cursor.execute("SELECT * FROM form_40")
-        conteudo = cursor.fetchall()
-        tamanho = len(conteudo)
-        cursor.close()
-        banco.close()
-        return conteudo, tamanho
-
-def ultima_mescla(db):
-        try:
-                banco = sqlite3.connect(db)
-                cursor = banco.cursor()
-        except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-        
-        if (len(cursor.execute("SELECT mescla FROM form_40").fetchall()) != 0):
-                ultima_mescla = cursor.execute("SELECT mescla FROM form_40").fetchall()[-1][0]
-        else:
-                ultima_mescla = '23-000'
-        cursor.close()
-        banco.close()
-        return ultima_mescla
-def somar_mescla(db):
-        x = ultima_mescla(db)
-        x_sep = x.split('-')
+def somar_mescla():
+        ultima_mescla = DBForm_40.obter_ultima_linha().mescla
+        x_sep = ultima_mescla.split('-')
         prox = int(x_sep[1])+1
         if len(str(prox))==4:
                 return "23-"+str(prox)
@@ -103,16 +61,12 @@ class Form_40(Toplevel):
                 self.img_frame = ttk.Label(self, image=self.loadimage_form40, background='white')
                 self.img_frame.place(x=0,y=0)
                 self.agora = datetime.today().strftime('%d-%m-%Y %H:%M')
-                self.conteudo_form173,self._ = conteudo_form173(self.db)
                 self.user = user
                 self.id_form173 = id_form173
                 self.resizable(0,0)
-                cursor.execute(f"SELECT codigo FROM operadores WHERE usuario='{self.user}'")
-                self.cod_ope = cursor.fetchall()[0][0]
-                cursor.execute(f"SELECT cemb FROM form_173 WHERE Id_form_173 = {self.id_form173}")
-                self.cod_mp = cursor.fetchall()
-                ultima_mesc = ultima_mescla(self.db)
-                self.mescla_atual = somar_mescla(self.db)
+                self.cod_ope = Operadores.consultaEspecifica(Operadores, self.user)[0]['codigo']
+                self.cod_mp = opcoesViscosimetros(id_form173)[1]
+                self.mescla_atual = somar_mescla()
                 self.create_wigets() # chama a função que cria os widgets
                 cursor.close()
                 banco.close()
@@ -130,7 +84,7 @@ class Form_40(Toplevel):
                 self.imcom_field = ttk.Entry(self, style='Form40.TEntry')
                 self.imdil_field = ttk.Entry(self, style='Form40.TEntry')
                 self.ii_field = ttk.Entry(self, style='Form40.TEntry')
-                self.viscosimetro = ttk.Combobox(self, values=opcoesViscosimetros(self.db, self.id_form173)[0], state="readonly", font=('Roboto', 5), background='white')
+                self.viscosimetro = ttk.Combobox(self, values=opcoesViscosimetros(self.id_form173)[0], state="readonly", font=('Roboto', 5), background='white')
                 self.visc_field = ttk.Entry(self, style='Form40.TEntry')
                 self.prop_field = ttk.Entry(self, style='Form40.TEntry')
                 self.iniade_field = ttk.Entry(self, style='Form40.TEntry')
@@ -156,8 +110,6 @@ class Form_40(Toplevel):
                 self.plife_field.place(x=1156, y=157, width=50)
                 self.resp.place(x=1223, y=157)
 
-                print(opcoesViscosimetros(self.db, self.id_form173))
-                
                 # Defina a variável que vai armazenar o valor selecionado
                 self.valor_selecionado = StringVar()
                 self.dados = tuple()
@@ -186,14 +138,12 @@ class Form_40(Toplevel):
                 # Associe a função à Combobox
                 self.viscosimetro.bind("<<ComboboxSelected>>", lambda event: atualizar_valor())
                 
-                
-                
                 self.submit = ttk.Button(self, text="Enviar Informações", style='Att.TButton', command=lambda:[self.insert()])
                 self.submit.place(x=1128, y=198)
                 
                 self.autorizar = ttk.Button(self, text="Autorizar", style='Processo.TButton', command=lambda:[login_processo.Login(self.db, self.dados, self.id_form173)])
                 self.autorizar.place(x=10, y=205)
-                self.autorizarText = ttk.Label(self, text="Em caso de excessões, acionar o processo!", font=("Arial", 8, "bold"), background='white', fg="red")
+                self.autorizarText = ttk.Label(self, text="Em caso de excessões, acionar o processo!", font=("Arial", 8, "bold"), background='white', foreground="red")
                 self.autorizarText.place(x=70, y=205)
 
         def insert(self):
@@ -241,13 +191,8 @@ class Form_40(Toplevel):
                                 cursor = banco.cursor()
                         except Exception as ex: messagebox.showerror(message=[ex, type(ex)]) 
                         try:
-                                print("Copo:", self.valor_selecionado.get())
-                                visc_max_min = cursor.execute(f"""SELECT viscosidade_min,viscosidade_max 
-                                                              FROM relacao_tintas 
-                                                              WHERE cemb={opcoesViscosimetros(self.db, self.id_form173)[1]}
-                                                              AND viscosimetro LIKE '%{self.valor_selecionado.get()}%'""").fetchall()[0]
-                                print("Viscodidade:",visc_max_min[0], visc_max_min[1])
-                                print("Dados10: ", dados)
+                                visc_max_min = Relacao_Tintas.consultaViscosidade(Relacao_Tintas, opcoesViscosimetros(self.db, self.id_form173)[1], self.valor_selecionado.get())
+                                
                                 if dados[12]== "" or int(dados[12])>int(visc_max_min[1]) or int(dados[12])<int(visc_max_min[0]):
                                         messagebox.showinfo(message='O valor da viscosidade está fora da norma')
                                 elif not self.iagi_field.get() == '' and not pattern.match(self.iagi_field.get()):
@@ -264,7 +209,7 @@ class Form_40(Toplevel):
                                         x = messagebox.askquestion(title="Double-Check", message="Confirma o Envio dos Dados??")
                                         if x=='yes':
                                                 try:                
-                                                        print(1)                                                                                       
+                                                        # print(1)                                                                                       
                                                         cursor.execute("""INSERT INTO form_40 (mescla, data_prep, temperatura, umidade, cod_mp,
                                                                        lotemp, shelf_life, ini_agitador, ini_mistura, ini_diluentes, viscosimetro, viscosidade,
                                                                        proporcao, ini_adequacao, ini_inducao, pot_life, responsavel, Id_form173)
