@@ -191,7 +191,7 @@ class Form_40(Toplevel):
                                 cursor = banco.cursor()
                         except Exception as ex: messagebox.showerror(message=[ex, type(ex)]) 
                         try:
-                                visc_max_min = Relacao_Tintas.consultaViscosidade(Relacao_Tintas, opcoesViscosimetros(self.db, self.id_form173)[1], self.valor_selecionado.get())
+                                visc_max_min = Relacao_Tintas.consultaViscosidade(Relacao_Tintas, opcoesViscosimetros(self.id_form173)[1], self.valor_selecionado.get())
                                 
                                 if dados[12]== "" or int(dados[12])>int(visc_max_min[1]) or int(dados[12])<int(visc_max_min[0]):
                                         messagebox.showinfo(message='O valor da viscosidade está fora da norma')
