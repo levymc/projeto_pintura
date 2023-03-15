@@ -138,8 +138,6 @@ class Form_40(Toplevel):
                 # Associe a função à Combobox
                 self.viscosimetro.bind("<<ComboboxSelected>>", lambda event: atualizar_valor())
                 
-                
-                
                 self.submit = ttk.Button(self, text="Enviar Informações", style='Att.TButton', command=lambda:[self.insert()])
                 self.submit.place(x=1128, y=198)
                 
