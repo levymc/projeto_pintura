@@ -45,7 +45,7 @@ class Estilos():
                        background=[('active', '#c44c2b'), ('pressed', 'white')],
                        )
         self.style.configure('Add.TButton', 
-                            font=('Roboto', 10, 'bold'),
+                            font=('Roboto', 7, 'bold'),
                             background='#f26c46',
                             highlightbackground='#4CAF50', 
                             highlightcolor='#4CAF50',
