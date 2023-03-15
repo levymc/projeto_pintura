@@ -62,11 +62,10 @@ class addOC_ex(Toplevel):
         self.linha_selecionada = {}
 
         # Cria o botão para carregar as informações da linha selecionada
-        btn_carregar = ttk.Button(self, text='Adicionar OCs', command=lambda:self.carrega_linha_selecionada('add'), style='Att.TButton')
-        btn_carregar.pack(pady=20, padx=(180,0), side=LEFT)
+        btn_carregar = ttk.Button(self, text='Configurar OCs do Formulário', command=lambda:self.carrega_linha_selecionada('add'), style='Att.TButton')
+        btn_carregar.pack(pady=20, padx=(0,0))
         
-        btn_deletar = ttk.Button(self, text='Apagar OCs', command=lambda:self.carrega_linha_selecionada('remove'), style='ApagarOCexcessao.TButton')
-        btn_deletar.pack(pady=20, padx=(0, 180), side=RIGHT)
+        
         
     # Define uma função para o botão que carrega as informações da linha selecionada
     def carrega_linha_selecionada(self, func):

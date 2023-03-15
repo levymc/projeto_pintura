@@ -117,8 +117,35 @@ class Operadores(Base):
     def consultaEspecifica(cls, user):
         conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.usuario == user).all()]
         return conteudo
+
+class OCs(Base):
+    __tablename__ = 'ocs'
     
+    Id_ocs = Column(Integer, primary_key=True)
+    oc = Column(Integer)
+    quantidade = Column(Integer)
+    track_form173 = Column(Integer)
     
+    def __repr__(self):
+        return f"id: {self.Id_ocs}  -  OC: {self.oc}, Quantidade: {self.quantidade}, Id_form173: {self.track_form173}"
+    
+    @hybrid_property
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    
+    @classmethod
+    def consulta(cls):
+        conteudo  = [oc.as_dict for oc in session.query(cls).all()]
+        return conteudo
+    
+    def consultaEspecifica(arg, coluna):
+        consultaEspeficifica = [row for row in session.query(OCs).filter(getattr(OCs, coluna) == arg).all()]
+        return consultaEspeficifica
+    
+# for i in range(len(OCs.consultaEspecifica(1, 'track_form173'))):
+#     print(OCs.consultaEspecifica(1, 'track_form173')[i].oc)
+# print(OCs.consultaEspecifica(1, 'track_form173'))
+# print(str(getattr('oi','tchau')))
 # print(Operadores.consultaEspecifica(Operadores,'levymc'))
 # print(Operadores.consulta())
 # print(DBForm_40.consulta())

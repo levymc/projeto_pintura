@@ -7,11 +7,11 @@ import tkinter.font as font
 import re
 
 
-class OC_apagar(Toplevel):
+class OC_apagar(Tk):
     def __init__(self):
         super().__init__()
         self.geometry("350x480")
-        self.configure(background='#041536')
+        self.configure(background='#f0f5ff')
         self.iconbitmap(r'logo.ico')
         self.resizable(0,0)
         self.title('Adicionar OC após o Form 173')
@@ -22,8 +22,11 @@ class OC_apagar(Toplevel):
         self.create_wigets()
         
     def create_wigets(self):
-        # fundo = ttk.Frame()
-        titulo = ttk.Label(self, text=self.winfo_screenheight())
-        titulo.pack()
+        titulo = ttk.Label(self, text="")
+        titulo.pack(pady=20)
         
         self.mainloop()
+        
+if __name__ == "__main__":
+    app = OC_apagar()
+    app.mainloop()

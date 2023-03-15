@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, ttk
 import tkinter as tk
-from DBfuncs import conteudoForm173_pendente, insertOC
+from DBfuncs import conteudoForm173_pendente, insertOC, OCs
 from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
@@ -10,8 +10,8 @@ import re
 class OC_ex(Toplevel):
     def __init__(self, dados, db):
         super().__init__()
-        self.geometry("250x480")
-        self.configure(background='#041536')
+        self.geometry("600x480")
+        self.configure(background='#f0f5ff')
         self.iconbitmap(r'logo.ico')
         self.resizable(0,0)
         self.title('Adicionar OC após o Form 173')
@@ -61,8 +61,34 @@ class OC_ex(Toplevel):
         self.infoOC.place(x=40, y=405)
         deletarOC = ttk.Button(quadro, style='Deletar.TButton', text=u"Deletar", command=lambda:[self.deletar_oc()])
         deletarOC.place(x=181, y=405)
-        botao = ttk.Button(quadro, text="Enviar OCs", style='Enviar2.TButton', command=lambda:self.insert())
-        botao.place(x=165, y=445,height=30)
+        botao = ttk.Button(quadro, text="Adicionar OCs", style='Enviar2.TButton', command=lambda:self.insert())
+        botao.place(x=135, y=440,height=30)
+        
+        # Lado "Remove" OCs
+        
+        self.tableRemove = ttk.Treeview(self, columns=('n°', 'OC', 'Quantidade'), style='RemoveOC.Treeview')
+        self.tableRemove.configure(height=10)
+        self.tableRemove.column('#0',width=0, minwidth=0)
+        self.tableRemove.column('#1',width=80, anchor=tk.CENTER)
+        self.tableRemove.column('#2',width=80, anchor=tk.CENTER)
+        self.tableRemove.column('#3',width=80, anchor=tk.CENTER)
+        
+        # Adiciona as colunas à tabela
+        self.tableRemove.heading('#0', text='ID')
+        self.tableRemove.heading('#1', text='n°')
+        self.tableRemove.heading('#2', text='OC')
+        self.tableRemove.heading('#3', text='Quantidade')
+        
+        #Adicionando linhas na tabela
+        for i in range(len(OCs.consultaEspecifica(self.id_form173, 'track_form173'))):
+            self.tableRemove.insert('', 'end', text='1', values=(i, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i].oc, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i].quantidade))
+        self.tableRemove.pack(padx=0, pady=20, side=RIGHT)
+        
+        btn_deletar = ttk.Button(self, text='Deletar OCs', command=lambda:self.carrega_linha_selecionada('remove'), style='ApagarOCexcessao.TButton')
+        btn_deletar.pack(pady=10, padx=(0, 20), side=RIGHT, anchor='s', ipady=4)
+        
+        # Cria uma variável para armazenar as informações da linha selecionada
+        self.linha_selecionada = {}
 
         OC_ex.mainloop(self)
     

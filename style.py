@@ -160,6 +160,8 @@ class Estilos():
                              highlightthickness = 0.5
                              )
         
+        self.style.configure('RemoveOC.Treeview', rowheight=30, padding=10)
+
         
         ## FRAME
         
