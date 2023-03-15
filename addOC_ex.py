@@ -61,17 +61,18 @@ class addOC_ex(Toplevel):
         self.linha_selecionada = {}
 
         # Cria o botão para carregar as informações da linha selecionada
-        btn_carregar = ttk.Button(self, text='Adicionar OCs', command=lambda:self.carrega_linha_selecionada(), style='Att.TButton')
+        btn_carregar = ttk.Button(self, text='Adicionar OCs', command=lambda:self.carrega_linha_selecionada('add'), style='Att.TButton')
         btn_carregar.pack(pady=20, padx=(180,0), side=LEFT)
         
         btn_deletar = ttk.Button(self, text='Apagar OCs', style='ApagarOCexcessao.TButton')
         btn_deletar.pack(pady=20, padx=(0, 180), side=RIGHT)
         
     # Define uma função para o botão que carrega as informações da linha selecionada
-    def carrega_linha_selecionada(self):
+    def carrega_linha_selecionada(self, func):
         # Obtém o ID da linha selecionada
         if not self.tree.selection():
             messagebox.showinfo(message="Selecione um formulário.")
+            self.focus()
             # return self.carrega_linha_selecionada()
         else:
             id_linha = self.tree.selection()[0]
@@ -89,7 +90,10 @@ class addOC_ex(Toplevel):
             print(self.linha_selecionada)
             self.on_closing()
             if not addOC_ex.janela_aberta:
-                OC_ex(self.linha_selecionada, self.db)
+                if func == 'add':
+                    OC_ex(self.linha_selecionada, self.db)
+                elif func == 'remove':
+                    pass
             
 # if __name__ == "__main__":
 #     app = addOC_ex()
