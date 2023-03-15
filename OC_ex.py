@@ -82,10 +82,10 @@ class OC_ex(Toplevel):
         #Adicionando linhas na tabela
         for i in range(len(OCs.consultaEspecifica(self.id_form173, 'track_form173'))):
             self.tableRemove.insert('', 'end', text='1', values=(i, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i].oc, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i].quantidade))
-        self.tableRemove.pack(padx=0, pady=20, side=RIGHT)
+        self.tableRemove.pack(padx=0, pady=20)
         
         btn_deletar = ttk.Button(self, text='Deletar OCs', command=lambda:self.carrega_linha_selecionada('remove'), style='ApagarOCexcessao.TButton')
-        btn_deletar.pack(pady=10, padx=(0, 20), side=RIGHT, anchor='s', ipady=4)
+        btn_deletar.pack(pady=10, padx=(0, 20), ipady=4)
         
         # Cria uma variável para armazenar as informações da linha selecionada
         self.linha_selecionada = {}
@@ -134,6 +134,8 @@ class OC_ex(Toplevel):
         else: 
             x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")
             if x == "yes":
+                for oc in self.ocs:
+                    self.tableRemove.insert('', 'end', text='1', values=(9, oc['oc'], self.id_form173, 40))
                 insertOC(self.id_form173, self.ocs, self.db)
                 messagebox.showinfo(message="Informações enviadas!!")
                 self.ocs = []
