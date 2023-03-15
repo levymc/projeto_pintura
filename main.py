@@ -249,30 +249,30 @@ class Main(Tk):
             # consulta_field.delete(0, END)
             pend_.mainloop()
 
-        frameOC = ttk.Frame(quadro, width=270, height=60, style='FrameOC.TFrame')
-        frameOC.place(x=380, y=200)
-        addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário adicionar OC após \n finalizar o Form 173, clique ao lado")
-        addOC_info.place(x=395, y=210)
+        # frameOC = ttk.Frame(quadro, width=270, height=60, style='FrameOC.TFrame')
+        # frameOC.place(x=380, y=200)
+        # addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário adicionar OC após \n finalizar o Form 173, clique ao lado")
+        # addOC_info.place(x=395, y=210)
         x = 0
         def clica(func,x):
             x += 1
             if not x > 1:
                 func
             else: return True
-        addOC_after = ttk.Button(quadro, padding=(5,1), text=u'+',style='Add.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(db), x)], takefocus=False)
-        addOC_after.place(x=615, y=232)
+        addOC_after = ttk.Button(quadro, padding=(5,5), text='Correção OCs',style='Add.TButton', bootstyle="outline", command=lambda:[clica(addOC_ex.addOC_ex(db), x)], takefocus=False)
+        addOC_after.place(x=570, y=15)
         
         atualizar_bt = ttk.Button(quadro, text="Atualizar",command=lambda:popular(db), takefocus=False, style='Att.TButton')
-        atualizar_bt.place(x=600, y=156)
+        atualizar_bt.place(x=600, y=206)
         solicit = ttk.Label(quadro, text=f"Solicitações {self.hoje}: ",foreground='#041536', background='#f0f5ff',  font='Trebuchet 10 bold')
-        solicit.place(x=460,y=15)
+        solicit.place(x=460,y=65)
         solicit_scroll = Scrollbar(quadro, orient='vertical', background='white')
-        solicit_scroll.place(x=400, y=40, height=90)
+        solicit_scroll.place(x=400, y=90, height=90)
         legenda = ttk.Label(quadro, text="Id | Solicitante - Cód. | Formulário | CEMB | Quantidade | Pintor",foreground='#041536', background='#f0f5ff',  font='Trebuchet 6 bold')
-        legenda.place(x=420, y= 138)
+        legenda.place(x=420, y= 188)
 
         mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', background='white', selectmode=SINGLE)
-        mylistbox.place(x=420,y=39)
+        mylistbox.place(x=420,y=89)
 
         def popular(db):
             banco = sqlite3.connect(db)
