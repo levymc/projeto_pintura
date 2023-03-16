@@ -146,7 +146,7 @@ class OCs(Base):
         session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
         session.commit()
         
-print(session.query(func.max(OCs.Id_ocs)).scalar())
+# print(session.query(func.max(OCs.Id_ocs)).scalar())
 
 # for i in range(len(OCs.consultaEspecifica(1, 'track_form173'))):
 #     print(OCs.consultaEspecifica(1, 'track_form173')[i].oc)

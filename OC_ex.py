@@ -18,7 +18,8 @@ class OC_ex(Toplevel):
             self.iconbitmap(r'logo.ico')
             self.protocol("WM_DELETE_WINDOW", lambda: self.on_closing())
             self.resizable(0,0)
-            self.title('Adicionar OC após o Form 173')
+            self.titulo = 'Configurar OCs do Formulário '+ str(dados['formulario'])
+            self.title(self.titulo)
             self.screen_width = self.winfo_screenheight()
             self.numero_ocs = 0
             self.y = 50
@@ -47,33 +48,36 @@ class OC_ex(Toplevel):
         quadro.pack(side=RIGHT)
         
         add_oc = ttk.Label(quadro, text=f"OC: ", foreground='#f0f5ff', background="#203C75", font='Roboto 9 bold')
-        add_oc.place(x=10, y=60)
+        add_oc.place(x=10, y=40)
         qnt = ttk.Label(quadro, text="Qnt.: ", foreground='#f0f5ff', background="#203C75", font='Roboto 9 bold')
-        qnt.place(x=170, y=60)
+        qnt.place(x=170, y=40)
         self.oc_campo = ttk.Entry(quadro, validate='key')
         validate_cmd = (self.oc_campo.register(self.validate_entry_text), '%P')
         self.oc_campo.config(validate='key', validatecommand=validate_cmd)
-        self.oc_campo.place(x=45, y=55, width=120)
+        self.oc_campo.place(x=45, y=35, width=120)
         self.qnt_campo = ttk.Entry(quadro)
         validate_qntOC = (self.qnt_campo.register(self.validate_entry_text), '%P')
         self.qnt_campo.config(validate='key', validatecommand=validate_qntOC)
-        self.qnt_campo.place(x=204, y=55, width=30)    
+        self.qnt_campo.place(x=204, y=35, width=30)    
         buttonAddOC = ttk.Button (quadro, text="Adicionar OC", command=lambda:[self.campo_oc()], style='Limpar.TButton')
-        buttonAddOC.place(y=100, x=150, width=84, height=25)
+        buttonAddOC.place(y=80, x=150, width=84, height=25)
 
-        y = ttk.Label(quadro, text = "OC's utilizadas no lote: ",foreground='#f0f5ff', background="#203C75", font='Impact 14')
-        y.place(x=40, y=10)
+        # y = ttk.Label(quadro, text = "OC's utilizadas no lote: ",foreground='#f0f5ff', background="#203C75", font='Impact 14')
+        # y.place(x=40, y=10)
 
         self.mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
-        self.mylistbox.place(x=42,y=150, width=190, height=250)
+        self.mylistbox.place(x=42,y=130, width=190, height=250)
         self.infoOC = ttk.Label(quadro, text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#203C75", font='Roboto 9 bold')
-        self.infoOC.place(x=40, y=405)
+        self.infoOC.place(x=40, y=395)
         deletarOC = ttk.Button(quadro, style='Deletar.TButton', text=u"Deletar", command=lambda:[self.deletar_oc()])
-        deletarOC.place(x=181, y=405)
+        deletarOC.place(x=181, y=395)
         botao = ttk.Button(quadro, text="Adicionar OCs", style='Enviar2.TButton', command=lambda:self.insert())
         botao.place(x=135, y=440,height=30)
         
         # Lado "Remove" OCs
+        
+        self.titleBody = ttk.Label(self, text=self.titulo, background='#f0f5ff', font='Roboto 14 bold',foreground='#203C75')
+        self.titleBody.pack(pady=(10,0))
         
         self.tableRemove = ttk.Treeview(self, columns=('Id_ocs', 'n°', 'OC', 'Quantidade'), style='RemoveOC.Treeview')
         self.tableRemove.configure(height=10)
@@ -97,13 +101,13 @@ class OC_ex(Toplevel):
         #Adicionando linhas na tabela
         for i in range(len(OCs.consultaEspecifica(self.id_form173, 'track_form173'))):
             self.tableRemove.insert('', 'end', text='1', values=(OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['Id_ocs'] ,i+1, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['oc'], OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['quantidade']))
-        self.tableRemove.pack(padx=(20,0), pady=(40,0))
+        self.tableRemove.pack(padx=(10,2), pady=(40,0))
         self.tableRemove.configure(yscrollcommand=solicit_scroll.set)
         
         # solicit_scroll.config())  # Define a altura do Scrollbar com base no número de linhas exibidas no Treeview
         
         btn_deletar = ttk.Button(self, text='Deletar OC', command=lambda:self.carrega_linha_selecionada(), style='ApagarOCexcessao.TButton')
-        btn_deletar.pack(pady=15, padx=(0, 0), ipady=4, side='bottom')
+        btn_deletar.pack(pady=10, padx=(0, 0), ipady=4, side='bottom')
         
         # Cria uma variável para armazenar as informações da linha selecionada
         self.linha_selecionada = {}
