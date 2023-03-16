@@ -5,6 +5,11 @@ class Estilos():
     def __init__(self):
         self.style = BsStyle(theme='flatly')
         
+        self.style.configure('Viscosimetro.TCombobox',
+                            font=('Roboto', 8), background='white', height=1,
+                            padding=0,
+                            )
+        
         # LABEL
         
         self.style.configure('infoOC.TLabel', 
@@ -150,7 +155,7 @@ class Estilos():
         ## ENTRY
         
         self.style.configure('Form40.TEntry',
-                             font=('Roboto', 6),
+                             font=('Roboto', 8),
                              padding=0
                              )
         
