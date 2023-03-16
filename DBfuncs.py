@@ -3,8 +3,10 @@ from tkinter import messagebox
 from sqlalchemy import Column, Integer, String, create_engine, and_, func
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
+import local
 
-engine = create_engine('sqlite:///pintura.db', echo=False)
+path =local.Local.local()  #'//NasTecplas/Pintura/DB/pintura.db'
+engine = create_engine(r'sqlite:///'+path, echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
 Base = declarative_base()
