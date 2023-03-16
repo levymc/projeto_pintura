@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, ttk
 import tkinter as tk
-from DBfuncs import conteudoForm173_pendente
+from DBfuncs import DBForm_173
 from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
@@ -55,8 +55,9 @@ class addOC_ex(Toplevel):
         self.tree.heading('#5', text='CEMB')
         self.tree.heading('#6', text='Quantidade')
         
-        for i in conteudoForm173_pendente(self.db): #Adicionando linhas na tabela
-            self.tree.insert('', 'end', text='1', values=(i[0], i[2], i[1], i[3], i[4], str(i[5])+i[6]))
+        for i in DBForm_173.conteudoTudo(1): #Adicionando linhas na tabela
+            self.tree.insert('', 'end', text='1', values=(i['Id_form_173'], i['formulario'], i['solicitante'],
+                                                          i['data_solicitacao'], i['cemb'], str(i['quantidade'])+i['unidade']))
         self.tree.pack()
         
         self.linha_selecionada = {} # Cria uma variável para armazenar as informações da linha selecionada

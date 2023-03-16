@@ -27,16 +27,24 @@ class DBForm_173(Base):
         CEMB: {self.cemb}, Quantidade: {self.quantidade}, Unidade: {self.unidade}, Pintor: {self.pintor}    
     """
     
+    @hybrid_property
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    
     def insert(dados):
         pass
     
-    def conteudoTudo(pend):
-       conteudoTudo  = [row for row in session.query(DBForm_173).filter(DBForm_173.pendencia == pend).all()]
+    @classmethod
+    def conteudoTudo(cls,pend):
+       conteudoTudo  = [row.as_dict for row in session.query(cls).filter(DBForm_173.pendencia == pend).all()]
        return conteudoTudo
    
     def conteudoEspecifico(coluna, id_form173):
         conteudoEspecifico = [row[0] for row in session.query(getattr(DBForm_173, coluna)).filter(DBForm_173.Id_form_173 == id_form173).all()]
         return conteudoEspecifico
+    
+for i in DBForm_173.conteudoTudo(1):
+    print(i['Id_form_173'])
 
 class DBForm_40(Base):
     __tablename__= 'form_40'
@@ -93,6 +101,7 @@ class DBForm_40(Base):
         ultima_linha = session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first()
         return ultima_linha
 
+
 class Operadores(Base):
     __tablename__= 'operadores'
     
@@ -117,6 +126,7 @@ class Operadores(Base):
     def consultaEspecifica(cls, user):
         conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.usuario == user).all()]
         return conteudo
+
 
 class OCs(Base):
     __tablename__ = 'ocs'
@@ -146,18 +156,6 @@ class OCs(Base):
         session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
         session.commit()
         
-        
-# print(DBForm_173.conteudoEspecifico('cemb', 5)[0])
-# print(session.query(func.max(OCs.Id_ocs)).scalar())
-
-# for i in range(len(OCs.consultaEspecifica(1, 'track_form173'))):
-#     print(OCs.consultaEspecifica(1, 'track_form173')[i].oc)
-# print(OCs.consultaEspecifica(1, 'track_form173'))
-# print(str(getattr('oi','tchau')))
-# print(Operadores.consultaEspecifica(Operadores,'levymc'))
-# print(Operadores.consulta())
-# print(DBForm_40.consulta())
-   
    
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
@@ -201,14 +199,6 @@ class Relacao_Tintas(Base):
         return visc_max_min
 
 
-def conteudoForm173_pendente(db):
-    banco = sqlite3.connect(db)
-    cursor = banco.cursor()
-    conteudo = cursor.execute(f"SELECT * FROM form_173 WHERE pendencia=1").fetchall()
-    cursor.close()
-    banco.close()
-    return conteudo
-
 def insertOC(id_form173, ocs, db):
     banco = sqlite3.connect(db)
     cursor = banco.cursor()
@@ -221,5 +211,3 @@ def insertOC(id_form173, ocs, db):
     banco.commit()
     cursor.close()
     banco.close()
-
-# print(conteudoForm173_pendente())

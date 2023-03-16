@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, ttk
 import tkinter as tk
-from DBfuncs import conteudoForm173_pendente, insertOC, OCs
+from DBfuncs import insertOC, OCs
 from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
