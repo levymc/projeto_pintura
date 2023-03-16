@@ -148,6 +148,38 @@ class Main(Tk):
                              font=('Roboto', 6),
                              padding=0
                              )
+        self.style.configure('FundoOC.TFrame', background='#203C75')
+        self.style.configure('Principal.TFrame',
+                             background='#f0f5ff',
+                             )            
+        self.style.map('Enviar2.TButton', background=[('active', '#a35c33')], 
+          foreground=[('active', 'white')],
+          bordercolor=[('active', '#384a6e')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
+        self.style.configure('Enviar2.TButton', background='#f75c02',  #.configure serve para configurações de estilo no geral
+                font=('Roboto', 8, 'bold'),
+                foreground='white',
+                borderwidth=0.3,
+                relief='solid',
+                border_radius=10,
+                bordercolor='#cbd8f2')   
+        self.style.map('Limpar.TButton', background=[('active', '#b3c9f5')], 
+          foreground=[('active', 'white')])  
+        self.style.configure('Limpar.TButton',
+                            background='#cbd8f2',
+                            foreground='black',
+                            borderwidth=0.1,
+                            font=('Roboto', 7, 'bold'),
+                             )
+        self.style.map('Deletar.TButton', background=[('active', '#f2bfbf')], 
+          foreground=[('active', '#380101')])  
+        self.style.configure('Deletar.TButton',
+                            background='#a61919',
+                            foreground='#f2bfbf',
+                            borderwidth=0.3,
+                            font=('Roboto', 7, 'bold'),
+                             )
+        
+        
         
         self.create_wigets()
 

@@ -76,19 +76,20 @@ class Mesclas(Toplevel):
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
                     if x=='yes':
                         try:
-                            print(1)
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
-                            print(2)
-                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
+                            print(0.1)
+                            try:
+                                nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
+                            except Exception as e: 
+                                messagebox.showerror(message=f"Não existe nenhum operador com o código: {form_173_tudo[0][8]}")
                             contador = 1
                             mescla_n = tudo[i][1]
                             
                             # O FOCO AQUI É
-                            
+                            print(0)
                             if not os.path.exists(self.path_gerado):
                                 os.makedirs(self.path_gerado)
                                 print("CRIANDO O DIR: ",self.path_gerado)
-                                print(3)
                                 if os.listdir(self.path_gerado) == []:
                                     new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                 else:
@@ -98,9 +99,11 @@ class Mesclas(Toplevel):
                                             new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                         else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                             else:
+                                print(1)
                                 if os.listdir(self.path_gerado) == []:
                                     new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                 else:
+                                    print(2)
                                     for nome_arquivo in os.listdir(self.path_gerado):
                                         if re.search(form_173_tudo[0][4], nome_arquivo):
                                             contador += 1
@@ -176,7 +179,8 @@ class Mesclas(Toplevel):
                         # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
                         cursor.close()
-                        banco.close()
+                        # banco.close()
+                        messagebox.showinfo(message="Impressão concluída!")
                         print("IMPRIMIU!!!")
                         self.destroy()
                     else: 
