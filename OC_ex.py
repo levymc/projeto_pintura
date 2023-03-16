@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, ttk
 import tkinter as tk
-from DBfuncs import insertOC, OCs
+from DBfuncs import OCs
 from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
@@ -142,7 +142,7 @@ class OC_ex(Toplevel):
                 'oc': info_linha[2],
                 'quantidade': info_linha[3],
             }
-            print(self.linha_selecionada)
+            print("Removendo a linha: ", self.linha_selecionada)
             
             ## Removendo OC da Tabela e do DB e depois retornando a janela
             self.tableRemove.delete(id_linha)
@@ -176,7 +176,6 @@ class OC_ex(Toplevel):
             match = re.search(r'OC:\s*(\d+)', s)
             if match:
                 valor = match.group(1)
-                print(valor) # saída: "123"
             else:
                 print("Valor não encontrado")
             for i in self.ocs:
@@ -194,14 +193,13 @@ class OC_ex(Toplevel):
                 for i in range(len(self.ocs)):
                     items = self.tableRemove.get_children()
                     last_item = items[-1] 
-                    # print(self.tableRemove.item(last_item)['values'][0], type(self.tableRemove.item(last_item)['values'][0]))      
                     self.tableRemove.insert('', 'end', text='1', values=(self.tableRemove.item(last_item)['values'][0]+1 ,
                                             self.tableRemove.item(last_item)['values'][1]+1, 
                                             self.ocs[i]['oc'], 
                                             self.ocs[i]['qnt'])
                                             )
                     # self.tableRemove.insert('', 'end', text='1', values=(9, oc['oc'], self.id_form173, 40))
-                insertOC(self.id_form173, self.ocs, self.db)
+                OCs.insertOC(self.id_form173, self.ocs)
                 self.ocs = []
                 
                 # APAGANDO OS CAMPOS APÓS O ENVIO DAS INFO..

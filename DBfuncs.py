@@ -43,9 +43,7 @@ class DBForm_173(Base):
         conteudoEspecifico = [row[0] for row in session.query(getattr(DBForm_173, coluna)).filter(DBForm_173.Id_form_173 == id_form173).all()]
         return conteudoEspecifico
     
-for i in DBForm_173.conteudoTudo(1):
-    print(i['Id_form_173'])
-
+    
 class DBForm_40(Base):
     __tablename__= 'form_40'
     
@@ -155,8 +153,18 @@ class OCs(Base):
     def removeOC(id_ocs):
         session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
         session.commit()
-        
-   
+    
+    def insertOC(id_form173, ocs):
+        for i in ocs:
+            try:
+                nova_oc = OCs(oc=i['oc'], quantidade=i['qnt'], track_form173=id_form173)
+                session.add(nova_oc)
+            except Exception as e:messagebox.showerror(message=f"Erro: {e} - {type(e)}")
+        session.commit()
+        session.close()
+        messagebox.showinfo("Envio completo", "Informações adicionadas!")
+     
+               
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
     
@@ -198,16 +206,3 @@ class Relacao_Tintas(Base):
                       .first()
         return visc_max_min
 
-
-def insertOC(id_form173, ocs, db):
-    banco = sqlite3.connect(db)
-    cursor = banco.cursor()
-    # print("AQUIII", ocs)
-    for i in ocs:
-        try:
-            cursor.execute(f"INSERT INTO ocs (oc, quantidade,track_form173) VALUES (?,?,?)",
-                           (i['oc'], i['qnt'], id_form173))
-        except Exception as e:messagebox.showerror(message=f"Erro: {e} - {type(e)}")
-    banco.commit()
-    cursor.close()
-    banco.close()

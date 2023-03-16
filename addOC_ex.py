@@ -6,7 +6,6 @@ from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
 from OC_ex import OC_ex
-from OC_apagar import OC_apagar
 
 
 class addOC_ex(Toplevel):
@@ -86,7 +85,6 @@ class addOC_ex(Toplevel):
                 'cemb': info_linha[4],
                 'qnt': info_linha[5]
             }
-            print(self.linha_selecionada)
             self.on_closing()
             if not addOC_ex.janela_aberta:
                 OC_ex(self.linha_selecionada, self.db)
