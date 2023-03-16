@@ -24,7 +24,9 @@ class addOC_ex(Toplevel):
             self.screen_width = self.winfo_screenheight()
             self.db = db
             self.create_wigets()
-        else: messagebox.showerror(message="Janela já aberta!", icon='warning')
+        else: 
+            messagebox.showerror(message="Janela já aberta!", icon='warning')
+            self.focus()
         
         
     def on_closing(self):
@@ -43,7 +45,7 @@ class addOC_ex(Toplevel):
         self.tree.column('#4',width=80, anchor=tk.CENTER)
         self.tree.column('#5',width=80, anchor=tk.CENTER)
         self.tree.column('#6',width=80, anchor=tk.CENTER)
-        # self.tree.configure(displaycolumns=('#1'))
+        
         # Adiciona as colunas à tabela
         self.tree.heading('#0', text='ID')
         self.tree.heading('#1', text='id_form173')
@@ -53,22 +55,18 @@ class addOC_ex(Toplevel):
         self.tree.heading('#5', text='CEMB')
         self.tree.heading('#6', text='Quantidade')
         
-        #Adicionando linhas na tabela
-        for i in conteudoForm173_pendente(self.db):
+        for i in conteudoForm173_pendente(self.db): #Adicionando linhas na tabela
             self.tree.insert('', 'end', text='1', values=(i[0], i[2], i[1], i[3], i[4], str(i[5])+i[6]))
         self.tree.pack()
         
-        # Cria uma variável para armazenar as informações da linha selecionada
-        self.linha_selecionada = {}
+        self.linha_selecionada = {} # Cria uma variável para armazenar as informações da linha selecionada
 
         # Cria o botão para carregar as informações da linha selecionada
-        btn_carregar = ttk.Button(self, text='Configurar OCs do Formulário', command=lambda:self.carrega_linha_selecionada('add'), style='Att.TButton')
+        btn_carregar = ttk.Button(self, text='Configurar OCs do Formulário', command=lambda:self.carrega_linha_selecionada(), style='Att.TButton')
         btn_carregar.pack(pady=20, padx=(0,0))
         
         
-        
-    # Define uma função para o botão que carrega as informações da linha selecionada
-    def carrega_linha_selecionada(self, func):
+    def carrega_linha_selecionada(self): # Define uma função para o botão que carrega as informações da linha selecionada
         # Obtém o ID da linha selecionada
         if not self.tree.selection():
             messagebox.showinfo(message="Selecione um formulário.")
@@ -90,10 +88,7 @@ class addOC_ex(Toplevel):
             print(self.linha_selecionada)
             self.on_closing()
             if not addOC_ex.janela_aberta:
-                if func == 'add':
-                    OC_ex(self.linha_selecionada, self.db)
-                elif func == 'remove':
-                    OC_apagar()
+                OC_ex(self.linha_selecionada, self.db)
             
 # if __name__ == "__main__":
 #     app = addOC_ex()

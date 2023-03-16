@@ -8,24 +8,33 @@ import re
 
 
 class OC_ex(Toplevel):
+    janela_aberta = False
     def __init__(self, dados, db):
-        super().__init__()
-        self.geometry("600x480")
-        self.configure(background='#f0f5ff')
-        self.iconbitmap(r'logo.ico')
-        self.resizable(0,0)
-        self.title('Adicionar OC após o Form 173')
-        self.screen_width = self.winfo_screenheight()
-        self.numero_ocs = 0
-        self.y = 50
-        self.ocs = []
-        self.ocsAux = {}
-        self.id_form173 = dados['Id_form173']
-        self.dados = dados
-        self.db = db
-        print("ID: ", self.id_form173)
+        if not OC_ex.janela_aberta:
+            OC_ex.janela_aberta = True
+            super().__init__()
+            self.geometry("600x480")
+            self.configure(background='#f0f5ff')
+            self.iconbitmap(r'logo.ico')
+            self.protocol("WM_DELETE_WINDOW", lambda: self.on_closing())
+            self.resizable(0,0)
+            self.title('Adicionar OC após o Form 173')
+            self.screen_width = self.winfo_screenheight()
+            self.numero_ocs = 0
+            self.y = 50
+            self.ocs = []
+            self.ocsAux = {}
+            self.id_form173 = dados['Id_form173']
+            self.dados = dados
+            self.db = db
+            self.create_wigets()
+        else: 
+            messagebox.showerror(message="Janela já aberta!", icon='warning')
+            self.focus()
         
-        self.create_wigets()
+    def on_closing(self):
+        OC_ex.janela_aberta = False
+        self.destroy()
         
     def validate_entry_text(self, text):
         if text.isdigit() or text == "":
@@ -66,32 +75,76 @@ class OC_ex(Toplevel):
         
         # Lado "Remove" OCs
         
-        self.tableRemove = ttk.Treeview(self, columns=('n°', 'OC', 'Quantidade'), style='RemoveOC.Treeview')
+        self.tableRemove = ttk.Treeview(self, columns=('Id_ocs', 'n°', 'OC', 'Quantidade'), style='RemoveOC.Treeview')
         self.tableRemove.configure(height=10)
         self.tableRemove.column('#0',width=0, minwidth=0)
-        self.tableRemove.column('#1',width=80, anchor=tk.CENTER)
+        self.tableRemove.column('#1',width=0, minwidth=0)
         self.tableRemove.column('#2',width=80, anchor=tk.CENTER)
         self.tableRemove.column('#3',width=80, anchor=tk.CENTER)
+        self.tableRemove.column('#4',width=80, anchor=tk.CENTER)
         
         # Adiciona as colunas à tabela
         self.tableRemove.heading('#0', text='ID')
-        self.tableRemove.heading('#1', text='n°')
-        self.tableRemove.heading('#2', text='OC')
-        self.tableRemove.heading('#3', text='Quantidade')
+        self.tableRemove.heading('#1', text='Id_ocs')
+        self.tableRemove.heading('#2', text='n°')
+        self.tableRemove.heading('#3', text='OC')
+        self.tableRemove.heading('#4', text='Quantidade')
+        
+        # Define o Scrollbar e o adiciona ao Frame
+        solicit_scroll = ttk.Scrollbar(self, orient='vertical', command=self.tableRemove.yview)
+        solicit_scroll.pack(side='right', ipady=155, pady=(0,45),padx=(0, 20))
         
         #Adicionando linhas na tabela
         for i in range(len(OCs.consultaEspecifica(self.id_form173, 'track_form173'))):
-            self.tableRemove.insert('', 'end', text='1', values=(i, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i].oc, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i].quantidade))
-        self.tableRemove.pack(padx=0, pady=20)
+            self.tableRemove.insert('', 'end', text='1', values=(OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['Id_ocs'] ,i+1, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['oc'], OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['quantidade']))
+        self.tableRemove.pack(padx=(20,0), pady=(40,0))
+        self.tableRemove.configure(yscrollcommand=solicit_scroll.set)
         
-        btn_deletar = ttk.Button(self, text='Deletar OCs', command=lambda:self.carrega_linha_selecionada('remove'), style='ApagarOCexcessao.TButton')
-        btn_deletar.pack(pady=10, padx=(0, 20), ipady=4)
+        # solicit_scroll.config())  # Define a altura do Scrollbar com base no número de linhas exibidas no Treeview
+        
+        btn_deletar = ttk.Button(self, text='Deletar OC', command=lambda:self.carrega_linha_selecionada(), style='ApagarOCexcessao.TButton')
+        btn_deletar.pack(pady=15, padx=(0, 0), ipady=4, side='bottom')
         
         # Cria uma variável para armazenar as informações da linha selecionada
         self.linha_selecionada = {}
 
         OC_ex.mainloop(self)
+        
+    def carrega_linha_selecionada(self): # Obtém o ID da linha selecionada
+        if not self.tableRemove.selection():
+            messagebox.showinfo(message="Selecione uma OC.")
+            self.focus()
+        else:
+            id_linha = self.tableRemove.selection()[0] # Obtém as informações da linha selecionada
+            info_linha = self.tableRemove.item(id_linha)['values'] # Armazena as informações na variável linha_selecionada
+            self.linha_selecionada = {
+                'Id_ocs': info_linha[0],
+                'n': info_linha[1],
+                'oc': info_linha[2],
+                'quantidade': info_linha[3],
+            }
+            self.removerOC_DB()
     
+    
+    def removerOC_DB(self):
+        resposta = messagebox.askquestion("Remover OC", "Deseja remover esta OC do Formulário?")
+        if resposta == 'yes':
+            
+            id_linha = self.tableRemove.selection()[0] # Obtém as informações da linha selecionada
+            info_linha = self.tableRemove.item(id_linha)['values'] # Armazena as informações na variável linha_selecionada
+            self.linha_selecionada = {
+                'Id_ocs': info_linha[0],
+                'n': info_linha[1],
+                'oc': info_linha[2],
+                'quantidade': info_linha[3],
+            }
+            print(self.linha_selecionada)
+            
+            ## Removendo OC da Tabela e do DB e depois retornando a janela
+            self.tableRemove.delete(id_linha)
+            OCs.removeOC(info_linha[0])
+            self.focus()
+            
     def atualizar_contador(self):
         self.infoOC.config(text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#203C75", font='Roboto 9 bold')
         
@@ -132,18 +185,28 @@ class OC_ex(Toplevel):
     def insert(self): 
         if len(self.ocs) == 0: messagebox.showinfo(message="Os campos de OC's estão vazios!")
         else: 
-            x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")
+            x = messagebox.askquestion(title="Double-Check", message="Confirma a adição de OCs?")
             if x == "yes":
-                for oc in self.ocs:
-                    self.tableRemove.insert('', 'end', text='1', values=(9, oc['oc'], self.id_form173, 40))
+                for i in range(len(self.ocs)):
+                    items = self.tableRemove.get_children()
+                    last_item = items[-1] 
+                    # print(self.tableRemove.item(last_item)['values'][0], type(self.tableRemove.item(last_item)['values'][0]))      
+                    self.tableRemove.insert('', 'end', text='1', values=(self.tableRemove.item(last_item)['values'][0]+1 ,
+                                            self.tableRemove.item(last_item)['values'][1]+1, 
+                                            self.ocs[i]['oc'], 
+                                            self.ocs[i]['qnt'])
+                                            )
+                    # self.tableRemove.insert('', 'end', text='1', values=(9, oc['oc'], self.id_form173, 40))
                 insertOC(self.id_form173, self.ocs, self.db)
-                messagebox.showinfo(message="Informações enviadas!!")
                 self.ocs = []
                 
                 # APAGANDO OS CAMPOS APÓS O ENVIO DAS INFO..
                 self.oc_campo.delete(0, END)
                 self.qnt_campo.delete(0, END)
                 self.mylistbox.delete(0, END)
+                self.atualizar_contador()
+                self.focus()
+                
             else: self.oc_campo.focus_set()
     
 # if __name__ == "__main__":

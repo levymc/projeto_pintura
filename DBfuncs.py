@@ -1,6 +1,6 @@
 import sqlite3
 from tkinter import messagebox
-from sqlalchemy import Column, Integer, String, create_engine, and_
+from sqlalchemy import Column, Integer, String, create_engine, and_, func
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -139,9 +139,15 @@ class OCs(Base):
         return conteudo
     
     def consultaEspecifica(arg, coluna):
-        consultaEspeficifica = [row for row in session.query(OCs).filter(getattr(OCs, coluna) == arg).all()]
+        consultaEspeficifica = [row.as_dict for row in session.query(OCs).filter(getattr(OCs, coluna) == arg).all()]
         return consultaEspeficifica
     
+    def removeOC(id_ocs):
+        session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
+        session.commit()
+        
+print(session.query(func.max(OCs.Id_ocs)).scalar())
+
 # for i in range(len(OCs.consultaEspecifica(1, 'track_form173'))):
 #     print(OCs.consultaEspecifica(1, 'track_form173')[i].oc)
 # print(OCs.consultaEspecifica(1, 'track_form173'))
@@ -149,6 +155,7 @@ class OCs(Base):
 # print(Operadores.consultaEspecifica(Operadores,'levymc'))
 # print(Operadores.consulta())
 # print(DBForm_40.consulta())
+   
    
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
@@ -190,19 +197,7 @@ class Relacao_Tintas(Base):
                                     Relacao_Tintas.viscosimetro.like(f'%{valor_selecionado}%')))\
                       .first()
         return visc_max_min
-    
-# print(Relacao_Tintas.consultaViscosidade(Relacao_Tintas, 1452923, 'Iso'))
-        
-    
-# for i in Relacao_Tintas.consulta():
-#     print(i['viscosidade_min'], i['viscosidade_max'])
 
-# for i in Form_173.conteudoEspecifico('cemb', 2):
-#     print(i)
-
-# for i in Relacao_Tintas.consulta(91721):
-#     print("_________________________________________________________\n")
-#     print(i)
 
 def conteudoForm173_pendente(db):
     banco = sqlite3.connect(db)

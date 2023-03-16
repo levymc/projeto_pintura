@@ -5,7 +5,6 @@ class Estilos():
     def __init__(self):
         self.style = BsStyle(theme='flatly')
         
-        
         # LABEL
         
         self.style.configure('infoOC.TLabel', 
