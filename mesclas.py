@@ -6,6 +6,9 @@ import win32com.client as win32
 import win32api
 import sqlite3, shutil, win32print, re, pend_new, os
 
+# 1 é a Sala da Preparação, 2 Mascaramento e 3 meu computador
+impressora = 3
+nomeImp = 'RICOH MP C2504ex PCL 6' if impressora == 3 else 'SP' if impressora == 2 else 'RJ' if impressora == 1 else False
 
 def tamanho(db):
     try:
@@ -67,17 +70,14 @@ class Mesclas(Toplevel):
                 try:
                     banco = sqlite3.connect(self.db)
                     cursor = banco.cursor()
-                    print("conectou")
                 except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
-                    print(tudo)
                     idform173 = tudo[i][23]
                     form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
                     if x=='yes':
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
-                            print(0.1)
                             try:
                                 nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
                             except Exception as e: 
@@ -86,7 +86,6 @@ class Mesclas(Toplevel):
                             mescla_n = tudo[i][1]
                             
                             # O FOCO AQUI É
-                            print(0)
                             if not os.path.exists(self.path_gerado):
                                 os.makedirs(self.path_gerado)
                                 print("CRIANDO O DIR: ",self.path_gerado)
@@ -99,20 +98,14 @@ class Mesclas(Toplevel):
                                             new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                         else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                             else:
-                                print(1)
                                 if os.listdir(self.path_gerado) == []:
                                     new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                 else:
-                                    print(2)
                                     for nome_arquivo in os.listdir(self.path_gerado):
                                         if re.search(form_173_tudo[0][4], nome_arquivo):
                                             contador += 1
                                             new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                         else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
-                                    
-                            
-                            print("mescla: ", mescla_n)
-                            print('Tamanho: ', len(ocs))
                             if len(ocs) <= 15:
                                 self.area = '$A$1:$K$56'
                                 if os.path.exists(self.path_gerado):
@@ -174,9 +167,9 @@ class Mesclas(Toplevel):
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
                         impressora = lista_impressoras[3]
                         
-                        win32print.SetDefaultPrinter(impressora[2]) # Coloca em Default a impressora a ser utilizada
+                        win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
                         win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
-                        cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
+                        # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
                         cursor.close()
                         banco.close()
@@ -195,7 +188,6 @@ class Mesclas(Toplevel):
     def atualizar(self):
         valor = len(pend_new.pend())
         self.ttk.Label_.config(text=f"{valor}  Solicitações Pendentes")
-        # print(valor)
 
     def finalizar(self,id_form173):
         try:

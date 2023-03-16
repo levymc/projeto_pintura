@@ -1,3 +1,4 @@
-from DBfuncs import Relacao_Tintas, Form_40
+impressora = 0
+nomeImp = 'RICOH MP C2504ex PCL 6' if impressora == 3 else 'SP' if impressora == 2 else 'RJ' if impressora == 1 else False
 
-print(Form_40.obter_ultima_linha().mescla)
+print(nomeImp)
