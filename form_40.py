@@ -17,7 +17,7 @@ def validar_horario(novo_valor):
 
 def opcoesViscosimetros(id_form173):
         try:
-            cemb_tinta = DBForm_173.conteudoEspecifico('cemb', id_form173)
+            cemb_tinta = DBForm_173.conteudoEspecifico('cemb', id_form173)[0]
         #     print("cemb:::: ", cemb_tinta)
             new_cemb = ''
             for i in cemb_tinta:
@@ -66,6 +66,7 @@ class Form_40(Toplevel):
                 self.resizable(0,0)
                 self.cod_ope = Operadores.consultaEspecifica(Operadores, self.user)[0]['codigo']
                 self.cod_mp = opcoesViscosimetros(id_form173)[1]
+                print(self.cod_mp)
                 self.mescla_atual = somar_mescla()
                 self.create_wigets() # chama a função que cria os widgets
                 cursor.close()
@@ -121,7 +122,7 @@ class Form_40(Toplevel):
                                 self.agora ,
                                 self.temp_field.get() ,
                                 self.um_field.get() ,
-                                self.cod_mp[0][0] ,
+                                self.cod_mp,
                                 self.lotemp.get(),
                                 self.shelf_field.get() ,
                                 self.iagi_field.get() ,
@@ -170,7 +171,7 @@ class Form_40(Toplevel):
                         self.agora ,
                         self.temp_field.get() ,
                         self.um_field.get() ,
-                        self.cod_mp[0][0] ,
+                        self.cod_mp,
                         self.lotemp.get(),
                         self.shelf_field.get() ,
                         self.iagi_field.get() ,
@@ -195,9 +196,9 @@ class Form_40(Toplevel):
                                 
                                 if dados[12]== "" or int(dados[12])>int(visc_max_min[1]) or int(dados[12])<int(visc_max_min[0]):
                                         messagebox.showinfo(message='O valor da viscosidade está fora da norma')
-                                elif not self.iagi_field.get() == '' and not pattern.match(self.iagi_field.get()):
+                                elif self.iagi_field.get() == '' or not pattern.match(self.iagi_field.get()):
                                         messagebox.showinfo(message="O valor de 'Agitação de Tintas' foi digitado de forma errada!")   
-                                elif not self.imcom_field.get() == '' and not pattern.match(self.imcom_field.get()):
+                                elif self.imcom_field.get() == '' or not pattern.match(self.imcom_field.get()):
                                         messagebox.showinfo(message="O valor de 'Mistura dos Componentes' foi digitado de forma errada!")
                                 elif not self.imdil_field.get() == '' and not pattern.match(self.imdil_field.get()):
                                         messagebox.showinfo(message="O valor de 'Mistura Diluentes' foi digitado de forma errada!")     
@@ -215,7 +216,7 @@ class Form_40(Toplevel):
                                                                        proporcao, ini_adequacao, ini_inducao, pot_life, responsavel, Id_form173)
                                                                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                                                         """, (dados[0],dados[1],dados[2],dados[3],dados[4],dados[5],dados[6],dados[7] ,dados[8],dados[9],
-                                                              dados[11],dados[12],dados[13],dados[14],dados[15], dados[10], self.cod_ope, self.id_form173))
+                                                              dados[11],dados[12],dados[13],dados[14],dados[10], dados[15], self.cod_ope, self.id_form173))
                                                         cursor.execute("INSERT INTO form_161 (track_form173, print) VALUES(?,?)", (self.id_form173, 0))
                                                 except Exception as ex: 
                                                         print("Erro:", ex)

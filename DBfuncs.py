@@ -146,6 +146,8 @@ class OCs(Base):
         session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
         session.commit()
         
+        
+# print(DBForm_173.conteudoEspecifico('cemb', 5)[0])
 # print(session.query(func.max(OCs.Id_ocs)).scalar())
 
 # for i in range(len(OCs.consultaEspecifica(1, 'track_form173'))):

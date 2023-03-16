@@ -101,7 +101,7 @@ class OC_ex(Toplevel):
         #Adicionando linhas na tabela
         for i in range(len(OCs.consultaEspecifica(self.id_form173, 'track_form173'))):
             self.tableRemove.insert('', 'end', text='1', values=(OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['Id_ocs'] ,i+1, OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['oc'], OCs.consultaEspecifica(self.id_form173, 'track_form173')[i]['quantidade']))
-        self.tableRemove.pack(padx=(10,2), pady=(40,0))
+        self.tableRemove.pack(padx=(10,2), pady=(25,15))
         self.tableRemove.configure(yscrollcommand=solicit_scroll.set)
         
         # solicit_scroll.config())  # Define a altura do Scrollbar com base no número de linhas exibidas no Treeview
