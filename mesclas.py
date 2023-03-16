@@ -8,7 +8,7 @@ import sqlite3, shutil, win32print, re, pend_new, os
 
 # 1 é a Sala da Preparação, 2 Mascaramento e 3 meu computador
 impressora = 3
-nomeImp = 'RICOH MP C2504ex PCL 6' if impressora == 3 else 'SP 3510DN PCL 6' if impressora == 2 else 'RICOH Aficio SP 3510DN' if impressora == 1 else False
+nomeImp = 'RICOH MP C2504ex PCL 6' if impressora == 3 else 'SP 3510DN PCL 6' if impressora == 2 else 'RICOH Aficio SP 3510DN PCL' if impressora == 1 else False
 
 def tamanho(db):
     try:
