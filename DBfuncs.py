@@ -83,7 +83,7 @@ class DBForm_40(Base):
                 Término Agitador: {self.ter_agitador}, Início Mistura: {self.ini_mistura}, Término Mistura: {self.ter_mistura}, Início Diluentes: {self.ini_diluentes}, Término Diluentes: {self.ter_diluentes}, 
                 Início Indução: {self.ini_inducao}, Término Indução: {self.term_inducao}, Viscosímetro: {self.viscosimetro}, Viscosidade: {self.viscosidade},
                 Proporção: {self.proporcao}, Início Adequação: {self.ini_adequacao}, Término Adequação: {self.term_adequacao}, Pot Life: {self.pot_life}, 
-                Responsável: {self.responsavel}, Id_form173: {self.Id_form173}, Imprimiu?: {self.print}, Excessão?: {self.excessao}
+                Responsável: {self.responsavel}, Id_form173: {self.Id_form173}, Imprimiu?: {self.print}, Exceção?: {self.excessao}
                 """
     
     @hybrid_property
