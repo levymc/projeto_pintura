@@ -59,6 +59,8 @@ class DBForm_40(Base):
     shelf_life = Column(String)
     ini_agitador = Column(String)
     ter_agitador = Column(String)
+    ini_mistura = Column(String)
+    ter_mistura = Column(String)
     ini_diluentes = Column(String)
     ter_diluentes = Column(String)
     ini_inducao = Column(String)
@@ -78,7 +80,7 @@ class DBForm_40(Base):
         return f"""
                 id: {self.Id_form_40}  -  Mescla: {self.mescla}, Data Preparação: {self.data_prep}, Temperatura: {self.temperatura}, 
                 Umidade: {self.umidade}, CEMB: {self.cod_mp}, Lote: {self.lotemp}, Validade: {self.shelf_life}, Início Agitador: {self.ini_agitador}, 
-                Término Agitador: {self.ter_agitador}, Início Diluentes: {self.ini_diluentes}, Término Diluentes: {self.ter_diluentes}, 
+                Término Agitador: {self.ter_agitador}, Início Mistura: {self.ini_mistura}, Término Mistura: {self.ter_mistura}, Início Diluentes: {self.ini_diluentes}, Término Diluentes: {self.ter_diluentes}, 
                 Início Indução: {self.ini_inducao}, Término Indução: {self.term_inducao}, Viscosímetro: {self.viscosimetro}, Viscosidade: {self.viscosidade},
                 Proporção: {self.proporcao}, Início Adequação: {self.ini_adequacao}, Término Adequação: {self.term_adequacao}, Pot Life: {self.pot_life}, 
                 Responsável: {self.responsavel}, Id_form173: {self.Id_form173}, Imprimiu?: {self.print}, Excessão?: {self.excessao}
@@ -93,14 +95,17 @@ class DBForm_40(Base):
         conteudo  = [operador.as_dict for operador in session.query(cls).all()]
         return conteudo
     
-    def consultaEspecifica(user):
-        conteudo  = [i.as_dict for i in session.query(getattr(DBForm_40, user)).all()]
+    def consultaEspecifica(coluna, valor):
+        conteudo  = [i.as_dict for i in session.query(DBForm_40).filter(getattr(DBForm_40, coluna) == valor).all()][0]
         return conteudo
     
     def obter_ultima_linha():
         ultima_linha = session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first()
         return ultima_linha
 
+
+# print(DBForm_40.consultaEspecifica("Id_form_40", 1))
+# print(DBForm_40.consulta())
 
 class Operadores(Base):
     __tablename__= 'operadores'

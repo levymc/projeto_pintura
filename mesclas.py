@@ -5,6 +5,7 @@ import xlwings as xw
 import win32com.client as win32
 import win32api
 import sqlite3, shutil, win32print, re, pend_new, os, local
+from DBfuncs import DBForm_40
 
 
 nomeImp = local.Local.nomeImpressora()
@@ -151,7 +152,7 @@ class Mesclas(Toplevel):
                             ws.range("I"+f"{linha}").value = i[2]
                             linha += 1
                             
-                        ws.range("I4").value = datetime.today().strftime('%m-%d-%Y')
+                        ws.range("I4").value = DBForm_40.consultaEspecifica("Id_form173", idform173)['data_prep'][:10].format('%d.%m.%Y')
                         ws.range("C3").value = str(mescla_n)
                         ws.range("C4").value = nome
                         ws.range("J3").value = form_173_tudo[0][4]
@@ -166,8 +167,8 @@ class Mesclas(Toplevel):
                         lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
                         impressora = lista_impressoras[3]
                         
-                        win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
-                        win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
+                        # win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
+                        # win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
                         # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
                         cursor.close()
