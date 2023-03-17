@@ -33,20 +33,6 @@ def opcoesViscosimetros(id_form173):
             print("Error: ", ex, type(ex))
 
 
-def somar_mescla():
-        ultima_mescla = DBForm_40.obter_ultima_linha()['mescla']
-        x_sep = ultima_mescla.split('-')
-        prox = int(x_sep[1])+1
-        if len(str(prox))==4:
-                return "23-"+str(prox)
-        elif len(str(prox))==3:
-                return "23-0"+str(prox)
-        elif len(str(prox))==2:
-                return "23-00"+str(prox)
-        elif len(str(prox))==1:
-                return "23-000"+str(prox)
-        else: print("O número da mescla está inválido!")
-
 class Form_40(Toplevel):
         def __init__(self, id_form173, user, db):
                 self.db = db
