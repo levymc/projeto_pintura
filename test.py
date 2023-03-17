@@ -1,4 +1,4 @@
-impressora = 0
-nomeImp = 'RICOH MP C2504ex PCL 6' if impressora == 3 else 'SP' if impressora == 2 else 'RJ' if impressora == 1 else False
+from DBfuncs import DBForm_40
 
-print(nomeImp)
+mescla = DBForm_40.consultaEspecifica('Id_form_40', DBForm_40.obter_ultima_linha()['Id_form_40'])
+print(mescla)

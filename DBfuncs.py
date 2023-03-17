@@ -100,7 +100,7 @@ class DBForm_40(Base):
         return conteudo
     
     def obter_ultima_linha():
-        ultima_linha = session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first()
+        ultima_linha = session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first().as_dict
         return ultima_linha
 
 

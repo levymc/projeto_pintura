@@ -8,6 +8,8 @@ import sqlite3, shutil, win32print, re, pend_new, os, local
 from DBfuncs import DBForm_40
 
 
+
+
 nomeImp = local.Local.nomeImpressora()
 
 def tamanho(db):
