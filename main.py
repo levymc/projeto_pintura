@@ -89,6 +89,9 @@ class Main(Tk):
         processo = ttk.Button(quadro, text="Email Processo", style='Processo.TButton', command=lambda:[Interface()])
         processo.place(x = 595, y=274)
         
+        maisInfo = ttk.Button(quadro, text="Mais Informações", style="MaisInfo.TButton")
+        maisInfo.place(x = 490, y = 274)
+        
         
         img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')
         img_frame.place(x=0, y=240)

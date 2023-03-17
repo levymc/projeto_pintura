@@ -95,6 +95,17 @@ class Estilos():
                 borderwidth=5,
                 relief='ridge',)
         
+        self.style.map('MaisInfo.TButton', background=[('active', '#3e3e3e')], 
+          foreground=[('active', 'white')]) ## O .map serve para configuração de estilos de estado (pressionado, ativo, ....)
+        self.style.configure('MaisInfo.TButton',
+                background='#384a6e',  #.configure serve para configurações de estilo no geral
+                font=('Roboto', 7, 'bold'),
+                foreground='white',
+                border=0.5,
+                padding=2,
+                # relief='ridge',
+                )
+        
         self.style.configure('Processo.TButton',
                              padding=2,
                              font=('Roboto', 7),
