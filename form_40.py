@@ -5,6 +5,8 @@ from datetime import timedelta
 from datetime import datetime
 from DBfuncs import Relacao_Tintas, DBForm_173, DBForm_40, Operadores
 
+ultima_mescla = DBForm_40.obter_ultima_linha()['mescla']
+
 def validar_horario(novo_valor):
     """Função de validação para aceitar apenas horários no formato HH:MM"""
     # Verifica se o novo valor contém apenas números e dois pontos
@@ -31,20 +33,6 @@ def opcoesViscosimetros(id_form173):
             print("Error: ", ex, type(ex))
 
 
-def somar_mescla():
-        ultima_mescla = DBForm_40.obter_ultima_linha().mescla
-        x_sep = ultima_mescla.split('-')
-        prox = int(x_sep[1])+1
-        if len(str(prox))==4:
-                return "23-"+str(prox)
-        elif len(str(prox))==3:
-                return "23-0"+str(prox)
-        elif len(str(prox))==2:
-                return "23-00"+str(prox)
-        elif len(str(prox))==1:
-                return "23-000"+str(prox)
-        else: print("O número da mescla está inválido!")
-
 class Form_40(Toplevel):
         def __init__(self, id_form173, user, db):
                 self.db = db
@@ -67,11 +55,32 @@ class Form_40(Toplevel):
                 self.cod_ope = Operadores.consultaEspecifica(Operadores, self.user)[0]['codigo']
                 self.cod_mp = opcoesViscosimetros(id_form173)[1]
                 print(self.cod_mp)
-                self.mescla_atual = somar_mescla()
+                self.mescla_atual = self.obter_nova_mescla()
+                print("EEE",self.mescla_atual)
+                
                 self.create_wigets() # chama a função que cria os widgets
                 cursor.close()
                 banco.close()
 
+        def obter_nova_mescla(self):
+                # Usa a variável global para obter a última mescla gerada
+                global ultima_mescla
+                x_sep = ultima_mescla.split('-')
+                prox = int(x_sep[1])+1
+                if len(str(prox))==4:
+                        nova_mescla = "23-"+str(prox)
+                elif len(str(prox))==3:
+                        nova_mescla = "23-0"+str(prox)
+                elif len(str(prox))==2:
+                        nova_mescla = "23-00"+str(prox)
+                elif len(str(prox))==1:
+                        nova_mescla = "23-000"+str(prox)
+                else:
+                        print("O número da mescla está inválido!")
+                        nova_mescla = "" # Retorna uma string vazia em caso de erro
+                ultima_mescla = nova_mescla # Atualiza a variável global com a nova mescla gerada
+                return nova_mescla
+        
         def create_wigets(self):
                 self.mescla_field = ttk.Label(self, text=self.mescla_atual, font="Roboto 8 bold", background='white') 
                 self.hoje = datetime.today().strftime('%d-%m-%y')
