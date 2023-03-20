@@ -17,8 +17,9 @@ class Estilos():
                             )
         
         self.style.configure('TituloMenor.TLabel',
-                             font=('Roboto', 12, 'bold'),
-                             )
+                            font=('Roboto', 12, 'bold'),
+                            padding=10,)
+        
         self.style.configure('Titulo.TLabel',
                              font=('Roboto', 16, 'bold'),
                              background='#f0f5ff',
