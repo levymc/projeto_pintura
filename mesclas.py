@@ -37,7 +37,7 @@ class Mesclas(Toplevel):
         self.configure(background='#f0f5ff')
         self.iconbitmap(r'logo.ico')
         self.resizable(0,0)
-        self.title('Solicitações Pendentes')
+        self.title('Mesclas Finalizadas')
         self.screen_width = self.winfo_screenheight()
         self.create_wigets()
     
