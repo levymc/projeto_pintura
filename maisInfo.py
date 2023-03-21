@@ -20,7 +20,7 @@ class MaisInfo(Toplevel):
             info.configure(background='#f0f5ff')
             info.iconbitmap(r'logo.ico')
             info.resizable(0,0)
-            info.title('Adicionar OC após o Form 173')
+            info.title('Mais Informações')
             info.screen_width = info.winfo_screenheight()
             info.create_wigets()
         else: 
@@ -34,8 +34,8 @@ class MaisInfo(Toplevel):
         info.destroy()
         
     def create_wigets(info):
-        titulo = ttk.Label(info, text="Caso deseja vizualizar formulários finalizados, selecione um dos botões abaixo.", style='TituloMenor.TLabel',
-                           wraplength=300, background='#f0f5ff', justify=['center'])
+        titulo = ttk.Label(info, text="Caso deseje vizualizar os formulários finalizados, selecione um dos botões abaixo.", style='TituloMenor.TLabel',
+                           wraplength=330, background='#f0f5ff', justify=['center'])
         titulo.pack(pady=20)
         
         # Botão de vizualização dos Form173 finalizados
@@ -223,7 +223,7 @@ class VisuForm163(Toplevel):
         # Obtém a linha selecionada na tabela
         item_id = form161.tree.focus()
         # Obtém o valor da segunda coluna da linha selecionada
-        caminho_pasta = form161.tree.item(item_id)['values'][1]
+        caminho_pasta = form161.tree.item(item_id)['values'][2]
         # Abre o explorador de arquivos na pasta desejada
         subprocess.Popen(f'explorer "{caminho_pasta}"')
 
