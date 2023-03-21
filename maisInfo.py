@@ -184,48 +184,41 @@ class VisuForm163(Toplevel):
         
         form161.tree = ttk.Treeview(form161, columns=('id', 'Arquivo', 'Caminho'))
         form161.tree.column('#0',width=0, minwidth=0)
-        form161.tree.column('#1',width=150, minwidth=30, anchor=CENTER)
-        form161.tree.column('#2',width=420, anchor=tk.CENTER)
+        form161.tree.column('#1',width=0, minwidth=0, anchor=CENTER)
+        form161.tree.column('#2',width=100, minwidth=30, anchor=CENTER)
+        form161.tree.column('#3',width=420, anchor=tk.CENTER)
         
         # Adiciona as colunas à tabela
         form161.tree.heading('#0', text='ID')
-        form161.tree.heading('#1', text='Arquivo')
-        form161.tree.heading('#2', text='Caminho')
+        form161.tree.heading('#1', text='Original')
+        form161.tree.heading('#2', text='Arquivo')
+        form161.tree.heading('#3', text='Caminho')
         
-        # Define a pasta raiz
-        root_folder = r'\\NasTecplas\Pintura\Forms\Form_161\Form_161_Gerado'
-
         padrao = re.compile(r"3- Form_Controle Aplicação Tinta (\d+ - \d+)\.xlsx")
-        # Percorre todas as pastas e arquivos dentro da pasta raiz
-        for pasta_atual, sub_pastas, arquivos in os.walk(root_folder):
-            # Percorre todos os arquivos na pasta atual
+        pasta_raiz = r'\\NasTecplas\Pintura\Forms\Form_161\Form_161_Gerado'
+        lista_arquivos_xlsx = []
+        for pasta_atual, sub_pastas, arquivos in os.walk(pasta_raiz):
             for arquivo in arquivos:
-                # Verifica se o arquivo é um arquivo Excel (.xlsx)
                 if arquivo.endswith('.xlsx'):
-                    # Obtém o caminho completo do arquivo
-                    caminho_arquivo = os.path.join(pasta_atual, arquivo)
-                    # Obtém a data atual
-                    data_atual = datetime.now()
-                    # Obtém o ano, mês e dia atual em diferentes formatos
-                    ano_atual = data_atual.strftime('%Y')
-                    mes_atual = data_atual.strftime('%m')
-                    dia_atual = data_atual.strftime('%d.%m')
-                    mes_atual_escrito = data_atual.strftime('%B')
-                    # Cria o caminho da pasta para este arquivo
-                    caminho_pasta = os.path.join(root_folder, ano_atual, mes_atual_escrito, dia_atual)
-                    # Adiciona o nome do arquivo e o caminho da pasta à lista
+                    lista_arquivos_xlsx.append([arquivo,pasta_atual])
                     match = padrao.search(arquivo)
                     if match:
                         codigo = match.group(1)
-                        form161.tree.insert('', 'end', text='1', values=(codigo, caminho_pasta))
-                    
-        form161.tree.pack(padx=100)
+                        form161.tree.insert('', 'end', text='1', values=(arquivo, codigo, pasta_atual))
+        # Cria a scrollbar e a vincula à Treeview
+        scrollbar = ttk.Scrollbar(form161, orient="vertical", command=form161.tree.yview)
+        form161.tree.configure(yscrollcommand=scrollbar.set)
+        scrollbar.pack(side="right", ipady=100, pady=(0, 105),padx=(0,105))
+        form161.tree.pack(padx=(100, 0))
         
 
-        # Cria o botão para carregar as informações da linha selecionada
+        # Cria os botões para carregar as informações da linha selecionada
         btn_abrirPasta = ttk.Button(form161, text='Abrir Pasta', command=lambda:form161.abrir_pasta_selecionada(), style='Att.TButton') #, command=lambda:form40.carrega_linha_selecionada()
-        btn_abrirPasta.pack(pady=25, padx=(0,0))
-        
+        btn_abrirPasta.pack(side='left', pady=25, padx=(300,5))
+        btn_abrirArquivo = ttk.Button(form161, text='Abrir Arquivo', command=lambda:form161.abrir_arquivo_selecionado(), style='Att.TButton')
+        btn_abrirArquivo.pack(side='right', pady=25, padx=(0,200))
+
+                
     def abrir_pasta_selecionada(form161):
         # Obtém a linha selecionada na tabela
         item_id = form161.tree.focus()
@@ -233,3 +226,11 @@ class VisuForm163(Toplevel):
         caminho_pasta = form161.tree.item(item_id)['values'][1]
         # Abre o explorador de arquivos na pasta desejada
         subprocess.Popen(f'explorer "{caminho_pasta}"')
+
+    def abrir_arquivo_selecionado(form161):
+        # Obtém a linha selecionada na tabela
+        item_id = form161.tree.focus()
+        # Obtém o valor da segunda coluna da linha selecionada
+        caminho_arquivo = os.path.join(form161.tree.item(item_id)['values'][2], form161.tree.item(item_id)['values'][0])
+        # Abre o arquivo desejado
+        os.startfile(caminho_arquivo)
