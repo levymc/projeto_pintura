@@ -1,6 +1,6 @@
 import sqlite3
 from tkinter import messagebox
-from sqlalchemy import Column, Integer, String, create_engine, and_, func
+from sqlalchemy import Column, Integer, String, create_engine, and_, func, update
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 import local
@@ -110,6 +110,12 @@ class DBForm_40(Base):
     def obter_ultima_linha():
         ultima_linha = session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first().as_dict
         return ultima_linha
+
+    def update_print(id_form173):
+        with Session() as session:
+            query = update(DBForm_40).where(DBForm_40.Id_form173 == id_form173).values(print=0)
+            session.execute(query)
+            session.commit()
 
 
 # print(DBForm_40.consultaEspecifica("Id_form_40", 1))

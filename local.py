@@ -1,4 +1,4 @@
-arg='prod'
+arg='dev'
 computador = 2  # 1 é a Sala da Preparação, 2 Mascaramento e 3 meu computador
 
 class Local():

@@ -93,15 +93,6 @@ class addOC_ex(Toplevel):
         btn_carregar = ttk.Button(self, text='Configurar OCs do Formulário', command=lambda:self.carrega_linha_selecionada(), style='Att.TButton')
         btn_carregar.pack(pady=20, padx=(0,0))
         
-    # def atualiza_valor_combobox(self, event):
-    #     valor_selecionado = self.combobox.get()
-    #     if valor_selecionado == "Não impressos":
-    #         self.valor = 0
-    #     elif valor_selecionado == "Já impressos":
-    #         self.valor = 1
-            
-            
-
         
     def carrega_linha_selecionada(self): # Define uma função para o botão que carrega as informações da linha selecionada
         # Obtém o ID da linha selecionada

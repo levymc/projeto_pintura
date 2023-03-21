@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, ttk
 import tkinter as tk
-from DBfuncs import OCs
+from DBfuncs import OCs, DBForm_40
 from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
@@ -26,6 +26,7 @@ class OC_ex(Toplevel):
             self.ocs = []
             self.ocsAux = {}
             self.id_form173 = dados['Id_form173']
+            print(dados)
             self.dados = dados
             self.db = db
             self.create_wigets()
@@ -147,6 +148,11 @@ class OC_ex(Toplevel):
             ## Removendo OC da Tabela e do DB e depois retornando a janela
             self.tableRemove.delete(id_linha)
             OCs.removeOC(info_linha[0])
+            try:
+                DBForm_40.update_print(self.id_form173)
+            except Exception as ex:
+                messagebox.showerror("Error", ex)
+                print(ex, type(ex))
             self.focus()
             
     def atualizar_contador(self):
@@ -200,6 +206,11 @@ class OC_ex(Toplevel):
                                             )
                     # self.tableRemove.insert('', 'end', text='1', values=(9, oc['oc'], self.id_form173, 40))
                 OCs.insertOC(self.id_form173, self.ocs)
+                try:
+                    DBForm_40.update_print(self.id_form173)
+                except Exception as ex:
+                    messagebox.showerror("Error", ex)
+                    print(ex, type(ex))
                 self.ocs = []
                 
                 # APAGANDO OS CAMPOS APÓS O ENVIO DAS INFO..
