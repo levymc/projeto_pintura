@@ -15,7 +15,7 @@ class addOC_ex(Toplevel):
             addOC_ex.janela_aberta = True
             super().__init__()
             self.protocol("WM_DELETE_WINDOW", lambda: self.on_closing())
-            self.geometry("590x310")
+            self.geometry("590x350")
             self.configure(background='#f0f5ff')
             self.iconbitmap(r'logo.ico')
             self.resizable(0,0)
