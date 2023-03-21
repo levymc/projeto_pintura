@@ -40,12 +40,20 @@ class DBForm_173(Base):
     def conteudoTudo(cls,pend):
        conteudoTudo  = [row.as_dict for row in session.query(cls).filter(DBForm_173.pendencia == pend).all()]
        return conteudoTudo
+    
+    @classmethod
+    def conteudoTudoEspecifico(cls, pend, data):
+        conteudoTudo  = [row.as_dict for row in session.query(cls).filter(and_(DBForm_173.pendencia == pend, DBForm_173.data_solicitacao == data)).all()]
+        return conteudoTudo
+
    
     def conteudoEspecifico(coluna, id_form173):
         conteudoEspecifico = [row[0] for row in session.query(getattr(DBForm_173, coluna)).filter(DBForm_173.Id_form_173 == id_form173).all()]
         return conteudoEspecifico
     
     
+# print(DBForm_173.conteudoTudoEspecifico(1, '21-03-2023'))
+
 class DBForm_40(Base):
     __tablename__= 'form_40'
     

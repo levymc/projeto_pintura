@@ -6,6 +6,7 @@ from ttkbootstrap import Style as BsStyle
 import tkinter.font as font
 import re
 from OC_ex import OC_ex
+from datetime import datetime
 
 
 class addOC_ex(Toplevel):
@@ -15,7 +16,7 @@ class addOC_ex(Toplevel):
             addOC_ex.janela_aberta = True
             super().__init__()
             self.protocol("WM_DELETE_WINDOW", lambda: self.on_closing())
-            self.geometry("590x350")
+            self.geometry("590x380")
             self.configure(background='#f0f5ff')
             self.iconbitmap(r'logo.ico')
             self.resizable(0,0)
@@ -34,7 +35,36 @@ class addOC_ex(Toplevel):
         
     def create_wigets(self):
         teste = ttk.Label(self, text="Selecione um dos formulários abaixo.", style='TituloMenor.TLabel', background='#f0f5ff')
-        teste.pack(pady=20)
+        teste.pack(pady=(20, 10))
+        
+        self.valor = 1
+        
+        def atualizar_tabela(event):
+            hoje = datetime.today().strftime('%d-%m-%Y')
+            # obter seleção atual do combobox
+            opcao = self.combobox.get()
+            # remover todas as linhas existentes da tabela
+            if opcao == "Finalizados":
+                for row in self.tree.get_children():
+                    self.tree.delete(row)
+                for i in DBForm_173.conteudoTudoEspecifico(0, hoje): #Adicionando linhas na tabela
+                    self.tree.insert('', 'end', text='1', values=(i['Id_form_173'], i['formulario'], i['solicitante'],
+                                                                i['data_solicitacao'], i['cemb'], str(i['quantidade'])+i['unidade']))
+            else:
+                for row in self.tree.get_children():
+                    self.tree.delete(row)
+                for i in DBForm_173.conteudoTudoEspecifico(1, hoje): #Adicionando linhas na tabela
+                    self.tree.insert('', 'end', text='1', values=(i['Id_form_173'], i['formulario'], i['solicitante'],
+                                                                i['data_solicitacao'], i['cemb'], str(i['quantidade'])+i['unidade']))
+            
+        
+         # Cria a combobox com as opções desejadas
+        self.opcoes_combobox = ['Finalizados', 'Não Finalizados']
+        self.combobox = ttk.Combobox(self, values=self.opcoes_combobox, state='readonly')
+        self.combobox.current(1) # Define a opção padrão como a primeira opção
+        self.combobox.pack(pady=(0, 10), padx=(0, 400))
+        self.combobox.bind("<<ComboboxSelected>>", atualizar_tabela)
+
         
         self.tree = ttk.Treeview(self, columns=('id_form173', 'Formulário', 'Solicitante', 'Data', 'CEMB', 'Quantidade'))
         self.tree.column('#0',width=0, minwidth=0)
@@ -54,9 +84,7 @@ class addOC_ex(Toplevel):
         self.tree.heading('#5', text='CEMB')
         self.tree.heading('#6', text='Quantidade')
         
-        for i in DBForm_173.conteudoTudo(1): #Adicionando linhas na tabela
-            self.tree.insert('', 'end', text='1', values=(i['Id_form_173'], i['formulario'], i['solicitante'],
-                                                          i['data_solicitacao'], i['cemb'], str(i['quantidade'])+i['unidade']))
+        
         self.tree.pack()
         
         self.linha_selecionada = {} # Cria uma variável para armazenar as informações da linha selecionada
@@ -65,6 +93,15 @@ class addOC_ex(Toplevel):
         btn_carregar = ttk.Button(self, text='Configurar OCs do Formulário', command=lambda:self.carrega_linha_selecionada(), style='Att.TButton')
         btn_carregar.pack(pady=20, padx=(0,0))
         
+    # def atualiza_valor_combobox(self, event):
+    #     valor_selecionado = self.combobox.get()
+    #     if valor_selecionado == "Não impressos":
+    #         self.valor = 0
+    #     elif valor_selecionado == "Já impressos":
+    #         self.valor = 1
+            
+            
+
         
     def carrega_linha_selecionada(self): # Define uma função para o botão que carrega as informações da linha selecionada
         # Obtém o ID da linha selecionada
