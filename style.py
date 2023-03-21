@@ -10,6 +10,11 @@ class Estilos():
                             padding=0,
                             )
         
+        self.style.configure('MyTreeview.Treeview',
+                             font=('Arial', 12),
+                             width=12,
+                             )
+        
         # LABEL
         
         self.style.configure('infoOC.TLabel', 
