@@ -69,49 +69,10 @@ class Main(Tk):
         maisInfo = ttk.Button(quadro, text="Mais Informações", style="MaisInfo.TButton", command=lambda:MaisInfo())
         maisInfo.place(x = 565, y = 274)
         
-        
         img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')
         img_frame.place(x=0, y=240)
 
-        def proc_solicitacao(db):
-            # x = consulta_field.get()
-            try:
-                banco = sqlite3.connect(db)
-                cursor = banco.cursor()
-                cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={x[0]}")
-                vetor_inform = cursor.fetchall()
-                id_form173,solicitantes,formulario,data,cemb,qnt,p,pintor = vetor_inform[0]
-                cursor.close()
-                banco.close()
-            except:
-                messagebox.showinfo(message="Solicitação não encontrada!")
-            try:
-                    pend_ = Toplevel()
-                    pend_.geometry("886x300")
-                    pend_.iconbitmap(r'logo.ico')
-                    loadimage_form173 = PhotoImage(file=r"form_173.png")
-                    pend_.configure(background='white')
-                    pend_.resizable(0,0)
-                    img_frame_173 = ttk.Label(pend_, image=loadimage_form173, background='#f0f5ff')
-                    img_frame_173.place(x=0,y=0)
-                    solicitante = ttk.Label(pend_, text = f"{solicitantes}", background='white', font='Trebuchet 16 bold')
-                    solicitante.place(x=210, y=105)
-                    form = ttk.Label(pend_, text = f"{formulario}", background='white', font='Trebuchet 16 bold')
-                    form.place(x=220, y=160)
-                    data = ttk.Label(pend_, text = ""+ f"{data}", background='white', font='Trebuchet 16 bold')
-                    data.place(x=680, y=102)
-                    cembs = ttk.Label(pend_, text ="E"+f"{cemb}", background='white', font='Trebuchet 16 bold')
-                    cembs.place(x=590, y=160)
-                    quantidades = ttk.Label(pend_, text = f"{qnt}", background='white', font='Trebuchet 16 bold')
-                    quantidades.place(x=300, y=220)
-
-            except: 
-                pend_.destroy()
-                messagebox.showinfo(message="Solicitação não encontrada!")
-                pass
-            # consulta_field.delete(0, END)
-            pend_.mainloop()
-
+        # Fram
         frameOC = ttk.Frame(quadro, width=270, height=60, style='FrameOC.TFrame')
         frameOC.place(x=380, y=200)
         addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário corrigir as OCs\ncadastradas, clique ao lado")
