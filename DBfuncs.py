@@ -1,6 +1,6 @@
 import sqlite3
 from tkinter import messagebox
-from sqlalchemy import Column, Integer, String, create_engine, and_, func, update, exists
+from sqlalchemy import Column, Integer, String, create_engine, and_, func, update, exists, select
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
@@ -11,6 +11,13 @@ engine = create_engine(r'sqlite:///'+path, echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
 Base = declarative_base()
+
+class SQlite_Sequence(Base):
+    __tablename__ = "sqlite_sequence"
+    
+    name = Column(String, primary_key=True)
+    seq = Column(Integer)
+
 
 class DBForm_173(Base):
     __tablename__='form_173'
@@ -178,14 +185,38 @@ class OCs(Base):
         conteudo  = [oc.as_dict for oc in session.query(cls).all()]
         return conteudo
     
-    def consultaEspecifica(arg, coluna):
-        consultaEspeficifica = [row.as_dict for row in session.query(OCs).filter(getattr(OCs, coluna) == arg).all()]
+    @classmethod
+    def consultaEspecifica(cls, arg, coluna):
+        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
         return consultaEspeficifica
     
+    @staticmethod
     def removeOC(id_ocs):
+        # Removendo a OC
         session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
+        
+        # Atualizando o sqlite_sequence
+        query = update(SQlite_Sequence).where(SQlite_Sequence.name == 'ocs').values(name=OCs.ultimoId())
+        session.execute(query)
+        
         session.commit()
         session.close()
+        
+    @staticmethod
+    def ultimoId():
+        # Crie uma consulta para encontrar o último ID
+        consulta = select(OCs.Id_ocs).order_by(OCs.Id_ocs.desc()).limit(1)
+
+        # Execute a consulta e obtenha o resultado
+        resultado = session.execute(consulta).fetchone()
+
+        # Se o resultado for None, a tabela está vazia
+        if resultado is None:
+            ultimo_id = 0
+        else:
+            ultimo_id = resultado[0]
+        return ultimo_id
+
     
     def insertOC(id_form173, ocs):
         for i in ocs:
@@ -196,7 +227,8 @@ class OCs(Base):
         session.commit()
         session.close()
         messagebox.showinfo("Envio completo", "Informações adicionadas!")
-        
+  
+# OCs.insertOC(1, [91919919191, 19199191])
 
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
