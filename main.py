@@ -31,6 +31,8 @@ elif local == "prod":
     path_maior = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_maior.xlsx"
     path_gerado = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+anoAtual+mesAtual+dia_mesAtual
 
+
+
 def pend():
     try:
         banco = sqlite3.connect(db)
@@ -65,9 +67,18 @@ class Main(Tk):
         self.img = PhotoImage(file="logo.png")
         self.fonte_fa = font.Font(family="FontAwesome", size=12)
         self.style = Estilos()
+        self.bind("<Button-3>", lambda event: self.exibir_menu(event))
         
         self.create_wigets()
 
+    def exibir_menu(self, event):
+        menu = Menu(self, tearoff=0)
+        menu.add_command(label="Opção 1", command=lambda:print("oiiiii!!"))
+        menu.add_command(label="Opção 2")
+        menu.add_separator()
+        menu.add_command(label="Sair", command=lambda: self.quit())
+        menu.post(event.x_root, event.y_root)
+    
     def create_wigets(self):
         try:
             banco = sqlite3.connect(db)
