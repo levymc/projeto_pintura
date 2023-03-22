@@ -11,6 +11,9 @@ import tkinter.font as font
 from enviar_email import Interface
 from style import Estilos
 from maisInfo import MaisInfo
+import local
+
+db = local.Local.local()
 
 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -18,7 +21,7 @@ anoAtual = agora[6:10]+"/"
 mesAtual = meses[int(agora[3:5])-1]+"/"
 dia_mesAtual = agora[:5]+"/"
 
-local = "dev"
+local = local.arg
 
 if local == "dev":
     db = r"pintura.db"
@@ -72,7 +75,6 @@ class Main(Tk):
         img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')
         img_frame.place(x=0, y=240)
 
-        # Fram
         frameOC = ttk.Frame(quadro, width=270, height=60, style='FrameOC.TFrame')
         frameOC.place(x=380, y=200)
         addOC_info = ttk.Label(quadro, style='infoOC.TLabel', text="Caso seja necessário corrigir as OCs\ncadastradas, clique ao lado")
@@ -123,8 +125,6 @@ class Main(Tk):
         b3 = ttk.Button(quadro, text="Gerar e Imprimir Form. 161", command=lambda:[mesclas.Mesclas(db,path, path_maior, path_gerado)], style='Custom.TButton', takefocus=False)
         b3.place(x = 50, y= 180)
         
-
 if __name__ == "__main__":
     app = Main()
     app.mainloop()
-
