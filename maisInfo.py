@@ -8,6 +8,8 @@ import os, re, subprocess
 from OC_ex import OC_ex
 from datetime import datetime
 
+data = datetime.today()
+
 
 class MaisInfo(Toplevel):
     janela_aberta = False
@@ -62,7 +64,7 @@ class VisuForm173(Toplevel):
         form173.create_wigets()
         
     def create_wigets(form173):
-        titulo = ttk.Label(form173, text="Solicitações de Tinta ainda Pendentes", style='TituloMenor.TLabel',
+        titulo = ttk.Label(form173, text=f"Solicitações de Tinta   -   {data.strftime('%d-%m-%Y')}", style='TituloMenor.TLabel',
                            wraplength=300, background='#c5d3f0', justify=['center'])
         titulo.pack(pady=20)
         
@@ -84,7 +86,7 @@ class VisuForm173(Toplevel):
         form173.tree.heading('#5', text='CEMB')
         form173.tree.heading('#6', text='Quantidade')
         
-        for i in DBForm_173.conteudoTudo(1): #Adicionando linhas na tabela
+        for i in DBForm_173.conteudoTudoEspecificoDia(): #Adicionando linhas na tabela
             form173.tree.insert('', 'end', text='1', values=(i['Id_form_173'], i['formulario'], i['solicitante'],
                                                           i['data_solicitacao'], i['cemb'], str(i['quantidade'])+i['unidade']))
         form173.tree.pack()
@@ -102,7 +104,7 @@ class VisuForm40(Toplevel):
         form40.create_wigets()
         
     def create_wigets(form40):
-        titulo = ttk.Label(form40, text="Solicitações de Tinta ainda Pendentes", style='TituloMenor.TLabel',
+        titulo = ttk.Label(form40, text=f"Mesclas Realizadas    -   {data.strftime('%d-%m-%Y')}", style='TituloMenor.TLabel',
                            wraplength=300, background='#b4bbcc', justify=['center'])
         titulo.pack(pady=20)
         
@@ -178,8 +180,8 @@ class VisuForm161(Toplevel):
         form161.create_wigets()
     
     def create_wigets(form161):
-        titulo = ttk.Label(form161, text="Solicitações de Tinta ainda Pendentes", style='TituloMenor.TLabel',
-                           wraplength=300, background='#b1b2b5', justify=['center'])
+        titulo = ttk.Label(form161, text=f"Formulários 161 Impressos    -   {data.strftime('%d-%m-%Y')}", style='TituloMenor.TLabel',
+                           wraplength=500, background='#b1b2b5', justify=['center'])
         titulo.pack(pady=20)
         
         form161.tree = ttk.Treeview(form161, columns=('id', 'Arquivo', 'Data'))
@@ -197,7 +199,6 @@ class VisuForm161(Toplevel):
         padrao = re.compile(r"3- Form_Controle Aplicação Tinta (\d+ - \d+)\.xlsx")
         pasta_raiz = r'\\NasTecplas\Pintura\Forms\Form_161\Form_161_Gerado'
         # data para a qual queremos encontrar os arquivos
-        data = datetime.today()
         lista_arquivos_xlsx = []
         for pasta_atual, sub_pastas, arquivos in os.walk(pasta_raiz):
             for arquivo in arquivos:

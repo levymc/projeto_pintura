@@ -46,6 +46,12 @@ class DBForm_173(Base):
     def conteudoTudoEspecifico(cls, pend, data):
         conteudoTudo  = [row.as_dict for row in session.query(cls).filter(and_(DBForm_173.pendencia == pend, DBForm_173.data_solicitacao == data)).all()]
         return conteudoTudo
+    
+    @classmethod
+    def conteudoTudoEspecificoDia(cls):
+        data_atual = datetime.now().strftime('%d-%m-%Y')
+        conteudoTudo  = [row.as_dict for row in session.query(cls).filter((DBForm_173.data_solicitacao.startswith(data_atual))).all()]
+        return conteudoTudo
 
    
     def conteudoEspecifico(coluna, id_form173):
@@ -121,9 +127,6 @@ class DBForm_40(Base):
             session.execute(query)
             session.commit()
 
-
-# print(DBForm_40.consultaEspecificaDia())
-# print(DBForm_40.consulta())
 
 class Operadores(Base):
     __tablename__= 'operadores'
