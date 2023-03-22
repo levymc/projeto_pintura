@@ -152,7 +152,11 @@ class Operadores(Base):
     def consultaEspecifica(cls, user):
         conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.usuario == user).all()]
         return conteudo
-
+    
+    def conferenciaOperador(codigoOperador): 
+        result = session.query(exists().where(Operadores.codigo == codigoOperador)).scalar()
+        return result
+    
 
 class OCs(Base):
     __tablename__ = 'ocs'
@@ -193,7 +197,6 @@ class OCs(Base):
         session.close()
         messagebox.showinfo("Envio completo", "Informações adicionadas!")
         
-
 
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
@@ -239,5 +242,3 @@ class Relacao_Tintas(Base):
     def conferenciaMescla(cembMescla): 
         result = session.query(exists().where(Relacao_Tintas.cemb == cembMescla)).scalar()
         return result
-
-print(Relacao_Tintas.conferenciaMescla(9171))

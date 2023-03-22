@@ -7,7 +7,7 @@ import tkinter.font as font
 from ttkbootstrap import Style as BsStyle
 from ttkbootstrap.constants import *
 from ttkbootstrap.widgets import Frame
-from DBfuncs import Relacao_Tintas
+from DBfuncs import Relacao_Tintas, Operadores
 
 
 
@@ -181,7 +181,8 @@ class App(Toplevel):
         unidade = '' if self.selected_option.get() == 0 else unidade
         dic = (self.cod_operador, self.numero_field.get(), self.hoje, self.cemb_field.get(), self.qnt_field.get(), unidade,self.pintor_field.get())
         
-        ### CONFERINDO OS CAMPOS VAZIOS
+        ### Campo das Conferências __________________
+        
         if (self.numero_field.get() == "" or 
             self.cemb_field.get() == "" or
             self.qnt_field.get() == "" or
@@ -193,6 +194,9 @@ class App(Toplevel):
         
         elif Relacao_Tintas.conferenciaMescla(self.cemb_field.get()) == False:  ## Criar condição de conferência da mescla
             messagebox.showerror("Erro CEMB", "O código da tinta digitado está errado.")
+            
+        elif Operadores.conferenciaOperador(self.pintor_field.get()) == False:  ## Criar condição de conferência do código do operador
+            messagebox.showerror("Erro Operador", "O código do operador está errado.")
 
         else: 
             x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")
