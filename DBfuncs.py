@@ -3,6 +3,7 @@ from tkinter import messagebox
 from sqlalchemy import Column, Integer, String, create_engine, and_, func, update
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
+from datetime import datetime
 import local
 
 path =local.Local.local()  #'//NasTecplas/Pintura/DB/pintura.db'
@@ -52,8 +53,6 @@ class DBForm_173(Base):
         return conteudoEspecifico
     
     
-# print(DBForm_173.conteudoTudoEspecifico(1, '21-03-2023'))
-
 class DBForm_40(Base):
     __tablename__= 'form_40'
     
@@ -107,6 +106,11 @@ class DBForm_40(Base):
         conteudo  = [i.as_dict for i in session.query(DBForm_40).filter(getattr(DBForm_40, coluna) == valor).all()][0]
         return conteudo
     
+    def consultaEspecificaDia():
+        data_atual = datetime.now().strftime('%d-%m-%Y')
+        conteudo  = [i.as_dict for i in session.query(DBForm_40).filter(DBForm_40.data_prep.startswith(data_atual)).all()]
+        return conteudo
+    
     def obter_ultima_linha():
         ultima_linha = session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first().as_dict
         return ultima_linha
@@ -118,7 +122,7 @@ class DBForm_40(Base):
             session.commit()
 
 
-# print(DBForm_40.consultaEspecifica("Id_form_40", 1))
+# print(DBForm_40.consultaEspecificaDia())
 # print(DBForm_40.consulta())
 
 class Operadores(Base):
@@ -185,9 +189,6 @@ class OCs(Base):
         session.commit()
         session.close()
         messagebox.showinfo("Envio completo", "Informações adicionadas!")
-     
-
-OCs.removeOC(80)
 
 
 class Relacao_Tintas(Base):

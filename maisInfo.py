@@ -47,7 +47,7 @@ class MaisInfo(Toplevel):
         btn_infoForm40.pack(pady=20, padx=(0,0))
         
         # Botão de vizualização dos Form40 finalizados
-        btn_infoForm161 = ttk.Button(info, text='Form161', style='Custom.TButton', command=lambda:VisuForm163())
+        btn_infoForm161 = ttk.Button(info, text='Form161', style='Custom.TButton', command=lambda:VisuForm161())
         btn_infoForm161.pack(pady=20, padx=(0,0))
         
 
@@ -150,10 +150,10 @@ class VisuForm40(Toplevel):
         form40.tree.heading('#16', text='Exceção?')
         
         # Adicionando as linhas da tabela, puxando do banco
-        for i in DBForm_40.consulta(): #Adicionando linhas na tabela
+        for i in DBForm_40.consultaEspecificaDia(): #Adicionando linhas na tabela
             form40.tree.insert('', 'end', text='1', values=(i['Id_form_40'], i['mescla'], i['data_prep'], i['temperatura'], i['umidade'],
                                                           i['cod_mp'], i['lotemp'], i['shelf_life'], i['viscosimetro'], i['viscosidade'],
-                                                          ['proporcao'], i['pot_life'], i['responsavel'], i['Id_form173'], i['print'],i['excessao']))
+                                                          i['proporcao'], i['pot_life'], i['responsavel'], i['Id_form173'], i['print'],i['excessao']))
         form40.tree.pack(padx=10)
         
         # Cria a barra de rolagem horizontal
@@ -167,7 +167,7 @@ class VisuForm40(Toplevel):
         
         
 
-class VisuForm163(Toplevel):
+class VisuForm161(Toplevel):
     def __init__(form161):
         super().__init__()
         form161.geometry("800x370")
