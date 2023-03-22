@@ -146,8 +146,9 @@ class OC_ex(Toplevel):
             print("Removendo a linha: ", self.linha_selecionada)
             
             ## Removendo OC da Tabela e do DB e depois retornando a janela
-            self.tableRemove.delete(id_linha)
+            print(type(info_linha[0]))
             OCs.removeOC(info_linha[0])
+            self.tableRemove.delete(id_linha)
             try:
                 DBForm_40.update_print(self.id_form173)
             except Exception as ex:
@@ -206,6 +207,7 @@ class OC_ex(Toplevel):
                                             )
                     # self.tableRemove.insert('', 'end', text='1', values=(9, oc['oc'], self.id_form173, 40))
                 OCs.insertOC(self.id_form173, self.ocs)
+                print(self.id_form173)
                 try:
                     DBForm_40.update_print(self.id_form173)
                 except Exception as ex:

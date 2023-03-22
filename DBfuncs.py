@@ -174,6 +174,7 @@ class OCs(Base):
     def removeOC(id_ocs):
         session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
         session.commit()
+        session.close()
     
     def insertOC(id_form173, ocs):
         for i in ocs:
@@ -185,7 +186,10 @@ class OCs(Base):
         session.close()
         messagebox.showinfo("Envio completo", "Informações adicionadas!")
      
-               
+
+OCs.removeOC(80)
+
+
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
     
