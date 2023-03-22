@@ -87,8 +87,8 @@ class Main(Tk):
         
         quadro = Frame(self, width= 683, height=320, style='TFrame')
         quadro.place(x=0, y=80)
-        processo = ttk.Button(quadro, text="Email Processo", style='Processo.TButton', command=lambda:[Interface()])
-        processo.place(x = 595, y=274)
+        # processo = ttk.Button(quadro, text="Email Processo", style='Processo.TButton', command=lambda:[Interface()])
+        # processo.place(x = 595, y=274)
         
         maisInfo = ttk.Button(quadro, text="Mais Informações", style="MaisInfo.TButton", command=lambda:MaisInfo())
         maisInfo.place(x = 490, y = 274)
