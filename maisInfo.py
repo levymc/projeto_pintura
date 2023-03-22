@@ -182,7 +182,7 @@ class VisuForm163(Toplevel):
                            wraplength=300, background='#b1b2b5', justify=['center'])
         titulo.pack(pady=20)
         
-        form161.tree = ttk.Treeview(form161, columns=('id', 'Arquivo', 'Caminho'))
+        form161.tree = ttk.Treeview(form161, columns=('id', 'Arquivo', 'Data'))
         form161.tree.column('#0',width=0, minwidth=0)
         form161.tree.column('#1',width=0, minwidth=0, anchor=CENTER)
         form161.tree.column('#2',width=100, minwidth=30, anchor=CENTER)
@@ -192,19 +192,25 @@ class VisuForm163(Toplevel):
         form161.tree.heading('#0', text='ID')
         form161.tree.heading('#1', text='Original')
         form161.tree.heading('#2', text='Arquivo')
-        form161.tree.heading('#3', text='Caminho')
+        form161.tree.heading('#3', text='Data')
         
         padrao = re.compile(r"3- Form_Controle Aplicação Tinta (\d+ - \d+)\.xlsx")
         pasta_raiz = r'\\NasTecplas\Pintura\Forms\Form_161\Form_161_Gerado'
+        # data para a qual queremos encontrar os arquivos
+        data = datetime.today()
         lista_arquivos_xlsx = []
         for pasta_atual, sub_pastas, arquivos in os.walk(pasta_raiz):
             for arquivo in arquivos:
                 if arquivo.endswith('.xlsx'):
-                    lista_arquivos_xlsx.append([arquivo,pasta_atual])
-                    match = padrao.search(arquivo)
-                    if match:
-                        codigo = match.group(1)
-                        form161.tree.insert('', 'end', text='1', values=(arquivo, codigo, pasta_atual))
+                    caminho_completo = os.path.join(pasta_atual, arquivo)
+                    data_modificacao = datetime.fromtimestamp(os.path.getmtime(caminho_completo))
+                    if data_modificacao.date() == data.date():
+                        lista_arquivos_xlsx.append([arquivo, pasta_atual])
+                        match = padrao.search(arquivo)
+                        if match:
+                            codigo = match.group(1)
+                            form161.tree.insert('', 'end', text='1', values=(arquivo, codigo, data_modificacao.strftime("%d-%m-%y %H:%M")))
+                            
         # Cria a scrollbar e a vincula à Treeview
         scrollbar = ttk.Scrollbar(form161, orient="vertical", command=form161.tree.yview)
         form161.tree.configure(yscrollcommand=scrollbar.set)
