@@ -63,9 +63,6 @@ class OC_ex(Toplevel):
         buttonAddOC = ttk.Button (quadro, text="Adicionar OC", command=lambda:[self.campo_oc()], style='Limpar.TButton')
         buttonAddOC.place(y=80, x=150, width=84, height=25)
 
-        # y = ttk.Label(quadro, text = "OC's utilizadas no lote: ",foreground='#f0f5ff', background="#203C75", font='Impact 14')
-        # y.place(x=40, y=10)
-
         self.mylistbox=Listbox(quadro,width=35,height=6,  font='Trebuchet 9 bold', bg='white', selectmode=SINGLE)
         self.mylistbox.place(x=42,y=130, width=190, height=250)
         self.infoOC = ttk.Label(quadro, text=f"{self.mylistbox.size()} OC's adicionadas", foreground='white', background="#203C75", font='Roboto 9 bold')
