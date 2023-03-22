@@ -32,18 +32,6 @@ elif local == "prod":
     path_gerado = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+anoAtual+mesAtual+dia_mesAtual
 
 
-def tamanho():
-    try:
-        banco = sqlite3.connect(db)
-        cursor = banco.cursor()
-        cursor.execute("SELECT * FROM form_173")
-        tudo = cursor.fetchall()
-        tamanho = len(tudo)
-        cursor.close()
-        banco.close()
-        return tudo, tamanho
-    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-
 class Main(Tk):
     def __init__(self):
         super().__init__()
