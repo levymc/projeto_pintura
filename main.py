@@ -91,7 +91,7 @@ class Main(Tk):
         # processo.place(x = 595, y=274)
         
         maisInfo = ttk.Button(quadro, text="Mais Informações", style="MaisInfo.TButton", command=lambda:MaisInfo())
-        maisInfo.place(x = 490, y = 274)
+        maisInfo.place(x = 565, y = 274)
         
         
         img_frame = ttk.Label(quadro,image=self.img, background='#f0f5ff')
