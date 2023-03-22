@@ -32,18 +32,6 @@ elif local == "prod":
     path_gerado = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+anoAtual+mesAtual+dia_mesAtual
 
 
-
-def pend():
-    try:
-        banco = sqlite3.connect(db)
-        cursor = banco.cursor()
-        cursor.execute("SELECT * FROM form_173 WHERE pendencia=1")
-        valor = cursor.fetchall()
-        cursor.close()
-        banco.close()
-        return valor
-    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-
 def tamanho():
     try:
         banco = sqlite3.connect(db)
@@ -80,21 +68,10 @@ class Main(Tk):
         menu.post(event.x_root, event.y_root)
     
     def create_wigets(self):
-        try:
-            banco = sqlite3.connect(db)
-            cursor = banco.cursor()
-            pendencias = pend()
-            cursor.execute(f"SELECT * FROM form_173 WHERE pendencia={0}")
-            n_pend = cursor.fetchall()[0][0]
-            cursor.close()
-            banco.close()
-        except:pass
-        
         quadro0 = ttk.Frame(self, width= 683, height=80, style='Frame1.TFrame')
         quadro0.place(x=0, y=0)
         titulo = ttk.Label(quadro0,  font='Impact 35 bold', text=f"Processos Pintura", background='#041536', foreground='#f0f5ff')
         titulo.place(x =160 , y= 8)
-        
         
         quadro = Frame(self, width= 683, height=320, style='TFrame')
         quadro.place(x=0, y=80)
