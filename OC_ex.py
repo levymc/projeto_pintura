@@ -190,18 +190,27 @@ class OC_ex(Toplevel):
         self.atualizar_contador()
     
     def insert(self): 
+        ultimo_id = OCs.ultimoId()
         if len(self.ocs) == 0: messagebox.showinfo(message="Os campos de OC's estão vazios!")
         else: 
             x = messagebox.askquestion(title="Double-Check", message="Confirma a adição de OCs?")
             if x == "yes":
                 for i in range(len(self.ocs)):
                     items = self.tableRemove.get_children()
-                    last_item = items[-1] 
-                    self.tableRemove.insert('', 'end', text='1', values=(self.tableRemove.item(last_item)['values'][0]+1 ,
-                                            self.tableRemove.item(last_item)['values'][1]+1, 
-                                            self.ocs[i]['oc'], 
-                                            self.ocs[i]['qnt'])
-                                            )
+                    try:
+                        last_item = items[-1] 
+                        self.tableRemove.insert('', 'end', text='1', values=(ultimo_id ,
+                                                self.tableRemove.item(last_item)['values'][1]+1, 
+                                                self.ocs[i]['oc'], 
+                                                self.ocs[i]['qnt'])
+                                                )
+                    except Exception as e:
+                        self.tableRemove.insert('', 'end', text='1', values=(ultimo_id ,
+                                                1, 
+                                                self.ocs[i]['oc'], 
+                                                self.ocs[i]['qnt'])
+                                                )
+                        print("Aqui!: ", e)
                     # self.tableRemove.insert('', 'end', text='1', values=(9, oc['oc'], self.id_form173, 40))
                 OCs.insertOC(self.id_form173, self.ocs)
                 print(self.id_form173)
