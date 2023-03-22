@@ -15,26 +15,6 @@ import local
 
 db = local.Local.local()
 
-agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
-meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-anoAtual = agora[6:10]+"/"
-mesAtual = meses[int(agora[3:5])-1]+"/"
-dia_mesAtual = agora[:5]+"/"
-
-local = local.arg
-
-if local == "dev":
-    db = r"pintura.db"
-    path = r"./Forms/Form_161.xlsx"
-    path_maior = r"./Forms/Form_161_maior.xlsx"
-    path_gerado = r"./Forms/Form_161_Gerado/" + anoAtual + mesAtual + dia_mesAtual
-elif local == "prod":
-    db = r'//NasTecplas/Pintura/DB/pintura.db'
-    path = r"//NasTecplas/Pintura/Forms/Form_161/Form_161.xlsx"
-    path_maior = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_maior.xlsx"
-    path_gerado = r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+anoAtual+mesAtual+dia_mesAtual
-
-
 class Main(Tk):
     def __init__(self):
         super().__init__()
@@ -122,7 +102,7 @@ class Main(Tk):
         b1.place(x = 50, y= 40)
         b2 = ttk.Button(quadro, text="Solicitações de Mescla Pendentes", command=lambda:[pend_new.Pendencias(db)], style='Custom.TButton', takefocus=False)
         b2.place(x = 50, y= 110)
-        b3 = ttk.Button(quadro, text="Gerar e Imprimir Form. 161", command=lambda:[mesclas.Mesclas(db,path, path_maior, path_gerado)], style='Custom.TButton', takefocus=False)
+        b3 = ttk.Button(quadro, text="Gerar e Imprimir Form. 161", command=lambda:[mesclas.Mesclas(db)], style='Custom.TButton', takefocus=False)
         b3.place(x = 50, y= 180)
         
 if __name__ == "__main__":

@@ -27,12 +27,12 @@ def tamanho(db):
     except Exception as ex: messagebox.showerror(message=["mescla1",ex, type(ex)])
 
 class Mesclas(Toplevel):
-    def __init__(self, db, path, path_maior, path_gerado):
+    def __init__(self, db):
         super().__init__()
         self.db = db
-        self.path = path
-        self.path_maior = path_maior
-        self.path_gerado = path_gerado
+        self.path = local.Local.path()
+        self.path_maior = local.Local.path_maior()
+        self.path_gerado = local.Local.path_gerado()
         self.geometry("710x300")
         self.configure(background='#f0f5ff')
         self.iconbitmap(r'logo.ico')
