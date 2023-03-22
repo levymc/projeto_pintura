@@ -7,6 +7,7 @@ import tkinter.font as font
 from ttkbootstrap import Style as BsStyle
 from ttkbootstrap.constants import *
 from ttkbootstrap.widgets import Frame
+from DBfuncs import Relacao_Tintas
 
 
 
@@ -189,6 +190,9 @@ class App(Toplevel):
         ): messagebox.showinfo(message="Preencha os campos para continuar!")
         
         elif len(self.ocs) == 0: messagebox.showinfo(message="Os campos de OC's estão vazios!")
+        
+        elif Relacao_Tintas.conferenciaMescla(self.cemb_field.get()) == False:  ## Criar condição de conferência da mescla
+            messagebox.showerror("Erro CEMB", "O código da tinta digitado está errado.")
 
         else: 
             x = messagebox.askquestion(title="Double-Check", message="Confirma os dados do Form_173?")

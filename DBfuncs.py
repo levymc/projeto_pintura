@@ -1,6 +1,6 @@
 import sqlite3
 from tkinter import messagebox
-from sqlalchemy import Column, Integer, String, create_engine, and_, func, update
+from sqlalchemy import Column, Integer, String, create_engine, and_, func, update, exists
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
@@ -192,6 +192,7 @@ class OCs(Base):
         session.commit()
         session.close()
         messagebox.showinfo("Envio completo", "Informações adicionadas!")
+        
 
 
 class Relacao_Tintas(Base):
@@ -234,4 +235,9 @@ class Relacao_Tintas(Base):
                                     Relacao_Tintas.viscosimetro.like(f'%{valor_selecionado}%')))\
                       .first()
         return visc_max_min
+    
+    def conferenciaMescla(cembMescla): 
+        result = session.query(exists().where(Relacao_Tintas.cemb == cembMescla)).scalar()
+        return result
 
+print(Relacao_Tintas.conferenciaMescla(9171))
