@@ -159,6 +159,11 @@ class Operadores(Base):
     def consultaEspecifica(cls, user):
         conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.usuario == user).all()]
         return conteudo
+   
+    @classmethod
+    def consultaEspecificaCodigo(cls, codigo):
+        conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.codigo == codigo).all()]
+        return conteudo
     
     def conferenciaOperador(codigoOperador): 
         result = session.query(exists().where(Operadores.codigo == codigoOperador)).scalar()
