@@ -8,21 +8,22 @@ import sqlite3, shutil, win32print, re, pend_new, os, local
 from DBfuncs import DBForm_40
 
 
-
-
 nomeImp = local.Local.nomeImpressora()
 
-def tamanho(db):
+def tamanho():
+    # try:
+    #     banco = sqlite3.connect(db)
+    #     cursor = banco.cursor()
+    # except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     try:
-        banco = sqlite3.connect(db)
-        cursor = banco.cursor()
-    except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-    try:
-        cursor.execute(f"SELECT * FROM form_40 WHERE print={0}")
-        tudo = cursor.fetchall()
+        # cursor.execute(f"SELECT * FROM form_40 WHERE print={0}")
+        # tudo = cursor.fetchall()
+        
+        tudo = DBForm_40.consultaEspecifica('print', 0)
+        print(tudo)
         tamanho = len(tudo)
-        cursor.close()
-        banco.close()
+        # cursor.close()
+        # banco.close()
         return tudo, tamanho
     except Exception as ex: messagebox.showerror(message=["mescla1",ex, type(ex)])
 
@@ -42,7 +43,7 @@ class Mesclas(Toplevel):
         self.create_wigets()
     
     def create_wigets(self):
-        tudo, valor = tamanho(self.db)
+        tudo, valor = tamanho()
         q = ttk.Frame(self, width = self.screen_width, height = 60, style='Frame1.TFrame')
         q.place(x=0)
         self.label_ = ttk.Label(self,  text=f'{valor}  Mesclas Prontas', font='Impact 24 ', background='#041536', foreground='white')
@@ -51,7 +52,7 @@ class Mesclas(Toplevel):
         y=100
         
         for i in range(valor):
-            mescla_number = tudo[i][1]
+            mescla_number = tudo[i]['mescla']
             b = ttk.Button(self, text=f"Mescla: {mescla_number}", style='Mescla.TButton', command=lambda i=i:abrir(i))
             b.place(x=x, y=y)
             if i<=3:
@@ -74,9 +75,9 @@ class Mesclas(Toplevel):
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
-                    idform173 = tudo[i][23]
+                    idform173 = tudo[i]['Id_form173']
                     form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
-                    x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i][1]}")
+                    x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i]['mescla']}")
                     if x=='yes':
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
@@ -154,7 +155,7 @@ class Mesclas(Toplevel):
                             ws.range("I"+f"{linha}").value = i[2]
                             linha += 1
                             
-                        ws.range("I4").value = DBForm_40.consultaEspecifica("Id_form173", idform173)['data_prep'][:10].format('%d.%m.%Y')
+                        ws.range("I4").value = DBForm_40.consultaEspecifica("Id_form173", idform173)['data_prep'][0][:10].format('%d.%m.%Y')
                         ws.range("C3").value = str(mescla_n)
                         ws.range("C4").value = nome
                         ws.range("J3").value = form_173_tudo[0][4]

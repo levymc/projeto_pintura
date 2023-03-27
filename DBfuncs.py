@@ -115,8 +115,9 @@ class DBForm_40(Base):
         conteudo  = [operador.as_dict for operador in session.query(cls).all()]
         return conteudo
     
-    def consultaEspecifica(coluna, valor):
-        conteudo  = [i.as_dict for i in session.query(DBForm_40).filter(getattr(DBForm_40, coluna) == valor).all()][0]
+    @classmethod
+    def consultaEspecifica(cls, coluna, valor):
+        conteudo  = [i.as_dict for i in session.query(cls).filter(getattr(DBForm_40, coluna) == valor).all()]
         return conteudo
     
     def consultaEspecificaDia():
