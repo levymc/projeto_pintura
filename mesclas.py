@@ -20,7 +20,6 @@ def tamanho():
         # tudo = cursor.fetchall()
         
         tudo = DBForm_40.consultaEspecifica('print', 0)
-        print(tudo)
         tamanho = len(tudo)
         # cursor.close()
         # banco.close()
@@ -81,14 +80,10 @@ class Mesclas(Toplevel):
                     if x=='yes':
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
-                            try:
-                                nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
-                            except Exception as e: 
-                                messagebox.showerror(message=f"Não existe nenhum operador com o código: {form_173_tudo[0][8]}")
+                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
                             contador = 1
-                            mescla_n = tudo[i][1]
+                            mescla_n = tudo[i]['mescla']
                             
-                            # O FOCO AQUI É
                             if not os.path.exists(self.path_gerado):
                                 os.makedirs(self.path_gerado)
                                 print("CRIANDO O DIR: ",self.path_gerado)
@@ -101,6 +96,7 @@ class Mesclas(Toplevel):
                                             new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                         else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                             else:
+                                print(form_173_tudo[0])
                                 if os.listdir(self.path_gerado) == []:
                                     new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
                                 else:
@@ -155,7 +151,7 @@ class Mesclas(Toplevel):
                             ws.range("I"+f"{linha}").value = i[2]
                             linha += 1
                             
-                        ws.range("I4").value = DBForm_40.consultaEspecifica("Id_form173", idform173)['data_prep'][0][:10].format('%d.%m.%Y')
+                        ws.range("I4").value = DBForm_40.consultaEspecifica("Id_form173", idform173)[0]['data_prep'][:10].format('%d.%m.%Y')
                         ws.range("C3").value = str(mescla_n)
                         ws.range("C4").value = nome
                         ws.range("J3").value = form_173_tudo[0][4]

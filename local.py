@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 arg='dev'
 computador = 2  # 1 é a Sala da Preparação, 2 Mascaramento e 3 meu computador
@@ -25,7 +26,8 @@ class Local():
     
     def path_gerado():
         return r"./Forms/Form_161_Gerado/"+anoAtual+mesAtual+dia_mesAtual if arg == "dev" else r"//NasTecplas/Pintura/Forms/Form_161/Form_161_Gerado/"+anoAtual+mesAtual+dia_mesAtual if "prod" else False
-        
+
+# print(os.path.exists(Local.path_gerado()))   
     
     
 # print(Local.nomeImpressora())

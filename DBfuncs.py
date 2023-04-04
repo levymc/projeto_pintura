@@ -135,6 +135,7 @@ class DBForm_40(Base):
             session.execute(query)
             session.commit()
 
+# print(DBForm_40.consultaEspecifica("Id_form173", 101)[0]['data_prep'][:10].format('%d.%m.%Y'))
 
 class Operadores(Base):
     __tablename__= 'operadores'
