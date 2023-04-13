@@ -107,8 +107,10 @@ class App(Toplevel):
                 messagebox.showinfo(message="O campo de OC ou Quantidade estão vazios!")
             else:
                 exist = 0
+                print(self.ocs)
                 for i in self.ocs:
-                    if str(self.oc_campo.get()) in i['oc']:
+                    if str(self.oc_campo.get()) == i['oc']:
+                        print(self.oc_campo.get(), i['oc'])
                         exist = 1
                         messagebox.showinfo(message="Já tem!!")
                 if exist == 0:
