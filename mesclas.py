@@ -43,7 +43,7 @@ class Mesclas(Toplevel):
         
         for i in range(valor):
             idform173 = tudo[i]['Id_form_173']
-            b = ttk.Button(self, text=f"CEMB: {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']}", style='Mescla.TButton', command=lambda i=i:abrir(i))
+            b = ttk.Button(self, text=f"CEMB: {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']} - {i+1}", style='Mescla.TButton', command=lambda i=i:abrir(i))
             b.place(x=x, y=y)
             if i<=3:
                 x+=180
