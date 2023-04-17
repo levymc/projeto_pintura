@@ -61,7 +61,7 @@ class Mesclas(Toplevel):
                 y = 9999
 
             def abrir(i):
-                print(listaIds[i])
+                # print(listaIds[i])
                 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
                 try:
                     banco = sqlite3.connect(self.db)
