@@ -46,7 +46,7 @@ class Pendencias(Toplevel):
         y=100
         
         for i in range(valor):
-            id_form173,solicitantes,formulario,data,cemb,qnt,unidade,p,pintor = pendencias[i]
+            id_form173,solicitantes,formulario,data,cemb,qnt,unidade,p,pintor,print = pendencias[i]
             # print(formulario)
             b = ttk.Button(self, text=f"Form: {formulario}", style='Custom.TButton', command=lambda i=i:abrir(i))
             b.place(x=x, y=y, height=40)
@@ -69,7 +69,7 @@ class Pendencias(Toplevel):
                     banco = sqlite3.connect(self.db)
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
-                id_form173,solicitantes,formulario,data,cemb,qnt,unidade,p,pintor = pendencias[i]
+                id_form173,solicitantes,formulario,data,cemb,qnt,unidade,p,pintor, print = pendencias[i]
                 ocs = [()]
                 oc_ = cursor.execute(f"SELECT oc FROM ocs WHERE track_form173 = '{id_form173}'").fetchall()
                 ocs.append((id_form173, oc_))
