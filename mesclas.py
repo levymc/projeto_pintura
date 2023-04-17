@@ -43,7 +43,6 @@ class Mesclas(Toplevel):
         
         for i in range(valor):
             idform173 = tudo[i]['Id_form_173']
-            mescla_number = tudo[i]['mescla']
             b = ttk.Button(self, text=f"CEMB: {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']}", style='Mescla.TButton', command=lambda i=i:abrir(i))
             b.place(x=x, y=y)
             if i<=3:
@@ -67,6 +66,7 @@ class Mesclas(Toplevel):
                 except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
                     form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
+                    form_173_tudo = DBForm_173
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente ao cemb {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']}")
                     if x=='yes':
                         try:
@@ -180,16 +180,9 @@ class Mesclas(Toplevel):
         self.ttk.Label_.config(text=f"{valor}  Solicitações Pendentes")
 
     def finalizar(self,id_form173):
-        try:
-            banco = sqlite3.connect(self.db)
-            cursor = banco.cursor()
-        except Exception as ex: messagebox.showerror(message=["mescla4", ex, type(ex)])
         x = messagebox.askquestion(message="Deve finalizar?")
         if x =='yes':
             try:
-                cursor.execute(f"UPDATE form_173 SET pendencia={0} WHERE Id_form_173={id_form173}")
-                banco.commit()
-                cursor.close()
-                banco.close()
+                DBForm_173.update_form_173(id_form173, print=1)
             except Exception as ex: messagebox.showerror(message=ex)
         else: pass
