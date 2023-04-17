@@ -65,16 +65,17 @@ class Mesclas(Toplevel):
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
-                    form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
-                    form_173_tudo = DBForm_173
+                    # form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
+                    form_173_tudo = DBForm_173.consultaEspecifica(idform173, 'Id_form_173')
+                    print(form_173_tudo)
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente ao cemb {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']}")
                     if x=='yes':
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
-                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0][8]}").fetchall()[0]
+                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0]['solicitante']}").fetchall()[0]
                             contador = 1
-                            mescla_n = tudo[i]['mescla']
-                            
+                            # mescla_n = tudo[i]['mescla']
+                        
                             if not os.path.exists(self.path_gerado):
                                 os.makedirs(self.path_gerado)
                                 print("CRIANDO O DIR: ",self.path_gerado)
@@ -84,18 +85,18 @@ class Mesclas(Toplevel):
                                     for nome_arquivo in os.listdir(self.path_gerado):
                                         if re.search(form_173_tudo[0][4], nome_arquivo):
                                             contador += 1
-                                            new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
-                                        else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                                            new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx"
+                                        else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx"
                             else:
                                 print(form_173_tudo[0])
                                 if os.listdir(self.path_gerado) == []:
-                                    new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                                    new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx"
                                 else:
                                     for nome_arquivo in os.listdir(self.path_gerado):
-                                        if re.search(form_173_tudo[0][4], nome_arquivo):
+                                        if re.search(form_173_tudo[0]["cemb"], nome_arquivo):
                                             contador += 1
-                                            new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
-                                        else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                                            new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx"
+                                        else: new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx"
                             if len(ocs) <= 15:
                                 self.area = '$A$1:$K$56'
                                 if os.path.exists(self.path_gerado):
@@ -143,10 +144,10 @@ class Mesclas(Toplevel):
                             linha += 1
                             
                         ws.range("I4").value = DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['data_solicitacao'].format('%d.%m.%Y')
-                        ws.range("C3").value = idform173.replace('-','')
+                        ws.range("C3").value = idform173
                         ws.range("C4").value = nome
-                        ws.range("J3").value = form_173_tudo[0][4]
-                        ws.range("K4").value = form_173_tudo[0][8]
+                        ws.range("J3").value = form_173_tudo[0]['cemb']
+                        ws.range("K4").value = form_173_tudo[0]['pintor']
                         
                         # # Definir a área de impressão
                         ws.api.PageSetup.PrintArea = self.area

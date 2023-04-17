@@ -66,7 +66,35 @@ class DBForm_173(Base):
         consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
         return consultaEspeficifica
     
+    def update_form_173(id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, pendencia=None, pintor=None, print=None):
+        form_173 = session.query(DBForm_173).filter_by(Id_form_173=id_form_173).first()
+        if form_173:
+            if formulario is not None:
+                form_173.formulario = formulario
+            if solicitante is not None:
+                form_173.solicitante = solicitante
+            if data_solicitacao is not None:
+                form_173.data_solicitacao = data_solicitacao
+            if cemb is not None:
+                form_173.cemb = cemb
+            if quantidade is not None:
+                form_173.quantidade = quantidade
+            if unidade is not None:
+                form_173.unidade = unidade
+            if pendencia is not None:
+                form_173.pendencia = pendencia
+            if pintor is not None:
+                form_173.pintor = pintor
+            if print is not None:
+                form_173.print = print
+
+            session.commit()
+            return True
+        else:
+            return False
+
     
+DBForm_173.update_form_173(15, print=1)
 # print(DBForm_173.consultaEspecifica(0, 'print'))
     
 class DBForm_40(Base):
