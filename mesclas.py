@@ -5,24 +5,15 @@ import xlwings as xw
 import win32com.client as win32
 import win32api
 import sqlite3, shutil, win32print, re, pend_new, os, local
-from DBfuncs import DBForm_40
+from DBfuncs import DBForm_40, DBForm_173
 
 
 nomeImp = local.Local.nomeImpressora()
 
 def tamanho():
-    # try:
-    #     banco = sqlite3.connect(db)
-    #     cursor = banco.cursor()
-    # except Exception as ex: messagebox.showerror(message=[ex, type(ex)])
     try:
-        # cursor.execute(f"SELECT * FROM form_40 WHERE print={0}")
-        # tudo = cursor.fetchall()
-        
-        tudo = DBForm_40.consultaEspecifica('print', 0)
+        tudo = DBForm_173.consultaEspecifica(0, 'print')
         tamanho = len(tudo)
-        # cursor.close()
-        # banco.close()
         return tudo, tamanho
     except Exception as ex: messagebox.showerror(message=["mescla1",ex, type(ex)])
 
@@ -51,8 +42,9 @@ class Mesclas(Toplevel):
         y=100
         
         for i in range(valor):
+            idform173 = tudo[i]['Id_form_173']
             mescla_number = tudo[i]['mescla']
-            b = ttk.Button(self, text=f"Mescla: {mescla_number}", style='Mescla.TButton', command=lambda i=i:abrir(i))
+            b = ttk.Button(self, text=f"CEMB: {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']}", style='Mescla.TButton', command=lambda i=i:abrir(i))
             b.place(x=x, y=y)
             if i<=3:
                 x+=180
@@ -74,9 +66,8 @@ class Mesclas(Toplevel):
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
-                    idform173 = tudo[i]['Id_form173']
                     form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
-                    x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente a mescla {tudo[i]['mescla']}")
+                    x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente ao cemb {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']}")
                     if x=='yes':
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
@@ -151,8 +142,8 @@ class Mesclas(Toplevel):
                             ws.range("I"+f"{linha}").value = i[2]
                             linha += 1
                             
-                        ws.range("I4").value = DBForm_40.consultaEspecifica("Id_form173", idform173)[0]['data_prep'][:10].format('%d.%m.%Y')
-                        ws.range("C3").value = str(mescla_n)
+                        ws.range("I4").value = DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['data_solicitacao'].format('%d.%m.%Y')
+                        ws.range("C3").value = idform173.replace('-','')
                         ws.range("C4").value = nome
                         ws.range("J3").value = form_173_tudo[0][4]
                         ws.range("K4").value = form_173_tudo[0][8]

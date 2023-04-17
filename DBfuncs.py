@@ -31,6 +31,7 @@ class DBForm_173(Base):
     unidade = Column(String)
     pendencia = Column(Integer)
     pintor = Column(Integer)
+    print = Column(Integer)
     
     def __repr__(self):
         return f"""id: {self.Id_form_173} -  Formulário: {self.formulario}, Solicitante: {self.solicitante}, Data: {self.data_solicitacao},
@@ -60,11 +61,13 @@ class DBForm_173(Base):
         conteudoTudo  = [row.as_dict for row in session.query(cls).filter((DBForm_173.data_solicitacao.startswith(data_atual))).all()]
         return conteudoTudo
 
-   
-    def conteudoEspecifico(coluna, id_form173):
-        conteudoEspecifico = [row[0] for row in session.query(getattr(DBForm_173, coluna)).filter(DBForm_173.Id_form_173 == id_form173).all()]
-        return conteudoEspecifico
+    @classmethod
+    def consultaEspecifica(cls, arg, coluna):
+        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        return consultaEspeficifica
     
+    
+# print(DBForm_173.consultaEspecifica(0, 'print'))
     
 class DBForm_40(Base):
     __tablename__= 'form_40'
