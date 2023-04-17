@@ -40,9 +40,11 @@ class Mesclas(Toplevel):
         self.label_.place(x=250, y=14)
         x=20
         y=100
+        listaIds = []
         
         for i in range(valor):
             idform173 = tudo[i]['Id_form_173']
+            listaIds.append(idform173)
             b = ttk.Button(self, text=f"CEMB: {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']} - {i+1}", style='Mescla.TButton', command=lambda i=i:abrir(i))
             b.place(x=x, y=y)
             if i<=3:
@@ -59,16 +61,17 @@ class Mesclas(Toplevel):
                 y = 9999
 
             def abrir(i):
+                print(listaIds[i])
                 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
                 try:
                     banco = sqlite3.connect(self.db)
                     cursor = banco.cursor()
                 except Exception as ex: messagebox.showerror(message=["mescla2", ex, type(ex)])
                 try:
-                    # form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
-                    form_173_tudo = DBForm_173.consultaEspecifica(idform173, 'Id_form_173')
+                    #form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
+                    form_173_tudo = DBForm_173.consultaEspecifica(listaIds[i], 'Id_form_173')
                     print(form_173_tudo)
-                    x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente ao cemb {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']}")
+                    x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente ao cemb CEMB: {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']} - {i+1}")
                     if x=='yes':
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
@@ -80,7 +83,7 @@ class Mesclas(Toplevel):
                                 os.makedirs(self.path_gerado)
                                 print("CRIANDO O DIR: ",self.path_gerado)
                                 if os.listdir(self.path_gerado) == []:
-                                    new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx"
+                                    new = self.path_gerado + "3- Form_Controle Aplicação Tinta "+ form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx"
                                 else:
                                     for nome_arquivo in os.listdir(self.path_gerado):
                                         if re.search(form_173_tudo[0][4], nome_arquivo):
@@ -155,12 +158,12 @@ class Mesclas(Toplevel):
                         wb.save()
                         wb.close()
                         excel_app.quit()
-                        lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
-                        impressora = lista_impressoras[3]
+                        # lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
+                        # impressora = lista_impressoras[3]
                         
                         # win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
-                        # win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
-                        self.finalizar(idform173)
+                        # win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
+                        # self.finalizar(idform173)
                         # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
                         cursor.close()
