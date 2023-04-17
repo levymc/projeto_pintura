@@ -19,6 +19,34 @@ class SQlite_Sequence(Base):
     seq = Column(Integer)
 
 
+class DBForm_161(Base):
+    __tablename__ = 'form_161'
+    
+    Id_form_161 = Column(Integer, primary_key=True)
+    track_form173 = Column(Integer)
+    print = Column(Integer)
+    
+    @classmethod
+    def consultaEspecifica(cls, arg, coluna):
+        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        return consultaEspeficifica
+    
+    @staticmethod
+    def ultimoId():
+        # Crie uma consulta para encontrar o último ID
+        consulta = select(DBForm_161.Id_form_161).order_by(DBForm_161.Id_form_161.desc()).limit(1)
+
+        # Execute a consulta e obtenha o resultado
+        resultado = session.execute(consulta).fetchone()
+
+        # Se o resultado for None, a tabela está vazia
+        if resultado is None:
+            ultimo_id = 0
+        else:
+            ultimo_id = resultado[0]
+        return ultimo_id
+    
+
 class DBForm_173(Base):
     __tablename__='form_173'
     

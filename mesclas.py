@@ -5,7 +5,7 @@ import xlwings as xw
 import win32com.client as win32
 import win32api
 import sqlite3, shutil, win32print, re, pend_new, os, local
-from DBfuncs import DBForm_40, DBForm_173
+from DBfuncs import DBForm_40, DBForm_173, DBForm_161
 
 
 nomeImp = local.Local.nomeImpressora()
@@ -28,7 +28,7 @@ class Mesclas(Toplevel):
         self.configure(background='#f0f5ff')
         self.iconbitmap(r'logo.ico')
         self.resizable(0,0)
-        self.title('Mesclas Finalizadas')
+        self.title('Formulário de Pintura')
         self.screen_width = self.winfo_screenheight()
         self.create_wigets()
     
@@ -36,7 +36,7 @@ class Mesclas(Toplevel):
         tudo, valor = tamanho()
         q = ttk.Frame(self, width = self.screen_width, height = 60, style='Frame1.TFrame')
         q.place(x=0)
-        self.label_ = ttk.Label(self,  text=f'{valor}  Mesclas Prontas', font='Impact 24 ', background='#041536', foreground='white')
+        self.label_ = ttk.Label(self,  text=f'{valor}  Formulários', font='Impact 24 ', background='#041536', foreground='white')
         self.label_.place(x=250, y=14)
         x=20
         y=100
@@ -144,7 +144,7 @@ class Mesclas(Toplevel):
                             linha += 1
                             
                         ws.range("I4").value = DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['data_solicitacao'].format('%d.%m.%Y')
-                        ws.range("C3").value = idform173
+                        ws.range("C3").value = DBForm_161.ultimoId()
                         ws.range("C4").value = nome
                         ws.range("J3").value = form_173_tudo[0]['cemb']
                         ws.range("K4").value = form_173_tudo[0]['pintor']
@@ -160,6 +160,7 @@ class Mesclas(Toplevel):
                         
                         # win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
                         # win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0][4] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
+                        self.finalizar(idform173)
                         # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
                         cursor.close()
@@ -180,7 +181,7 @@ class Mesclas(Toplevel):
         valor = len(pend_new.pend())
         self.ttk.Label_.config(text=f"{valor}  Solicitações Pendentes")
 
-    def finalizar(self,id_form173):
+    def finalizar(self, id_form173):
         x = messagebox.askquestion(message="Deve finalizar?")
         if x =='yes':
             try:
