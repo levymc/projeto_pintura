@@ -31,6 +31,14 @@ class DBForm_161(Base):
         consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
         return consultaEspeficifica
     
+    @classmethod
+    def insert(cls, track_form173, print):
+        form_161 = cls(track_form173=track_form173, print=print)
+        session.add(form_161)
+        session.commit()
+        return form_161
+
+    
     @staticmethod
     def ultimoId():
         # Crie uma consulta para encontrar o último ID

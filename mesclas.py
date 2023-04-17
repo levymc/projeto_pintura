@@ -70,12 +70,13 @@ class Mesclas(Toplevel):
                 try:
                     #form_173_tudo = cursor.execute(f"SELECT * FROM form_173 WHERE Id_form_173={idform173}").fetchall()
                     form_173_tudo = DBForm_173.consultaEspecifica(listaIds[i], 'Id_form_173')
+                    idAgora = listaIds[i]
                     print(form_173_tudo)
                     x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente ao cemb CEMB: {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']} - {i+1}")
                     if x=='yes':
                         try:
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
-                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0]['solicitante']}").fetchall()[0]
+                            nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0]['pintor']}").fetchall()[0]
                             contador = 1
                             # mescla_n = tudo[i]['mescla']
                         
@@ -145,8 +146,11 @@ class Mesclas(Toplevel):
                             ws.range("F"+f"{linha}").value = oc
                             ws.range("I"+f"{linha}").value = i[2]
                             linha += 1
-                            
-                        ws.range("I4").value = DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['data_solicitacao'].format('%d.%m.%Y')
+                        print(idAgora)
+                        print(DBForm_173.consultaEspecifica(idAgora, 'Id_form_173'))
+                        DBForm_161.insert(idAgora, 1)
+                        ws.range("I4").value = DBForm_173.consultaEspecifica(idAgora, 'Id_form_173')[0]['data_solicitacao'].format('%d.%m.%Y')
+                        print(19191)
                         ws.range("C3").value = DBForm_161.ultimoId()
                         ws.range("C4").value = nome
                         ws.range("J3").value = form_173_tudo[0]['cemb']
