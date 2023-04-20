@@ -72,10 +72,10 @@ class Mesclas(Toplevel):
                     form_173_tudo = DBForm_173.consultaEspecifica(listaIds[i], 'Id_form_173')
                     idAgora = listaIds[i]
                     print(form_173_tudo)
-                    x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente ao cemb CEMB: {DBForm_173.consultaEspecifica(idform173, 'Id_form_173')[0]['cemb']} - {i+1}")
+                    x = messagebox.askquestion(message=f"Deseja imprimir o Fomulário 161 referente ao cemb CEMB: {DBForm_173.consultaEspecifica(listaIds[i], 'Id_form_173')[0]['cemb']} - {i+1}")
                     if x=='yes':
                         try:
-                            ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={idform173}").fetchall()
+                            ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={listaIds[i]}").fetchall()
                             nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0]['pintor']}").fetchall()[0]
                             contador = 1
                             # mescla_n = tudo[i]['mescla']
