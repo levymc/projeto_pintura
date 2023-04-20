@@ -20,8 +20,10 @@ let acessoUserForm = () => {
         senha: passInput,
     }).then(response => {
         console.log(response);
+        container.innerHTML = '';
     }).catch(error => {
         console.log(error);
+        alert("Ocorreu algum erro, tente novamente ou acione o Processo.")
     })
 }
 
