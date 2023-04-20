@@ -19,8 +19,12 @@ main{
 }
 
 
+/* Principal */
 .container{
     display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
     height: 100vh;
     width: 80%;
     background-color: aquamarine;
