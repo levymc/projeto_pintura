@@ -130,7 +130,7 @@ class DBForm_173(Base):
             return False
 
     
-DBForm_173.update_form_173(15, print=1)
+# DBForm_173.update_form_173(15, print=1)
 # print(DBForm_173.consultaEspecifica(0, 'print'))
     
 class DBForm_40(Base):
@@ -236,6 +236,11 @@ class Operadores(Base):
     
     def conferenciaOperador(codigoOperador): 
         result = session.query(exists().where(Operadores.codigo == codigoOperador)).scalar()
+        return result
+    
+    @classmethod
+    def confereUsuario(cls, userInput): 
+        result = session.query(cls).filter_by(usuario=userInput).first()
         return result
     
 

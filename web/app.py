@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, abort
 from waitress import serve
 from DBfuncs import Operadores
+import hashlib
 
 mode = "dev" #prod ou dev
 
@@ -15,9 +16,18 @@ def index():
 def acesso():
     userInput = request.json['usuario']
     passInput = request.json['senha']
-    print(userInput, passInput)
-    return {"usuario": userInput,
-            "senha": passInput}
+    operador = Operadores.confereUsuario(userInput)
+    if operador is None:
+        print('Operador não encontrado.')
+        return abort(404)
+    elif operador.senha != hashlib.md5(passInput.encode()).hexdigest():
+        print('Senha incorreta.')
+        return abort(404)
+    else:
+        #renderiza a próxima tela
+        print('Acesso concedido.')
+        return "Ok"
+    
 
 if __name__ == '__main__':
     if mode == 'dev':
