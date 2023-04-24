@@ -110,9 +110,26 @@ body.swal2-height-auto {
     align-items: center;
     width: 70%;
     flex-direction: column;
-    gap: 0.25em;
+    gap: 0.5em;
 }
 .solicitante{
     display: flex;
     width: 13em;
+}
+.quantidade{
+    display: flex;
+    position: relative;
+}
+.checkboxes{
+    position: absolute;
+    left: 14.5em;
+    bottom: -0.5em;
+    display: flex;
+    /* flex-direction: column; */
+}
+.checkboxes input{
+    width:12px !important;
+}
+.checkboxes label{
+    font-size: 12px;
 }

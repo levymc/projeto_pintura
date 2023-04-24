@@ -61,6 +61,12 @@ let renderizarForm173 = () => {
             </div>
             <div class="quantidade">
                 <input type="text" placeholder="Quantidade Solicitada">
+                <div class="checkboxes">
+                    <label for="ml">ml</label>
+                    <input type="checkbox" name='ml' value="ml">
+                    <label for="g">g</label>
+                    <input type="checkbox" name='g' value="g">
+                </div>
             </div>
         </div>
         <div class="ocsForm173">
