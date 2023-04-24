@@ -74,4 +74,28 @@ body.swal2-height-auto {
     height: 100% !important;
 }
 
-    
+.menu-superior{
+    width: 100%;
+    background-color: #850632;
+    display: flex;
+    justify-content: flex-start;
+    height: 2.5em;
+    gap: 0.25em;
+}
+.menu-superior button{
+    width: 7em;    
+    font-weight: bold;
+    border: 1px solid rgba(128, 128, 128, 0.493);
+    border-radius: 0 0 5px 5px;
+    cursor: pointer;
+    color: rgb(70, 70, 70);
+}
+.menu-superior button:active{
+    background-color: #cecece;
+}
+.conteudo{
+    background-color: bisque;
+    width: 100%;
+    display: flex;
+    height: 100vh;
+}
