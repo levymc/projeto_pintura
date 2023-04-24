@@ -34,7 +34,7 @@ let renderizarMain = () => {
     container.innerHTML = '';
     container.innerHTML += `
             <div class="menu-superior">
-                <button onclick="renderizarForm173()">Solicitar Tinta</button>
+                <button onclick="renderizarForm173()">Solicitação de Tinta</button>
                 <button onclick="renderizarForm40()">Preparação da Tinta</button>
                 <button onclick="renderizarForm161()">Aplicação da Tinta</button>
             </div>
@@ -55,13 +55,13 @@ let renderizarForm173 = () => {
                 <input type="text" placeholder="Formulário Nº">
             </div>
             <div class="codPintor">
-                <input type="text" placeholder="Código do Pintor">
+                <input type="number" placeholder="Código do Pintor">
             </div>
             <div class="cemb">
-                <input type="text" placeholder="CEMB">
+                <input type="number" placeholder="CEMB">
             </div>
             <div class="quantidade">
-                <input type="text" placeholder="Quantidade Solicitada">
+                <input type="number" placeholder="Quantidade Solicitada">
                 <div class="checkboxes">
                     <label for="ml">ml</label>
                     <input type="checkbox" name='ml' value="ml" class="ml-checkbox">
