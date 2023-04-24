@@ -77,7 +77,6 @@ body.swal2-height-auto {
 
 .menu-superior{
     width: 100%;
-    background-color: #850632;
     display: flex;
     justify-content: flex-start;
     height: 2.5em;
@@ -134,9 +133,54 @@ body.swal2-height-auto {
 .checkboxes label{
     font-size: 12px;
 }
-.ocsForm173{
+.ocsForm173{ 
+    background-color: #ffb4ce;
     gap: 0.5em;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    margin-top: 1.45em;
+    padding-top: 1.45em;
+}
+.ocsForm173 .campoOC{
+    display: flex;
+    gap: 0.5em;
+}
+.qnt_solicitada{
+    width: 8vw;
+}
+.btnAddOC{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+.ocsForm173 button{
+    width: 30%;
+}
+.contadorOCs{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+.contadorOCs h3{
+    width: auto;
+    margin-top: 0.2em;
+    margin-right: 0.2em;
+    font-size: 11px;
+    font-weight: bold;
+}
+.listaOCs{
+    background-color: #87eb8c;
+    margin-top: 1em;
+}
+.listaOCs th{
+    font-size: 15px;
+    border-bottom: 1px rgba(128, 128, 128, 0.376) dashed;
+    padding-bottom: 0.5em;
+}
+.listaOCs td{
+    text-align: center;
+    padding-top: 0.5em;
+    font-size: 13px;
+    border-bottom: 1px rgba(128, 128, 128, 0.376) dashed;
 }

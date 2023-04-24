@@ -1,6 +1,7 @@
 // Variáveis Globais
 let container = document.querySelector(".container");
 let user ;
+let ocsAdded = [];
 
 
 let renderizarLogin = () => {
@@ -70,8 +71,18 @@ let renderizarForm173 = () => {
             </div>
         </div>
         <div class="ocsForm173">
-            <input type="text" placeholder="OC">
-            <input type="text" placeholder="Quantidade">
+            <div class="campoOC">
+                <input type="number" placeholder="OC" class="oc_solicitada">
+                <input type="number" placeholder="Quantidade" class="qnt_solicitada">
+            </div>
+            <div class="btnAddOC"><button onclick="btnAddOC()">Adicionar OC</button></div>
+            <table class="listaOCs">
+                <tr>
+                    <th>OC</th>
+                    <th>Quantidade</th>
+                </tr>
+            </table>
+            <div class="contadorOCs"></div>
         </div>
     </div>
     `;
@@ -90,6 +101,34 @@ let renderizarForm173 = () => {
     });
 }
 
+let btnAddOC = () => {
+    let oc = document.querySelector(".oc_solicitada").value;
+    let qnt_solicitada = document.querySelector(".qnt_solicitada").value;
+    let listaOCs = document.querySelector(".listaOCs");
+    let contadorOCs = document.querySelector(".contadorOCs");
+    
+    let ocIndex = ocsAdded.findIndex(item => item.oc === oc);
+    if (ocIndex === -1) {
+        ocsAdded.push({
+            oc: oc,
+            qnt_solicitada: qnt_solicitada
+        });
+        
+        listaOCs.innerHTML += `
+        <tr>
+            <td>${oc}</td>
+            <td>${qnt_solicitada}</td>
+        </tr>
+        `
+        contadorOCs.innerHTML = '';
+        contadorOCs.innerHTML += `<h3>Quantidade adicionada: ${listaOCs.rows.length - 1}</h3>`
+    }else{
+        alert("OC já adicionada");
+    }
+    
+    document.querySelector(".oc_solicitada").value = '';
+    document.querySelector(".qnt_solicitada").value = '';
+}
 
 
 let renderizarForm40 = () => {
