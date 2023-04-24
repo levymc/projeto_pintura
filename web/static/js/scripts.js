@@ -42,7 +42,33 @@ let renderizarMain = () => {
 let renderizarForm173 = () => {
     let conteudo = document.querySelector(".conteudo");
     conteudo.innerHTML = '';
-    conteudo.innerHTML += "Form 173";
+    conteudo.innerHTML += `
+    <div class="conteudo-form173">
+        <div class="form173">
+            <div class="solicitante">
+                <h3>Levy</h3>
+            </div>
+            <div class="numeroForm">
+                <input type="text" placeholder="Formulário Nº">
+            </div>
+            <div class="codPintor">
+                <input type="text" placeholder="Código do Pintor">
+            </div>
+            <div class="cemb">
+                <input type="text" placeholder="CEMB">
+            </div>
+            <div class="quantidade">
+                <input type="text" placeholder="Quantidade Solicitada">
+            </div>
+        </div>
+        <div class="ocsForm173">
+            <div class="oc">
+                <input type="text" placeholder="OC">
+                <input type="text" placeholder="Quantidade">
+            </div>
+        </div>
+    </div>
+    `;
     
 }
 
