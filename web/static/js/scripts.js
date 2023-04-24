@@ -63,22 +63,34 @@ let renderizarForm173 = () => {
                 <input type="text" placeholder="Quantidade Solicitada">
                 <div class="checkboxes">
                     <label for="ml">ml</label>
-                    <input type="checkbox" name='ml' value="ml">
+                    <input type="checkbox" name='ml' value="ml" class="ml-checkbox">
                     <label for="g">g</label>
-                    <input type="checkbox" name='g' value="g">
+                    <input type="checkbox" name='g' value="g" class="g-checkbox">
                 </div>
             </div>
         </div>
         <div class="ocsForm173">
-            <div class="oc">
-                <input type="text" placeholder="OC">
-                <input type="text" placeholder="Quantidade">
-            </div>
+            <input type="text" placeholder="OC">
+            <input type="text" placeholder="Quantidade">
         </div>
     </div>
     `;
+    let mlCheckBox = document.querySelector(".ml-checkbox");
+    let gCheckBox = document.querySelector(".g-checkbox");
+    mlCheckBox.addEventListener("change", function() {
+        if (mlCheckBox.checked) {
+            gCheckBox.checked = false;
+        }
+    });
     
+    gCheckBox.addEventListener("change", function() {
+        if (gCheckBox.checked) {
+            mlCheckBox.checked = false;
+        }
+    });
 }
+
+
 
 let renderizarForm40 = () => {
     let conteudo = document.querySelector(".conteudo");
