@@ -1,5 +1,6 @@
 // Variáveis Globais
 let container = document.querySelector(".container");
+let main = document.querySelector("main");
 let user ;
 let ocsAdded = [];
 
@@ -42,22 +43,28 @@ let renderizarMain = () => {
     container.innerHTML = '';
     container.innerHTML += `
             <nav class="menu-superior">
-                <a class="btn" href="#" id="btn-form173">Solicitação de Tinta</a>
-                <a class="btn" href="#" onclick="renderizarForm40()">Preparação da Tinta</a>
-                <a class="btn" href="#" onclick="renderizarForm161()">Aplicação da Tinta</a>
+                <a class="btn" id="btn-form173">Solicitação de Tinta</a>
+                <a class="btn" href="#" id="btn-form40">Preparação da Tinta</a>
+                <a class="btn" href="#" id="btn-form161">Aplicação da Tinta</a>
             </nav>
-  
+            <div class="conteudo"></div>
     `
     document.getElementById("btn-form173").addEventListener("click", function(){
         renderizarForm173();
+    });
+    document.getElementById("btn-form40").addEventListener("click", function(){
+        renderizarForm40();
+    });
+    document.getElementById("btn-form161").addEventListener("click", function(){
+        renderizarForm161();
     });
     
 }
 
 
 var renderizarForm173 = () => {
-    let conteudo = document.querySelector(".container");
-    // conteudo.innerHTML = '';
+    let conteudo = document.querySelector(".conteudo");
+    conteudo.innerHTML = '';
     conteudo.innerHTML += `
     <div class="conteudo-form173">
         <div class="form173">
