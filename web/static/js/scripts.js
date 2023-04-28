@@ -42,9 +42,9 @@ let renderizarMain = () => {
     container.innerHTML = '';
     container.innerHTML += `
             <div class="menu-superior">
-                <button onclick="renderizarForm173()">Solicitação de Tinta</button>
-                <button onclick="renderizarForm40()">Preparação da Tinta</button>
-                <button onclick="renderizarForm161()">Aplicação da Tinta</button>
+                <button class="btn" onclick="renderizarForm173()">Solicitação de Tinta</button>
+                <button class="btn" onclick="renderizarForm40()">Preparação da Tinta</button>
+                <button class="btn" onclick="renderizarForm161()">Aplicação da Tinta</button>
             </div>
             <div class="conteudo"></div>
     `
