@@ -41,18 +41,23 @@ let acessoUserForm = () => {
 let renderizarMain = () => {
     container.innerHTML = '';
     container.innerHTML += `
-            <div class="menu-superior">
-                <button class="btn" onclick="renderizarForm173()">Solicitação de Tinta</button>
-                <button class="btn" onclick="renderizarForm40()">Preparação da Tinta</button>
-                <button class="btn" onclick="renderizarForm161()">Aplicação da Tinta</button>
-            </div>
-            <div class="conteudo"></div>
+            <nav class="menu-superior">
+                <a class="btn" href="#" id="btn-form173">Solicitação de Tinta</a>
+                <a class="btn" href="#" onclick="renderizarForm40()">Preparação da Tinta</a>
+                <a class="btn" href="#" onclick="renderizarForm161()">Aplicação da Tinta</a>
+            </nav>
+  
     `
+    document.getElementById("btn-form173").addEventListener("click", function(){
+        renderizarForm173();
+    });
+    
 }
 
-let renderizarForm173 = () => {
-    let conteudo = document.querySelector(".conteudo");
-    conteudo.innerHTML = '';
+
+var renderizarForm173 = () => {
+    let conteudo = document.querySelector(".container");
+    // conteudo.innerHTML = '';
     conteudo.innerHTML += `
     <div class="conteudo-form173">
         <div class="form173">
