@@ -3,6 +3,12 @@ let container = document.querySelector(".container");
 let user ;
 let ocsAdded = [];
 
+let enterKeyHandler = function(event) {
+    if (event.key === "Enter") {
+        acessoUserForm();
+    }
+};
+
 
 let renderizarLogin = () => {
     container.innerHTML = '';
@@ -12,6 +18,7 @@ let renderizarLogin = () => {
         <input class="passInput" name="passInput" type="password" placeholder="Senha">
         <button onclick="acessoUserForm()" id="btn-userForm">Entrar</button>
     </div>`
+    document.addEventListener("keydown", enterKeyHandler);
 };
 
 let acessoUserForm = () => {    
@@ -23,6 +30,7 @@ let acessoUserForm = () => {
         senha: passInput,
     }).then(response => {
         console.log(response);
+        document.removeEventListener("keydown", enterKeyHandler);
         renderizarMain();
     }).catch(error => {
         console.log(error);
