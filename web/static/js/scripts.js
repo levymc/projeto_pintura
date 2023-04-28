@@ -4,6 +4,10 @@ let main = document.querySelector("main");
 let user ;
 let ocsAdded = [];
 
+document.querySelector(".titulo").addEventListener("click", function(){
+    window.location.reload();
+});
+
 let enterKeyHandler = function(event) {
     if (event.key === "Enter") {
         acessoUserForm();
