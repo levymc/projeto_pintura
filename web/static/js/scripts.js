@@ -48,8 +48,8 @@ let renderizarMain = () => {
     container.innerHTML += `
             <nav class="menu-superior">
                 <a class="btn" id="btn-form173">Solicitação de Tinta</a>
-                <a class="btn" href="#" id="btn-form40">Preparação da Tinta</a>
-                <a class="btn" href="#" id="btn-form161">Aplicação da Tinta</a>
+                <a class="btn" id="btn-form40">Preparação da Tinta</a>
+                <a class="btn" id="btn-form161">Aplicação da Tinta</a>
             </nav>
             <div class="conteudo"></div>
     `

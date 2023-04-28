@@ -22,10 +22,7 @@ main{
 
 
 /* Principal */
-.btn{
-    cursor: pointer;
-    z-index: 2;
-}
+
 .titulo {
     position: absolute;
     cursor: pointer;
@@ -33,7 +30,7 @@ main{
     font-size: 24px;
     font-weight: bold;
     color: #fff;
-    background: linear-gradient(to right, #6200ee, #2196f3);
+    background: linear-gradient(to right, #3d0000, #ff5c5c);
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
     padding: 15px;
     width: 100%;
@@ -78,7 +75,7 @@ main{
 }
     
 #btn-userForm {
-    background-color: #6200ee;
+    background-color: #b80000;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -90,7 +87,7 @@ main{
 }
     
 #btn-userForm:hover {
-    background-color: #3700b3;
+    background-color: #660000;
 }
 .userForm button:active{
     background-color: #a8a8a8;
@@ -114,23 +111,32 @@ body.swal2-height-auto {
     height: 100% !important;
 }
 nav{
-    padding-top: 0.75em;
-    width: 250px !important;
+    padding: 0 !important;
+    width: auto !important;
     height: 100vh !important;
     z-index: 2;
-    /* background-color: transparent !important; */
+    background-color: #660000 !important;
+}
+.btn{
+    margin: 0 !important;
+    cursor: pointer;
+    z-index: 2;
+    background-color: #660000 !important;
+}
+.btn:hover{
+    background-color: #ff8585 !important;
 }
 .menu-superior{
     position: absolute;
     top: 70px;
     left: 0;
-    width: 100%;
+    width: auto;
     height: 60px;
     display: flex;
     align-items: start;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 1.25em;
+    gap: 1em;
     box-sizing: border-box;
     padding-left: 1em;
 }
@@ -139,7 +145,6 @@ nav{
     height: 8vh;
     letter-spacing: -1px; line-height: 1.2;
     font-weight: bold;
-    background-color: rgba(193, 151, 253, 0.279);
     border: 1px solid rgba(128, 128, 128, 0.493);
     border-radius: 5px;
     cursor: pointer;
