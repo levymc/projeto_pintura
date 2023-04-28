@@ -112,10 +112,16 @@ main{
 body.swal2-height-auto {
     height: 100% !important;
 }
-
+nav{
+    padding-top: 0.75em;
+    width: 250px !important;
+    height: 100vh !important;
+    z-index: 2;
+    /* background-color: transparent !important; */
+}
 .menu-superior{
     position: absolute;
-    top: 74px;
+    top: 70px;
     left: 0;
     width: 100%;
     height: 60px;
@@ -152,7 +158,7 @@ body.swal2-height-auto {
     top: 70px;
 }
 .conteudo-form173{
-    margin-top: 15vh;
+    /* margin-top: 15vh; */
     background-color: #e0e0e0;
     border-radius: 15px;
     padding: 2em;
@@ -241,4 +247,12 @@ body.swal2-height-auto {
     padding-top: 0.5em;
     font-size: 13px;
     border-bottom: 1px rgba(128, 128, 128, 0.376) dashed;
+}
+.conteudo-form40{
+    position: absolute;
+    /* top: 70px; */
+    left: 250px;
+    background-color: #6200ee;
+    width: 100%;
+    height: 100vh;
 }

@@ -154,7 +154,7 @@ let btnAddOC = () => {
 let renderizarForm40 = () => {
     let conteudo = document.querySelector(".conteudo");
     conteudo.innerHTML = '';
-    conteudo.innerHTML += "Form 40";
+    conteudo.innerHTML += "<div class='conteudo-form40'>Form 40</div>";
 }
 
 let renderizarForm161 = () => {
