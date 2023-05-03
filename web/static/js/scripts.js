@@ -54,7 +54,7 @@ let renderizarMain = () => {
             </nav>
             <div class="conteudo">
                 <div class="kaban">
-                    <div class="topo"><button>+ Solicitar Nova Mescla</button></div>
+                    <div class="topo"><button id="novaSolicitacao">+ Solicitar Nova Mescla</button></div>
                     <div class="quadros-kanban">
                         <div class="quadro"></div>
                         <div class="quadro"></div>
@@ -72,7 +72,16 @@ let renderizarMain = () => {
     document.getElementById("btn-form161").addEventListener("click", function(){
         renderizarForm161();
     });
-    
+    document.getElementById("novaSolicitacao").addEventListener("click", function(){
+        addQuadro();
+    })
+}
+
+function addQuadro(){
+    // ELe vai ter que buscar no servidor pelas solicitações ainda pendentes e trazer todas elas de novo......
+    let quadros = document.querySelector(".quadros-kanban");
+    // conteudo.innerHTML = '';
+    quadros.innerHTML += `<div class="quadro"></div>`;
 }
 
 function kaban() {
