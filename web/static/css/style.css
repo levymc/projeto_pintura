@@ -1,6 +1,7 @@
 *{
     font-family: "Roboto", sans-serif;
     user-select: none;
+    box-sizing: border-box !important;
 }
 .flex{
     display: flex;
@@ -132,13 +133,43 @@ nav{
 .btn:hover{
     background-color: #660000 !important;
 }
+
+.kaban{
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 1em;
+}
+
+.topo{
+    display: flex;
+    width: 100%;
+}
+.topo button{
+    width: 100px;
+}
+
+.quadros-kanban{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+.quadro{
+    width: 20vw;
+    height: 40vh;
+    border-radius: 10px;
+    background-color: white;
+}
+
 .menu-superior{
     position: absolute;
     top: 70px;
     left: 0;
     width: auto;
     height: 60px;
-    display: flex;
+    display: none;
     align-items: start;
     flex-direction: column;
     justify-content: flex-start;

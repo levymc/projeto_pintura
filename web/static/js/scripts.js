@@ -37,6 +37,7 @@ let acessoUserForm = () => {
         console.log(response);
         document.removeEventListener("keydown", enterKeyHandler);
         renderizarMain();
+        // kaban();
     }).catch(error => {
         console.log(error);
         alert("Ocorreu algum erro, tente novamente ou acione o Processo.")
@@ -51,7 +52,16 @@ let renderizarMain = () => {
                 <a class="btn" id="btn-form40">Preparação da Tinta</a>
                 <a class="btn" id="btn-form161">Aplicação da Tinta</a>
             </nav>
-            <div class="conteudo"></div>
+            <div class="conteudo">
+                <div class="kaban">
+                    <div class="topo"><button>+ Solicitar Nova Mescla</button></div>
+                    <div class="quadros-kanban">
+                        <div class="quadro"></div>
+                        <div class="quadro"></div>
+                        <div class="quadro"></div>
+                    </div>
+                </div>
+            </div>
     `
     document.getElementById("btn-form173").addEventListener("click", function(){
         renderizarForm173();
@@ -65,6 +75,20 @@ let renderizarMain = () => {
     
 }
 
+function kaban() {
+    // let conteudo = document.querySelector(".conteudo");
+    container.innerHTML = '';
+    container.innerHTML += `
+        <div class="kaban">
+            <div class="topo"><button>+ Solicitar Nova Mescla</button></div>
+            <div class="quadros-kanban">
+                <div class="quadro"></div>
+                <div class="quadro"></div>
+                <div class="quadro"></div>
+            </div>
+        </div>
+    `
+}
 
 var renderizarForm173 = () => {
     let conteudo = document.querySelector(".conteudo");
