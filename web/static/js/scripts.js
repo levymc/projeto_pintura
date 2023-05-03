@@ -73,6 +73,14 @@ let renderizarMain = () => {
         renderizarForm161();
     });
     document.getElementById("novaSolicitacao").addEventListener("click", function(){
+        modalSolicitacao();
+    })
+}
+
+function modalSolicitacao(){
+    Swal.fire({
+        title:"OI"
+    }).then(response => {
         addQuadro();
     })
 }
