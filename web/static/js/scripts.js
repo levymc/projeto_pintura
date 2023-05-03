@@ -18,7 +18,7 @@ let enterKeyHandler = function(event) {
 let renderizarLogin = () => {
     container.innerHTML = '';
     container.innerHTML = `
-    <div class="userForm flex">
+    <div class="userForm flex ">
         <input class="userInput" name="userInput" type="text" placeholder="Usuário">
         <input class="passInput" name="passInput" type="password" placeholder="Senha">
         <button onclick="acessoUserForm()" id="btn-userForm">Entrar</button>
