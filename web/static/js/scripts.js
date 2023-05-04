@@ -54,7 +54,7 @@ let renderizarMain = () => {
             </nav>
             <div class="conteudo">
                 <div class="kaban">
-                    <div class="topo"><button id="novaSolicitacao">+ Solicitar Nova Mescla</button></div>
+                    <div class="topo"><button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button></div>
                     <div class="quadros-kanban">
                         <div class="quadro"></div>
                         <div class="quadro"></div>
@@ -98,11 +98,15 @@ function modalSolicitacao(){
                 </div>
                 <div class="quantidade">
                     <input type="number" placeholder="Quantidade Solicitada">
-                    <div class="checkboxes">
-                        <label for="ml">ml</label>
-                        <input type="checkbox" name='ml' value="ml" class="ml-checkbox">
-                        <label for="g">g</label>
-                        <input type="checkbox" name='g' value="g" class="g-checkbox">
+                    <div class="container-checkboxes">
+                        <div class="checkboxes">
+                            <input type="checkbox" name='g' value="g">
+                            <label for="g">g</label>
+                        </div>
+                        <div class="checkboxes">
+                            <input type="checkbox" name='ml' value="ml">
+                            <label for="ml">ml</label>
+                        </div>
                     </div>
                 </div>
             </div>

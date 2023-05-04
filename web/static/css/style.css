@@ -148,7 +148,7 @@ nav{
     width: 100%;
 }
 .topo button{
-    width: 100px;
+    width: auto;
 }
 
 .quadros-kanban{
@@ -213,6 +213,15 @@ nav{
     align-items: start;
     justify-content: space-around;
 }
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: inherit !important;
+    opacity: 1 !important;
+    pointer-events: visible !important;
+    width: 12px !important;
+}
+
+
 .form173{
     display: flex;
     align-items: center;
@@ -220,6 +229,10 @@ nav{
     flex-direction: column;
     gap: 0.5em;
 }
+.numeroForm input, .codPintor input, .cemb input{
+    margin-right: 2em !important;
+}
+
 .solicitante{
     display: flex;
     width: 13em;
@@ -232,19 +245,27 @@ nav{
 .quantidade{
     display: flex;
     position: relative;
+    gap: 0.25em
+}
+.container-checkboxes{
+    gap: 0.5em;
+    display: flex;
+    flex-direction: column;
 }
 .checkboxes{
+    display: flex; 
+    gap: 0.5em;
+}
+/* .checkboxes input{
     position: absolute;
-    left: 232px;
-    bottom: -0.5em;
-    display: flex;
-    /* flex-direction: column; */
-}
-.checkboxes input{
-    width:12px !important;
-}
+    right:  0;
+    margin-bottom: 0.5em;
+} */
 .checkboxes label{
     font-size: 12px;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
 }
 .ocsForm173{ 
     gap: 0.5em;
