@@ -79,7 +79,49 @@ let renderizarMain = () => {
 
 function modalSolicitacao(){
     Swal.fire({
-        title:"OI"
+        title:"Formulário 173 - Solicitação de Preparação de Tinta",
+        width: '60%',
+        html: `
+        <div class="conteudo-form173">
+            <div class="form173">
+                <div class="solicitante">
+                    <h3>Solicitante: <b>${user}</b></h3>
+                </div>
+                <div class="numeroForm">
+                    <input type="text" placeholder="Formulário Nº">
+                </div>
+                <div class="codPintor">
+                    <input type="number" placeholder="Código do Pintor">
+                </div>
+                <div class="cemb">
+                    <input type="number" placeholder="CEMB">
+                </div>
+                <div class="quantidade">
+                    <input type="number" placeholder="Quantidade Solicitada">
+                    <div class="checkboxes">
+                        <label for="ml">ml</label>
+                        <input type="checkbox" name='ml' value="ml" class="ml-checkbox">
+                        <label for="g">g</label>
+                        <input type="checkbox" name='g' value="g" class="g-checkbox">
+                    </div>
+                </div>
+            </div>
+            <div class="ocsForm173">
+                <div class="campoOC">
+                    <input type="number" placeholder="OC" class="oc_solicitada">
+                    <input type="number" placeholder="Quantidade" class="qnt_solicitada">
+                </div>
+                <div class="btnAddOC"><button onclick="btnAddOC()">Adicionar OC</button></div>
+                <table class="listaOCs">
+                    <tr>
+                        <th>OC</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </table>
+                <div class="contadorOCs"></div>
+            </div>
+        </div>
+        `
     }).then(response => {
         addQuadro();
     })

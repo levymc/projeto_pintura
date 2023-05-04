@@ -204,14 +204,11 @@ nav{
     top: 70px;
 }
 .conteudo-form173{
-    /* margin-top: 15vh; */
     background-color: #ffffff;
-    border-radius: 15px;
-    /* padding: 2em;    */
-    padding-right: 3em;
+    padding: 2em;   
     box-sizing: border-box;
     width: 100%;
-    height: 100vh;
+    height: auto;
     display: flex;
     align-items: start;
     justify-content: space-around;
@@ -226,7 +223,12 @@ nav{
 .solicitante{
     display: flex;
     width: 13em;
+    padding-left: 1.2em;
 }
+.solicitante h3{
+    font-size: 16px;
+}
+
 .quantidade{
     display: flex;
     position: relative;
@@ -246,10 +248,10 @@ nav{
 }
 .ocsForm173{ 
     gap: 0.5em;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     padding-top: 1.45em;
+    padding-left: 2em;
 }
 .ocsForm173 .campoOC{
     display: flex;
