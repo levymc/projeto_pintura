@@ -56,9 +56,7 @@ let renderizarMain = () => {
                 <div class="kaban">
                     <div class="topo"><button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button></div>
                     <div class="quadros-kanban">
-                        <div class="quadro"></div>
-                        <div class="quadro"></div>
-                        <div class="quadro"></div>
+                        Ainda não existem solicitações!
                     </div>
                 </div>
             </div>
@@ -127,22 +125,52 @@ function modalSolicitacao(){
         </div>
         `
     }).then(response => {
-        const dados = {
-            numeroForm: document.querySelector(".numeroForm input").value,
-            codPintor: document.querySelector(".codPintor input").value,
-            cemb: document.querySelector(".cemb input").value,
-            quantidade: document.querySelector(".quantidade input").value,
-        }
-        console.log(dados);
-        addQuadro();
+        
+        primeiroQuadro();
+        
     })
 }
 
-function addQuadro(){
+function primeiroQuadro(){
+    const dados = {
+        numeroForm: document.querySelector(".numeroForm input").value,
+        codPintor: document.querySelector(".codPintor input").value,
+        cemb: document.querySelector(".cemb input").value,
+        quantidade: document.querySelector(".quantidade input").value,
+        ocs: ocsAdded,
+    };
+    if(document.querySelector(".quadro")){
+        addQuadro(dados);
+    }else{
+        let quadros = document.querySelector(".quadros-kanban");
+        quadros.innerHTML = '';
+        addQuadro(dados);
+    }
+}
+
+function addQuadro(dados){
     // ELe vai ter que buscar no servidor pelas solicitações ainda pendentes e trazer todas elas de novo......
     let quadros = document.querySelector(".quadros-kanban");
     // conteudo.innerHTML = '';
-    quadros.innerHTML += `<div class="quadro"></div>`;
+    let Ocs = []
+    dados.ocs.map((oc) => 
+        Ocs.push(`<li>${oc.oc}</li>`)
+        )
+    quadros.innerHTML += `
+    <div class="quadro">
+        <ul>
+            <li>Número do Formulário: ${dados.numeroForm}</li>
+            <li>Código do Pintor: ${dados.codPintor}</li>
+            <li>Cemb: ${dados.cemb}</li>
+            <li>Quantidade Solicitada: ${dados.quantidade}</li>
+        </ul>
+        <div> 
+            OCs:
+                ${Ocs}
+        </div> 
+
+    </div>`; // Na hora que adicionar
+    ocsAdded = [];
 }
 
 function kaban() {
@@ -152,9 +180,6 @@ function kaban() {
         <div class="kaban">
             <div class="topo"><button>+ Solicitar Nova Mescla</button></div>
             <div class="quadros-kanban">
-                <div class="quadro"></div>
-                <div class="quadro"></div>
-                <div class="quadro"></div>
             </div>
         </div>
     `

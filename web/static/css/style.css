@@ -162,6 +162,14 @@ nav{
     height: 40vh;
     border-radius: 10px;
     background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.quadro ul{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
 }
 
 .menu-superior{
