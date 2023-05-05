@@ -4,7 +4,7 @@ let main = document.querySelector("main");
 let user ;
 let ocsAdded = [];
 
-document.querySelector(".titulo").addEventListener("click", function(){
+document.querySelector(".titulo h1").addEventListener("click", function(){
     window.location.reload();
 });
 
