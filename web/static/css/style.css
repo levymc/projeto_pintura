@@ -163,6 +163,7 @@ nav{
     border-radius: 10px;
     background-color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -170,6 +171,10 @@ nav{
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+}
+.ocsQuadro{
+    height: 8em;
+    overflow-y: auto;
 }
 
 .menu-superior{
@@ -326,6 +331,10 @@ nav{
     padding-top: 0.5em;
     font-size: 13px;
     border-bottom: 1px rgba(128, 128, 128, 0.376) dashed;
+}
+.container-listaOCs{
+    height: 15em;
+    overflow-y: auto;
 }
 .conteudo-form40{
     /* position: absolute; */

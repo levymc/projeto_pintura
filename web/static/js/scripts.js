@@ -116,12 +116,14 @@ function modalSolicitacao(){
                     <input type="number" placeholder="Quantidade" class="qnt_solicitada">
                 </div>
                 <div class="btnAddOC"><button onclick="btnAddOC()">Adicionar OC</button></div>
-                <table class="listaOCs">
-                    <tr>
-                        <th>OC</th>
-                        <th>Quantidade</th>
-                    </tr>
-                </table>
+                <div class="container-listaOCs">
+                    <table class="listaOCs">
+                        <tr>
+                            <th>OC</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    </table>
+                </div>
                 <div class="contadorOCs"></div>
             </div>
         </div>
@@ -199,9 +201,11 @@ function addQuadro(dados){
             <li>Cemb: ${dados.cemb}</li>
             <li>Quantidade Solicitada: ${dados.quantidade} ${dados.unidade}</li>
         </ul>
-        <div> 
+        <div class="ocsQuadro"> 
             OCs:
+            <ul>
                 ${Ocs}
+            </ul>
         </div> 
 
     </div>`; // Na hora que adicionar
