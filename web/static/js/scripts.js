@@ -124,7 +124,10 @@ function modalSolicitacao(){
                     <input type="number" id="ocForm173" placeholder="OC" class="oc_solicitada">
                     <input type="number" id="qntOcForm173" placeholder="Quantidade" class="qnt_solicitada">
                 </div>
-                <div class="btnAddOC"><button onclick="btnAddOC()">Adicionar OC</button></div>
+                <div class="btnAddOC">
+                    <button onclick="btnRemoveOC()">Remover OC</button>
+                    <button onclick="btnAddOC()">Adicionar OC</button>
+                </div>
                 <div class="container-listaOCs">
                     <table class="listaOCs text-center display-none">
                         <tr class="text-center">
@@ -349,10 +352,38 @@ let btnAddOC = () => {
         
         document.querySelector(".oc_solicitada").value = '';
         document.querySelector(".qnt_solicitada").value = '';
+        const linhasTabela = document.querySelectorAll('.listaOCs tr');
+
+        // Adicione um evento de clique a cada linha
+        linhasTabela.forEach(linha => {
+            linha.addEventListener('click', () => {
+                // Verifica se a linha já está selecionada
+                const estaSelecionada = linha.classList.contains('linha-selecionada');
+              
+                // Remove a classe de seleção de todas as linhas
+                linhasTabela.forEach(linha => {
+                  linha.classList.remove('linha-selecionada');
+                });
+              
+                // Se a linha já estiver selecionada, desseleciona-a
+                if (estaSelecionada) {
+                  console.log('Linha desselecionada:', linha);
+                }
+                // Caso contrário, seleciona-a
+                else {
+                  linha.classList.add('linha-selecionada');
+                  console.log('Linha selecionada:', linha);
+                }
+              });
+              
+        });
     }
     
 }
 
+function btnRemoveOC(){
+    
+}
 
 let renderizarForm40 = () => {
     let conteudo = document.querySelector(".conteudo");

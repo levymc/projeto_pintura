@@ -28,6 +28,11 @@ main{
 .display-none{
     display: none;
 }
+.linha-selecionada {
+    background-color: rgb(138, 138, 252);
+    transition: background-color 0.7s ease;
+}
+  
 
 /* Principal */
 
@@ -334,6 +339,7 @@ nav{
 .btnAddOC{
     width: 100%;
     display: flex;
+    gap: 0.5em;
     justify-content: end;
     align-items: end;
 } 
