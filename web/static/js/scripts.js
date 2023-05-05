@@ -249,7 +249,7 @@ function kaban() {
     container.innerHTML = '';
     container.innerHTML += `
         <div class="kaban">
-            <div class="topo"><button>+ Solicitar Nova Mescla</button></div>
+            <div class="topo"><button>Solicitar Nova Mescla</button></div>
             <div class="quadros-kanban">
             </div>
         </div>
