@@ -81,6 +81,8 @@ function modalSolicitacao(){
         Swal.fire({
         title:"Formulário 173 - Solicitação de Preparação de Tinta",
         width: '60%',
+        confirmButtonColor:"#b80000",
+        confirmButtonText:"Enviar",
         html: `
         <div class="conteudo-form173">
             <div class="form173">
