@@ -235,10 +235,16 @@ nav{
 }
 
 
+.divisoria-vertical {
+    border-left: 1px dashed #ccc;
+    height: 100%;
+    padding-top: 2em;
+    padding-bottom: 1em;
+}
 .form173{
     display: flex;
     align-items: center;
-    width: auto;
+    width: 50%;
     flex-direction: column;
     gap: 0.5em;
 }
@@ -249,7 +255,6 @@ nav{
 .solicitante{
     display: flex;
     width: 13em;
-    padding-left: 1.2em;
 }
 .solicitante h3{
     font-size: 16px;
@@ -285,7 +290,7 @@ nav{
     display: flex;
     flex-direction: column;
     padding-top: 1.45em;
-    padding-left: 2em;
+    padding-left: 4em;
 }
 .ocsForm173 .campoOC{
     display: flex;
