@@ -292,6 +292,9 @@ nav{
     padding-top: 1.45em;
     padding-left: 4em;
 }
+.my-validation-message::before {
+    display: none;
+  }  
 .ocsForm173 .campoOC{
     display: flex;
     gap: 0.5em;

@@ -87,6 +87,9 @@ function modalSolicitacao(){
         allowOutsideClick: false,
         showCloseButton: true,
         showCancelButton: true,
+        customClass: {
+            validationMessage: 'my-validation-message'
+          },
         html: `
         <div class="conteudo-form173">
             <div class="form173">
@@ -94,16 +97,16 @@ function modalSolicitacao(){
                     <h3>Solicitante: <b>${user}</b></h3>
                 </div>
                 <div class="numeroForm">
-                    <input type="number" placeholder="Formulário Nº">
+                    <input type="number" id="numeroForm" placeholder="Formulário Nº">
                 </div>
                 <div class="codPintor">
-                    <input type="number" placeholder="Código do Pintor">
+                    <input type="number" id="codPintor" placeholder="Código do Pintor">
                 </div>
                 <div class="cemb">
-                    <input type="number" placeholder="CEMB">
+                    <input type="number" id="cemb" placeholder="CEMB">
                 </div>
                 <div class="quantidade">
-                    <input type="number" placeholder="Quantidade Solicitada">
+                    <input type="number" id="quantidade" placeholder="Quantidade Solicitada">
                     <div class="container-checkboxes">
                         <div class="checkboxes">
                             <input type="checkbox" id="g" name='g' value="g">
@@ -118,8 +121,8 @@ function modalSolicitacao(){
             </div>
             <div class="ocsForm173 divisoria-vertical">
                 <div class="campoOC">
-                    <input type="number" placeholder="OC" class="oc_solicitada">
-                    <input type="number" placeholder="Quantidade" class="qnt_solicitada">
+                    <input type="number" id="ocForm173" placeholder="OC" class="oc_solicitada">
+                    <input type="number" id="qntOcForm173" placeholder="Quantidade" class="qnt_solicitada">
                 </div>
                 <div class="btnAddOC"><button onclick="btnAddOC()">Adicionar OC</button></div>
                 <div class="container-listaOCs">
@@ -133,7 +136,29 @@ function modalSolicitacao(){
                 <div class="contadorOCs"></div>
             </div>
         </div>
-        `
+        `,
+        preConfirm: () => {
+            const numeroForm = document.getElementById('numeroForm').value;
+            const codPintor = document.getElementById('codPintor').value;
+            const cemb = document.getElementById('cemb').value;
+            const quantidade = document.getElementById('quantidade').value;
+            const g = document.getElementById('g');
+            const ml = document.getElementById('ml');
+            const ocForm173 = document.getElementById('ocForm173').value;
+            const qntOcForm173 = document.getElementById('qntOcForm173').value;
+        
+            if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked) || !ocForm173 || !qntOcForm173) {
+                Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+                // setTimeout(() => {
+                //   Swal.resetValidationError()
+                // }, 5000) // tempo em milissegundos (5 segundos)
+              } else if (g.checked === ml.checked) {
+                Swal.showValidationMessage(`Selecione apenas uma opção entre "ml" e "g".`)
+                // setTimeout(() => {
+                //   Swal.resetValidationError()
+                // }, 5000) // tempo em milissegundos (5 segundos)
+              }
+          }
     }).then(response => {
         if (response.isConfirmed){
             primeiroQuadro();
