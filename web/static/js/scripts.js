@@ -125,8 +125,8 @@ function modalSolicitacao(){
                     <input type="number" id="qntOcForm173" placeholder="Quantidade" class="qnt_solicitada">
                 </div>
                 <div class="btnAddOC">
-                    <button onclick="btnRemoveOC()">Remover OC</button>
-                    <button onclick="btnAddOC()">Adicionar OC</button>
+                    <button class="display-none" id="btnRemoveOC" onclick="btnRemoveOC()">Remover OC</button>
+                    <button id="btnAddOC" onclick="btnAddOC()">Adicionar OC</button>
                 </div>
                 <div class="container-listaOCs">
                     <table class="listaOCs text-center display-none">
@@ -328,7 +328,9 @@ let btnAddOC = () => {
         let qnt_solicitada = document.querySelector(".qnt_solicitada").value;
         let listaOCs = document.querySelector(".listaOCs");
         let contadorOCs = document.querySelector(".contadorOCs");
+        let btnRemoveOC = document.getElementById("btnRemoveOC");
         listaOCs.classList.remove("display-none");
+        btnRemoveOC.classList.remove("display-none");
         
         
         let ocIndex = ocsAdded.findIndex(item => item.oc === oc);
@@ -352,7 +354,7 @@ let btnAddOC = () => {
         
         document.querySelector(".oc_solicitada").value = '';
         document.querySelector(".qnt_solicitada").value = '';
-        const linhasTabela = document.querySelectorAll('.listaOCs tr');
+        const linhasTabela = document.querySelectorAll('.listaOCs td');
 
         // Adicione um evento de clique a cada linha
         linhasTabela.forEach(linha => {

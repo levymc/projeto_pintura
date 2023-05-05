@@ -31,6 +31,7 @@ main{
 .linha-selecionada {
     background-color: rgb(138, 138, 252);
     transition: background-color 0.7s ease;
+    color: #ffffff;
 }
   
 
@@ -267,8 +268,8 @@ nav{
     margin-right: 2em !important;
 }
 
-.btnAddOC button {
-    background-color: #2a00c4;
+#btnAddOC {
+    background-color: #5c3bd3be;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -278,9 +279,22 @@ nav{
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
-    
-.btnAddOC button:hover {
+#btnAddOC:hover {
     background-color: #1d0088;
+}
+#btnRemoveOC {
+    background-color: #eb7263;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#btnRemoveOC:hover {
+    background-color: #8d3b3b;
 }
 .btnAddOC button:active{
     background-color: #a8a8a8;
