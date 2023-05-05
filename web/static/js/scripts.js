@@ -126,8 +126,8 @@ function modalSolicitacao(){
                 </div>
                 <div class="btnAddOC"><button onclick="btnAddOC()">Adicionar OC</button></div>
                 <div class="container-listaOCs">
-                    <table class="listaOCs">
-                        <tr>
+                    <table class="listaOCs text-center display-none">
+                        <tr class="text-center">
                             <th>OC</th>
                             <th>Quantidade</th>
                         </tr>
@@ -316,32 +316,41 @@ var renderizarForm173 = () => {
 }
 
 let btnAddOC = () => {
-    let oc = document.querySelector(".oc_solicitada").value;
-    let qnt_solicitada = document.querySelector(".qnt_solicitada").value;
-    let listaOCs = document.querySelector(".listaOCs");
-    let contadorOCs = document.querySelector(".contadorOCs");
-    
-    let ocIndex = ocsAdded.findIndex(item => item.oc === oc);
-    if (ocIndex === -1) {
-        ocsAdded.push({
-            oc: oc,
-            qnt_solicitada: qnt_solicitada
-        });
-        
-        listaOCs.innerHTML += `
-        <tr>
-            <td>${oc}</td>
-            <td>${qnt_solicitada}</td>
-        </tr>
-        `
-        contadorOCs.innerHTML = '';
-        contadorOCs.innerHTML += `<h3>Quantidade adicionada: ${listaOCs.rows.length - 1}</h3>`
+    const ocForm173 = document.getElementById('ocForm173').value;
+    const qntOcForm173 = document.getElementById('qntOcForm173').value;
+    if (!ocForm173 || !qntOcForm173){
+        Swal.showValidationMessage(`Preencha os campos de OC e Quantidade.`);
     }else{
-        alert("OC já adicionada");
+        let oc = document.querySelector(".oc_solicitada").value;
+        let qnt_solicitada = document.querySelector(".qnt_solicitada").value;
+        let listaOCs = document.querySelector(".listaOCs");
+        let contadorOCs = document.querySelector(".contadorOCs");
+        listaOCs.classList.remove("display-none");
+        
+        
+        let ocIndex = ocsAdded.findIndex(item => item.oc === oc);
+        if (ocIndex === -1) {
+            ocsAdded.push({
+                oc: oc,
+                qnt_solicitada: qnt_solicitada
+            });
+            
+            listaOCs.innerHTML += `
+            <tr>
+                <td>${oc}</td>
+                <td>${qnt_solicitada}</td>
+            </tr>
+            `
+            contadorOCs.innerHTML = '';
+            contadorOCs.innerHTML += `<h3>Quantidade adicionada: ${listaOCs.rows.length - 1}</h3>`
+        }else{
+            alert("OC já adicionada");
+        }
+        
+        document.querySelector(".oc_solicitada").value = '';
+        document.querySelector(".qnt_solicitada").value = '';
     }
     
-    document.querySelector(".oc_solicitada").value = '';
-    document.querySelector(".qnt_solicitada").value = '';
 }
 
 

@@ -21,9 +21,13 @@ main{
     flex-direction: column;
     padding-top: 2em;
     gap : 2em;
-    
 }
-
+.text-center{
+    text-align: center;
+}
+.display-none{
+    display: none;
+}
 
 /* Principal */
 
