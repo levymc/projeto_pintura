@@ -83,6 +83,10 @@ function modalSolicitacao(){
         width: '60%',
         confirmButtonColor:"#b80000",
         confirmButtonText:"Enviar",
+        cancelButtonText:"Cancelar",
+        allowOutsideClick: false,
+        showCloseButton: true,
+        showCancelButton: true,
         html: `
         <div class="conteudo-form173">
             <div class="form173">
@@ -131,8 +135,9 @@ function modalSolicitacao(){
         </div>
         `
     }).then(response => {
-        primeiroQuadro();
-        
+        if (response.isConfirmed){
+            primeiroQuadro();
+        }
     })
      // Obtém os elementos de checkbox
     const checkboxG = document.getElementById('g');
