@@ -15,6 +15,8 @@ let enterKeyHandler = function(event) {
 };
 
 
+
+
 let renderizarLogin = () => {
     container.innerHTML = '';
     container.innerHTML = `
@@ -76,7 +78,7 @@ let renderizarMain = () => {
 }
 
 function modalSolicitacao(){
-    Swal.fire({
+        Swal.fire({
         title:"Formulário 173 - Solicitação de Preparação de Tinta",
         width: '60%',
         html: `
@@ -98,11 +100,11 @@ function modalSolicitacao(){
                     <input type="number" placeholder="Quantidade Solicitada">
                     <div class="container-checkboxes">
                         <div class="checkboxes">
-                            <input type="checkbox" name='g' value="g">
+                            <input type="checkbox" id="g" name='g' value="g">
                             <label for="g">g</label>
                         </div>
                         <div class="checkboxes">
-                            <input type="checkbox" name='ml' value="ml">
+                            <input type="checkbox" id="ml" name='ml' value="ml">
                             <label for="ml">ml</label>
                         </div>
                     </div>
@@ -125,10 +127,27 @@ function modalSolicitacao(){
         </div>
         `
     }).then(response => {
-        
         primeiroQuadro();
         
     })
+     // Obtém os elementos de checkbox
+    const checkboxG = document.getElementById('g');
+    const checkboxML = document.getElementById('ml');
+
+    // Adiciona um evento de clique nos checkboxes
+    checkboxG.addEventListener('click', () => {
+    // Se o checkbox G for selecionado, desmarque o checkbox ML
+    if (checkboxG.checked) {
+        checkboxML.checked = false;
+    }
+    });
+
+    checkboxML.addEventListener('click', () => {
+    // Se o checkbox ML for selecionado, desmarque o checkbox G
+    if (checkboxML.checked) {
+        checkboxG.checked = false;
+    }
+    });
 }
 
 function primeiroQuadro(){
@@ -137,6 +156,7 @@ function primeiroQuadro(){
         codPintor: document.querySelector(".codPintor input").value,
         cemb: document.querySelector(".cemb input").value,
         quantidade: document.querySelector(".quantidade input").value,
+        unidade: getUnidade(),
         ocs: ocsAdded,
     };
     if(document.querySelector(".quadro")){
@@ -147,6 +167,21 @@ function primeiroQuadro(){
         addQuadro(dados);
     }
 }
+
+function getUnidade() {
+  var checkboxML = document.getElementById("ml");
+  var checkboxG = document.getElementById("g");
+  var unidade = "";
+
+  if (checkboxML.checked) {
+    unidade = checkboxML.value;
+  } else if (checkboxG.checked) {
+    unidade = checkboxG.value;
+  }
+
+  return unidade;
+}
+
 
 function addQuadro(dados){
     // ELe vai ter que buscar no servidor pelas solicitações ainda pendentes e trazer todas elas de novo......
@@ -162,7 +197,7 @@ function addQuadro(dados){
             <li>Número do Formulário: ${dados.numeroForm}</li>
             <li>Código do Pintor: ${dados.codPintor}</li>
             <li>Cemb: ${dados.cemb}</li>
-            <li>Quantidade Solicitada: ${dados.quantidade}</li>
+            <li>Quantidade Solicitada: ${dados.quantidade} ${dados.unidade}</li>
         </ul>
         <div> 
             OCs:
