@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, abort
 from waitress import serve
-from DBfuncs import Operadores, DBForm_173
+from DBfuncs import Operadores, DBForm_173, OCs
 import hashlib
 import json
 
@@ -51,6 +51,7 @@ def form173_inserir():
 def ocs_inserir():
     dados = request.json
     print(dados)    
+    ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
     return {"success": True}
 
 if __name__ == '__main__':
