@@ -248,10 +248,19 @@ function getUnidade() {
   return unidade;
 }
 
+let dadosQuadros2 = axios.get("/dadosQuadrosHoje", {params:{
+    status: 0,
+    data: dataAtual
+}}).then(response => {
+    console.log(response)
+})
+
 function carregarDadosQuadros() {
     let quadros = document.querySelector(".quadros-kanban");
     quadros.innerHTML = '';
   
+    
+
     // Verifica se há dados no localStorage
     if (localStorage.getItem('dadosQuadros')) {
       dadosQuadros = JSON.parse(localStorage.getItem('dadosQuadros'));

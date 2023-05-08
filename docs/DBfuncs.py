@@ -100,8 +100,8 @@ class DBForm_173(Base):
        return conteudoTudo
     
     @classmethod
-    def conteudoTudoEspecifico(cls, pend, data):
-        conteudoTudo  = [row.as_dict for row in session.query(cls).filter(and_(DBForm_173.pendencia == pend, DBForm_173.data_solicitacao == data)).all()]
+    def conteudoTudoEspecifico(cls, status, data):
+        conteudoTudo  = [row.to_dict for row in session.query(cls).filter(and_(DBForm_173.status == status, DBForm_173.data == data)).all()]
         return conteudoTudo
     
     @classmethod

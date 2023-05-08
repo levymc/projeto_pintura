@@ -56,9 +56,12 @@ def ocs_inserir():
     ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
     return {"success": True}
 
-@app.route("/form173_infos", methods=["POST", "GET"])
-def form173_infos():
-    
+@app.route("/dadosQuadrosHoje", methods=["POST", "GET"])
+def dadosQuadrosHoje():
+    status = request.args.get('status')
+    data = request.args.get('data')
+    dados = DBForm_173.conteudoTudoEspecifico(status, data)
+    print(dados[0])
     return {"success": True}
 
 
