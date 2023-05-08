@@ -254,7 +254,8 @@ function carregarDadosQuadros() {
     dados.ocs.map((oc) => Ocs.push(`<li>${oc.oc}</li>`));
   
     let contador = quadros.children.length + 1;
-  
+    dados.id = contador;
+
     quadros.innerHTML += `
       <div class="quadro">
           <div class="quadro-contador">${contador}ª Solicitação</div>
@@ -272,7 +273,7 @@ function carregarDadosQuadros() {
               </ul>
           </div> 
           <div class="quadro-btns">
-            <button id="quadro-btnForm40" onclick="btnForm40()">Form. 40</button>
+            <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})">Form. 40</button>
             <button id="quadro-btnFinalizar" onclick="btnFinalizar(${contador})">Finalizar</button>
           </div>
       </div>`;
@@ -280,13 +281,34 @@ function carregarDadosQuadros() {
     ocsAdded = [];
   }
   
-function btnForm40(){
+function btnForm40(id) {
+    if (localStorage.getItem('dadosQuadros')) {
+        dadosQuadros = JSON.parse(localStorage.getItem('dadosQuadros'));
+    }
+
+    console.log(dadosQuadros[0].numeroForm)
+
+    let html = `
+        <div class="container-Form40">
+    `;
+
+    for (let i = 0; i < dadosQuadros.length; i++) {
+        console.log(dadosQuadros[i].id, id)
+        if (dadosQuadros[i].id === id) {
+        // Adicione aqui o conteúdo específico do objeto ao array html
+        html += `<div>${dadosQuadros[i].numeroForm}</div></div>`;
+        // Continue adicionando outros conteúdos necessários
+        }
+    }
+
     Swal.fire({
-        title:"Form. 40 - Preparação de Tinta",
+        title: "Form. 40 - Preparação de Tinta",
         confirmButtonColor: "#E57373",
-        icon:"question"
-    })
+        icon: "question",
+        html: html, 
+    });
 }
+  
 
 function btnFinalizar(solicitacao){
     Swal.fire({

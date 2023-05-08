@@ -242,6 +242,11 @@ nav{
 #quadro-btnForm40:hover{
     background-color: #8f4747;
 }
+.container-Form40{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
 .menu-superior{
     position: absolute;
