@@ -27,6 +27,12 @@ def acesso():
         #renderiza a próxima tela
         print('Acesso concedido.')
         return "Ok"
+
+@app.route("/form173_inserir", methods=["POST", "GET"])
+def form173_inserir():
+    dados = request.json
+    print(request.json)
+    return {"success": True}
     
 
 if __name__ == '__main__':
