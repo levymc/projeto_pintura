@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, abort
 from waitress import serve
-from DBfuncs import Operadores
+from DBfuncs import Operadores, DBForm_173
 import hashlib
 
 mode = "dev" #prod ou dev
@@ -31,7 +31,16 @@ def acesso():
 @app.route("/form173_inserir", methods=["POST", "GET"])
 def form173_inserir():
     dados = request.json
-    print(request.json)
+    print(dados)
+    dadosInserir = {
+        'numeroForm': dados['numeroForm'],
+        'solicitante': dados['solicitante'],
+        'codPintor': dados['codPintor'],
+        'cemb': dados['cemb'],
+        'quantidade': dados['quantidade'],
+        'unidade': dados['unidade']
+    }
+    DBForm_173.insert(dadosInserir)
     return {"success": True}
     
 
