@@ -272,14 +272,33 @@ function carregarDadosQuadros() {
               </ul>
           </div> 
           <div class="quadro-btns">
-            <button id="quadro-btnForm40" onclick="btnAddOC()">Form. 40</button>
-            <button id="quadro-btnFinalizar" onclick="btnAddOC()">Finalizar</button>
+            <button id="quadro-btnForm40" onclick="btnForm40()">Form. 40</button>
+            <button id="quadro-btnFinalizar" onclick="btnFinalizar(${contador})">Finalizar</button>
           </div>
       </div>`;
   
     ocsAdded = [];
   }
   
+function btnForm40(){
+    Swal.fire({
+        title:"Form. 40 - Preparação de Tinta",
+        confirmButtonColor: "#E57373",
+        icon:"question"
+    })
+}
+
+function btnFinalizar(solicitacao){
+    Swal.fire({
+        title:`Deseja finalizar a ${solicitacao}ª solicitação?`,
+        icon:"question",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Sim!",
+        confirmButtonColor: "#E57373",
+    })
+}
+
 
 function kaban() {
     // let conteudo = document.querySelector(".conteudo");
