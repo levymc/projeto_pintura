@@ -175,7 +175,7 @@ nav{
 }
 .quadro{
     width: 20vw;
-    height: 40vh;
+    height: 60vh;
     border-radius: 10px;
     background-color: white;
     display: flex;
@@ -198,8 +198,15 @@ nav{
     font-size: 15px;
 }
 .ocsQuadro{
-    height: 8em;
+    border-top: 1px dashed rgba(174, 174, 174, 0.608);
+    height: 6em;
+    width: 100%;
+    margin-top: 1em;
+    padding-top: 1em;
     overflow-y: auto;
+}
+.ocsQuadro ul{
+    margin-top: 0.5em;
 }
 .quadro-btns{
     width: 100%;
@@ -207,7 +214,7 @@ nav{
     justify-content: end;
 }
 #quadro-btnFinalizar{
-    background-color: #3da604be;
+    background-color: #246600be;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -218,7 +225,7 @@ nav{
     transition: background-color 0.2s ease-in-out;
 }
 #quadro-btnFinalizar:hover{
-    background-color: #256403be;
+    background-color: #60cb27be;
 }
 
 .menu-superior{

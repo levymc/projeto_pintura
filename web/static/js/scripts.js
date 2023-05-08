@@ -247,37 +247,36 @@ function carregarDadosQuadros() {
     }
   }
 
-function addQuadro(dados){
-    console.log(dados.length)
-    // ELe vai ter que buscar no servidor pelas solicitações ainda pendentes e trazer todas elas de novo......
+  function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
-    let Ocs = []
-    dados.ocs.map((oc) => 
-        Ocs.push(`<li>${oc.oc}</li>`)
-    );
-
+    let Ocs = [];
+  
+    dados.ocs.map((oc) => Ocs.push(`<li>${oc.oc}</li>`));
+  
     let contador = quadros.children.length + 1;
-
+  
     quadros.innerHTML += `
-    <div class="quadro">
-        <div class="quadro-contador">Solicitação: <b>${contador}</b></div>
-        <div class="quadro-data">${dados.data}</div>
-        <ul>
-            <li>Número do Formulário: <b>${dados.numeroForm}</b></li>
-            <li>Código do Pintor: <b>${dados.codPintor}</b></li>
-            <li>Cemb: <b>${dados.cemb}</b></li>
-            <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
-        </ul>
-        <div class="ocsQuadro"> 
-            OCs:
-            <ul>
-                <b>${Ocs}</b>
-            </ul>
-        </div> 
-        <div class="quadro-btns"><button id="quadro-btnFinalizar" onclick="btnAddOC()">Finalizar</button></div>
-    </div>`; // Na hora que adicionar
+      <div class="quadro">
+          <div class="quadro-contador">${contador}ª Solicitação</div>
+          <div class="quadro-data">${dados.data}</div>
+          <ul>
+              <li>Número do Formulário: <b>${dados.numeroForm}</b></li>
+              <li>Código do Pintor: <b>${dados.codPintor}</b></li>
+              <li>Cemb: <b>${dados.cemb}</b></li>
+              <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
+          </ul>
+          <div class="ocsQuadro"> 
+              OCs:
+              <ul>
+                  ${Ocs.join('')} <!-- Utilize o método join() sem o delimitador -->
+              </ul>
+          </div> 
+          <div class="quadro-btns"><button id="quadro-btnFinalizar" onclick="btnAddOC()">Finalizar</button></div>
+      </div>`;
+  
     ocsAdded = [];
-}
+  }
+  
 
 function kaban() {
     // let conteudo = document.querySelector(".conteudo");
