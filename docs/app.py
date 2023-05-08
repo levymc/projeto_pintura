@@ -56,6 +56,12 @@ def ocs_inserir():
     ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
     return {"success": True}
 
+@app.route("/form173_infos", methods=["POST", "GET"])
+def form173_infos():
+    
+    return {"success": True}
+
+
 if __name__ == '__main__':
     if mode == 'dev':
         app.run(debug=True, host='0.0.0.0', port=5005)
