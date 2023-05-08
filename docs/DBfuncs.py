@@ -7,7 +7,7 @@ from datetime import datetime
 import local
 
 path =local.Local.local()  #'//NasTecplas/Pintura/DB/pintura.db'
-engine = create_engine(r'sqlite:////static/db/db.db', echo=False)
+engine = create_engine(r'sqlite:///static/db/db.db', echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
 Base = declarative_base()
