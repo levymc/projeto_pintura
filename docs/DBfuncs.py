@@ -14,7 +14,6 @@ Base = declarative_base()
 
 class SQlite_Sequence(Base):
     __tablename__ = "sqlite_sequence"
-    
     name = Column(String, primary_key=True)
     seq = Column(Integer)
 
@@ -56,30 +55,30 @@ class DBForm_161(Base):
     
 
 class DBForm_173(Base):
-    __tablename__='form_173'
+    __tablename__ = 'form173'
     
-    Id_form_173 = Column(Integer, primary_key=True)
-    formulario = Column(Integer)
+    id = Column(Integer, primary_key=True)
+    numeroForm = Column(Integer)
     solicitante = Column(String)
-    data_solicitacao = Column(String)
-    cemb = Column(String)
+    codPintor = Column(Integer)
+    cemb = Column(Integer)
     quantidade = Column(Integer)
     unidade = Column(String)
-    pendencia = Column(Integer)
-    pintor = Column(Integer)
-    print = Column(Integer)
+    data = Column(String)
     
     def __repr__(self):
-        return f"""id: {self.Id_form_173} -  Formulário: {self.formulario}, Solicitante: {self.solicitante}, Data: {self.data_solicitacao},
-        CEMB: {self.cemb}, Quantidade: {self.quantidade}, Unidade: {self.unidade}, Pintor: {self.pintor}    
-    """
+        return f"id: {self.id} - Formulário: {self.numeroForm}, Solicitante: {self.solicitante}, Data: {self.data}, CEMB: {self.cemb}, Quantidade: {self.quantidade}, Unidade: {self.unidade}, Pintor: {self.codPintor}"
     
     @hybrid_property
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
     
-    def insert(dados):
-        pass
+    @classmethod
+    def insert(cls, dados):
+        obj = cls(**dados)
+        session.add(obj)
+        session.commit()
+        return obj
     
     @classmethod
     def conteudoTudo(cls,pend):

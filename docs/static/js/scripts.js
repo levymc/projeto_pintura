@@ -197,6 +197,7 @@ function modalSolicitacao(){
 function primeiroQuadro(){
     const dados = {
         numeroForm: document.querySelector(".numeroForm input").value,
+        solicitante: user,
         codPintor: document.querySelector(".codPintor input").value,
         cemb: document.querySelector(".cemb input").value,
         quantidade: document.querySelector(".quantidade input").value,
