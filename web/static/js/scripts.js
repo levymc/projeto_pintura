@@ -1,8 +1,17 @@
 // Variáveis Globais
+
+const data = new Date();
+const dia = String(data.getDate()).padStart(2, '0');
+const mes = String(data.getMonth() + 1).padStart(2, '0');
+const ano = data.getFullYear();
+let dataAtual = dia + '/' + mes + '/' + ano;
+
+
 let container = document.querySelector(".container");
 let main = document.querySelector("main");
 let user ;
 let ocsAdded = [];
+let dadosQuadros = [];
 
 document.querySelector(".titulo h1").addEventListener("click", function(){
     window.location.reload();
@@ -147,10 +156,8 @@ function modalSolicitacao(){
             const quantidade = document.getElementById('quantidade').value;
             const g = document.getElementById('g');
             const ml = document.getElementById('ml');
-            const ocForm173 = document.getElementById('ocForm173').value;
-            const qntOcForm173 = document.getElementById('qntOcForm173').value;
         
-            if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked) || !ocForm173 || !qntOcForm173) {
+            if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked)) {
                 Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
                 // setTimeout(() => {
                 //   Swal.resetValidationError()
@@ -195,6 +202,7 @@ function primeiroQuadro(){
         quantidade: document.querySelector(".quantidade input").value,
         unidade: getUnidade(),
         ocs: ocsAdded,
+        data: dataAtual,
     };
     if(document.querySelector(".quadro")){
         addQuadro(dados);
@@ -221,28 +229,33 @@ function getUnidade() {
 
 
 function addQuadro(dados){
+    console.log(dados.length)
     // ELe vai ter que buscar no servidor pelas solicitações ainda pendentes e trazer todas elas de novo......
     let quadros = document.querySelector(".quadros-kanban");
-    // conteudo.innerHTML = '';
     let Ocs = []
     dados.ocs.map((oc) => 
         Ocs.push(`<li>${oc.oc}</li>`)
-        )
+    );
+
+    let contador = quadros.children.length + 1;
+
     quadros.innerHTML += `
     <div class="quadro">
+        <div class="quadro-contador">${contador}</div>
+        <div class="quadro-data">${dados.data}</div>
         <ul>
-            <li>Número do Formulário: ${dados.numeroForm}</li>
-            <li>Código do Pintor: ${dados.codPintor}</li>
-            <li>Cemb: ${dados.cemb}</li>
-            <li>Quantidade Solicitada: ${dados.quantidade} ${dados.unidade}</li>
+            <li>Número do Formulário: <b>${dados.numeroForm}</b></li>
+            <li>Código do Pintor: <b>${dados.codPintor}</b></li>
+            <li>Cemb: <b>${dados.cemb}</b></li>
+            <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
         </ul>
         <div class="ocsQuadro"> 
             OCs:
             <ul>
-                ${Ocs}
+                <b>${Ocs}</b>
             </ul>
         </div> 
-
+        <div class="quadro-btns"><button id="quadro-btnFinalizar" onclick="btnAddOC()">Finalizar</button></div>
     </div>`; // Na hora que adicionar
     ocsAdded = [];
 }
