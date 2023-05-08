@@ -38,10 +38,12 @@ def form173_inserir():
         'codPintor': dados['codPintor'],
         'cemb': dados['cemb'],
         'quantidade': dados['quantidade'],
-        'unidade': dados['unidade']
+        'unidade': dados['unidade'],
+        'data': dados['data'],
+        'status': dados['status']
     }
     objetoInserido = DBForm_173.insert(dadosInserir)
-    print(json.dumps(objetoInserido.to_dict()))
+    # print(json.dumps(objetoInserido.to_dict()))
     return {
         "success": True,
         "obj": objetoInserido.to_dict()

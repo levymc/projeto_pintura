@@ -204,15 +204,18 @@ function primeiroQuadro(){
         unidade: getUnidade(),
         ocs: ocsAdded,
         data: dataAtual,
+        status: 0, // por padrão é 0, ou seja, ainda esta como pendente
     };
 
     
 
     //Enviar para o DB table form173 e ocs
-    axios.post("/form173_inserir", dados).then(response =>{
+    axios.post("/form173_inserir", dados).then(response =>{ //form 173
         dados.id = response.data.obj.id;
         console.log(response.data.obj.id)
-        axios.post("/ocs_inserir", {ocs:dados.ocs, id_form173:dados.id})
+        axios.post("/ocs_inserir", {ocs:dados.ocs, id_form173:dados.id}).then(responseOCs => { //Ocs
+            console.log(responseOCs)
+        })
     });
     
 

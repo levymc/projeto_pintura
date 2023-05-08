@@ -65,6 +65,7 @@ class DBForm_173(Base):
     quantidade = Column(Integer)
     unidade = Column(String)
     data = Column(String)
+    status = Column(Integer)
     
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -81,7 +82,8 @@ class DBForm_173(Base):
             'cemb': self.cemb,
             'quantidade': self.quantidade,
             'unidade': self.unidade,
-            'data': self.data
+            'data': self.data,
+            'status': self.status
         }
     
     @classmethod
