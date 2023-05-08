@@ -204,12 +204,17 @@ function primeiroQuadro(){
         ocs: ocsAdded,
         data: dataAtual,
     };
+    dadosQuadros.push(dados);
+
+    // Salvar no localStorage
+    localStorage.setItem('dadosQuadros', JSON.stringify(dadosQuadros));
+
     if(document.querySelector(".quadro")){
-        addQuadro(dados);
+        carregarDadosQuadros();
     }else{
         let quadros = document.querySelector(".quadros-kanban");
         quadros.innerHTML = '';
-        addQuadro(dados);
+        carregarDadosQuadros();
     }
 }
 
@@ -227,6 +232,20 @@ function getUnidade() {
   return unidade;
 }
 
+function carregarDadosQuadros() {
+    let quadros = document.querySelector(".quadros-kanban");
+    quadros.innerHTML = '';
+  
+    // Verifica se há dados no localStorage
+    if (localStorage.getItem('dadosQuadros')) {
+      dadosQuadros = JSON.parse(localStorage.getItem('dadosQuadros'));
+  
+      // Adiciona os quadros a partir dos dados salvos
+      dadosQuadros.forEach((dados) => {
+        addQuadro(dados);
+      });
+    }
+  }
 
 function addQuadro(dados){
     console.log(dados.length)
@@ -241,7 +260,7 @@ function addQuadro(dados){
 
     quadros.innerHTML += `
     <div class="quadro">
-        <div class="quadro-contador">${contador}</div>
+        <div class="quadro-contador">Solicitação: <b>${contador}</b></div>
         <div class="quadro-data">${dados.data}</div>
         <ul>
             <li>Número do Formulário: <b>${dados.numeroForm}</b></li>

@@ -194,7 +194,7 @@ nav{
 .quadro ul{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 1em;
     font-size: 15px;
 }
 .ocsQuadro{
