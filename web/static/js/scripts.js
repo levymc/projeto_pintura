@@ -271,7 +271,10 @@ function carregarDadosQuadros() {
                   ${Ocs.join('')} <!-- Utilize o método join() sem o delimitador -->
               </ul>
           </div> 
-          <div class="quadro-btns"><button id="quadro-btnFinalizar" onclick="btnAddOC()">Finalizar</button></div>
+          <div class="quadro-btns">
+            <button id="quadro-btnForm40" onclick="btnAddOC()">Form. 40</button>
+            <button id="quadro-btnFinalizar" onclick="btnAddOC()">Finalizar</button>
+          </div>
       </div>`;
   
     ocsAdded = [];
