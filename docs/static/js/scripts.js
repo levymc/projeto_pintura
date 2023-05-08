@@ -261,7 +261,7 @@ function carregarDadosQuadros() {
     dados.id = contador;
 
     quadros.innerHTML += `
-      <div class="quadro">
+      <div class="quadro shadow-drop-center">
           <div class="quadro-contador">${contador}ª Solicitação</div>
           <div class="quadro-data">${dados.data}</div>
           <ul>
