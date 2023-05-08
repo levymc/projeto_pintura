@@ -72,6 +72,18 @@ class DBForm_173(Base):
     def __repr__(self):
         return str(self.as_dict())
     
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'numeroForm': self.numeroForm,
+            'solicitante': self.solicitante,
+            'codPintor': self.codPintor,
+            'cemb': self.cemb,
+            'quantidade': self.quantidade,
+            'unidade': self.unidade,
+            'data': self.data
+        }
+    
     @classmethod
     def insert(cls, dados):
         obj = cls(**dados)

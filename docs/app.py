@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, abort
 from waitress import serve
 from DBfuncs import Operadores, DBForm_173
 import hashlib
+import json
 
 mode = "dev" #prod ou dev
 
@@ -31,7 +32,6 @@ def acesso():
 @app.route("/form173_inserir", methods=["POST", "GET"])
 def form173_inserir():
     dados = request.json
-    # print(dados)
     dadosInserir = {
         'numeroForm': dados['numeroForm'],
         'solicitante': dados['solicitante'],
@@ -41,10 +41,11 @@ def form173_inserir():
         'unidade': dados['unidade']
     }
     objetoInserido = DBForm_173.insert(dadosInserir)
-    print(objetoInserido)
+    print(json.dumps(objetoInserido.to_dict()))
     return {
         "success": True,
-            }
+        "obj": objetoInserido.to_dict()
+    }
     
 @app.route("/ocs_inserir", methods=["POST", "GET"])
 def ocs_inserir():
