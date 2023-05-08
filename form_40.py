@@ -19,7 +19,7 @@ def validar_horario(novo_valor):
 
 def opcoesViscosimetros(id_form173):
         try:
-            cemb_tinta = DBForm_173.conteudoEspecifico('cemb', id_form173)[0]
+            cemb_tinta = DBForm_173.consultaEspecifica(id_form173, 'Id_form_173')[0]['cemb']
         #     print("cemb:::: ", cemb_tinta)
             new_cemb = ''
             for i in cemb_tinta:

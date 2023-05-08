@@ -19,6 +19,42 @@ class SQlite_Sequence(Base):
     seq = Column(Integer)
 
 
+class DBForm_161(Base):
+    __tablename__ = 'form_161'
+    
+    Id_form_161 = Column(Integer, primary_key=True)
+    track_form173 = Column(Integer)
+    print = Column(Integer)
+    
+    @classmethod
+    def consultaEspecifica(cls, arg, coluna):
+        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        return consultaEspeficifica
+    
+    @classmethod
+    def insert(cls, track_form173, print):
+        form_161 = cls(track_form173=track_form173, print=print)
+        session.add(form_161)
+        session.commit()
+        return form_161
+
+    
+    @staticmethod
+    def ultimoId():
+        # Crie uma consulta para encontrar o último ID
+        consulta = select(DBForm_161.Id_form_161).order_by(DBForm_161.Id_form_161.desc()).limit(1)
+
+        # Execute a consulta e obtenha o resultado
+        resultado = session.execute(consulta).fetchone()
+
+        # Se o resultado for None, a tabela está vazia
+        if resultado is None:
+            ultimo_id = 0
+        else:
+            ultimo_id = resultado[0]
+        return ultimo_id
+    
+
 class DBForm_173(Base):
     __tablename__='form_173'
     
@@ -31,6 +67,7 @@ class DBForm_173(Base):
     unidade = Column(String)
     pendencia = Column(Integer)
     pintor = Column(Integer)
+    print = Column(Integer)
     
     def __repr__(self):
         return f"""id: {self.Id_form_173} -  Formulário: {self.formulario}, Solicitante: {self.solicitante}, Data: {self.data_solicitacao},
@@ -60,11 +97,41 @@ class DBForm_173(Base):
         conteudoTudo  = [row.as_dict for row in session.query(cls).filter((DBForm_173.data_solicitacao.startswith(data_atual))).all()]
         return conteudoTudo
 
-   
-    def conteudoEspecifico(coluna, id_form173):
-        conteudoEspecifico = [row[0] for row in session.query(getattr(DBForm_173, coluna)).filter(DBForm_173.Id_form_173 == id_form173).all()]
-        return conteudoEspecifico
+    @classmethod
+    def consultaEspecifica(cls, arg, coluna):
+        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        return consultaEspeficifica
     
+    def update_form_173(id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, pendencia=None, pintor=None, print=None):
+        form_173 = session.query(DBForm_173).filter_by(Id_form_173=id_form_173).first()
+        if form_173:
+            if formulario is not None:
+                form_173.formulario = formulario
+            if solicitante is not None:
+                form_173.solicitante = solicitante
+            if data_solicitacao is not None:
+                form_173.data_solicitacao = data_solicitacao
+            if cemb is not None:
+                form_173.cemb = cemb
+            if quantidade is not None:
+                form_173.quantidade = quantidade
+            if unidade is not None:
+                form_173.unidade = unidade
+            if pendencia is not None:
+                form_173.pendencia = pendencia
+            if pintor is not None:
+                form_173.pintor = pintor
+            if print is not None:
+                form_173.print = print
+
+            session.commit()
+            return True
+        else:
+            return False
+
+    
+DBForm_173.update_form_173(15, print=1)
+# print(DBForm_173.consultaEspecifica(0, 'print'))
     
 class DBForm_40(Base):
     __tablename__= 'form_40'
@@ -115,8 +182,9 @@ class DBForm_40(Base):
         conteudo  = [operador.as_dict for operador in session.query(cls).all()]
         return conteudo
     
-    def consultaEspecifica(coluna, valor):
-        conteudo  = [i.as_dict for i in session.query(DBForm_40).filter(getattr(DBForm_40, coluna) == valor).all()][0]
+    @classmethod
+    def consultaEspecifica(cls, coluna, valor):
+        conteudo  = [i.as_dict for i in session.query(cls).filter(getattr(DBForm_40, coluna) == valor).all()]
         return conteudo
     
     def consultaEspecificaDia():
@@ -134,6 +202,7 @@ class DBForm_40(Base):
             session.execute(query)
             session.commit()
 
+# print(DBForm_40.consultaEspecifica("Id_form173", 101)[0]['data_prep'][:10].format('%d.%m.%Y'))
 
 class Operadores(Base):
     __tablename__= 'operadores'
@@ -158,6 +227,11 @@ class Operadores(Base):
     
     def consultaEspecifica(cls, user):
         conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.usuario == user).all()]
+        return conteudo
+   
+    @classmethod
+    def consultaEspecificaCodigo(cls, codigo):
+        conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.codigo == codigo).all()]
         return conteudo
     
     def conferenciaOperador(codigoOperador): 

@@ -1,0 +1,47 @@
+*{
+    font-family: "Roboto", sans-serif;
+    user-select: none;
+}
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body,html{
+    height: 100%;
+    background: radial-gradient(#ffffff, #a8a8a8) !important;
+    background-size: cover !important;
+}    
+main{
+    flex-direction: column;
+    padding-top: 2em;
+    gap : 2em;
+}
+
+
+.container{
+    display: flex;
+    height: 100vh;
+    width: 80%;
+    background-color: aquamarine;
+}
+.titulo {
+    width: 100vw;
+    font-weight: bold;
+    font-size: 40px;
+}
+.titulo h1{
+    text-align: center;
+    
+}    
+.titulo h3{
+    margin-top: 1em;
+    text-align: center;
+    font-size: 16px;
+    color: rgb(95, 34, 34);
+}
+body.swal2-height-auto {
+    height: 100% !important;
+}
+
+    

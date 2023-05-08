@@ -7,7 +7,7 @@ import tkinter.font as font
 from ttkbootstrap import Style as BsStyle
 from ttkbootstrap.constants import *
 from ttkbootstrap.widgets import Frame
-from DBfuncs import Relacao_Tintas, Operadores
+from DBfuncs import Relacao_Tintas, Operadores, DBForm_173
 
 
 
@@ -107,8 +107,10 @@ class App(Toplevel):
                 messagebox.showinfo(message="O campo de OC ou Quantidade estão vazios!")
             else:
                 exist = 0
+                print(self.ocs)
                 for i in self.ocs:
-                    if str(self.oc_campo.get()) in i['oc']:
+                    if str(self.oc_campo.get()) == i['oc']:
+                        print(self.oc_campo.get(), i['oc'])
                         exist = 1
                         messagebox.showinfo(message="Já tem!!")
                 if exist == 0:
@@ -211,6 +213,8 @@ class App(Toplevel):
                         """,(dic[0], dic[1], dic[2], dic[3], dic[4], dic[5], dic[6]))
                     banco.commit()
                     id_form173 = cursor.lastrowid
+                    DBForm_173.update_form_173(id_form173, print=0)
+                    
                 except Exception as ex:
                     print("133 - ",ex)
                     messagebox.showerror(message=(ex, type(ex)))
