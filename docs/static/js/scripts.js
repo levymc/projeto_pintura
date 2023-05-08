@@ -208,7 +208,10 @@ function primeiroQuadro(){
     dadosQuadros.push(dados);
 
     //Enviar para o DB table form173 e ocs
-    axios.post("/form173_inserir", dados)
+    axios.post("/form173_inserir", dados).then(response =>{
+        console.log(response)
+    });
+    axios.post("/ocs_inserir", ocsAdded)
 
     // Salvar no localStorage
     localStorage.setItem('dadosQuadros', JSON.stringify(dadosQuadros));

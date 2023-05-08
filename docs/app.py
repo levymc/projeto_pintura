@@ -31,7 +31,7 @@ def acesso():
 @app.route("/form173_inserir", methods=["POST", "GET"])
 def form173_inserir():
     dados = request.json
-    print(dados)
+    # print(dados)
     dadosInserir = {
         'numeroForm': dados['numeroForm'],
         'solicitante': dados['solicitante'],
@@ -40,9 +40,17 @@ def form173_inserir():
         'quantidade': dados['quantidade'],
         'unidade': dados['unidade']
     }
-    DBForm_173.insert(dadosInserir)
-    return {"success": True}
+    objetoInserido = DBForm_173.insert(dadosInserir)
+    print(objetoInserido)
+    return {
+        "success": True,
+            }
     
+@app.route("/ocs_inserir", methods=["POST", "GET"])
+def ocs_inserir():
+    dados = request.json
+    print(dados)    
+    return {"success": True}
 
 if __name__ == '__main__':
     if mode == 'dev':

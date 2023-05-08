@@ -66,18 +66,18 @@ class DBForm_173(Base):
     unidade = Column(String)
     data = Column(String)
     
-    def __repr__(self):
-        return f"id: {self.id} - Formulário: {self.numeroForm}, Solicitante: {self.solicitante}, Data: {self.data}, CEMB: {self.cemb}, Quantidade: {self.quantidade}, Unidade: {self.unidade}, Pintor: {self.codPintor}"
-    
-    @hybrid_property
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def __repr__(self):
+        return str(self.as_dict())
     
     @classmethod
     def insert(cls, dados):
         obj = cls(**dados)
         session.add(obj)
         session.commit()
+        session.refresh(obj)
         return obj
     
     @classmethod
@@ -101,8 +101,9 @@ class DBForm_173(Base):
         consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
         return consultaEspeficifica
     
-    def update_form_173(id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, pendencia=None, pintor=None, print=None):
-        form_173 = session.query(DBForm_173).filter_by(Id_form_173=id_form_173).first()
+    @classmethod
+    def update_form_173(cls, id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, pendencia=None, pintor=None, print=None):
+        form_173 = session.query(cls).filter_by(Id_form_173=id_form_173).first()
         if form_173:
             if formulario is not None:
                 form_173.formulario = formulario
@@ -128,10 +129,7 @@ class DBForm_173(Base):
         else:
             return False
 
-    
-# DBForm_173.update_form_173(15, print=1)
-# print(DBForm_173.consultaEspecifica(0, 'print'))
-    
+
 class DBForm_40(Base):
     __tablename__= 'form_40'
     
@@ -201,7 +199,6 @@ class DBForm_40(Base):
             session.execute(query)
             session.commit()
 
-# print(DBForm_40.consultaEspecifica("Id_form173", 101)[0]['data_prep'][:10].format('%d.%m.%Y'))
 
 class Operadores(Base):
     __tablename__= 'operadores'
@@ -246,10 +243,10 @@ class Operadores(Base):
 class OCs(Base):
     __tablename__ = 'ocs'
     
-    Id_ocs = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    track_form173 = Column(Integer)
     oc = Column(Integer)
     quantidade = Column(Integer)
-    track_form173 = Column(Integer)
     
     def __repr__(self):
         return f"id: {self.Id_ocs}  -  OC: {self.oc}, Quantidade: {self.quantidade}, Id_form173: {self.track_form173}"
@@ -299,14 +296,13 @@ class OCs(Base):
     def insertOC(id_form173, ocs):
         for i in ocs:
             try:
-                nova_oc = OCs(oc=i['oc'], quantidade=i['qnt'], track_form173=id_form173)
+                nova_oc = OCs(oc=i['oc'], quantidade=i['qnt_solicitada'], track_form173=id_form173)
                 session.add(nova_oc)
             except Exception as e:messagebox.showerror(message=f"Erro: {e} - {type(e)}")
         session.commit()
         session.close()
         messagebox.showinfo("Envio completo", "Informações adicionadas!")
   
-# OCs.insertOC(1, [91919919191, 19199191])
 
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
