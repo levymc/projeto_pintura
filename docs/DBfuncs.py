@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
 import local
+from sqlalchemy import exc
 
 path =local.Local.local()  #'//NasTecplas/Pintura/DB/pintura.db'
 engine = create_engine(r'sqlite:///static/db/db.db', echo=False)
@@ -86,8 +87,11 @@ class DBForm_173(Base):
     def insert(cls, dados):
         obj = cls(**dados)
         session.add(obj)
-        session.commit()
-        session.refresh(obj)
+        try:
+            session.commit()
+        except exc.SQLAlchemyError:
+            session.rollback()
+            raise
         return obj
     
     @classmethod
@@ -97,7 +101,7 @@ class DBForm_173(Base):
     
     @classmethod
     def conteudoTudoEspecifico(cls, status, data):
-        conteudoTudo  = [row.to_dict for row in session.query(cls).filter(and_(DBForm_173.status == status, DBForm_173.data == data)).all()]
+        conteudoTudo  = [row.to_dict() for row in session.query(cls).filter(and_(DBForm_173.status == status, DBForm_173.data == data)).all()]
         return conteudoTudo
     
     @classmethod
@@ -284,7 +288,6 @@ class OCs(Base):
         session.execute(query)
         
         session.commit()
-        session.close()
         
     @staticmethod
     def ultimoId():
@@ -309,7 +312,6 @@ class OCs(Base):
                 session.add(nova_oc)
             except Exception as e: print("Erro: {e} - {type(e)}")
         session.commit()
-        session.close()
         print("Envio completo", "Informações adicionadas!")
   
 

@@ -253,9 +253,7 @@ function getUnidade() {
 function carregarDadosQuadros() {
     let quadros = document.querySelector(".quadros-kanban");
     quadros.innerHTML = '';
-    
 
-    
     axios.get("/dadosQuadrosHoje", {params:{
         status: statusForm173,
         data: dataAtual

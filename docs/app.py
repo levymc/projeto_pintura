@@ -63,7 +63,7 @@ def dadosQuadrosHoje():
     data = request.args.get('data')
     dados = DBForm_173.conteudoTudoEspecifico(status, data)
     for i in dados:
-        dictDados = i()
+        dictDados = i
         dictDados["ocs"] = OCs.consultaEspecifica(dictDados['id'], 'track_form173')
         listaQuadros.append(dictDados)
     return listaQuadros
@@ -74,4 +74,4 @@ if __name__ == '__main__':
     if mode == 'dev':
         app.run(debug=True, host='0.0.0.0', port=5005)
     else:
-        serve(app, host='0.0.0.0', port=5005, threads=5, url_scheme='https')
+        serve(app, host='0.0.0.0', port=5005, threads=1, url_scheme='https')
