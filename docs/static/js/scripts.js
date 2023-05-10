@@ -84,6 +84,8 @@ let renderizarMain = () => {
     document.getElementById("novaSolicitacao").addEventListener("click", function(){
         modalSolicitacao();
     })
+
+    atualizaQuadros();
 }
 
 function modalSolicitacao(){
@@ -224,7 +226,11 @@ function primeiroQuadro(){
 
     // Salvar no localStorage
     localStorage.setItem('dadosQuadros', JSON.stringify(dadosQuadros));
+    atualizaQuadros();
+    
+}
 
+function atualizaQuadros() {
     if(document.querySelector(".quadro")){
         carregarDadosQuadros();
     }else{
@@ -248,35 +254,55 @@ function getUnidade() {
   return unidade;
 }
 
-let dadosQuadros2 = axios.get("/dadosQuadrosHoje", {params:{
-    status: 0,
-    data: dataAtual
-}}).then(response => {
-    console.log(response)
-})
+// axios.get("/dadosQuadrosHoje", {params:{
+//     status: 0,
+//     data: dataAtual
+// }}).then(response => {
+//     console.log(response.data)
+// })
+
+// axios.get("/dadosQuadrosHoje", {params:{
+//     status: 0,
+//     data: dataAtual
+// }}).then(response => {
+//     let dadosQuadros = response.data
+//     dadosQuadros.forEach(dado => {
+//         console.log(dado);
+//         // addQuadro(dado);
+//     })
+// })
 
 function carregarDadosQuadros() {
     let quadros = document.querySelector(".quadros-kanban");
     quadros.innerHTML = '';
   
-    
+    axios.get("/dadosQuadrosHoje", {params:{
+        status: 0,
+        data: dataAtual
+    }}).then(response => {
+        let dadosQuadros = response.data
+        dadosQuadros.forEach(dado => {
+            console.log(dado)
+            addQuadro(dado);
+        })
+    })
 
     // Verifica se há dados no localStorage
-    if (localStorage.getItem('dadosQuadros')) {
-      dadosQuadros = JSON.parse(localStorage.getItem('dadosQuadros'));
+    // if (localStorage.getItem('dadosQuadros')) {
+    //   dadosQuadros = JSON.parse(localStorage.getItem('dadosQuadros'));
   
-      // Adiciona os quadros a partir dos dados salvos
-      dadosQuadros.forEach((dados) => {
-        addQuadro(dados);
-      });
-    }
+    //   // Adiciona os quadros a partir dos dados salvos
+    //   dadosQuadros.forEach((dados) => {
+    //     addQuadro(dados);
+    //   });
+    // }
   }
 
   function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
   
-    dados.ocs.map((oc) => Ocs.push(`<li>${oc.oc}</li>`));
+    // dados.ocs.map((oc) => Ocs.push(`<li>${oc.oc}</li>`));
   
     let contador = quadros.children.length + 1;
     dados.id = contador;
@@ -294,7 +320,6 @@ function carregarDadosQuadros() {
           <div class="ocsQuadro"> 
               OCs:
               <ul>
-                  ${Ocs.join('')} <!-- Utilize o método join() sem o delimitador -->
               </ul>
           </div> 
           <div class="quadro-btns">

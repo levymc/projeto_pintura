@@ -58,11 +58,15 @@ def ocs_inserir():
 
 @app.route("/dadosQuadrosHoje", methods=["POST", "GET"])
 def dadosQuadrosHoje():
+    listaQuadros = []
     status = request.args.get('status')
     data = request.args.get('data')
     dados = DBForm_173.conteudoTudoEspecifico(status, data)
-    print(dados[0])
-    return {"success": True}
+    for i in dados:
+        dictDados = i()
+        listaQuadros.append(dictDados)
+    return listaQuadros
+
 
 
 if __name__ == '__main__':

@@ -67,12 +67,6 @@ class DBForm_173(Base):
     data = Column(String)
     status = Column(Integer)
     
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-    def __repr__(self):
-        return str(self.as_dict())
-    
     def to_dict(self):
         return {
             'id': self.id,
@@ -85,6 +79,9 @@ class DBForm_173(Base):
             'data': self.data,
             'status': self.status
         }
+
+    def __repr__(self):
+        return str(self.to_dict())
     
     @classmethod
     def insert(cls, dados):
@@ -96,7 +93,7 @@ class DBForm_173(Base):
     
     @classmethod
     def conteudoTudo(cls,pend):
-       conteudoTudo  = [row.as_dict for row in session.query(cls).filter(DBForm_173.pendencia == pend).all()]
+       conteudoTudo  = [row.to_dict for row in session.query(cls).filter(DBForm_173.pendencia == pend).all()]
        return conteudoTudo
     
     @classmethod
@@ -107,12 +104,12 @@ class DBForm_173(Base):
     @classmethod
     def conteudoTudoEspecificoDia(cls):
         data_atual = datetime.now().strftime('%d-%m-%Y')
-        conteudoTudo  = [row.as_dict for row in session.query(cls).filter((DBForm_173.data_solicitacao.startswith(data_atual))).all()]
+        conteudoTudo  = [row.to_dict for row in session.query(cls).filter((DBForm_173.data_solicitacao.startswith(data_atual))).all()]
         return conteudoTudo
 
     @classmethod
     def consultaEspecifica(cls, arg, coluna):
-        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        consultaEspeficifica = [row.to_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
         return consultaEspeficifica
     
     @classmethod
