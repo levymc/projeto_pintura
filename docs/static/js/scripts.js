@@ -282,7 +282,6 @@ function carregarDadosQuadros() {
     }}).then(response => {
         let dadosQuadros = response.data
         dadosQuadros.forEach(dado => {
-            console.log(dado)
             addQuadro(dado);
         })
     })
@@ -301,8 +300,11 @@ function carregarDadosQuadros() {
   function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
-  
-    // dados.ocs.map((oc) => Ocs.push(`<li>${oc.oc}</li>`));
+    
+
+    dados.ocs.map((oc) => 
+        Ocs.push(`<li>${oc.oc}</li>`) ? oc.oc : null
+    );
   
     let contador = quadros.children.length + 1;
     dados.id = contador;
@@ -320,6 +322,7 @@ function carregarDadosQuadros() {
           <div class="ocsQuadro"> 
               OCs:
               <ul>
+                ${Ocs.join('')}
               </ul>
           </div> 
           <div class="quadro-btns">
