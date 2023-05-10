@@ -64,6 +64,7 @@ def dadosQuadrosHoje():
     dados = DBForm_173.conteudoTudoEspecifico(status, data)
     for i in dados:
         dictDados = i()
+        dictDados["ocs"] = OCs.consultaEspecifica(dictDados['id'], 'track_form173')
         listaQuadros.append(dictDados)
     return listaQuadros
 
