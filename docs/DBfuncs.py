@@ -143,7 +143,8 @@ class DBForm_173(Base):
 class DBForm_40(Base):
     __tablename__= 'form_40'
     
-    Id_form_40 = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    track_form173 = Column(Integer)
     mescla = Column(String)
     data_prep = Column(String)
     temperatura = Column(Integer)
@@ -166,8 +167,6 @@ class DBForm_40(Base):
     term_adequacao = Column(String)
     pot_life = Column(String)
     responsavel = Column(String)
-    Id_form173 = Column(Integer)
-    print = Column(Integer)
     excessao = Column(Integer)
     
     def __repr__(self):
