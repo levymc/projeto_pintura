@@ -6,7 +6,7 @@ const mes = String(data.getMonth() + 1).padStart(2, '0');
 const ano = data.getFullYear();
 let dataAtual = dia + '/' + mes + '/' + ano;
 
-
+let statusForm173 = 0;
 let container = document.querySelector(".container");
 let main = document.querySelector("main");
 let user ;
@@ -253,9 +253,11 @@ function getUnidade() {
 function carregarDadosQuadros() {
     let quadros = document.querySelector(".quadros-kanban");
     quadros.innerHTML = '';
-  
+    
+
+    
     axios.get("/dadosQuadrosHoje", {params:{
-        status: 0,
+        status: statusForm173,
         data: dataAtual
     }}).then(response => {
         let dadosQuadros = response.data
