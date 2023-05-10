@@ -207,10 +207,7 @@ function primeiroQuadro(){
         ocs: ocsAdded,
         data: dataAtual,
         status: 0, // por padrão é 0, ou seja, ainda esta como pendente
-    };
-
-    
-
+    }
     //Enviar para o DB table form173 e ocs
     axios.post("/form173_inserir", dados).then(response =>{ //form 173
         dados.id = response.data.obj.id;
@@ -219,7 +216,6 @@ function primeiroQuadro(){
             console.log(responseOCs)
         })
     });
-    
 
     dadosQuadros.push(dados);
     console.log(dadosQuadros)
@@ -254,24 +250,6 @@ function getUnidade() {
   return unidade;
 }
 
-// axios.get("/dadosQuadrosHoje", {params:{
-//     status: 0,
-//     data: dataAtual
-// }}).then(response => {
-//     console.log(response.data)
-// })
-
-// axios.get("/dadosQuadrosHoje", {params:{
-//     status: 0,
-//     data: dataAtual
-// }}).then(response => {
-//     let dadosQuadros = response.data
-//     dadosQuadros.forEach(dado => {
-//         console.log(dado);
-//         // addQuadro(dado);
-//     })
-// })
-
 function carregarDadosQuadros() {
     let quadros = document.querySelector(".quadros-kanban");
     quadros.innerHTML = '';
@@ -300,10 +278,9 @@ function carregarDadosQuadros() {
   function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
-    
 
     dados.ocs.map((oc) => 
-        Ocs.push(`<li>${oc.oc}</li>`) ? oc.oc : null
+        oc.oc ? Ocs.push(`<li>${oc.oc}</li>`) : Ocs.push(`<li>Sem OCs adicionadas</li>`)
     );
   
     let contador = quadros.children.length + 1;

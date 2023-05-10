@@ -232,6 +232,10 @@ nav{
     margin-top: 1em;
     padding-top: 1em;
     overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* align-items: center; */
 }
 .ocsQuadro ul{
     margin-top: 0.5em;
