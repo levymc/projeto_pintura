@@ -188,6 +188,7 @@ nav{
 .topo{
     display: flex;
     width: 100%;
+    padding-top: 0.5em;
 }
 .topo button{
     width: auto;
@@ -198,7 +199,7 @@ nav{
     flex-wrap: wrap;
     justify-content: space-evenly;
     gap: 2em;
-    padding-top: 0.5em;
+    padding-top:2em;
     padding-bottom: 3em;
 }
 .quadro{
@@ -235,7 +236,6 @@ nav{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    /* align-items: center; */
 }
 .ocsQuadro ul{
     margin-top: 0.5em;

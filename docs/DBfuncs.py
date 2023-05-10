@@ -1,5 +1,4 @@
 import sqlite3
-from tkinter import messagebox
 from sqlalchemy import Column, Integer, String, create_engine, and_, func, update, exists, select
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -309,10 +308,10 @@ class OCs(Base):
             try:
                 nova_oc = OCs(oc=i['oc'], quantidade=i['qnt_solicitada'], track_form173=id_form173)
                 session.add(nova_oc)
-            except Exception as e:messagebox.showerror(message=f"Erro: {e} - {type(e)}")
+            except Exception as e: print("Erro: {e} - {type(e)}")
         session.commit()
         session.close()
-        messagebox.showinfo("Envio completo", "Informações adicionadas!")
+        print("Envio completo", "Informações adicionadas!")
   
 
 class Relacao_Tintas(Base):

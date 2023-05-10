@@ -275,7 +275,7 @@ function carregarDadosQuadros() {
     // }
   }
 
-  function addQuadro(dados) {
+function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
 
