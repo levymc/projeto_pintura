@@ -1,6 +1,6 @@
 import sqlite3
 from sqlalchemy import Column, Integer, String, create_engine, and_, func, update, exists, select  
-from sqlalchemy.orm import sessionmaker, declarative_base, scoped_session
+from sqlalchemy.orm import sessionmaker, declarative_base, scoped_session, Session as DBSession
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
 import local
@@ -89,27 +89,29 @@ class DBForm_173(Base):
     
     @classmethod
     def insert(cls, dados):
-        sess = get_session()
+        sess = DBSession(bind=engine)
         obj = cls(**dados)
         sess.add(obj)
         try:
             sess.commit()
-            Session.remove()
         except exc.SQLAlchemyError:
             sess.rollback()
             raise
+        finally:
+            sess.close()
         return obj
+    
+    @classmethod
+    def conteudoTudoEspecifico(cls, status, data):
+        sess = DBSession(bind=engine)
+        conteudoTudo = sess.query(cls).filter(and_(DBForm_173.status == status, DBForm_173.data == data)).all()
+        sess.close()
+        return [row.to_dict() for row in conteudoTudo]
     
     @classmethod
     def conteudoTudo(cls,pend):
        conteudoTudo  = [row.to_dict for row in Session.query(cls).filter(DBForm_173.pendencia == pend).all()]
        return conteudoTudo
-    
-    @classmethod
-    def conteudoTudoEspecifico(cls, status, data):
-        sess = get_session()
-        conteudoTudo  = [row.to_dict() for row in sess.query(cls).filter(and_(DBForm_173.status == status, DBForm_173.data == data)).all()]
-        return conteudoTudo
     
     @classmethod
     def conteudoTudoEspecificoDia(cls):
