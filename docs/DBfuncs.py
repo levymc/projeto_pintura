@@ -11,6 +11,10 @@ engine = create_engine(r'sqlite:///static/db/db.db', echo=False)
 Session = scoped_session(sessionmaker(bind=engine))
 Base = declarative_base()
 
+def get_session():
+    return Session()
+
+
 class SQlite_Sequence(Base):
     __tablename__ = "sqlite_sequence"
     name = Column(String, primary_key=True)
@@ -66,6 +70,7 @@ class DBForm_173(Base):
     data = Column(String)
     status = Column(Integer)
     
+    
     def to_dict(self):
         return {
             'id': self.id,
@@ -84,13 +89,14 @@ class DBForm_173(Base):
     
     @classmethod
     def insert(cls, dados):
+        sess = get_session()
         obj = cls(**dados)
-        Session.add(obj)
+        sess.add(obj)
         try:
-            Session.commit()
+            sess.commit()
             Session.remove()
         except exc.SQLAlchemyError:
-            Session.rollback()
+            sess.rollback()
             raise
         return obj
     
@@ -101,7 +107,8 @@ class DBForm_173(Base):
     
     @classmethod
     def conteudoTudoEspecifico(cls, status, data):
-        conteudoTudo  = [row.to_dict() for row in Session.query(cls).filter(and_(DBForm_173.status == status, DBForm_173.data == data)).all()]
+        sess = get_session()
+        conteudoTudo  = [row.to_dict() for row in sess.query(cls).filter(and_(DBForm_173.status == status, DBForm_173.data == data)).all()]
         return conteudoTudo
     
     @classmethod
@@ -275,7 +282,8 @@ class OCs(Base):
     
     @classmethod
     def consultaEspecifica(cls, arg, coluna):
-        consultaEspeficifica = [row.as_dict for row in Session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        sess = get_session()
+        consultaEspeficifica = [row.as_dict for row in sess.query(cls).filter(getattr(cls, coluna) == arg).all()]
         return consultaEspeficifica
     
     @staticmethod
@@ -306,12 +314,16 @@ class OCs(Base):
 
     
     def insertOC(id_form173, ocs):
+        sess = get_session()
+        print(1)
         for i in ocs:
+            print(2)
             try:
                 nova_oc = OCs(oc=i['oc'], quantidade=i['qnt_solicitada'], track_form173=id_form173)
-                Session.add(nova_oc)
+                print(3)
+                sess.add(nova_oc)
             except Exception as e: print("Erro: {e} - {type(e)}")
-        Session.commit()
+        sess.commit()
         print("Envio completo", "Informações adicionadas!")
   
 

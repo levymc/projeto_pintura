@@ -214,6 +214,7 @@ function primeiroQuadro(){
         console.log(response.data.obj.id)
         axios.post("/ocs_inserir", {ocs:dados.ocs, id_form173:dados.id}).then(responseOCs => { //Ocs
             console.log(responseOCs)
+            
         })
     });
 

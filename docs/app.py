@@ -3,6 +3,7 @@ from waitress import serve
 from DBfuncs import Operadores, DBForm_173, OCs
 import hashlib
 import json
+from interfaceDB import DadosQuadros
 
 mode = "dev" #prod ou dev
 
@@ -58,15 +59,9 @@ def ocs_inserir():
 
 @app.route("/dadosQuadrosHoje", methods=["POST", "GET"])
 def dadosQuadrosHoje():
-    listaQuadros = []
     status = request.args.get('status')
     data = request.args.get('data')
-    dados = DBForm_173.conteudoTudoEspecifico(status, data)
-    for i in dados:
-        dictDados = i
-        dictDados["ocs"] = OCs.consultaEspecifica(dictDados['id'], 'track_form173')
-        listaQuadros.append(dictDados)
-    return listaQuadros
+    return DadosQuadros(status, data).dados()
 
 
 
