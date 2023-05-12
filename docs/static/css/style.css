@@ -494,20 +494,29 @@ nav{
     display: flex;
     padding-top: 2em;
 }
-.modalForm40 .coluna1, .modalForm40 .coluna2{
+.modalForm40 input::placeholder{
+    font-size: 13px;
+}
+.modalForm40 .coluna1, .modalForm40 .coluna2, .modalForm40 .colunaTempos{
     display: flex;
     flex-direction: column;
 }
 .modalForm40 .coluna1{
     width: 20%;
     padding-right: 1.5em;
+    justify-content: space-evenly;
+    text-align: start;
+    font-size: 13px;
+}
+.modalForm40 .coluna1 b{
+    font-size: 15px;
 }
 .modalForm40 .coluna2{
     padding-left: 1.5em; padding-right: 1.5em;
     border-left: 1px dashed #ccc;
     width: 40%;
 }
-.modalForm40 .coluna3{
+.modalForm40 .colunaTempos{
     padding-left: 1.5em;
     border-left: 1px dashed #ccc;
     width: 40%;

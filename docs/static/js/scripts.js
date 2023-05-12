@@ -295,6 +295,7 @@ function carregarDadosQuadros() {
                 <div class="mescla"> Mescla: <b>${response.data[0].mescla}</b></div>
                 <div class="dataForm40"> Data: <b>${dataAtual}</b></div>
                 <div class="cemb"> CEMB Solicitada: <b>${response.data[0].cemb}</b></div>
+                <div class="qnt_solicitada"> Quantidade Solicitada: <b>${String(response.data[0].quantidade)+response.data[0].unidade}</b></div>
             </div>
             <div class="coluna2">
                 <div class="temperatura">
@@ -303,10 +304,31 @@ function carregarDadosQuadros() {
                 <div class="umidade">
                     <input type="number" id="umidade" placeholder="Umidade">
                 </div>
+                <div class="lotemp">
+                    <input type="text" id="lotemp" placeholder="Lote da Matéria Prima">
+                </div>
+                <div class="shelflife">
+                    <input type="number" id="shelflife" placeholder="Shelf Life">
+                </div>
+                <div class="viscosimetro">
+                    <input type="number" id="viscosimetro" placeholder="Viscosímetro">
+                </div>
+                <div class="viscosidade">
+                    <input type="number" id="viscosidade" placeholder="Viscosidade">
+                </div>
             </div>
-            <div class="coluna3">
+            <div class="colunaTempos">
                 <div class="temperatura">
                     <input type="number" id="temperatura" placeholder="Temperatura">
+                </div>
+                <div class="umidade">
+                    <input type="number" id="umidade" placeholder="Umidade">
+                </div>
+                <div class="umidade">
+                    <input type="number" id="umidade" placeholder="Umidade">
+                </div>
+                <div class="umidade">
+                    <input type="number" id="umidade" placeholder="Umidade">
                 </div>
                 <div class="umidade">
                     <input type="number" id="umidade" placeholder="Umidade">
