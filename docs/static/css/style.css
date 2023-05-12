@@ -114,7 +114,7 @@ main{
     transition: border-bottom-color 0.2s ease-in-out;
 }
     
-.userInput::placeholder, .passInput::placeholder{
+input::placeholder{
     color: rgb(152, 152, 152);
 }
 
