@@ -33,6 +33,7 @@ def acesso():
 @app.route("/form173_inserir", methods=["POST", "GET"])
 def form173_inserir():
     dados = request.json
+    print(dados)
     dadosInserir = {
         'numeroForm': dados['numeroForm'],
         'solicitante': dados['solicitante'],
@@ -54,7 +55,7 @@ def form173_inserir():
 def ocs_inserir():
     dados = request.json
     print(dados)    
-    ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
+    # ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
     return {"success": True}
 
 @app.route("/dadosQuadrosHoje", methods=["POST", "GET"])
