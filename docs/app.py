@@ -61,6 +61,7 @@ def ocs_inserir():
 def dadosQuadrosHoje():
     status = request.args.get('status')
     data = request.args.get('data')
+    print(DadosQuadros(status, data).dados())
     return DadosQuadros(status, data).dados()
 
 
