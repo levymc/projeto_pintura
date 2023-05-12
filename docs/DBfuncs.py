@@ -123,7 +123,7 @@ dados1 = {'numeroForm': 2323131231232,
             'data': '1',
             'status': 1}
 
-print(DBForm_173.insert(dados1))
+# print(DBForm_173.insert(dados1))
 
 class Operadores(Base):
     __tablename__ = 'operadores'

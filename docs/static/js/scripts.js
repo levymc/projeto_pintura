@@ -193,12 +193,12 @@ function primeiroQuadro(){
     console.log(dados)
     //Enviar para o DB table form173 e ocs
     axios.post("/form173_inserir", dados).then(response =>{ //form 173
-        // dados.id = response.data.obj.id;
+        dados.id = response.data.obj.id;
         console.log(response.data)
-        // axios.post("/ocs_inserir", {ocs:dados.ocs, id_form173:response.data.obj.id}).then(responseOCs => { //Ocs
-        //     console.log(responseOCs)
+        axios.post("/ocs_inserir", {ocs: dados.ocs, id_form173: dados.id}).then(responseOCs => { //Ocs
+            console.log(responseOCs)
             
-        // })
+        })
     });
 
     dadosQuadros.push(dados);
