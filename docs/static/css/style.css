@@ -13,7 +13,7 @@
 body,html{
     height: 100%;
     /* background: radial-gradient(#ffffff, #a8a8a8) !important; */
-    background-color: #ede9e9;
+    background-color: #cdcbcb;
     background-size: cover !important;
     overflow-x: hidden;
 }    
@@ -114,6 +114,10 @@ main{
     transition: border-bottom-color 0.2s ease-in-out;
 }
     
+.userInput::placeholder, .passInput::placeholder{
+    color: rgb(152, 152, 152);
+}
+
 .userInput:focus, .passInput:focus {
     border-bottom-color: #6200ee;
 }
