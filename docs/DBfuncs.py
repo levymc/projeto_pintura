@@ -201,24 +201,17 @@ class OCs(Base):
     
     @staticmethod
     def removeOC(id_ocs):
-        # Removendo a OC
         Session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
-        
         # Atualizando o sqlite_sequence
-        query = update(SQlite_Sequence).where(SQlite_Sequence.name == 'ocs').values(name=OCs.ultimoId())
+        # query = update(SQlite_Sequence).where(SQlite_Sequence.name == 'ocs').values(name=OCs.ultimoId())
         Session.execute(query)
         
         Session.commit()
         
     @staticmethod
     def ultimoId():
-        # Crie uma consulta para encontrar o último ID
         consulta = select(OCs.Id_ocs).order_by(OCs.Id_ocs.desc()).limit(1)
-
-        # Execute a consulta e obtenha o resultado
         resultado = Session.execute(consulta).fetchone()
-
-        # Se o resultado for None, a tabela está vazia
         if resultado is None:
             ultimo_id = 0
         else:
@@ -228,12 +221,9 @@ class OCs(Base):
     
     def insertOC(id_form173, ocs):
         with Session.begin() as session:
-            print(1)
             for i in ocs:
-                print(2)
                 try:
                     nova_oc = OCs(oc=i['oc'], quantidade=i['qnt_solicitada'], track_form173=id_form173)
-                    print(3)
                     session.add(nova_oc)
                 except Exception as e: print("Erro: {e} - {type(e)}")
             session.commit()

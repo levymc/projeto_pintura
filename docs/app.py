@@ -52,7 +52,6 @@ def form173_inserir():
 @app.route("/ocs_inserir", methods=["POST", "GET"])
 def ocs_inserir():
     dados = request.json
-    print(dados)    
     ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
     return {"success": True}
 
