@@ -218,85 +218,84 @@ function getUnidade() {
 function carregarDadosQuadros() {
     let quadros = document.querySelector(".quadros-kanban");
     quadros.innerHTML = '';
-
-    axios.get("/dadosQuadrosHoje", {params:{
+  
+    axios.get("/dadosQuadrosHoje", {
+      params: {
         status: statusForm173,
         data: dataAtual
-    }}).then(response => {
-        console.log(response.data)
-        response.data.forEach(dado => {
-            addQuadro(dado);
-        })
-    })
+      }
+    }).then(response => {
+      console.log(response.data);
+      response.data.forEach(dado => {
+        addQuadro(Object(dado));
+      });
+    });
   }
-
-function addQuadro(dados) {
-    let quadros = document.querySelector(".quadros-kanban");
-    
-    let Ocs = [];
-
-    dados.ocs.map((oc) => 
-        oc.oc ? Ocs.push(`<li>${oc.oc}</li>`) : Ocs.push(`<li>Sem OCs adicionadas</li>`)
-    );
   
-    let contador = quadros.children.length + 1;
-    dados.id = contador;
+  function addQuadro(dados) {
+    let quadros = document.querySelector(".quadros-kanban");
+    let Ocs = [];
+  
+    dados.ocs.map((oc) =>
+      oc.oc ? Ocs.push(`<li>${oc.oc}</li>`) : Ocs.push(`<li>Sem OCs adicionadas</li>`)
+    );
 
+    const objDados = {
+        cemb: dados.cemb, 
+        codPintor: dados.codPintor, 
+        data: dados.data, id: dados.id,
+        numeroForm: dados.numeroForm, 
+        ocs: dados.ocs, 
+        quantidade: dados.quantidade, 
+        solicitante: dados.solicitante, 
+        status: dados.status, 
+        unidade: dados.unidade
+    }
+    console.log(objDados)
+
+    let contador = quadros.children.length + 1;
+  
     quadros.innerHTML += `
       <div class="quadro shadow-drop-center">
-          <div class="quadro-contador">${contador}ª Solicitação</div>
-          <div class="quadro-data">${dados.data}</div>
+        <div class="quadro-contador">${contador}ª Solicitação</div>
+        <div class="quadro-data">${dados.data}</div>
+        <ul>
+          <li>Número do Formulário: <b>${dados.numeroForm}</b></li>
+          <li>Código do Pintor: <b>${dados.codPintor}</b></li>
+          <li>Cemb: <b>${dados.cemb}</b></li>
+          <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
+        </ul>
+        <div class="ocsQuadro"> 
+          OCs:
           <ul>
-              <li>Número do Formulário: <b>${dados.numeroForm}</b></li>
-              <li>Código do Pintor: <b>${dados.codPintor}</b></li>
-              <li>Cemb: <b>${dados.cemb}</b></li>
-              <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
+            ${Ocs.join('')}
           </ul>
-          <div class="ocsQuadro"> 
-              OCs:
-              <ul>
-                ${Ocs.join('')}
-              </ul>
-          </div> 
-          <div class="quadro-btns">
-            <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})">Form. 40</button>
-            <button id="quadro-btnFinalizar" onclick="btnFinalizar(${contador})">Finalizar</button>
-          </div>
+        </div> 
+        <div class="quadro-btns">
+          <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
+          <button id="quadro-btnFinalizar" onclick="btnFinalizar(${contador})">Finalizar</button>
+        </div>
       </div>`;
   
     ocsAdded = [];
   }
   
-function btnForm40(id) {
-    if (localStorage.getItem('dadosQuadros')) {
-        dadosQuadros = JSON.parse(localStorage.getItem('dadosQuadros'));
-    }
-
-    console.log(dadosQuadros[0].numeroForm)
-
-    let html = `
-        <div class="container-Form40">
-    `;
-
-    for (let i = 0; i < dadosQuadros.length; i++) {
-        console.log(dadosQuadros[i].id, id)
-        if (dadosQuadros[i].id === id) {
-        // Adicione aqui o conteúdo específico do objeto ao array html
-        html += `<div>${dadosQuadros[i].numeroForm}</div></div>`;
-        // Continue adicionando outros conteúdos necessários
-        }
-    }
-
-    Swal.fire({
-        title: "Form. 40 - Preparação de Tinta",
-        confirmButtonColor: "#E57373",
-        icon: "question",
-        html: html, 
-    });
-}
+  function btnForm40(id) {
+    console.log(id);
+  
+    // Swal.fire({
+    //   title: "Form. 40 - Preparação de Tinta",
+    //   confirmButtonColor: "#E57373",
+    //   icon: "question",
+    //   html: html, 
+    // });
+  }
+  
+  
   
 
 function btnFinalizar(solicitacao){
+    console.log(solicitacao)
     Swal.fire({
         title:`Deseja finalizar a ${solicitacao}ª solicitação?`,
         icon:"question",
