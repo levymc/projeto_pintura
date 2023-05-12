@@ -2,7 +2,7 @@
 
 *{
     font-family: "Roboto", sans-serif;
-    user-select: none;
+    /* user-select: none; */
     box-sizing: border-box !important;
 }
 .flex{
@@ -13,7 +13,7 @@
 body,html{
     height: 100%;
     /* background: radial-gradient(#ffffff, #a8a8a8) !important; */
-    background-color: #ede9e9;
+    background-color: #cdcbcb;
     background-size: cover !important;
     overflow-x: hidden;
 }    
@@ -33,6 +33,32 @@ main{
     transition: background-color 0.7s ease;
     color: #ffffff;
 }
+
+.shadow-drop-center {
+	-webkit-animation: shadow-drop-center 0.4s ease-in-out both;
+	        animation: shadow-drop-center 0.4s ease-in-out both;
+}
+@-webkit-keyframes shadow-drop-center {
+    0% {
+      -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+              box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+      -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+              box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    }
+  }
+  @keyframes shadow-drop-center {
+    0% {
+      -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+              box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+      -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+              box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    }
+  }
+  
   
 
 /* Principal */
@@ -88,6 +114,10 @@ main{
     transition: border-bottom-color 0.2s ease-in-out;
 }
     
+input::placeholder{
+    color: rgb(152, 152, 152);
+}
+
 .userInput:focus, .passInput:focus {
     border-bottom-color: #6200ee;
 }
@@ -162,6 +192,7 @@ nav{
 .topo{
     display: flex;
     width: 100%;
+    padding-top: 0.5em;
 }
 .topo button{
     width: auto;
@@ -171,7 +202,9 @@ nav{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    gap: 1em;
+    gap: 2em;
+    padding-top:2em;
+    padding-bottom: 3em;
 }
 .quadro{
     width: 20vw;
@@ -204,6 +237,9 @@ nav{
     margin-top: 1em;
     padding-top: 1em;
     overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 .ocsQuadro ul{
     margin-top: 0.5em;
@@ -286,6 +322,7 @@ nav{
     align-items: center;
     left: auto;
     top: 70px;
+    padding-bottom: 3em;
 }
 .conteudo-form173{
     background-color: #ffffff;

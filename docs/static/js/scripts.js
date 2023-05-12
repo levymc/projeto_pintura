@@ -1,3 +1,5 @@
+
+
 // Variáveis Globais
 
 const data = new Date();
@@ -6,7 +8,7 @@ const mes = String(data.getMonth() + 1).padStart(2, '0');
 const ano = data.getFullYear();
 let dataAtual = dia + '/' + mes + '/' + ano;
 
-
+let statusForm173 = 0;
 let container = document.querySelector(".container");
 let main = document.querySelector("main");
 let user ;
@@ -58,11 +60,6 @@ let acessoUserForm = () => {
 let renderizarMain = () => {
     container.innerHTML = '';
     container.innerHTML += `
-            <nav class="menu-superior">
-                <a class="btn" id="btn-form173">Solicitação de Tinta</a>
-                <a class="btn" id="btn-form40">Preparação da Tinta</a>
-                <a class="btn" id="btn-form161">Aplicação da Tinta</a>
-            </nav>
             <div class="conteudo">
                 <div class="kaban">
                     <div class="topo"><button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button></div>
@@ -72,18 +69,11 @@ let renderizarMain = () => {
                 </div>
             </div>
     `
-    document.getElementById("btn-form173").addEventListener("click", function(){
-        renderizarForm173();
-    });
-    document.getElementById("btn-form40").addEventListener("click", function(){
-        renderizarForm40();
-    });
-    document.getElementById("btn-form161").addEventListener("click", function(){
-        renderizarForm161();
-    });
     document.getElementById("novaSolicitacao").addEventListener("click", function(){
         modalSolicitacao();
     })
+    carregarDadosQuadros()
+
 }
 
 function modalSolicitacao(){
@@ -159,14 +149,8 @@ function modalSolicitacao(){
         
             if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked)) {
                 Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
-                // setTimeout(() => {
-                //   Swal.resetValidationError()
-                // }, 5000) // tempo em milissegundos (5 segundos)
               } else if (g.checked === ml.checked) {
                 Swal.showValidationMessage(`Selecione apenas uma opção entre "ml" e "g".`)
-                // setTimeout(() => {
-                //   Swal.resetValidationError()
-                // }, 5000) // tempo em milissegundos (5 segundos)
               }
           }
     }).then(response => {
@@ -197,25 +181,24 @@ function modalSolicitacao(){
 function primeiroQuadro(){
     const dados = {
         numeroForm: document.querySelector(".numeroForm input").value,
+        solicitante: user,
         codPintor: document.querySelector(".codPintor input").value,
         cemb: document.querySelector(".cemb input").value,
         quantidade: document.querySelector(".quantidade input").value,
         unidade: getUnidade(),
         ocs: ocsAdded,
         data: dataAtual,
-    };
-    dadosQuadros.push(dados);
-
-    // Salvar no localStorage
-    localStorage.setItem('dadosQuadros', JSON.stringify(dadosQuadros));
-
-    if(document.querySelector(".quadro")){
-        carregarDadosQuadros();
-    }else{
-        let quadros = document.querySelector(".quadros-kanban");
-        quadros.innerHTML = '';
-        carregarDadosQuadros();
+        status: 0, // por padrão é 0, ou seja, ainda esta como pendente
     }
+    //Enviar para o DB table form173 e ocs
+    axios.post("/form173_inserir", dados).then(response =>{ //form 173
+        dados.id = response.data.obj.id;
+        console.log(response.data)
+        axios.post("/ocs_inserir", {ocs: dados.ocs, id_form173: dados.id}).then(responseOCs => { //Ocs
+            console.log(responseOCs);
+            carregarDadosQuadros()
+        })
+    });
 }
 
 function getUnidade() {
@@ -235,29 +218,32 @@ function getUnidade() {
 function carregarDadosQuadros() {
     let quadros = document.querySelector(".quadros-kanban");
     quadros.innerHTML = '';
-  
-    // Verifica se há dados no localStorage
-    if (localStorage.getItem('dadosQuadros')) {
-      dadosQuadros = JSON.parse(localStorage.getItem('dadosQuadros'));
-  
-      // Adiciona os quadros a partir dos dados salvos
-      dadosQuadros.forEach((dados) => {
-        addQuadro(dados);
-      });
-    }
+
+    axios.get("/dadosQuadrosHoje", {params:{
+        status: statusForm173,
+        data: dataAtual
+    }}).then(response => {
+        console.log(response.data)
+        response.data.forEach(dado => {
+            addQuadro(dado);
+        })
+    })
   }
 
-  function addQuadro(dados) {
+function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
+    
     let Ocs = [];
-  
-    dados.ocs.map((oc) => Ocs.push(`<li>${oc.oc}</li>`));
+
+    dados.ocs.map((oc) => 
+        oc.oc ? Ocs.push(`<li>${oc.oc}</li>`) : Ocs.push(`<li>Sem OCs adicionadas</li>`)
+    );
   
     let contador = quadros.children.length + 1;
     dados.id = contador;
 
     quadros.innerHTML += `
-      <div class="quadro">
+      <div class="quadro shadow-drop-center">
           <div class="quadro-contador">${contador}ª Solicitação</div>
           <div class="quadro-data">${dados.data}</div>
           <ul>
@@ -269,7 +255,7 @@ function carregarDadosQuadros() {
           <div class="ocsQuadro"> 
               OCs:
               <ul>
-                  ${Ocs.join('')} <!-- Utilize o método join() sem o delimitador -->
+                ${Ocs.join('')}
               </ul>
           </div> 
           <div class="quadro-btns">
@@ -334,64 +320,6 @@ function kaban() {
     `
 }
 
-var renderizarForm173 = () => {
-    let conteudo = document.querySelector(".conteudo");
-    conteudo.innerHTML = '';
-    conteudo.innerHTML += `
-    <div class="conteudo-form173">
-        <div class="form173">
-            <div class="solicitante">
-                <h3>Solicitante: ${user}</h3>
-            </div>
-            <div class="numeroForm">
-                <input type="text" placeholder="Formulário Nº">
-            </div>
-            <div class="codPintor">
-                <input type="number" placeholder="Código do Pintor">
-            </div>
-            <div class="cemb">
-                <input type="number" placeholder="CEMB">
-            </div>
-            <div class="quantidade">
-                <input type="number" placeholder="Quantidade Solicitada">
-                <div class="checkboxes">
-                    <label for="ml">ml</label>
-                    <input type="checkbox" name='ml' value="ml" class="ml-checkbox">
-                    <label for="g">g</label>
-                    <input type="checkbox" name='g' value="g" class="g-checkbox">
-                </div>
-            </div>
-        </div>
-        <div class="ocsForm173">
-            <div class="campoOC">
-                <input type="number" placeholder="OC" class="oc_solicitada">
-                <input type="number" placeholder="Quantidade" class="qnt_solicitada">
-            </div>
-            <div class="btnAddOC"><button onclick="btnAddOC()">Adicionar OC</button></div>
-            <table class="listaOCs">
-                <tr>
-                    <th>OC</th>
-                    <th>Quantidade</th>
-                </tr>
-            </table>
-            <div class="contadorOCs"></div>
-        </div>
-    </div>
-    `;
-    let mlCheckBox = document.querySelector(".ml-checkbox");
-    let gCheckBox = document.querySelector(".g-checkbox");
-    mlCheckBox.addEventListener("change", function() {
-        if (mlCheckBox.checked) {
-            gCheckBox.checked = false;
-        }
-    });
-    
-    gCheckBox.addEventListener("change", function() {
-        if (gCheckBox.checked) {
-            mlCheckBox.checked = false;
-        }
-    });
-}
 
 let btnAddOC = () => {
     const ocForm173 = document.getElementById('ocForm173').value;
@@ -455,23 +383,12 @@ let btnAddOC = () => {
               
         });
     }
-    
+    console.log(ocsAdded)
+    return ocsAdded
 }
 
 function btnRemoveOC(){
-    
-}
-
-let renderizarForm40 = () => {
-    let conteudo = document.querySelector(".conteudo");
-    conteudo.innerHTML = '';
-    conteudo.innerHTML += "<div class='conteudo-form40'>Form 40</div>";
-}
-
-let renderizarForm161 = () => {
-    let conteudo = document.querySelector(".conteudo");
-    conteudo.innerHTML = '';
-    conteudo.innerHTML += "Form 161";
+    console.log(ocsAdded)
 }
 
 // Inicializando algumas funções

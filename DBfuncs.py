@@ -130,9 +130,6 @@ class DBForm_173(Base):
             return False
 
     
-DBForm_173.update_form_173(15, print=1)
-# print(DBForm_173.consultaEspecifica(0, 'print'))
-    
 class DBForm_40(Base):
     __tablename__= 'form_40'
     
@@ -202,7 +199,6 @@ class DBForm_40(Base):
             session.execute(query)
             session.commit()
 
-# print(DBForm_40.consultaEspecifica("Id_form173", 101)[0]['data_prep'][:10].format('%d.%m.%Y'))
 
 class Operadores(Base):
     __tablename__= 'operadores'
@@ -302,7 +298,6 @@ class OCs(Base):
         session.close()
         messagebox.showinfo("Envio completo", "Informações adicionadas!")
   
-# OCs.insertOC(1, [91919919191, 19199191])
 
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'

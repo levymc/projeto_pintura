@@ -1,109 +1,93 @@
-import sqlite3
-from tkinter import messagebox
-from sqlalchemy import Column, Integer, String, create_engine, and_, func, update, exists, select
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy import Column, Integer, String, create_engine, and_, func, update, exists, select  
+from sqlalchemy.orm import sessionmaker, declarative_base, scoped_session
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
-import local
+from sqlalchemy import exc
 
-path =local.Local.local()  #'//NasTecplas/Pintura/DB/pintura.db'
-engine = create_engine(r'sqlite:///'+path, echo=False)
+engine = create_engine(r'sqlite:///static/db/db.db', echo=False)
 Session = sessionmaker(bind=engine)
-session = Session()
 Base = declarative_base()
 
-class SQlite_Sequence(Base):
-    __tablename__ = "sqlite_sequence"
-    
-    name = Column(String, primary_key=True)
-    seq = Column(Integer)
-
-
-class DBForm_161(Base):
-    __tablename__ = 'form_161'
-    
-    Id_form_161 = Column(Integer, primary_key=True)
-    track_form173 = Column(Integer)
-    print = Column(Integer)
-    
-    @classmethod
-    def consultaEspecifica(cls, arg, coluna):
-        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
-        return consultaEspeficifica
-    
-    @classmethod
-    def insert(cls, track_form173, print):
-        form_161 = cls(track_form173=track_form173, print=print)
-        session.add(form_161)
-        session.commit()
-        return form_161
-
-    
-    @staticmethod
-    def ultimoId():
-        # Crie uma consulta para encontrar o último ID
-        consulta = select(DBForm_161.Id_form_161).order_by(DBForm_161.Id_form_161.desc()).limit(1)
-
-        # Execute a consulta e obtenha o resultado
-        resultado = session.execute(consulta).fetchone()
-
-        # Se o resultado for None, a tabela está vazia
-        if resultado is None:
-            ultimo_id = 0
-        else:
-            ultimo_id = resultado[0]
-        return ultimo_id
-    
 
 class DBForm_173(Base):
-    __tablename__='form_173'
-    
-    Id_form_173 = Column(Integer, primary_key=True)
-    formulario = Column(Integer)
+    __tablename__ = 'form173'
+   
+    id = Column(Integer, primary_key=True)
+    numeroForm = Column(Integer)
     solicitante = Column(String)
-    data_solicitacao = Column(String)
-    cemb = Column(String)
+    codPintor = Column(Integer)
+    cemb = Column(Integer)
     quantidade = Column(Integer)
     unidade = Column(String)
-    pendencia = Column(Integer)
-    pintor = Column(Integer)
-    print = Column(Integer)
+    data = Column(String)
+    status = Column(Integer)
     
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'numeroForm': self.numeroForm,
+            'solicitante': self.solicitante,
+            'codPintor': self.codPintor,
+            'cemb': self.cemb,
+            'quantidade': self.quantidade,
+            'unidade': self.unidade,
+            'data': self.data,
+            'status': self.status
+        }
+
     def __repr__(self):
-        return f"""id: {self.Id_form_173} -  Formulário: {self.formulario}, Solicitante: {self.solicitante}, Data: {self.data_solicitacao},
-        CEMB: {self.cemb}, Quantidade: {self.quantidade}, Unidade: {self.unidade}, Pintor: {self.pintor}    
-    """
-    
-    @hybrid_property
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-    
-    def insert(dados):
-        pass
+        return str(self.to_dict())
     
     @classmethod
-    def conteudoTudo(cls,pend):
-       conteudoTudo  = [row.as_dict for row in session.query(cls).filter(DBForm_173.pendencia == pend).all()]
-       return conteudoTudo
+    def insert(cls, dados):
+        session = Session()
+        obj = cls(**dados)
+        session.add(obj)
+        try:
+            session.commit()
+            session.refresh(obj)  # Atualiza o objeto com os valores do banco de dados, incluindo o ID gerado
+            return obj.to_dict()  # Retorna um dicionário com os valores do objeto
+        except exc.SQLAlchemyError:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+
     
     @classmethod
-    def conteudoTudoEspecifico(cls, pend, data):
-        conteudoTudo  = [row.as_dict for row in session.query(cls).filter(and_(DBForm_173.pendencia == pend, DBForm_173.data_solicitacao == data)).all()]
+    def conteudoTudoEspecifico(cls, status, data):
+        session = scoped_session(sessionmaker(bind=engine))
+        conteudoTudo = session.query(cls).filter(and_(DBForm_173.status == status, DBForm_173.data == data)).all()
+        session.close()
+        return [row.to_dict() for row in conteudoTudo]
+    
+    @classmethod
+    def conteudoTudo(cls, pend):
+        session = Session()
+        conteudoTudo = [row.to_dict() for row in session.query(cls).filter(DBForm_173.pendencia == pend).all()]
+        session.close()
         return conteudoTudo
     
     @classmethod
     def conteudoTudoEspecificoDia(cls):
         data_atual = datetime.now().strftime('%d-%m-%Y')
-        conteudoTudo  = [row.as_dict for row in session.query(cls).filter((DBForm_173.data_solicitacao.startswith(data_atual))).all()]
+        session = Session()
+        conteudoTudo = [row.to_dict() for row in session.query(cls).filter(DBForm_173.data_solicitacao.startswith(data_atual)).all()]
+        session.close()
         return conteudoTudo
 
     @classmethod
     def consultaEspecifica(cls, arg, coluna):
-        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
-        return consultaEspeficifica
+        session = Session()
+        consultaEspecifica = [row.to_dict() for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        session.close()
+        return consultaEspecifica
     
-    def update_form_173(id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, pendencia=None, pintor=None, print=None):
-        form_173 = session.query(DBForm_173).filter_by(Id_form_173=id_form_173).first()
+    @classmethod
+    def update_form_173(cls, id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, pendencia=None, pintor=None, print=None):
+        session = Session()
+        form_173 = session.query(cls).filter_by(id=id_form_173).first()
         if form_173:
             if formulario is not None:
                 form_173.formulario = formulario
@@ -124,88 +108,25 @@ class DBForm_173(Base):
             if print is not None:
                 form_173.print = print
 
-            session.commit()
+            Session.commit()
             return True
         else:
             return False
 
-    
-# DBForm_173.update_form_173(15, print=1)
-# print(DBForm_173.consultaEspecifica(0, 'print'))
-    
-class DBForm_40(Base):
-    __tablename__= 'form_40'
-    
-    Id_form_40 = Column(Integer, primary_key=True)
-    mescla = Column(String)
-    data_prep = Column(String)
-    temperatura = Column(Integer)
-    umidade = Column(Integer)
-    cod_mp = Column(String)
-    lotemp = Column(String)
-    shelf_life = Column(String)
-    ini_agitador = Column(String)
-    ter_agitador = Column(String)
-    ini_mistura = Column(String)
-    ter_mistura = Column(String)
-    ini_diluentes = Column(String)
-    ter_diluentes = Column(String)
-    ini_inducao = Column(String)
-    term_inducao = Column(String)
-    viscosimetro = Column(String)
-    viscosidade = Column(Integer)
-    proporcao = Column(String)
-    ini_adequacao = Column(String)
-    term_adequacao = Column(String)
-    pot_life = Column(String)
-    responsavel = Column(String)
-    Id_form173 = Column(Integer)
-    print = Column(Integer)
-    excessao = Column(Integer)
-    
-    def __repr__(self):
-        return f"""
-                id: {self.Id_form_40}  -  Mescla: {self.mescla}, Data Preparação: {self.data_prep}, Temperatura: {self.temperatura}, 
-                Umidade: {self.umidade}, CEMB: {self.cod_mp}, Lote: {self.lotemp}, Validade: {self.shelf_life}, Início Agitador: {self.ini_agitador}, 
-                Término Agitador: {self.ter_agitador}, Início Mistura: {self.ini_mistura}, Término Mistura: {self.ter_mistura}, Início Diluentes: {self.ini_diluentes}, Término Diluentes: {self.ter_diluentes}, 
-                Início Indução: {self.ini_inducao}, Término Indução: {self.term_inducao}, Viscosímetro: {self.viscosimetro}, Viscosidade: {self.viscosidade},
-                Proporção: {self.proporcao}, Início Adequação: {self.ini_adequacao}, Término Adequação: {self.term_adequacao}, Pot Life: {self.pot_life}, 
-                Responsável: {self.responsavel}, Id_form173: {self.Id_form173}, Imprimiu?: {self.print}, Exceção?: {self.excessao}
-                """
-    
-    @hybrid_property
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-    
-    @classmethod
-    def consulta(cls):
-        conteudo  = [operador.as_dict for operador in session.query(cls).all()]
-        return conteudo
-    
-    @classmethod
-    def consultaEspecifica(cls, coluna, valor):
-        conteudo  = [i.as_dict for i in session.query(cls).filter(getattr(DBForm_40, coluna) == valor).all()]
-        return conteudo
-    
-    def consultaEspecificaDia():
-        data_atual = datetime.now().strftime('%d-%m-%Y')
-        conteudo  = [i.as_dict for i in session.query(DBForm_40).filter(DBForm_40.data_prep.startswith(data_atual)).all()]
-        return conteudo
-    
-    def obter_ultima_linha():
-        ultima_linha = session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first().as_dict
-        return ultima_linha
 
-    def update_print(id_form173):
-        with Session() as session:
-            query = update(DBForm_40).where(DBForm_40.Id_form173 == id_form173).values(print=0)
-            session.execute(query)
-            session.commit()
+dados1 = {'numeroForm': 2323131231232,
+            'solicitante': '2',
+            'codPintor': 1,
+            'cemb': 1,
+            'quantidade': 1,
+            'unidade': '1',
+            'data': '1',
+            'status': 1}
 
-# print(DBForm_40.consultaEspecifica("Id_form173", 101)[0]['data_prep'][:10].format('%d.%m.%Y'))
+# print(DBForm_173.insert(dados1))
 
 class Operadores(Base):
-    __tablename__= 'operadores'
+    __tablename__ = 'operadores'
     
     codigo = Column(Integer, primary_key=True)
     nome = Column(String)
@@ -222,35 +143,43 @@ class Operadores(Base):
     
     @classmethod
     def consulta(cls):
-        conteudo  = [operador.as_dict for operador in session.query(cls).all()]
-        return conteudo
+        with Session() as session:
+            conteudo = [operador.as_dict for operador in session.query(cls).all()]
+            return conteudo
     
+    @classmethod
     def consultaEspecifica(cls, user):
-        conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.usuario == user).all()]
-        return conteudo
+        with Session() as session:
+            conteudo = [operador.as_dict for operador in session.query(cls).filter(Operadores.usuario == user).all()]
+            return conteudo
    
     @classmethod
     def consultaEspecificaCodigo(cls, codigo):
-        conteudo  = [operador.as_dict for operador in session.query(cls).filter(Operadores.codigo == codigo).all()]
-        return conteudo
+        with Session() as session:
+            conteudo = [operador.as_dict for operador in session.query(cls).filter(Operadores.codigo == codigo).all()]
+            return conteudo
     
-    def conferenciaOperador(codigoOperador): 
-        result = session.query(exists().where(Operadores.codigo == codigoOperador)).scalar()
-        return result
+    @classmethod
+    def conferenciaOperador(cls, codigoOperador): 
+        with Session() as session:
+            result = session.query(exists().where(cls.codigo == codigoOperador)).scalar()
+            return result
     
     @classmethod
     def confereUsuario(cls, userInput): 
-        result = session.query(cls).filter_by(usuario=userInput).first()
-        return result
+        with Session() as session:
+            result = session.query(cls).filter_by(usuario=userInput).first()
+            return result
+
     
 
 class OCs(Base):
     __tablename__ = 'ocs'
     
-    Id_ocs = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    track_form173 = Column(Integer)
     oc = Column(Integer)
     quantidade = Column(Integer)
-    track_form173 = Column(Integer)
     
     def __repr__(self):
         return f"id: {self.Id_ocs}  -  OC: {self.oc}, Quantidade: {self.quantidade}, Id_form173: {self.track_form173}"
@@ -261,35 +190,28 @@ class OCs(Base):
     
     @classmethod
     def consulta(cls):
-        conteudo  = [oc.as_dict for oc in session.query(cls).all()]
+        conteudo  = [oc.as_dict for oc in Session.query(cls).all()]
         return conteudo
     
     @classmethod
     def consultaEspecifica(cls, arg, coluna):
-        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
-        return consultaEspeficifica
+        with Session.begin() as session:
+            consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+            return consultaEspeficifica
     
     @staticmethod
     def removeOC(id_ocs):
-        # Removendo a OC
-        session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
-        
+        Session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
         # Atualizando o sqlite_sequence
-        query = update(SQlite_Sequence).where(SQlite_Sequence.name == 'ocs').values(name=OCs.ultimoId())
-        session.execute(query)
+        # query = update(SQlite_Sequence).where(SQlite_Sequence.name == 'ocs').values(name=OCs.ultimoId())
+        Session.execute(query)
         
-        session.commit()
-        session.close()
+        Session.commit()
         
     @staticmethod
     def ultimoId():
-        # Crie uma consulta para encontrar o último ID
         consulta = select(OCs.Id_ocs).order_by(OCs.Id_ocs.desc()).limit(1)
-
-        # Execute a consulta e obtenha o resultado
-        resultado = session.execute(consulta).fetchone()
-
-        # Se o resultado for None, a tabela está vazia
+        resultado = Session.execute(consulta).fetchone()
         if resultado is None:
             ultimo_id = 0
         else:
@@ -298,16 +220,16 @@ class OCs(Base):
 
     
     def insertOC(id_form173, ocs):
-        for i in ocs:
-            try:
-                nova_oc = OCs(oc=i['oc'], quantidade=i['qnt'], track_form173=id_form173)
-                session.add(nova_oc)
-            except Exception as e:messagebox.showerror(message=f"Erro: {e} - {type(e)}")
-        session.commit()
-        session.close()
-        messagebox.showinfo("Envio completo", "Informações adicionadas!")
+        with Session.begin() as session:
+            for i in ocs:
+                try:
+                    nova_oc = OCs(oc=i['oc'], quantidade=i['qnt_solicitada'], track_form173=id_form173)
+                    session.add(nova_oc)
+                except Exception as e: print("Erro: {e} - {type(e)}")
+            session.commit()
+            print("Envio completo", "Informações adicionadas!")
   
-# OCs.insertOC(1, [91919919191, 19199191])
+
 
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
@@ -329,8 +251,8 @@ class Relacao_Tintas(Base):
         return f"CEMB: {self.cemb}  -  Viscosidade: {self.viscosidade_min}s ~ {self.viscosidade_max}s  - Copo: {self.viscosimetro.replace('Copo', '')}"
     
     def consultaViscosimetro(cemb):
-        tintas  = [row[0].replace('Copo', '') for row in session.query(Relacao_Tintas.viscosimetro).filter(Relacao_Tintas.cemb == cemb).all()]
-        # session.query(Relacao_Tintas).filter(Relacao_Tintas.cemb == cemb).all()
+        tintas  = [row[0].replace('Copo', '') for row in Session.query(Relacao_Tintas.viscosimetro).filter(Relacao_Tintas.cemb == cemb).all()]
+        # Session.query(Relacao_Tintas).filter(Relacao_Tintas.cemb == cemb).all()
         return tintas
     
     @hybrid_property
@@ -339,17 +261,17 @@ class Relacao_Tintas(Base):
     
     @classmethod
     def consulta(cls):
-        conteudo  = [tinta.as_dict for tinta in session.query(cls).all()]
+        conteudo  = [tinta.as_dict for tinta in Session.query(cls).all()]
         return conteudo
     
     def consultaViscosidade(cls, cemb, valor_selecionado):
-        # conteudo  = [viscosidade.as_dict for viscosidade in session.query(cls).filter(Relacao_Tintas.cemb == cemb AND ).all()]
-        visc_max_min = session.query(Relacao_Tintas.viscosidade_min, Relacao_Tintas.viscosidade_max)\
+        # conteudo  = [viscosidade.as_dict for viscosidade in Session.query(cls).filter(Relacao_Tintas.cemb == cemb AND ).all()]
+        visc_max_min = Session.query(Relacao_Tintas.viscosidade_min, Relacao_Tintas.viscosidade_max)\
                       .filter(and_(Relacao_Tintas.cemb == cemb,
                                     Relacao_Tintas.viscosimetro.like(f'%{valor_selecionado}%')))\
                       .first()
         return visc_max_min
     
     def conferenciaMescla(cembMescla): 
-        result = session.query(exists().where(Relacao_Tintas.cemb == cembMescla)).scalar()
+        result = Session.query(exists().where(Relacao_Tintas.cemb == cembMescla)).scalar()
         return result
