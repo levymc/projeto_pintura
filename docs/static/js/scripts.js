@@ -295,7 +295,7 @@ function carregarDadosQuadros() {
                 <div class="mescla"> Mescla: <b>${response.data[0].mescla}</b></div>
                 <div class="dataForm40"> Data: <b>${dataAtual}</b></div>
                 <div class="cemb"> CEMB Solicitada: <b>${response.data[0].cemb}</b></div>
-                <div class="qnt_solicitada"> Quantidade Solicitada: <b>${String(response.data[0].quantidade)+response.data[0].unidade}</b></div>
+                <div class="qnt_solicitada"> Quantidade: <b>${String(response.data[0].quantidade)+response.data[0].unidade}</b></div>
             </div>
             <div class="coluna2">
                 <div class="temperatura">
@@ -316,38 +316,55 @@ function carregarDadosQuadros() {
                 <div class="viscosidade">
                     <input type="number" id="viscosidade" placeholder="Viscosidade">
                 </div>
+                <div class="proporcao">
+                    <input type="text" id="proporcao" placeholder="Proporção">
+                </div>
             </div>
             <div class="colunaTempos">
-                <div class="temperatura">
-                    <input type="number" id="temperatura" placeholder="Temperatura">
+                <div class="ini_agitador">
+                    <label for="ini_agitador">Início Agitador</label>
+                    <input type="time" min="07:00" max="17:20" name="ini_agitador" id="ini_agitador">
                 </div>
-                <div class="umidade">
-                    <input type="number" id="umidade" placeholder="Umidade">
+                <div class="ini_mistura">
+                    <label for="ini_mistura">Início Mistura</label>
+                    <input type="time" min="07:00" max="17:20" name="ini_mistura" id="ini_mistura"">
                 </div>
-                <div class="umidade">
-                    <input type="number" id="umidade" placeholder="Umidade">
+                <div class="ini_diluentes">
+                    <label for="ini_diluentes">Início Diluentes</label>
+                    <input type="time" min="07:00" max="17:20" name="ini_diluentes" id="ini_diluentes">
                 </div>
-                <div class="umidade">
-                    <input type="number" id="umidade" placeholder="Umidade">
+                <div class="ini_inducao">
+                    <label for="ini_inducao">Início Indução</label>
+                    <input type="time" min="07:00" max="17:20" name="ini_inducao" id="ini_inducao">
                 </div>
-                <div class="umidade">
-                    <input type="number" id="umidade" placeholder="Umidade">
+                <div class="ini_adequacao">
+                    <label for="ini_adequacao">Início Adequação</label>
+                    <input type="time" min="07:00" max="17:20" name="ini_adequacao" id="ini_adequacao">
                 </div>
             </div>
         </div>
     `
-
         Swal.fire({
         title: "Form. 40 - Preparação de Tinta",
         confirmButtonColor: "#E57373",
         html: html, 
         width: '75%',
+        showCancelButton: false,
+        showConfirmButton: false,
+        footer: `
+            <button class="swal2-cancel swal2-styled" aria-label="Minimizar" onclick="minimizarModal()">Minimizar</button>
+            <button class="swal2-confirm swal2-styled" aria-label="Confirmar" onclick="confirmarModal()">Confirmar</button>
+        `,
         });
       })
-
-    
   }
   
+  function minimizarModal() {
+    Swal.getPopup().style.display = 'none';
+    Swal.getContainer().style.pointerEvents = 'none';
+    Swal.getTitle().style.display = 'none';
+    Swal.getFooter().style.display = 'none';
+  }
   
   
 

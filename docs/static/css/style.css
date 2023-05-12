@@ -494,6 +494,9 @@ nav{
     display: flex;
     padding-top: 2em;
 }
+.modalForm40 label{
+    color: black;
+}
 .modalForm40 input::placeholder{
     font-size: 13px;
 }
@@ -520,4 +523,7 @@ nav{
     padding-left: 1.5em;
     border-left: 1px dashed #ccc;
     width: 40%;
+}
+.colunaTempos{
+    text-align: start;
 }
