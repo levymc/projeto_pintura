@@ -294,11 +294,22 @@ function carregarDadosQuadros() {
                 <div class="responsavel"> Preparador: <b>${user}</b></div>
                 <div class="mescla"> Mescla: <b>${response.data[0].mescla}</b></div>
                 <div class="dataForm40"> Data: <b>${dataAtual}</b></div>
-                <div class="dataForm40"> Data: <b>${dataAtual}</b></div>
+                <div class="cemb"> CEMB Solicitada: <b>${response.data[0].cemb}</b></div>
             </div>
             <div class="coluna2">
                 <div class="temperatura">
                     <input type="number" id="temperatura" placeholder="Temperatura">
+                </div>
+                <div class="umidade">
+                    <input type="number" id="umidade" placeholder="Umidade">
+                </div>
+            </div>
+            <div class="coluna3">
+                <div class="temperatura">
+                    <input type="number" id="temperatura" placeholder="Temperatura">
+                </div>
+                <div class="umidade">
+                    <input type="number" id="umidade" placeholder="Umidade">
                 </div>
             </div>
         </div>
@@ -308,7 +319,7 @@ function carregarDadosQuadros() {
         title: "Form. 40 - Preparação de Tinta",
         confirmButtonColor: "#E57373",
         html: html, 
-        width: '60%',
+        width: '75%',
         });
       })
 
