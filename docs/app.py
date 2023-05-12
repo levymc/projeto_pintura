@@ -48,14 +48,14 @@ def form173_inserir():
     # print(json.dumps(objetoInserido.to_dict()))
     return {
         "success": True,
-        "obj": objetoInserido.to_dict()
+        "obj": objetoInserido
     }
     
 @app.route("/ocs_inserir", methods=["POST", "GET"])
 def ocs_inserir():
     dados = request.json
     print(dados)    
-    # ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
+    ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
     return {"success": True}
 
 @app.route("/dadosQuadrosHoje", methods=["POST", "GET"])
