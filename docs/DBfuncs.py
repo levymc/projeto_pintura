@@ -13,6 +13,7 @@ class DBForm_173(Base):
     __tablename__ = 'form173'
    
     id = Column(Integer, primary_key=True)
+    mescla = Column(Integer)
     numeroForm = Column(Integer)
     solicitante = Column(String)
     codPintor = Column(Integer)
@@ -26,6 +27,7 @@ class DBForm_173(Base):
     def to_dict(self):
         return {
             'id': self.id,
+            'mescla': self.mescla,
             'numeroForm': self.numeroForm,
             'solicitante': self.solicitante,
             'codPintor': self.codPintor,

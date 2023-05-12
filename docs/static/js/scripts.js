@@ -242,6 +242,7 @@ function carregarDadosQuadros() {
 
     const objDados = {
         cemb: dados.cemb, 
+        mescla: dados.mescla,
         codPintor: dados.codPintor, 
         data: dados.data, id: dados.id,
         numeroForm: dados.numeroForm, 
@@ -281,14 +282,37 @@ function carregarDadosQuadros() {
   }
   
   function btnForm40(id) {
-    console.log(id);
-  
-    // Swal.fire({
-    //   title: "Form. 40 - Preparação de Tinta",
-    //   confirmButtonColor: "#E57373",
-    //   icon: "question",
-    //   html: html, 
-    // });
+    axios.get("/dadosQuadroId", {
+        params: {
+          id: id,
+        }
+      }).then(response => {
+        console.log(response.data[0]);
+        const html = `
+        <div class="modalForm40">
+            <div class="coluna1">
+                <div class="responsavel"> Preparador: <b>${user}</b></div>
+                <div class="mescla"> Mescla: <b>${response.data[0].mescla}</b></div>
+                <div class="dataForm40"> Data: <b>${dataAtual}</b></div>
+                <div class="dataForm40"> Data: <b>${dataAtual}</b></div>
+            </div>
+            <div class="coluna2">
+                <div class="temperatura">
+                    <input type="number" id="temperatura" placeholder="Temperatura">
+                </div>
+            </div>
+        </div>
+    `
+
+        Swal.fire({
+        title: "Form. 40 - Preparação de Tinta",
+        confirmButtonColor: "#E57373",
+        html: html, 
+        width: '60%',
+        });
+      })
+
+    
   }
   
   

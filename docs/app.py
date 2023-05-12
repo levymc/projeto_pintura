@@ -61,6 +61,11 @@ def dadosQuadrosHoje():
     data = request.args.get('data')
     return DadosQuadros(status, data).dados()
 
+@app.route("/dadosQuadroId", methods=["GET", "POST"])
+def dadosQuadroId():
+    id = request.args.get("id")
+    return DBForm_173.consultaEspecifica(id, "id")
+
 
 
 if __name__ == '__main__':
