@@ -46,12 +46,14 @@ class DBForm_173(Base):
         session.add(obj)
         try:
             session.commit()
+            session.refresh(obj)  # Atualiza o objeto com os valores do banco de dados, incluindo o ID gerado
+            return obj.to_dict()  # Retorna um dicionário com os valores do objeto
         except exc.SQLAlchemyError:
             session.rollback()
             raise
         finally:
             session.close()
-        return obj
+
     
     @classmethod
     def conteudoTudoEspecifico(cls, status, data):
@@ -112,6 +114,16 @@ class DBForm_173(Base):
             return False
 
 
+dados1 = {'numeroForm': 222222222222,
+            'solicitante': '2',
+            'codPintor': 1,
+            'cemb': 1,
+            'quantidade': 1,
+            'unidade': '1',
+            'data': '1',
+            'status': 1}
+
+print(DBForm_173.insert(dados1))
 
 class Operadores(Base):
     __tablename__ = 'operadores'
@@ -227,6 +239,7 @@ class OCs(Base):
             session.commit()
             print("Envio completo", "Informações adicionadas!")
   
+
 
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
