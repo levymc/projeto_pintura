@@ -61,6 +61,11 @@ def dadosQuadrosHoje():
     data = request.args.get('data')
     return DadosQuadros(status, data).dados()
 
+@app.route("/finalizarQuadro", methods=["POST"])
+def finalizarQuadro():
+    idForm173 = request.json["id"]
+    return {"response": DBForm_173.update_form_173(idForm173, status=1)}
+
 @app.route("/dadosQuadroId", methods=["GET", "POST"])
 def dadosQuadroId():
     id = request.args.get("id")

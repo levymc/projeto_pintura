@@ -274,7 +274,7 @@ function addQuadro(dados) {
         </div> 
         <div class="quadro-btns">
           <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
-          <button id="quadro-btnFinalizar" onclick="btnFinalizar(${contador})">Finalizar</button>
+          <button id="quadro-btnFinalizar" onclick="btnFinalizar(${dados.id})">Finalizar</button>
         </div>
       </div>`;
   
@@ -524,15 +524,20 @@ function btnForm40(id) {
     
   
 
-function btnFinalizar(solicitacao){
-    console.log(solicitacao)
+function btnFinalizar(id){
+    console.log(id)
     Swal.fire({
-        title:`Deseja finalizar a ${solicitacao}ª solicitação?`,
+        title:`Deseja finalizar a solicitação?`,
         icon:"question",
         showCancelButton: true,
         cancelButtonText: "Cancelar",
         confirmButtonText: "Sim!",
         confirmButtonColor: "#E57373",
+    }).then(() => {
+        axios.post("/finalizarQuadro", {id:id}).then(res => {
+            carregarDadosQuadros();
+            console.log(res);
+        })
     })
 }
 

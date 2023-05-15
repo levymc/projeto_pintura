@@ -187,33 +187,34 @@ class DBForm_173(Base):
         return consultaEspecifica
     
     @classmethod
-    def update_form_173(cls, id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, pendencia=None, pintor=None, print=None):
+    def update_form_173(cls, id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, status=None, pintor=None):
         session = Session()
         form_173 = session.query(cls).filter_by(id=id_form_173).first()
         if form_173:
             if formulario is not None:
-                form_173.formulario = formulario
+                form_173.mescla = formulario
             if solicitante is not None:
                 form_173.solicitante = solicitante
             if data_solicitacao is not None:
-                form_173.data_solicitacao = data_solicitacao
+                form_173.numeroForm = data_solicitacao
             if cemb is not None:
                 form_173.cemb = cemb
             if quantidade is not None:
                 form_173.quantidade = quantidade
             if unidade is not None:
                 form_173.unidade = unidade
-            if pendencia is not None:
-                form_173.pendencia = pendencia
+            if status is not None:
+                form_173.status = status
             if pintor is not None:
-                form_173.pintor = pintor
-            if print is not None:
-                form_173.print = print
+                form_173.codPintor = pintor
 
-            Session.commit()
+            session.commit()
+            session.close()
             return True
         else:
+            session.close()
             return False
+
 
 
 class Operadores(Base):
