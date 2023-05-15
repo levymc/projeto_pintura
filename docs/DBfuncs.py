@@ -3,16 +3,117 @@ from sqlalchemy.orm import sessionmaker, declarative_base, scoped_session
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
 from sqlalchemy import exc
+import datetime
 
 engine = create_engine(r'sqlite:///static/db/db.db', echo=False)
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 
+class DBForm_40(Base):
+    __tablename__= 'form40'
+    
+    id = Column(Integer, primary_key=True)
+    track_form173 = Column(Integer)
+    mescla = Column(String)
+    data_prep = Column(String)
+    temperatura = Column(Integer)
+    umidade = Column(Integer)
+    cod_mp = Column(String)
+    lotemp = Column(String)
+    shelf_life = Column(String)
+    ini_agitador = Column(String)
+    ter_agitador = Column(String)
+    ini_mistura = Column(String)
+    ter_mistura = Column(String)
+    ini_diluentes = Column(String)
+    ter_diluentes = Column(String)
+    ini_inducao = Column(String)
+    ter_inducao = Column(String)
+    viscosimetro = Column(String)
+    viscosidade = Column(Integer)
+    proporcao = Column(String)
+    ini_adequacao = Column(String)
+    ter_adequacao = Column(String)
+    pot_life = Column(String)
+    responsavel = Column(String)
+    excessao = Column(Integer)
+    
+    def __repr__(self):
+        return f"""
+                id: {self.id}  -  Mescla: {self.mescla}, Data Preparação: {self.data_prep}, Temperatura: {self.temperatura}, 
+                Umidade: {self.umidade}, CEMB: {self.cod_mp}, Lote: {self.lotemp}, Validade: {self.shelf_life}, Início Agitador: {self.ini_agitador}, 
+                Término Agitador: {self.ter_agitador}, Início Mistura: {self.ini_mistura}, Término Mistura: {self.ter_mistura}, Início Diluentes: {self.ini_diluentes}, Término Diluentes: {self.ter_diluentes}, 
+                Início Indução: {self.ini_inducao}, Término Indução: {self.ter_inducao}, Viscosímetro: {self.viscosimetro}, Viscosidade: {self.viscosidade},
+                Proporção: {self.proporcao}, Início Adequação: {self.ini_adequacao}, Término Adequação: {self.ter_adequacao}, Pot Life: {self.pot_life}, 
+                Responsável: {self.responsavel}, Id_form173: {self.track_form173}, Exceção?: {self.excessao}
+                """
+    
+    @hybrid_property
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    
+    
+    @classmethod
+    def insert(cls, **kwargs):
+        form40_instance = cls(**kwargs)
+
+        ini_agitador = datetime.datetime.strptime(kwargs['ini_agitador'], '%H:%M').time()
+        ter_agitador = (datetime.datetime.combine(datetime.date.today(), ini_agitador) + datetime.timedelta(minutes=15)).time()
+        form40_instance.ter_agitador = ter_agitador.strftime('%H:%M')
+
+        ini_mistura = datetime.datetime.strptime(kwargs['ini_mistura'], '%H:%M').time()
+        ter_mistura = (datetime.datetime.combine(datetime.date.today(), ini_mistura) + datetime.timedelta(minutes=15)).time()
+        form40_instance.ter_mistura = ter_mistura.strftime('%H:%M')
+
+        ini_diluentes = datetime.datetime.strptime(kwargs['ini_diluentes'], '%H:%M').time()
+        ter_diluentes = (datetime.datetime.combine(datetime.date.today(), ini_diluentes) + datetime.timedelta(minutes=15)).time()
+        form40_instance.ter_diluentes = ter_diluentes.strftime('%H:%M')
+
+        ini_inducao = datetime.datetime.strptime(kwargs['ini_inducao'], '%H:%M').time()
+        ter_inducao = (datetime.datetime.combine(datetime.date.today(), ini_inducao) + datetime.timedelta(minutes=15)).time()
+        form40_instance.ter_inducao = ter_inducao.strftime('%H:%M')
+
+        ini_adequacao = datetime.datetime.strptime(kwargs['ini_adequacao'], '%H:%M').time()
+        ter_adequacao = (datetime.datetime.combine(datetime.date.today(), ini_adequacao) + datetime.timedelta(minutes=15)).time()
+        form40_instance.ter_adequacao = ter_adequacao.strftime('%H:%M')
+
+        session = Session()
+        session.add(form40_instance)
+        session.commit()
+        session.close()
+    
+    @classmethod
+    def consulta(cls):
+        conteudo  = [operador.as_dict for operador in Session.query(cls).all()]
+        return conteudo
+    
+    @classmethod
+    def consultaEspecifica(cls, coluna, valor):
+        conteudo  = [i.as_dict for i in Session.query(cls).filter(getattr(DBForm_40, coluna) == valor).all()]
+        return conteudo
+    
+    def consultaEspecificaDia():
+        data_atual = datetime.now().strftime('%d-%m-%Y')
+        conteudo  = [i.as_dict for i in Session.query(DBForm_40).filter(DBForm_40.data_prep.startswith(data_atual)).all()]
+        return conteudo
+    
+    def obter_ultima_linha():
+        ultima_linha = Session.query(DBForm_40).order_by(DBForm_40.Id_form_40.desc()).first().as_dict
+        return ultima_linha
+
+    def update_print(id_form173):
+        with Session() as Session:
+            query = update(DBForm_40).where(DBForm_40.Id_form173 == id_form173).values(print=0)
+            Session.execute(query)
+            Session.commit()
+
+
 class DBForm_173(Base):
     __tablename__ = 'form173'
    
     id = Column(Integer, primary_key=True)
+    mescla = Column(Integer)
     numeroForm = Column(Integer)
     solicitante = Column(String)
     codPintor = Column(Integer)
@@ -26,6 +127,7 @@ class DBForm_173(Base):
     def to_dict(self):
         return {
             'id': self.id,
+            'mescla': self.mescla,
             'numeroForm': self.numeroForm,
             'solicitante': self.solicitante,
             'codPintor': self.codPintor,
@@ -85,45 +187,35 @@ class DBForm_173(Base):
         return consultaEspecifica
     
     @classmethod
-    def update_form_173(cls, id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, pendencia=None, pintor=None, print=None):
+    def update_form_173(cls, id_form_173, formulario=None, solicitante=None, data_solicitacao=None, cemb=None, quantidade=None, unidade=None, status=None, pintor=None):
         session = Session()
         form_173 = session.query(cls).filter_by(id=id_form_173).first()
         if form_173:
             if formulario is not None:
-                form_173.formulario = formulario
+                form_173.mescla = formulario
             if solicitante is not None:
                 form_173.solicitante = solicitante
             if data_solicitacao is not None:
-                form_173.data_solicitacao = data_solicitacao
+                form_173.numeroForm = data_solicitacao
             if cemb is not None:
                 form_173.cemb = cemb
             if quantidade is not None:
                 form_173.quantidade = quantidade
             if unidade is not None:
                 form_173.unidade = unidade
-            if pendencia is not None:
-                form_173.pendencia = pendencia
+            if status is not None:
+                form_173.status = status
             if pintor is not None:
-                form_173.pintor = pintor
-            if print is not None:
-                form_173.print = print
+                form_173.codPintor = pintor
 
-            Session.commit()
+            session.commit()
+            session.close()
             return True
         else:
+            session.close()
             return False
 
 
-dados1 = {'numeroForm': 2323131231232,
-            'solicitante': '2',
-            'codPintor': 1,
-            'cemb': 1,
-            'quantidade': 1,
-            'unidade': '1',
-            'data': '1',
-            'status': 1}
-
-# print(DBForm_173.insert(dados1))
 
 class Operadores(Base):
     __tablename__ = 'operadores'
@@ -171,7 +263,6 @@ class Operadores(Base):
             result = session.query(cls).filter_by(usuario=userInput).first()
             return result
 
-    
 
 class OCs(Base):
     __tablename__ = 'ocs'
@@ -228,7 +319,6 @@ class OCs(Base):
                 except Exception as e: print("Erro: {e} - {type(e)}")
             session.commit()
             print("Envio completo", "Informações adicionadas!")
-  
 
 
 class Relacao_Tintas(Base):
@@ -250,10 +340,13 @@ class Relacao_Tintas(Base):
     def __repr__(self):
         return f"CEMB: {self.cemb}  -  Viscosidade: {self.viscosidade_min}s ~ {self.viscosidade_max}s  - Copo: {self.viscosimetro.replace('Copo', '')}"
     
-    def consultaViscosimetro(cemb):
-        tintas  = [row[0].replace('Copo', '') for row in Session.query(Relacao_Tintas.viscosimetro).filter(Relacao_Tintas.cemb == cemb).all()]
-        # Session.query(Relacao_Tintas).filter(Relacao_Tintas.cemb == cemb).all()
+    @classmethod
+    def consultaViscosimetro(cls, cemb):
+        session = Session()
+        tintas = session.query(cls.viscosimetro).filter(cls.cemb == cemb).all()
+        tintas = [row[0].replace('Copo', '') for row in tintas]
         return tintas
+
     
     @hybrid_property
     def as_dict(self):
