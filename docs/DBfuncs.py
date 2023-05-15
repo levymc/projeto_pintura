@@ -59,45 +59,28 @@ class DBForm_40(Base):
         form40_instance = cls(**kwargs)
 
         ini_agitador = datetime.datetime.strptime(kwargs['ini_agitador'], '%H:%M').time()
-        # form40_instance.ini_agitador = ini_agitador
-
         ter_agitador = (datetime.datetime.combine(datetime.date.today(), ini_agitador) + datetime.timedelta(minutes=15)).time()
         form40_instance.ter_agitador = ter_agitador.strftime('%H:%M')
 
         ini_mistura = datetime.datetime.strptime(kwargs['ini_mistura'], '%H:%M').time()
-        # form40_instance.ini_mistura = ini_mistura
-
         ter_mistura = (datetime.datetime.combine(datetime.date.today(), ini_mistura) + datetime.timedelta(minutes=15)).time()
         form40_instance.ter_mistura = ter_mistura.strftime('%H:%M')
 
         ini_diluentes = datetime.datetime.strptime(kwargs['ini_diluentes'], '%H:%M').time()
-        # form40_instance.ini_diluentes = ini_diluentes
-
         ter_diluentes = (datetime.datetime.combine(datetime.date.today(), ini_diluentes) + datetime.timedelta(minutes=15)).time()
         form40_instance.ter_diluentes = ter_diluentes.strftime('%H:%M')
 
         ini_inducao = datetime.datetime.strptime(kwargs['ini_inducao'], '%H:%M').time()
-        # form40_instance.ini_inducao = ini_inducao
-
         ter_inducao = (datetime.datetime.combine(datetime.date.today(), ini_inducao) + datetime.timedelta(minutes=15)).time()
         form40_instance.ter_inducao = ter_inducao.strftime('%H:%M')
 
         ini_adequacao = datetime.datetime.strptime(kwargs['ini_adequacao'], '%H:%M').time()
-        # form40_instance.ini_adequacao = ini_adequacao
-
         ter_adequacao = (datetime.datetime.combine(datetime.date.today(), ini_adequacao) + datetime.timedelta(minutes=15)).time()
         form40_instance.ter_adequacao = ter_adequacao.strftime('%H:%M')
 
-        # ...
-
-        # Crie uma instância de engine para se conectar ao banco de dados
         session = Session()
-
-        # Insira os dados no banco de dados
         session.add(form40_instance)
         session.commit()
-
-        # Feche a sessão
         session.close()
     
     @classmethod
