@@ -410,7 +410,9 @@ function carregarDadosQuadros() {
               saveFormInputs();
             }
           });
+          restoreFormInputs();
         }
+        
     )}
     
   
