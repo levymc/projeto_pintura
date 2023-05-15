@@ -433,17 +433,11 @@ function btnForm40(id) {
             <section class="btnReset"><button id="btnReset">Limpar Dados</button></section>
         </div>
     `
-    // const modalElement = document.querySelector('.modalForm40');
-    // if (modalElement) {
-        
-    //     })
-    // }
     Swal.fire({
         title: "Form. 40 - Preparação de Tinta",
         confirmButtonColor: "#E57373",
         html: html,
         width: '75%',
-        // allowOutsideClick:false,
         showCancelButton: true,
         cancelButtonText: "Minimizar",
         confirmButtonText: "Enviar",
@@ -453,7 +447,7 @@ function btnForm40(id) {
                 console.log("aqui")
                 limparDois(idQuadro);
             } else {
-              // O modal foi descartado, salvar as informações no localStorage
+              // O modal foi minimizado, salvar as informações no localStorage
               saveFormInputs(idQuadro);
             }
             });

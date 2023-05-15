@@ -527,3 +527,24 @@ nav{
 .colunaTempos{
     text-align: start;
 }
+
+.btnReset{
+    position: absolute;
+    bottom: 1em;
+
+}
+#btnReset {
+    background-color: #949c00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+    
+#btnReset:hover {
+    background-color: #666b00;
+}
