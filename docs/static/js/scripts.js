@@ -283,13 +283,14 @@ function addQuadro(dados) {
   
 function btnForm40(id) {
     let idQuadro = id
+    let viscosimetro; 
 
     const clearFormInputs = (idQuadro) => {
         localStorage.removeItem(`form40_temperatura_${idQuadro}`);
         localStorage.removeItem(`form40_umidade_${idQuadro}`);
         localStorage.removeItem(`form40_lotemp_${idQuadro}`);
         localStorage.removeItem(`form40_shelf_life_${idQuadro}`);
-        // localStorage.removeItem(`form40_viscosimetro_${idQuadro}`);
+        localStorage.removeItem(`form40_viscosimetro_${idQuadro}`);
         localStorage.removeItem(`form40_viscosidade_${idQuadro}`);
         localStorage.removeItem(`form40_proporcao_${idQuadro}`);
         localStorage.removeItem(`form40_ini_agitador_${idQuadro}`);
@@ -305,7 +306,7 @@ function btnForm40(id) {
         document.getElementById('umidade').value = "";
         document.getElementById('lotemp').value = "";
         document.getElementById('shelf_life').value = "";
-        // document.getElementById('viscosimetro').value = "";
+        document.getElementById('viscosimetro').value = "";
         document.getElementById('viscosidade').value = "";
         document.getElementById('proporcao').value = "";
         document.getElementById('ini_agitador').value = "";
@@ -326,7 +327,7 @@ function btnForm40(id) {
         const umidade = localStorage.getItem(`form40_umidade_${idQuadro}`);
         const lotemp = localStorage.getItem(`form40_lotemp_${idQuadro}`);
         const shelf_life = localStorage.getItem(`form40_shelf_life_${idQuadro}`);
-        // const viscosimetro = localStorage.getItem(`form40_viscosimetro_${idQuadro}`);
+        const viscosimetro = localStorage.getItem(`form40_viscosimetro_${idQuadro}`);
         const viscosidade = localStorage.getItem(`form40_viscosidade_${idQuadro}`);
         const proporcao = localStorage.getItem(`form40_proporcao_${idQuadro}`);
         const ini_agitador = localStorage.getItem(`form40_ini_agitador_${idQuadro}`);
@@ -342,7 +343,7 @@ function btnForm40(id) {
             document.getElementById('umidade').value = umidade;
             document.getElementById('lotemp').value = lotemp;
             document.getElementById('shelf_life').value = shelf_life;
-            // document.getElementById('viscosimetro').value = viscosimetro;
+            document.getElementById('viscosimetro').value = viscosimetro;
             document.getElementById('viscosidade').value = viscosidade;
             document.getElementById('proporcao').value = proporcao;
             document.getElementById('ini_agitador').value = ini_agitador;
@@ -359,7 +360,7 @@ function btnForm40(id) {
         localStorage.setItem(`form40_umidade_${idQuadro}`, document.getElementById(`umidade`).value);
         localStorage.setItem(`form40_lotemp_${idQuadro}`, document.getElementById(`lotemp`).value);
         localStorage.setItem(`form40_shelf_life_${idQuadro}`, document.getElementById(`shelf_life`).value);
-        // localStorage.setItem(`form40_viscosimetro_${idQuadro}`, document.getElementById(`viscosimetro`).value);
+        localStorage.setItem(`form40_viscosimetro_${idQuadro}`, document.getElementById(`viscosimetro`).value);
         localStorage.setItem(`form40_viscosidade_${idQuadro}`, document.getElementById(`viscosidade`).value);
         localStorage.setItem(`form40_proporcao_${idQuadro}`, document.getElementById(`proporcao`).value);
         localStorage.setItem(`form40_ini_agitador_${idQuadro}`, document.getElementById(`ini_agitador`).value);
@@ -379,139 +380,144 @@ function btnForm40(id) {
             params: {
                 cemb: response.data[0].cemb
             }
-        }).then(tinta => {console.log(tinta)})
-        const html = `
-        <div class="modalForm40">
-            <div class="coluna1">
-                <div class="responsavel"> Preparador: <b>${user}</b></div>
-                <div class="mescla"> Mescla: <b>${response.data[0].mescla}</b></div>
-                <div class="dataForm40"> Data: <b>${dataAtual}</b></div>
-                <div class="cemb"> CEMB Solicitada: <b>${response.data[0].cemb}</b></div>
-                <div class="qnt_solicitada"> Quantidade: <b>${String(response.data[0].quantidade)+response.data[0].unidade}</b></div>
+        }).then(tinta => {
+            console.log(tinta.data)
+            viscosimetro = tinta.data
+            const html = `
+            <div class="modalForm40">
+                <div class="coluna1">
+                    <div class="responsavel"> Preparador: <b>${user}</b></div>
+                    <div class="mescla"> Mescla: <b>${response.data[0].mescla}</b></div>
+                    <div class="dataForm40"> Data: <b>${dataAtual}</b></div>
+                    <div class="cemb"> CEMB Solicitada: <b>${response.data[0].cemb}</b></div>
+                    <div class="qnt_solicitada"> Quantidade: <b>${String(response.data[0].quantidade)+response.data[0].unidade}</b></div>
+                </div>
+                <div class="coluna2">
+                    <div class="temperatura">
+                        <input type="number" id="temperatura" placeholder="Temperatura">
+                    </div>
+                    <div class="umidade">
+                        <input type="number" id="umidade" placeholder="Umidade">
+                    </div>
+                    <div class="lotemp">
+                        <input type="text" id="lotemp" placeholder="Lote da Matéria Prima">
+                    </div>
+                    <div class="shelf_life">
+                        <input type="number" id="shelf_life" placeholder="Shelf Life">
+                    </div>
+                    <div class="viscosimetro">
+                        <input type="text" id="viscosimetro" placeholder="Viscosímetro">
+                    </div>
+                    <div class="viscosidade">
+                        <input type="number" id="viscosidade" placeholder="Viscosidade">
+                    </div>
+                    <div class="proporcao">
+                        <input type="text" id="proporcao" placeholder="Proporção">
+                    </div>
+                    <div class="pot_life">
+                        <input type="text" id="pot_life" placeholder="Pot Life">
+                    </div>
+                </div>
+                <div class="colunaTempos">
+                    <div class="ini_agitador">
+                        <label for="ini_agitador">Início Agitador</label>
+                        <input type="time" min="07:00" max="17:20" name="ini_agitador" id="ini_agitador">
+                    </div>
+                    <div class="ini_mistura">
+                        <label for="ini_mistura">Início Mistura</label>
+                        <input type="time" min="07:00" max="17:20" name="ini_mistura" id="ini_mistura"">
+                    </div>
+                    <div class="ini_diluentes">
+                        <label for="ini_diluentes">Início Diluentes</label>
+                        <input type="time" min="07:00" max="17:20" name="ini_diluentes" id="ini_diluentes">
+                    </div>
+                    <div class="ini_inducao">
+                        <label for="ini_inducao">Início Indução</label>
+                        <input type="time" min="07:00" max="17:20" name="ini_inducao" id="ini_inducao">
+                    </div>
+                    <div class="ini_adequacao">
+                        <label for="ini_adequacao">Início Adequação</label>
+                        <input type="time" min="07:00" max="17:20" name="ini_adequacao" id="ini_adequacao">
+                    </div>
+                </div>
+                <section class="btnReset"><button id="btnReset">Limpar Dados</button></section>
             </div>
-            <div class="coluna2">
-                <div class="temperatura">
-                    <input type="number" id="temperatura" placeholder="Temperatura">
-                </div>
-                <div class="umidade">
-                    <input type="number" id="umidade" placeholder="Umidade">
-                </div>
-                <div class="lotemp">
-                    <input type="text" id="lotemp" placeholder="Lote da Matéria Prima">
-                </div>
-                <div class="shelf_life">
-                    <input type="number" id="shelf_life" placeholder="Shelf Life">
-                </div>
-                <div class="viscosimetro">
-                    <input type="number" id="viscosidade" placeholder="Viscosidade">
-                </div>
-                <div class="viscosidade">
-                    <input type="number" id="viscosidade" placeholder="Viscosidade">
-                </div>
-                <div class="proporcao">
-                    <input type="text" id="proporcao" placeholder="Proporção">
-                </div>
-                <div class="pot_life">
-                    <input type="text" id="pot_life" placeholder="Pot Life">
-                </div>
-            </div>
-            <div class="colunaTempos">
-                <div class="ini_agitador">
-                    <label for="ini_agitador">Início Agitador</label>
-                    <input type="time" min="07:00" max="17:20" name="ini_agitador" id="ini_agitador">
-                </div>
-                <div class="ini_mistura">
-                    <label for="ini_mistura">Início Mistura</label>
-                    <input type="time" min="07:00" max="17:20" name="ini_mistura" id="ini_mistura"">
-                </div>
-                <div class="ini_diluentes">
-                    <label for="ini_diluentes">Início Diluentes</label>
-                    <input type="time" min="07:00" max="17:20" name="ini_diluentes" id="ini_diluentes">
-                </div>
-                <div class="ini_inducao">
-                    <label for="ini_inducao">Início Indução</label>
-                    <input type="time" min="07:00" max="17:20" name="ini_inducao" id="ini_inducao">
-                </div>
-                <div class="ini_adequacao">
-                    <label for="ini_adequacao">Início Adequação</label>
-                    <input type="time" min="07:00" max="17:20" name="ini_adequacao" id="ini_adequacao">
-                </div>
-            </div>
-            <section class="btnReset"><button id="btnReset">Limpar Dados</button></section>
-        </div>
-    `
-    Swal.fire({
-        title: "Form. 40 - Preparação de Tinta",
-        confirmButtonColor: "#E57373",
-        html: html,
-        width: '75%',
-        showCancelButton: true,
-        cancelButtonText: "Minimizar",
-        confirmButtonText: "Enviar",
-        showConfirmButton: true,
-        // preConfirm: () => {
-        //     dados = {
-                    // track_form173: idQuadro,
-                    // mescla: 1,
-                    // data_prep: dataAtual,
-                    // cod_mp: response.data[0].cemb,
-                    // temperatura: document.getElementById(`temperatura`).value,
-                    // umidade: document.getElementById(`umidade`).value,
-                    // lotemp: document.getElementById(`lotemp`).value,
-                    // shelf_life: document.getElementById(`shelf_life`).value,
-                    // viscosimetro: document.getElementById(`viscosimetro`).value,
-                    // viscosidade: document.getElementById(`viscosidade`).value,
-                    // proporcao: document.getElementById(`proporcao`).value,
-                    // responsavel: user,
-                    // excessao: 0,
-                    // pot_life: document.getElementById(`pot_life`).value,
-                    // ini_agitador: document.getElementById(`ini_agitador`).value,
-                    // ini_mistura: document.getElementById(`ini_mistura`).value,
-                    // ini_diluentes: document.getElementById(`ini_diluentes`).value,
-                    // ini_inducao: document.getElementById(`ini_inducao`).value,
-                    // ini_adequacao: document.getElementById(`ini_adequacao`).value,
-        //     }
-        //     const hasZeroValue = Object.values(dados).some(value => value === '');
-        //     if (hasZeroValue) {
-        //     Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
-        //     }
-        // }
-        }).then((result) => {
-            dados = {
-                track_form173: idQuadro,
-                mescla: 1,
-                data_prep: dataAtual,
-                cod_mp: response.data[0].cemb,
-                temperatura: document.getElementById(`temperatura`).value,
-                umidade: document.getElementById(`umidade`).value,
-                lotemp: document.getElementById(`lotemp`).value,
-                shelf_life: document.getElementById(`shelf_life`).value,
-                // viscosimetro: document.getElementById(`viscosimetro`).value,
-                viscosidade: document.getElementById(`viscosidade`).value,
-                proporcao: document.getElementById(`proporcao`).value,
-                responsavel: user,
-                excessao: 0,
-                pot_life: document.getElementById(`pot_life`).value,
-                ini_agitador: document.getElementById(`ini_agitador`).value,
-                ini_mistura: document.getElementById(`ini_mistura`).value,
-                ini_diluentes: document.getElementById(`ini_diluentes`).value,
-                ini_inducao: document.getElementById(`ini_inducao`).value,
-                ini_adequacao: document.getElementById(`ini_adequacao`).value,
-            }
-            
-            if (!result.isDismissed) {
-                axios.post("/form40_inserir", dados).then(response => {
-                    console.log(response.data)
+            `
+            Swal.fire({
+                title: "Form. 40 - Preparação de Tinta",
+                confirmButtonColor: "#E57373",
+                html: html,
+                width: '75%',
+                showCancelButton: true,
+                cancelButtonText: "Minimizar",
+                confirmButtonText: "Enviar",
+                showConfirmButton: true,
+                // preConfirm: () => {
+                //     dados = {
+                            // track_form173: idQuadro,
+                            // mescla: 1,
+                            // data_prep: dataAtual,
+                            // cod_mp: response.data[0].cemb,
+                            // temperatura: document.getElementById(`temperatura`).value,
+                            // umidade: document.getElementById(`umidade`).value,
+                            // lotemp: document.getElementById(`lotemp`).value,
+                            // shelf_life: document.getElementById(`shelf_life`).value,
+                            // viscosimetro: document.getElementById(`viscosimetro`).value,
+                            // viscosidade: document.getElementById(`viscosidade`).value,
+                            // proporcao: document.getElementById(`proporcao`).value,
+                            // responsavel: user,
+                            // excessao: 0,
+                            // pot_life: document.getElementById(`pot_life`).value,
+                            // ini_agitador: document.getElementById(`ini_agitador`).value,
+                            // ini_mistura: document.getElementById(`ini_mistura`).value,
+                            // ini_diluentes: document.getElementById(`ini_diluentes`).value,
+                            // ini_inducao: document.getElementById(`ini_inducao`).value,
+                            // ini_adequacao: document.getElementById(`ini_adequacao`).value,
+                //     }
+                //     const hasZeroValue = Object.values(dados).some(value => value === '');
+                //     if (hasZeroValue) {
+                //     Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
+                //     }
+                // }
+                }).then((result) => {
+                    dados = {
+                        track_form173: idQuadro,
+                        mescla: 1,
+                        data_prep: dataAtual,
+                        cod_mp: response.data[0].cemb,
+                        temperatura: document.getElementById(`temperatura`).value,
+                        umidade: document.getElementById(`umidade`).value,
+                        lotemp: document.getElementById(`lotemp`).value,
+                        shelf_life: document.getElementById(`shelf_life`).value,
+                        // viscosimetro: document.getElementById(`viscosimetro`).value,
+                        viscosidade: document.getElementById(`viscosidade`).value,
+                        proporcao: document.getElementById(`proporcao`).value,
+                        responsavel: user,
+                        excessao: 0,
+                        pot_life: document.getElementById(`pot_life`).value,
+                        ini_agitador: document.getElementById(`ini_agitador`).value,
+                        ini_mistura: document.getElementById(`ini_mistura`).value,
+                        ini_diluentes: document.getElementById(`ini_diluentes`).value,
+                        ini_inducao: document.getElementById(`ini_inducao`).value,
+                        ini_adequacao: document.getElementById(`ini_adequacao`).value,
+                    }
+                    
+                    if (!result.isDismissed) {
+                        axios.post("/form40_inserir", dados).then(response => {
+                            console.log(response.data)
+                        })
+                    } else {
+                    // O modal foi minimizado, salvar as informações no localStorage
+                    saveFormInputs(idQuadro);
+                    }
+                });
+                document.getElementById("btnReset").addEventListener("click", function(){
+                    limparDois(idQuadro);
                 })
-            } else {
-              // O modal foi minimizado, salvar as informações no localStorage
-              saveFormInputs(idQuadro);
-            }
-            });
-            restoreFormInputs(idQuadro);
-            document.getElementById("btnReset").addEventListener("click", function(){
-            limparDois(idQuadro);
-        })
+                restoreFormInputs(idQuadro);
+            }).catch(e => {alert("Erro: ", e)})
+            
+            
         }
         
     )}
