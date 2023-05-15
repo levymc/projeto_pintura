@@ -282,12 +282,62 @@ function carregarDadosQuadros() {
   }
   
   function btnForm40(id) {
+    const restoreFormInputs = () => {
+        // Restaurar as informações do localStorage
+        const temperatura = localStorage.getItem('form40_temperatura');
+        const umidade = localStorage.getItem('form40_umidade');
+        const lotemp = localStorage.getItem('form40_lotemp');
+        const shelflife = localStorage.getItem('form40_shelflife');
+        const viscosimetro = localStorage.getItem('form40_viscosimetro');
+        const viscosidade = localStorage.getItem('form40_viscosidade');
+        const proporcao = localStorage.getItem('form40_proporcao');
+        const ini_agitador = localStorage.getItem('form40_ini_agitador');
+        const ini_mistura = localStorage.getItem('form40_ini_mistura');
+        const ini_diluentes = localStorage.getItem('form40_ini_diluentes');
+        const ini_inducao = localStorage.getItem('form40_ini_inducao');
+        const ini_adequacao = localStorage.getItem('form40_ini_adequacao');
+  
+        // Preencha os campos com as informações restauradas
+        const modalElement = document.querySelector('.modalForm40');
+        if (modalElement) {
+            document.getElementById('temperatura').value = temperatura;
+            document.getElementById('umidade').value = umidade;
+            document.getElementById('lotemp').value = lotemp;
+            document.getElementById('shelflife').value = shelflife;
+            document.getElementById('viscosimetro').value = viscosimetro;
+            document.getElementById('viscosidade').value = viscosidade;
+            document.getElementById('proporcao').value = proporcao;
+            document.getElementById('ini_agitador').value = ini_agitador;
+            document.getElementById('ini_mistura').value = ini_mistura;
+            document.getElementById('ini_diluentes').value = ini_diluentes;
+            document.getElementById('ini_inducao').value = ini_inducao;
+            document.getElementById('ini_adequacao').value = ini_adequacao;
+        }   
+      };
+  
+      const saveFormInputs = () => {
+        // Salvar as informações no localStorage
+        console.log(document.getElementById('temperatura').value)
+        localStorage.setItem('form40_temperatura', document.getElementById('temperatura').value);
+        localStorage.setItem('form40_umidade', document.getElementById('umidade').value);
+        localStorage.setItem('form40_lotemp', document.getElementById('lotemp').value);
+        localStorage.setItem('form40_shelflife', document.getElementById('shelflife').value);
+        localStorage.setItem('form40_viscosimetro', document.getElementById('viscosimetro').value);
+        localStorage.setItem('form40_viscosidade', document.getElementById('viscosidade').value);
+        localStorage.setItem('form40_proporcao', document.getElementById('proporcao').value);
+        localStorage.setItem('form40_ini_agitador', document.getElementById('ini_agitador').value);
+        localStorage.setItem('form40_ini_mistura', document.getElementById('ini_mistura').value);
+        localStorage.setItem('form40_ini_diluentes', document.getElementById('ini_diluentes').value);
+        localStorage.setItem('form40_ini_inducao', document.getElementById('ini_inducao').value);
+        localStorage.setItem('form40_ini_adequacao', document.getElementById('ini_adequacao').value);
+      };
     axios.get("/dadosQuadroId", {
         params: {
           id: id,
         }
       }).then(response => {
         console.log(response.data[0]);
+        restoreFormInputs();
         const html = `
         <div class="modalForm40">
             <div class="coluna1">
@@ -344,20 +394,25 @@ function carregarDadosQuadros() {
             </div>
         </div>
     `
-        Swal.fire({
+    Swal.fire({
         title: "Form. 40 - Preparação de Tinta",
         confirmButtonColor: "#E57373",
-        html: html, 
+        html: html,
         width: '75%',
-        showCancelButton: false,
-        showConfirmButton: false,
-        footer: `
-            <button class="swal2-cancel swal2-styled" aria-label="Minimizar" onclick="minimizarModal()">Minimizar</button>
-            <button class="swal2-confirm swal2-styled" aria-label="Confirmar" onclick="confirmarModal()">Confirmar</button>
-        `,
-        });
-      })
-  }
+        showCancelButton: true,
+        showConfirmButton: true,
+        }).then((result) => {
+            if (!result.isDismissed) {
+              // O modal foi fechado, então restaure os valores
+              restoreFormInputs();
+            } else {
+              // O modal foi descartado, salvar as informações no localStorage
+              saveFormInputs();
+            }
+          });
+        }
+    )}
+    
   
   function minimizarModal() {
     Swal.getPopup().style.display = 'none';
