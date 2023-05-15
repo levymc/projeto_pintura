@@ -288,7 +288,7 @@ function btnForm40(id) {
         localStorage.removeItem(`form40_temperatura_${idQuadro}`);
         localStorage.removeItem(`form40_umidade_${idQuadro}`);
         localStorage.removeItem(`form40_lotemp_${idQuadro}`);
-        localStorage.removeItem(`form40_shelflife_${idQuadro}`);
+        localStorage.removeItem(`form40_shelf_life_${idQuadro}`);
         localStorage.removeItem(`form40_viscosimetro_${idQuadro}`);
         localStorage.removeItem(`form40_viscosidade_${idQuadro}`);
         localStorage.removeItem(`form40_proporcao_${idQuadro}`);
@@ -304,7 +304,7 @@ function btnForm40(id) {
         document.getElementById('temperatura').value = "";
         document.getElementById('umidade').value = "";
         document.getElementById('lotemp').value = "";
-        document.getElementById('shelflife').value = "";
+        document.getElementById('shelf_life').value = "";
         document.getElementById('viscosimetro').value = "";
         document.getElementById('viscosidade').value = "";
         document.getElementById('proporcao').value = "";
@@ -325,7 +325,7 @@ function btnForm40(id) {
         const temperatura = localStorage.getItem(`form40_temperatura_${idQuadro}`);
         const umidade = localStorage.getItem(`form40_umidade_${idQuadro}`);
         const lotemp = localStorage.getItem(`form40_lotemp_${idQuadro}`);
-        const shelflife = localStorage.getItem(`form40_shelflife_${idQuadro}`);
+        const shelf_life = localStorage.getItem(`form40_shelf_life_${idQuadro}`);
         const viscosimetro = localStorage.getItem(`form40_viscosimetro_${idQuadro}`);
         const viscosidade = localStorage.getItem(`form40_viscosidade_${idQuadro}`);
         const proporcao = localStorage.getItem(`form40_proporcao_${idQuadro}`);
@@ -341,7 +341,7 @@ function btnForm40(id) {
             document.getElementById('temperatura').value = temperatura;
             document.getElementById('umidade').value = umidade;
             document.getElementById('lotemp').value = lotemp;
-            document.getElementById('shelflife').value = shelflife;
+            document.getElementById('shelf_life').value = shelf_life;
             document.getElementById('viscosimetro').value = viscosimetro;
             document.getElementById('viscosidade').value = viscosidade;
             document.getElementById('proporcao').value = proporcao;
@@ -358,7 +358,7 @@ function btnForm40(id) {
         localStorage.setItem(`form40_temperatura_${idQuadro}`, document.getElementById(`temperatura`).value);
         localStorage.setItem(`form40_umidade_${idQuadro}`, document.getElementById(`umidade`).value);
         localStorage.setItem(`form40_lotemp_${idQuadro}`, document.getElementById(`lotemp`).value);
-        localStorage.setItem(`form40_shelflife_${idQuadro}`, document.getElementById(`shelflife`).value);
+        localStorage.setItem(`form40_shelf_life_${idQuadro}`, document.getElementById(`shelf_life`).value);
         localStorage.setItem(`form40_viscosimetro_${idQuadro}`, document.getElementById(`viscosimetro`).value);
         localStorage.setItem(`form40_viscosidade_${idQuadro}`, document.getElementById(`viscosidade`).value);
         localStorage.setItem(`form40_proporcao_${idQuadro}`, document.getElementById(`proporcao`).value);
@@ -394,8 +394,8 @@ function btnForm40(id) {
                 <div class="lotemp">
                     <input type="text" id="lotemp" placeholder="Lote da Matéria Prima">
                 </div>
-                <div class="shelflife">
-                    <input type="number" id="shelflife" placeholder="Shelf Life">
+                <div class="shelf_life">
+                    <input type="number" id="shelf_life" placeholder="Shelf Life">
                 </div>
                 <div class="viscosimetro">
                     <input type="number" id="viscosimetro" placeholder="Viscosímetro">
@@ -405,6 +405,9 @@ function btnForm40(id) {
                 </div>
                 <div class="proporcao">
                     <input type="text" id="proporcao" placeholder="Proporção">
+                </div>
+                <div class="pot_life">
+                    <input type="text" id="pot_life" placeholder="Pot Life">
                 </div>
             </div>
             <div class="colunaTempos">
@@ -441,35 +444,49 @@ function btnForm40(id) {
         cancelButtonText: "Minimizar",
         confirmButtonText: "Enviar",
         showConfirmButton: true,
-        preConfirm: () => {
-            dados = {
-                temperatura: document.getElementById(`temperatura`).value,
-                umidade: document.getElementById(`umidade`).value,
-                lotemp: document.getElementById(`lotemp`).value,
-                shelflife: document.getElementById(`shelflife`).value,
-                viscosimetro: document.getElementById(`viscosimetro`).value,
-                viscosidade: document.getElementById(`viscosidade`).value,
-                proporcao: document.getElementById(`proporcao`).value,
-                ini_agitador: document.getElementById(`ini_agitador`).value,
-                ini_mistura: document.getElementById(`ini_mistura`).value,
-                ini_diluentes: document.getElementById(`ini_diluentes`).value,
-                ini_inducao: document.getElementById(`ini_inducao`).value,
-                ini_adequacao: document.getElementById(`ini_adequacao`).value,
-            }
-            const hasZeroValue = Object.values(dados).some(value => value === '');
-            if (hasZeroValue) {
-            Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
-            }
-        }
+        // preConfirm: () => {
+        //     dados = {
+                    // track_form173: idQuadro,
+                    // mescla: 1,
+                    // data_prep: dataAtual,
+                    // cod_mp: response.data[0].cemb,
+                    // temperatura: document.getElementById(`temperatura`).value,
+                    // umidade: document.getElementById(`umidade`).value,
+                    // lotemp: document.getElementById(`lotemp`).value,
+                    // shelf_life: document.getElementById(`shelf_life`).value,
+                    // viscosimetro: document.getElementById(`viscosimetro`).value,
+                    // viscosidade: document.getElementById(`viscosidade`).value,
+                    // proporcao: document.getElementById(`proporcao`).value,
+                    // responsavel: user,
+                    // excessao: 0,
+                    // pot_life: document.getElementById(`pot_life`).value,
+                    // ini_agitador: document.getElementById(`ini_agitador`).value,
+                    // ini_mistura: document.getElementById(`ini_mistura`).value,
+                    // ini_diluentes: document.getElementById(`ini_diluentes`).value,
+                    // ini_inducao: document.getElementById(`ini_inducao`).value,
+                    // ini_adequacao: document.getElementById(`ini_adequacao`).value,
+        //     }
+        //     const hasZeroValue = Object.values(dados).some(value => value === '');
+        //     if (hasZeroValue) {
+        //     Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
+        //     }
+        // }
         }).then((result) => {
             dados = {
+                track_form173: idQuadro,
+                mescla: 1,
+                data_prep: dataAtual,
+                cod_mp: response.data[0].cemb,
                 temperatura: document.getElementById(`temperatura`).value,
                 umidade: document.getElementById(`umidade`).value,
                 lotemp: document.getElementById(`lotemp`).value,
-                shelflife: document.getElementById(`shelflife`).value,
+                shelf_life: document.getElementById(`shelf_life`).value,
                 viscosimetro: document.getElementById(`viscosimetro`).value,
                 viscosidade: document.getElementById(`viscosidade`).value,
                 proporcao: document.getElementById(`proporcao`).value,
+                responsavel: user,
+                excessao: 0,
+                pot_life: document.getElementById(`pot_life`).value,
                 ini_agitador: document.getElementById(`ini_agitador`).value,
                 ini_mistura: document.getElementById(`ini_mistura`).value,
                 ini_diluentes: document.getElementById(`ini_diluentes`).value,
@@ -478,9 +495,9 @@ function btnForm40(id) {
             }
             
             if (!result.isDismissed) {
-                console.log("aqui")
-                // limparDois(idQuadro);
-                axios.post("/form40_inserir", dados)
+                axios.post("/form40_inserir", dados).then(response => {
+                    console.log(response.data)
+                })
             } else {
               // O modal foi minimizado, salvar as informações no localStorage
               saveFormInputs(idQuadro);

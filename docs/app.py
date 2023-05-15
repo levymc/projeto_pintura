@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, abort
 from waitress import serve
-from DBfuncs import Operadores, DBForm_173, OCs
+from DBfuncs import Operadores, DBForm_173, OCs, DBForm_40
 import hashlib
 import json
 from interfaceDB import DadosQuadros
@@ -70,6 +70,7 @@ def dadosQuadroId():
 def form40_inserir():
     dados = request.json
     print(dados)
+    DBForm_40.insert(**dados)
     return {"success": True}
 
 
