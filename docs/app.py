@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, abort
 from waitress import serve
-from DBfuncs import Operadores, DBForm_173, OCs, DBForm_40
+from DBfuncs import Operadores, DBForm_173, OCs, DBForm_40, Relacao_Tintas
 import hashlib
 import json
 from interfaceDB import DadosQuadros
@@ -72,6 +72,12 @@ def form40_inserir():
     print(dados)
     DBForm_40.insert(**dados)
     return {"success": True}
+
+@app.route("/viscosimetro", methods=("POST", "GET"))
+def viscosimetro():
+    cemb = request.args.get("cemb")
+    print(cemb)
+    return Relacao_Tintas.consultaViscosimetro(cemb)
 
 
 

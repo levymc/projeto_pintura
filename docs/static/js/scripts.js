@@ -289,7 +289,7 @@ function btnForm40(id) {
         localStorage.removeItem(`form40_umidade_${idQuadro}`);
         localStorage.removeItem(`form40_lotemp_${idQuadro}`);
         localStorage.removeItem(`form40_shelf_life_${idQuadro}`);
-        localStorage.removeItem(`form40_viscosimetro_${idQuadro}`);
+        // localStorage.removeItem(`form40_viscosimetro_${idQuadro}`);
         localStorage.removeItem(`form40_viscosidade_${idQuadro}`);
         localStorage.removeItem(`form40_proporcao_${idQuadro}`);
         localStorage.removeItem(`form40_ini_agitador_${idQuadro}`);
@@ -305,7 +305,7 @@ function btnForm40(id) {
         document.getElementById('umidade').value = "";
         document.getElementById('lotemp').value = "";
         document.getElementById('shelf_life').value = "";
-        document.getElementById('viscosimetro').value = "";
+        // document.getElementById('viscosimetro').value = "";
         document.getElementById('viscosidade').value = "";
         document.getElementById('proporcao').value = "";
         document.getElementById('ini_agitador').value = "";
@@ -326,7 +326,7 @@ function btnForm40(id) {
         const umidade = localStorage.getItem(`form40_umidade_${idQuadro}`);
         const lotemp = localStorage.getItem(`form40_lotemp_${idQuadro}`);
         const shelf_life = localStorage.getItem(`form40_shelf_life_${idQuadro}`);
-        const viscosimetro = localStorage.getItem(`form40_viscosimetro_${idQuadro}`);
+        // const viscosimetro = localStorage.getItem(`form40_viscosimetro_${idQuadro}`);
         const viscosidade = localStorage.getItem(`form40_viscosidade_${idQuadro}`);
         const proporcao = localStorage.getItem(`form40_proporcao_${idQuadro}`);
         const ini_agitador = localStorage.getItem(`form40_ini_agitador_${idQuadro}`);
@@ -342,7 +342,7 @@ function btnForm40(id) {
             document.getElementById('umidade').value = umidade;
             document.getElementById('lotemp').value = lotemp;
             document.getElementById('shelf_life').value = shelf_life;
-            document.getElementById('viscosimetro').value = viscosimetro;
+            // document.getElementById('viscosimetro').value = viscosimetro;
             document.getElementById('viscosidade').value = viscosidade;
             document.getElementById('proporcao').value = proporcao;
             document.getElementById('ini_agitador').value = ini_agitador;
@@ -359,7 +359,7 @@ function btnForm40(id) {
         localStorage.setItem(`form40_umidade_${idQuadro}`, document.getElementById(`umidade`).value);
         localStorage.setItem(`form40_lotemp_${idQuadro}`, document.getElementById(`lotemp`).value);
         localStorage.setItem(`form40_shelf_life_${idQuadro}`, document.getElementById(`shelf_life`).value);
-        localStorage.setItem(`form40_viscosimetro_${idQuadro}`, document.getElementById(`viscosimetro`).value);
+        // localStorage.setItem(`form40_viscosimetro_${idQuadro}`, document.getElementById(`viscosimetro`).value);
         localStorage.setItem(`form40_viscosidade_${idQuadro}`, document.getElementById(`viscosidade`).value);
         localStorage.setItem(`form40_proporcao_${idQuadro}`, document.getElementById(`proporcao`).value);
         localStorage.setItem(`form40_ini_agitador_${idQuadro}`, document.getElementById(`ini_agitador`).value);
@@ -375,6 +375,11 @@ function btnForm40(id) {
       }).then(response => {
         console.log(response.data[0]);
         restoreFormInputs(idQuadro);
+        axios.get("/viscosimetro", {
+            params: {
+                cemb: response.data[0].cemb
+            }
+        }).then(tinta => {console.log(tinta)})
         const html = `
         <div class="modalForm40">
             <div class="coluna1">
@@ -398,7 +403,7 @@ function btnForm40(id) {
                     <input type="number" id="shelf_life" placeholder="Shelf Life">
                 </div>
                 <div class="viscosimetro">
-                    <input type="number" id="viscosimetro" placeholder="Viscosímetro">
+                    <input type="number" id="viscosidade" placeholder="Viscosidade">
                 </div>
                 <div class="viscosidade">
                     <input type="number" id="viscosidade" placeholder="Viscosidade">
@@ -481,7 +486,7 @@ function btnForm40(id) {
                 umidade: document.getElementById(`umidade`).value,
                 lotemp: document.getElementById(`lotemp`).value,
                 shelf_life: document.getElementById(`shelf_life`).value,
-                viscosimetro: document.getElementById(`viscosimetro`).value,
+                // viscosimetro: document.getElementById(`viscosimetro`).value,
                 viscosidade: document.getElementById(`viscosidade`).value,
                 proporcao: document.getElementById(`proporcao`).value,
                 responsavel: user,

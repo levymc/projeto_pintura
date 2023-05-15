@@ -109,9 +109,6 @@ class DBForm_40(Base):
             Session.commit()
 
 
-
-
-
 class DBForm_173(Base):
     __tablename__ = 'form173'
    
@@ -342,10 +339,13 @@ class Relacao_Tintas(Base):
     def __repr__(self):
         return f"CEMB: {self.cemb}  -  Viscosidade: {self.viscosidade_min}s ~ {self.viscosidade_max}s  - Copo: {self.viscosimetro.replace('Copo', '')}"
     
-    def consultaViscosimetro(cemb):
-        tintas  = [row[0].replace('Copo', '') for row in Session.query(Relacao_Tintas.viscosimetro).filter(Relacao_Tintas.cemb == cemb).all()]
-        # Session.query(Relacao_Tintas).filter(Relacao_Tintas.cemb == cemb).all()
+    @classmethod
+    def consultaViscosimetro(cls, cemb):
+        session = Session()
+        tintas = session.query(cls.viscosimetro).filter(cls.cemb == cemb).all()
+        tintas = [row[0].replace('Copo', '') for row in tintas]
         return tintas
+
     
     @hybrid_property
     def as_dict(self):
