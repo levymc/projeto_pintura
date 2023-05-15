@@ -232,7 +232,7 @@ function carregarDadosQuadros() {
     });
   }
   
-  function addQuadro(dados) {
+function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
   
@@ -281,8 +281,24 @@ function carregarDadosQuadros() {
     ocsAdded = [];
   }
   
-  function btnForm40(id) {
+function btnForm40(id) {
     let idQuadro = id
+
+    const clearFormInputs = (idQuadro) => {
+        localStorage.removeItem(`form40_temperatura_${idQuadro}`);
+        localStorage.removeItem(`form40_umidade_${idQuadro}`);
+        localStorage.removeItem(`form40_lotemp_${idQuadro}`);
+        localStorage.removeItem(`form40_shelflife_${idQuadro}`);
+        localStorage.removeItem(`form40_viscosimetro_${idQuadro}`);
+        localStorage.removeItem(`form40_viscosidade_${idQuadro}`);
+        localStorage.removeItem(`form40_proporcao_${idQuadro}`);
+        localStorage.removeItem(`form40_ini_agitador_${idQuadro}`);
+        localStorage.removeItem(`form40_ini_mistura_${idQuadro}`);
+        localStorage.removeItem(`form40_ini_diluentes_${idQuadro}`);
+        localStorage.removeItem(`form40_ini_inducao_${idQuadro}`);
+        localStorage.removeItem(`form40_ini_adequacao_${idQuadro}`);
+      };
+      
 
     const limparInputs = (idQuadro) => {
         document.getElementById('temperatura').value = "";
@@ -297,6 +313,11 @@ function carregarDadosQuadros() {
         document.getElementById('ini_diluentes').value = "";
         document.getElementById('ini_inducao').value = "";
         document.getElementById('ini_adequacao').value = "";
+    }
+
+    function limparDois(idQuadro) {
+        limparInputs(idQuadro);
+        clearFormInputs(idQuadro);
     }
 
     const restoreFormInputs = (idQuadro) => {
@@ -409,37 +430,41 @@ function carregarDadosQuadros() {
                     <input type="time" min="07:00" max="17:20" name="ini_adequacao" id="ini_adequacao">
                 </div>
             </div>
+            <section class="btnReset"><button id="btnReset">Limpar Dados</button></section>
         </div>
     `
+    // const modalElement = document.querySelector('.modalForm40');
+    // if (modalElement) {
+        
+    //     })
+    // }
     Swal.fire({
         title: "Form. 40 - Preparação de Tinta",
         confirmButtonColor: "#E57373",
         html: html,
         width: '75%',
+        // allowOutsideClick:false,
         showCancelButton: true,
+        cancelButtonText: "Minimizar",
+        confirmButtonText: "Enviar",
         showConfirmButton: true,
         }).then((result) => {
             if (!result.isDismissed) {
-              // O modal foi fechado, então restaure os valores
-              restoreFormInputs(idQuadro);
+                console.log("aqui")
+                limparDois(idQuadro);
             } else {
               // O modal foi descartado, salvar as informações no localStorage
               saveFormInputs(idQuadro);
             }
-          });
-          restoreFormInputs(idQuadro);
+            });
+            restoreFormInputs(idQuadro);
+            document.getElementById("btnReset").addEventListener("click", function(){
+            limparDois(idQuadro);
+        })
         }
         
     )}
     
-  
-  function minimizarModal() {
-    Swal.getPopup().style.display = 'none';
-    Swal.getContainer().style.pointerEvents = 'none';
-    Swal.getTitle().style.display = 'none';
-    Swal.getFooter().style.display = 'none';
-  }
-  
   
 
 function btnFinalizar(solicitacao){
