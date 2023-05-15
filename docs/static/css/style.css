@@ -531,7 +531,6 @@ nav{
 .btnReset{
     position: absolute;
     bottom: 1em;
-
 }
 #btnReset {
     background-color: #949c00;
@@ -547,4 +546,25 @@ nav{
     
 #btnReset:hover {
     background-color: #666b00;
+}
+.btnAutorizar{
+    position: absolute;
+    bottom: 1em;
+    right: 2em;
+}
+#btnAutorizar {
+    background-color: #4d4d4d7f;
+    color: #e6e6e6;
+    border: 1px rgb(74, 74, 74) dashed;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+    
+#btnAutorizar:hover {
+    background-color: rgba(155, 154, 154, 0.498);
+    color: rgb(93, 93, 93);
 }

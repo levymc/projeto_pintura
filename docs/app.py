@@ -81,7 +81,6 @@ def form40_inserir():
 @app.route("/viscosimetro", methods=("POST", "GET"))
 def viscosimetro():
     cemb = request.args.get("cemb")
-    print(cemb)
     return Relacao_Tintas.consultaViscosimetro(cemb)
 
 

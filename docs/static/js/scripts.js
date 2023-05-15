@@ -441,6 +441,7 @@ function btnForm40(id) {
                     </div>
                 </div>
                 <section class="btnReset"><button id="btnReset">Limpar Dados</button></section>
+                <section class="btnAutorizar"><button id="btnAutorizar">Excessão: Autorizar</button></section>
             </div>
             `
             Swal.fire({
