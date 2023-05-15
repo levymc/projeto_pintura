@@ -533,11 +533,13 @@ function btnFinalizar(id){
         cancelButtonText: "Cancelar",
         confirmButtonText: "Sim!",
         confirmButtonColor: "#E57373",
-    }).then(() => {
-        axios.post("/finalizarQuadro", {id:id}).then(res => {
-            carregarDadosQuadros();
-            console.log(res);
-        })
+    }).then(response => {
+        if (response.isConfirmed){
+            axios.post("/finalizarQuadro", {id:id}).then(res => {
+                carregarDadosQuadros();
+                console.log(res);
+            })
+        }
     })
 }
 
