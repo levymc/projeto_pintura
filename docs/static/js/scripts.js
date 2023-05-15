@@ -282,20 +282,37 @@ function carregarDadosQuadros() {
   }
   
   function btnForm40(id) {
-    const restoreFormInputs = () => {
+    let idQuadro = id
+
+    const limparInputs = (idQuadro) => {
+        document.getElementById('temperatura').value = "";
+        document.getElementById('umidade').value = "";
+        document.getElementById('lotemp').value = "";
+        document.getElementById('shelflife').value = "";
+        document.getElementById('viscosimetro').value = "";
+        document.getElementById('viscosidade').value = "";
+        document.getElementById('proporcao').value = "";
+        document.getElementById('ini_agitador').value = "";
+        document.getElementById('ini_mistura').value = "";
+        document.getElementById('ini_diluentes').value = "";
+        document.getElementById('ini_inducao').value = "";
+        document.getElementById('ini_adequacao').value = "";
+    }
+
+    const restoreFormInputs = (idQuadro) => {
         // Restaurar as informações do localStorage
-        const temperatura = localStorage.getItem('form40_temperatura');
-        const umidade = localStorage.getItem('form40_umidade');
-        const lotemp = localStorage.getItem('form40_lotemp');
-        const shelflife = localStorage.getItem('form40_shelflife');
-        const viscosimetro = localStorage.getItem('form40_viscosimetro');
-        const viscosidade = localStorage.getItem('form40_viscosidade');
-        const proporcao = localStorage.getItem('form40_proporcao');
-        const ini_agitador = localStorage.getItem('form40_ini_agitador');
-        const ini_mistura = localStorage.getItem('form40_ini_mistura');
-        const ini_diluentes = localStorage.getItem('form40_ini_diluentes');
-        const ini_inducao = localStorage.getItem('form40_ini_inducao');
-        const ini_adequacao = localStorage.getItem('form40_ini_adequacao');
+        const temperatura = localStorage.getItem(`form40_temperatura_${idQuadro}`);
+        const umidade = localStorage.getItem(`form40_umidade_${idQuadro}`);
+        const lotemp = localStorage.getItem(`form40_lotemp_${idQuadro}`);
+        const shelflife = localStorage.getItem(`form40_shelflife_${idQuadro}`);
+        const viscosimetro = localStorage.getItem(`form40_viscosimetro_${idQuadro}`);
+        const viscosidade = localStorage.getItem(`form40_viscosidade_${idQuadro}`);
+        const proporcao = localStorage.getItem(`form40_proporcao_${idQuadro}`);
+        const ini_agitador = localStorage.getItem(`form40_ini_agitador_${idQuadro}`);
+        const ini_mistura = localStorage.getItem(`form40_ini_mistura_${idQuadro}`);
+        const ini_diluentes = localStorage.getItem(`form40_ini_diluentes_${idQuadro}`);
+        const ini_inducao = localStorage.getItem(`form40_ini_inducao_${idQuadro}`);
+        const ini_adequacao = localStorage.getItem(`form40_ini_adequacao_${idQuadro}`);
   
         // Preencha os campos com as informações restauradas
         const modalElement = document.querySelector('.modalForm40');
@@ -315,21 +332,21 @@ function carregarDadosQuadros() {
         }   
       };
   
-      const saveFormInputs = () => {
+      const saveFormInputs = (idQuadro) => {
         // Salvar as informações no localStorage
         console.log(document.getElementById('temperatura').value)
-        localStorage.setItem('form40_temperatura', document.getElementById('temperatura').value);
-        localStorage.setItem('form40_umidade', document.getElementById('umidade').value);
-        localStorage.setItem('form40_lotemp', document.getElementById('lotemp').value);
-        localStorage.setItem('form40_shelflife', document.getElementById('shelflife').value);
-        localStorage.setItem('form40_viscosimetro', document.getElementById('viscosimetro').value);
-        localStorage.setItem('form40_viscosidade', document.getElementById('viscosidade').value);
-        localStorage.setItem('form40_proporcao', document.getElementById('proporcao').value);
-        localStorage.setItem('form40_ini_agitador', document.getElementById('ini_agitador').value);
-        localStorage.setItem('form40_ini_mistura', document.getElementById('ini_mistura').value);
-        localStorage.setItem('form40_ini_diluentes', document.getElementById('ini_diluentes').value);
-        localStorage.setItem('form40_ini_inducao', document.getElementById('ini_inducao').value);
-        localStorage.setItem('form40_ini_adequacao', document.getElementById('ini_adequacao').value);
+        localStorage.setItem(`form40_temperatura_${idQuadro}`, document.getElementById(`temperatura`).value);
+        localStorage.setItem(`form40_umidade_${idQuadro}`, document.getElementById(`umidade`).value);
+        localStorage.setItem(`form40_lotemp_${idQuadro}`, document.getElementById(`lotemp`).value);
+        localStorage.setItem(`form40_shelflife_${idQuadro}`, document.getElementById(`shelflife`).value);
+        localStorage.setItem(`form40_viscosimetro_${idQuadro}`, document.getElementById(`viscosimetro`).value);
+        localStorage.setItem(`form40_viscosidade_${idQuadro}`, document.getElementById(`viscosidade`).value);
+        localStorage.setItem(`form40_proporcao_${idQuadro}`, document.getElementById(`proporcao`).value);
+        localStorage.setItem(`form40_ini_agitador_${idQuadro}`, document.getElementById(`ini_agitador`).value);
+        localStorage.setItem(`form40_ini_mistura_${idQuadro}`, document.getElementById(`ini_mistura`).value);
+        localStorage.setItem(`form40_ini_diluentes_${idQuadro}`, document.getElementById(`ini_diluentes`).value);
+        localStorage.setItem(`form40_ini_inducao_${idQuadro}`, document.getElementById(`ini_inducao`).value);
+        localStorage.setItem(`form40_ini_adequacao_${idQuadro}`, document.getElementById(`ini_adequacao`).value);
       };
     axios.get("/dadosQuadroId", {
         params: {
@@ -337,7 +354,7 @@ function carregarDadosQuadros() {
         }
       }).then(response => {
         console.log(response.data[0]);
-        restoreFormInputs();
+        restoreFormInputs(idQuadro);
         const html = `
         <div class="modalForm40">
             <div class="coluna1">
@@ -404,13 +421,13 @@ function carregarDadosQuadros() {
         }).then((result) => {
             if (!result.isDismissed) {
               // O modal foi fechado, então restaure os valores
-              restoreFormInputs();
+              restoreFormInputs(idQuadro);
             } else {
               // O modal foi descartado, salvar as informações no localStorage
-              saveFormInputs();
+              saveFormInputs(idQuadro);
             }
           });
-          restoreFormInputs();
+          restoreFormInputs(idQuadro);
         }
         
     )}
