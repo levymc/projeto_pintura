@@ -515,6 +515,45 @@ function btnForm40(id) {
                 document.getElementById("btnReset").addEventListener("click", function(){
                     limparDois(idQuadro);
                 })
+                document.getElementById("btnAutorizar").addEventListener("click", function(){
+                    saveFormInputs(idQuadro);
+                    Swal.fire({
+                        title: 'Login',
+                        html: `
+                            <div class="input-field">
+                                <input id="username" type="text" class="validate">
+                                <label for="username">Usuário</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="password" type="password" class="validate">
+                                <label for="password">Senha</label>
+                            </div>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Login',
+                        preConfirm: () => {
+                            const username = Swal.getPopup().querySelector('#username').value;
+                            const password = Swal.getPopup().querySelector('#password').value;
+                            // Aqui você pode fazer a validação do usuário e senha
+
+                            // Exemplo de validação
+                            if (username === 'admin' && password === '12345') {
+                                return { username, password };
+                            } else {
+                                Swal.showValidationMessage('Usuário ou senha incorretos');
+                                return false;
+                            }
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            btnForm40(idQuadro);
+                            const { username, password } = result.value;
+                            // Aqui você pode fazer o processamento do login com os dados fornecidos
+                            console.log('Usuário:', username);
+                            console.log('Senha:', password);
+                        }
+                    });
+                })
                 restoreFormInputs(idQuadro);
             }).catch(e => {alert("Erro: ", e)})
             
