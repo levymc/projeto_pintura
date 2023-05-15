@@ -355,7 +355,6 @@ function btnForm40(id) {
   
       const saveFormInputs = (idQuadro) => {
         // Salvar as informações no localStorage
-        console.log(document.getElementById('temperatura').value)
         localStorage.setItem(`form40_temperatura_${idQuadro}`, document.getElementById(`temperatura`).value);
         localStorage.setItem(`form40_umidade_${idQuadro}`, document.getElementById(`umidade`).value);
         localStorage.setItem(`form40_lotemp_${idQuadro}`, document.getElementById(`lotemp`).value);
@@ -442,10 +441,46 @@ function btnForm40(id) {
         cancelButtonText: "Minimizar",
         confirmButtonText: "Enviar",
         showConfirmButton: true,
+        preConfirm: () => {
+            dados = {
+                temperatura: document.getElementById(`temperatura`).value,
+                umidade: document.getElementById(`umidade`).value,
+                lotemp: document.getElementById(`lotemp`).value,
+                shelflife: document.getElementById(`shelflife`).value,
+                viscosimetro: document.getElementById(`viscosimetro`).value,
+                viscosidade: document.getElementById(`viscosidade`).value,
+                proporcao: document.getElementById(`proporcao`).value,
+                ini_agitador: document.getElementById(`ini_agitador`).value,
+                ini_mistura: document.getElementById(`ini_mistura`).value,
+                ini_diluentes: document.getElementById(`ini_diluentes`).value,
+                ini_inducao: document.getElementById(`ini_inducao`).value,
+                ini_adequacao: document.getElementById(`ini_adequacao`).value,
+            }
+            const hasZeroValue = Object.values(dados).some(value => value === '');
+            if (hasZeroValue) {
+            Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
+            }
+        }
         }).then((result) => {
+            dados = {
+                temperatura: document.getElementById(`temperatura`).value,
+                umidade: document.getElementById(`umidade`).value,
+                lotemp: document.getElementById(`lotemp`).value,
+                shelflife: document.getElementById(`shelflife`).value,
+                viscosimetro: document.getElementById(`viscosimetro`).value,
+                viscosidade: document.getElementById(`viscosidade`).value,
+                proporcao: document.getElementById(`proporcao`).value,
+                ini_agitador: document.getElementById(`ini_agitador`).value,
+                ini_mistura: document.getElementById(`ini_mistura`).value,
+                ini_diluentes: document.getElementById(`ini_diluentes`).value,
+                ini_inducao: document.getElementById(`ini_inducao`).value,
+                ini_adequacao: document.getElementById(`ini_adequacao`).value,
+            }
+            
             if (!result.isDismissed) {
                 console.log("aqui")
-                limparDois(idQuadro);
+                // limparDois(idQuadro);
+                axios.post("/form40_inserir", dados)
             } else {
               // O modal foi minimizado, salvar as informações no localStorage
               saveFormInputs(idQuadro);

@@ -66,6 +66,12 @@ def dadosQuadroId():
     id = request.args.get("id")
     return DBForm_173.consultaEspecifica(id, "id")
 
+@app.route("/form40_inserir", methods=["POST", "GET"])
+def form40_inserir():
+    dados = request.json
+    print(dados)
+    return {"success": True}
+
 
 
 if __name__ == '__main__':
