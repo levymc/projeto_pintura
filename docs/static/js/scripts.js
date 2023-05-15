@@ -15,6 +15,7 @@ let user ;
 let ocsAdded = [];
 let dadosQuadros = [];
 
+
 document.querySelector(".titulo h1").addEventListener("click", function(){
     window.location.reload();
 });
@@ -530,19 +531,27 @@ function btnForm40(id) {
                             </div>
                         `,
                         showCancelButton: true,
-                        confirmButtonText: 'Login',
+                        confirmButtonText: 'Acesso Processo',
                         preConfirm: () => {
                             const username = Swal.getPopup().querySelector('#username').value;
                             const password = Swal.getPopup().querySelector('#password').value;
                             // Aqui você pode fazer a validação do usuário e senha
-
-                            // Exemplo de validação
-                            if (username === 'admin' && password === '12345') {
-                                return { username, password };
-                            } else {
+                            axios.post("/acessoProcesso", {userInput: username, passInput: password}).then(result => {
+                                console.log(result.data)
+                                if(result.data.succes){
+                                    console.log("success")
+                                }
+                            }).catch((e) => {
+                                console.log(e)
                                 Swal.showValidationMessage('Usuário ou senha incorretos');
-                                return false;
-                            }
+                            })
+                            
+                            // if (acessoProcesso) {
+                            //     return { username, password };
+                            // } else {
+                            //     Swal.showValidationMessage('Usuário ou senha incorretos');
+                            //     return false;
+                            // }
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
