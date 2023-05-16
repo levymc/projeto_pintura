@@ -371,19 +371,73 @@ function addQuadro(dados) {
             <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button>
             <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Editar OCs</button>
         </div>
-        <section class="btnApagar"><ion-icon id="btnApagar" name="trash-bin-outline"></ion-icon></section>
+        <section onclick="btnApagar(${dados.id})" class="btnApagar"><ion-icon id="btnApagar" name="trash-bin-outline"></ion-icon></section>
       </div>`;
   
     ocsAdded = [];
 }
   
 
+// Apagar Quadrode tal id
+function btnApagar(id){
+    Swal.fire({
+        title: `Deseja apagar esta Solicitação? - Id: ${id}`,
+        confirmButtonColor: "#E57373",
+        icon: 'question',
+        // html: html,
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Finalizar",
+        showConfirmButton: true,
+    })
+}
+
+
 // Editar OCs
 function btnEditar(id){
+    const html = `
+    <div class="modalEditarOCs">
+        <div class="inputsModalEditar flex ">
+            <div class="divEditar flex input-field col s6">
+                <label for="ocsEditar">OCs</label>
+                <input type="number" class="validate" name="ocsEditar" id="ocsEditar">
+            </div>
+            <div class="divEditar flex input-field col s6">
+                <label for="qntEditar">Quantidade</label>
+                <input type="number" class="validate" name="qntEditar" id="qntEditar">
+            </div>
+        </div>
+        <div class="tabelaEditar">
+            <table class="responsive-table centered" >
+                <thead>
+                <tr>
+                    <th>OCs</th>
+                    <th>Quantidade</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>Alvin</td>
+                    <td>Eclair</td>
+                </tr>
+                <tr>
+                    <td>Alan</td>
+                    <td>Jellybean</td>
+                </tr>
+                <tr>
+                    <td>Jonathan</td>
+                    <td>Lollipop</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    `
     Swal.fire({
         title: `Editar OCs - Id: ${id}`,
         confirmButtonColor: "#E57373",
-        // html: html,
+        html: html,
         showCancelButton: true,
         cancelButtonText: "Cancelar",
         confirmButtonText: "Finalizar",

@@ -614,3 +614,14 @@ nav{
     background-color: rgba(155, 154, 154, 0.498);
     color: rgb(93, 93, 93);
 }
+
+/* Modal Editar OCs */
+.inputsModalEditar{
+    gap: 1em;
+}
+.divEditar label{
+    width: max-content;
+}
+.divEditar{
+    flex-direction: column;
+}

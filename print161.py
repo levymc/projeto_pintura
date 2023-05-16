@@ -20,7 +20,7 @@ class Print161():
         self.ocs = OCs.consultaEspecifica(self.id, 'track_form173')
         self.nomePintor = Operadores.consultaEspecificaCodigo(self.form_173_tudo[0]['codPintor'])[0]['nome']
         self.codPintor = self.form_173_tudo[0]['codPintor']
-        self.contador = 1
+        self.contador = 0
         self.new = ''
         self.directory()
 
@@ -104,8 +104,10 @@ class Print161():
         wb.close()
         excel_app.quit()  
         
-        win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
-        # win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+ str(self.form_173_tudo[0]['cemb']) +" - "+ str(self.contador) + r".xlsx", None, self.path_gerado, 0)
+        print("3- Form_Controle Aplicação Tinta "+ str(self.form_173_tudo[0]['cemb']) +" - "+ str(self.contador) + r".xlsx")
+        
+        # win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
+        win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+ str(self.form_173_tudo[0]['cemb']) +" - "+ str(self.contador) + r".xlsx", None, self.path_gerado, 0)
         self.atualizandoDB()
         
     def atualizandoDB(self):
