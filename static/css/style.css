@@ -307,10 +307,19 @@ nav{
 #quadro-btnEditar:hover{
     background-color: #5d6634;
 }
-.btnPrint{
+.btnApagar{
     position: absolute;
-    right: 16px;
-    bottom: 8px;
+    left: 16px;
+    bottom: 10px;
+}
+#btnApagar{
+    color: rgb(122, 0, 0);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#btnApagar:hover{
+    color: red;
 }
 .container-Form40{
     width: 100%;

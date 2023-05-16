@@ -371,7 +371,7 @@ function addQuadro(dados) {
             <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button>
             <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Editar OCs</button>
         </div>
-        <section class="btnPrint"></section>
+        <section class="btnApagar"><ion-icon id="btnApagar" name="trash-bin-outline"></ion-icon></section>
       </div>`;
   
     ocsAdded = [];
