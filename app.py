@@ -26,7 +26,7 @@ def acesso():
         print('Senha incorreta.')
         return abort(404)
     else:
-        #renderiza a próxima tela
+        # renderiza a próxima tela
         print('Acesso concedido.')
         return "Ok"
     
