@@ -217,6 +217,7 @@ nav{
     justify-content: center;
     align-items: start;
     padding: 1em;
+    position: relative;
 }
 .quadro-data{
     display: flex;
@@ -277,6 +278,25 @@ nav{
 }
 #quadro-btnForm40:hover{
     background-color: #8f4747;
+}
+#quadro-btnPrint{
+    background-color: #7b73e5;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 500;
+    padding: 3px 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#quadro-btnPrint:hover{
+    background-color: #474e8f;
+}
+.btnPrint{
+    position: absolute;
+    right: 14px;
+    bottom: 70px;
 }
 .container-Form40{
     width: 100%;

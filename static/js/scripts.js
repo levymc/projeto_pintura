@@ -83,82 +83,82 @@ let renderizarMain = () => {
 
 // Modal Form173
 function modalSolicitacao(){
-        Swal.fire({
-        title:"Formulário 173 - Solicitação de Preparação de Tinta",
-        width: '60%',
-        confirmButtonColor:"#b80000",
-        confirmButtonText:"Enviar",
-        cancelButtonText:"Cancelar",
-        allowOutsideClick: false,
-        showCloseButton: true,
-        showCancelButton: true,
-        customClass: {
-            validationMessage: 'my-validation-message'
-          },
-        html: `
-        <div class="conteudo-form173">
-            <div class="form173">
-                <div class="solicitante">
-                    <h3>Solicitante: <b>${user}</b></h3>
-                </div>
-                <div class="numeroForm">
-                    <input type="number" id="numeroForm" placeholder="Formulário Nº">
-                </div>
-                <div class="codPintor">
-                    <input type="number" id="codPintor" placeholder="Código do Pintor">
-                </div>
-                <div class="cemb">
-                    <input type="number" id="cemb" placeholder="CEMB">
-                </div>
-                <div class="quantidade">
-                    <input type="number" id="quantidade" placeholder="Quantidade Solicitada">
-                    <div class="container-checkboxes">
-                        <div class="checkboxes">
-                            <input type="checkbox" id="g" name='g' value="g">
-                            <label for="g">g</label>
-                        </div>
-                        <div class="checkboxes">
-                            <input type="checkbox" id="ml" name='ml' value="ml">
-                            <label for="ml">ml</label>
-                        </div>
+    Swal.fire({
+    title:"Formulário 173 - Solicitação de Preparação de Tinta",
+    width: '60%',
+    confirmButtonColor:"#b80000",
+    confirmButtonText:"Enviar",
+    cancelButtonText:"Cancelar",
+    allowOutsideClick: false,
+    showCloseButton: true,
+    showCancelButton: true,
+    customClass: {
+        validationMessage: 'my-validation-message'
+        },
+    html: `
+    <div class="conteudo-form173">
+        <div class="form173">
+            <div class="solicitante">
+                <h3>Solicitante: <b>${user}</b></h3>
+            </div>
+            <div class="numeroForm">
+                <input type="number" id="numeroForm" placeholder="Formulário Nº">
+            </div>
+            <div class="codPintor">
+                <input type="number" id="codPintor" placeholder="Código do Pintor">
+            </div>
+            <div class="cemb">
+                <input type="number" id="cemb" placeholder="CEMB">
+            </div>
+            <div class="quantidade">
+                <input type="number" id="quantidade" placeholder="Quantidade Solicitada">
+                <div class="container-checkboxes">
+                    <div class="checkboxes">
+                        <input type="checkbox" id="g" name='g' value="g">
+                        <label for="g">g</label>
+                    </div>
+                    <div class="checkboxes">
+                        <input type="checkbox" id="ml" name='ml' value="ml">
+                        <label for="ml">ml</label>
                     </div>
                 </div>
             </div>
-            <div class="ocsForm173 divisoria-vertical">
-                <div class="campoOC">
-                    <input type="number" id="ocForm173" placeholder="OC" class="oc_solicitada">
-                    <input type="number" id="qntOcForm173" placeholder="Quantidade" class="qnt_solicitada">
-                </div>
-                <div class="btnAddOC">
-                    <button class="display-none" id="btnRemoveOC" onclick="btnRemoveOC()">Remover OC</button>
-                    <button id="btnAddOC" onclick="btnAddOC()">Adicionar OC</button>
-                </div>
-                <div class="container-listaOCs">
-                    <table class="listaOCs text-center display-none">
-                        <tr class="text-center">
-                            <th>OC</th>
-                            <th>Quantidade</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="contadorOCs"></div>
-            </div>
         </div>
-        `,
-        preConfirm: () => {
-            const numeroForm = document.getElementById('numeroForm').value;
-            const codPintor = document.getElementById('codPintor').value;
-            const cemb = document.getElementById('cemb').value;
-            const quantidade = document.getElementById('quantidade').value;
-            const g = document.getElementById('g');
-            const ml = document.getElementById('ml');
-        
-            if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked)) {
-                Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
-              } else if (g.checked === ml.checked) {
-                Swal.showValidationMessage(`Selecione apenas uma opção entre "ml" e "g".`)
-              }
-          }
+        <div class="ocsForm173 divisoria-vertical">
+            <div class="campoOC">
+                <input type="number" id="ocForm173" placeholder="OC" class="oc_solicitada">
+                <input type="number" id="qntOcForm173" placeholder="Quantidade" class="qnt_solicitada">
+            </div>
+            <div class="btnAddOC">
+                <button class="display-none" id="btnRemoveOC" onclick="btnRemoveOC()">Remover OC</button>
+                <button id="btnAddOC" onclick="btnAddOC()">Adicionar OC</button>
+            </div>
+            <div class="container-listaOCs">
+                <table class="listaOCs text-center display-none">
+                    <tr class="text-center">
+                        <th>OC</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="contadorOCs"></div>
+        </div>
+    </div>
+    `,
+    preConfirm: () => {
+        const numeroForm = document.getElementById('numeroForm').value;
+        const codPintor = document.getElementById('codPintor').value;
+        const cemb = document.getElementById('cemb').value;
+        const quantidade = document.getElementById('quantidade').value;
+        const g = document.getElementById('g');
+        const ml = document.getElementById('ml');
+    
+        if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked)) {
+            Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+            } else if (g.checked === ml.checked) {
+            Swal.showValidationMessage(`Selecione apenas uma opção entre "ml" e "g".`)
+            }
+        }
     }).then(response => {
         if (response.isConfirmed){
             primeiroQuadro();
@@ -367,12 +367,33 @@ function addQuadro(dados) {
           <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
           <button id="quadro-btnFinalizar" onclick="btnFinalizar(${dados.id})">Finalizar</button>
         </div>
+        <section class="btnPrint"><button id="quadro-btnPrint" onclick="btnPrint(${dados.id})" >Imprimir 161</button></section>
       </div>`;
   
     ocsAdded = [];
   }
   
 
+
+//Imprimir o Form 161
+function btnPrint(id){
+    Swal.fire({
+        title: `Confirma a impressão - Id: ${id}`,
+        icon: "question",
+        confirmButtonColor: "#E57373",
+        // html: html,
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Sim",
+        showConfirmButton: true,
+    }).then(result => {
+        if (result.isConfirmed){
+            console.log("Confirmado");
+        }else{
+            console.log("Não")
+        }
+    })
+}
 
 // Modal Form40
 function btnForm40(id) {
