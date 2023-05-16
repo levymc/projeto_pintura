@@ -1,7 +1,4 @@
-
-
 // Variáveis Globais
-
 const data = new Date();
 const dia = String(data.getDate()).padStart(2, '0');
 const mes = String(data.getMonth() + 1).padStart(2, '0');
@@ -16,6 +13,8 @@ let ocsAdded = [];
 let dadosQuadros = [];
 
 
+
+// Definição de Eventos
 document.querySelector(".titulo h1").addEventListener("click", function(){
     window.location.reload();
 });
@@ -28,7 +27,7 @@ let enterKeyHandler = function(event) {
 
 
 
-
+// Login
 let renderizarLogin = () => {
     container.innerHTML = '';
     container.innerHTML = `
@@ -58,6 +57,9 @@ let acessoUserForm = () => {
     })
 }
 
+
+
+// Main
 let renderizarMain = () => {
     container.innerHTML = '';
     container.innerHTML += `
@@ -77,6 +79,9 @@ let renderizarMain = () => {
 
 }
 
+
+
+// Modal Form173
 function modalSolicitacao(){
         Swal.fire({
         title:"Formulário 173 - Solicitação de Preparação de Tinta",
@@ -177,6 +182,91 @@ function modalSolicitacao(){
         checkboxG.checked = false;
     }
     });
+}
+
+let btnAddOC = () => {
+    const ocForm173 = document.getElementById('ocForm173').value;
+    const qntOcForm173 = document.getElementById('qntOcForm173').value;
+    if (!ocForm173 || !qntOcForm173){
+        Swal.showValidationMessage(`Preencha os campos de OC e Quantidade.`);
+    }else{
+        let oc = document.querySelector(".oc_solicitada").value;
+        let qnt_solicitada = document.querySelector(".qnt_solicitada").value;
+        let listaOCs = document.querySelector(".listaOCs");
+        let contadorOCs = document.querySelector(".contadorOCs");
+        let btnRemoveOC = document.getElementById("btnRemoveOC");
+        listaOCs.classList.remove("display-none");
+        btnRemoveOC.classList.remove("display-none");
+        
+        
+        let ocIndex = ocsAdded.findIndex(item => item.oc === oc);
+        if (ocIndex === -1) {
+            ocsAdded.push({
+                oc: oc,
+                qnt_solicitada: qnt_solicitada
+            });
+            
+            listaOCs.innerHTML += `
+            <tr>
+                <td>${oc}</td>
+                <td>${qnt_solicitada}</td>
+            </tr>
+            `
+            contadorOCs.innerHTML = '';
+            contadorOCs.innerHTML += `<h3>Quantidade adicionada: ${listaOCs.rows.length - 1}</h3>`
+        }else{
+            alert("OC já adicionada");
+        }
+        
+        document.querySelector(".oc_solicitada").value = '';
+        document.querySelector(".qnt_solicitada").value = '';
+        const linhasTabela = document.querySelectorAll('.listaOCs td');
+
+        // Adicione um evento de clique a cada linha
+        linhasTabela.forEach(linha => {
+            linha.addEventListener('click', () => {
+                // Verifica se a linha já está selecionada
+                const estaSelecionada = linha.classList.contains('linha-selecionada');
+              
+                // Remove a classe de seleção de todas as linhas
+                linhasTabela.forEach(linha => {
+                  linha.classList.remove('linha-selecionada');
+                });
+              
+                // Se a linha já estiver selecionada, desseleciona-a
+                if (estaSelecionada) {
+                  console.log('Linha desselecionada:', linha);
+                }
+                // Caso contrário, seleciona-a
+                else {
+                  linha.classList.add('linha-selecionada');
+                  console.log('Linha selecionada:', linha);
+                }
+              });
+              
+        });
+    }
+    console.log(ocsAdded)
+    return ocsAdded
+}
+
+function btnRemoveOC(){
+    console.log(ocsAdded)
+}
+
+
+
+// Renderização dos Quadros no Kanban
+function kaban() {
+    // let conteudo = document.querySelector(".conteudo");
+    container.innerHTML = '';
+    container.innerHTML += `
+        <div class="kaban">
+            <div class="topo"><button>Solicitar Nova Mescla</button></div>
+            <div class="quadros-kanban">
+            </div>
+        </div>
+    `
 }
 
 function primeiroQuadro(){
@@ -282,6 +372,9 @@ function addQuadro(dados) {
     ocsAdded = [];
   }
   
+
+
+// Modal Form40
 function btnForm40(id) {
     let idQuadro = id
     let viscosimetro; 
@@ -569,10 +662,11 @@ function btnForm40(id) {
             
         }
         
-    )}
-    
-  
+)}
 
+
+
+// Finalização do Quadro no Kanban -> solicitação de tinta finalizada.
 function btnFinalizar(id){
     console.log(id)
     Swal.fire({
@@ -593,88 +687,6 @@ function btnFinalizar(id){
 }
 
 
-function kaban() {
-    // let conteudo = document.querySelector(".conteudo");
-    container.innerHTML = '';
-    container.innerHTML += `
-        <div class="kaban">
-            <div class="topo"><button>Solicitar Nova Mescla</button></div>
-            <div class="quadros-kanban">
-            </div>
-        </div>
-    `
-}
-
-
-let btnAddOC = () => {
-    const ocForm173 = document.getElementById('ocForm173').value;
-    const qntOcForm173 = document.getElementById('qntOcForm173').value;
-    if (!ocForm173 || !qntOcForm173){
-        Swal.showValidationMessage(`Preencha os campos de OC e Quantidade.`);
-    }else{
-        let oc = document.querySelector(".oc_solicitada").value;
-        let qnt_solicitada = document.querySelector(".qnt_solicitada").value;
-        let listaOCs = document.querySelector(".listaOCs");
-        let contadorOCs = document.querySelector(".contadorOCs");
-        let btnRemoveOC = document.getElementById("btnRemoveOC");
-        listaOCs.classList.remove("display-none");
-        btnRemoveOC.classList.remove("display-none");
-        
-        
-        let ocIndex = ocsAdded.findIndex(item => item.oc === oc);
-        if (ocIndex === -1) {
-            ocsAdded.push({
-                oc: oc,
-                qnt_solicitada: qnt_solicitada
-            });
-            
-            listaOCs.innerHTML += `
-            <tr>
-                <td>${oc}</td>
-                <td>${qnt_solicitada}</td>
-            </tr>
-            `
-            contadorOCs.innerHTML = '';
-            contadorOCs.innerHTML += `<h3>Quantidade adicionada: ${listaOCs.rows.length - 1}</h3>`
-        }else{
-            alert("OC já adicionada");
-        }
-        
-        document.querySelector(".oc_solicitada").value = '';
-        document.querySelector(".qnt_solicitada").value = '';
-        const linhasTabela = document.querySelectorAll('.listaOCs td');
-
-        // Adicione um evento de clique a cada linha
-        linhasTabela.forEach(linha => {
-            linha.addEventListener('click', () => {
-                // Verifica se a linha já está selecionada
-                const estaSelecionada = linha.classList.contains('linha-selecionada');
-              
-                // Remove a classe de seleção de todas as linhas
-                linhasTabela.forEach(linha => {
-                  linha.classList.remove('linha-selecionada');
-                });
-              
-                // Se a linha já estiver selecionada, desseleciona-a
-                if (estaSelecionada) {
-                  console.log('Linha desselecionada:', linha);
-                }
-                // Caso contrário, seleciona-a
-                else {
-                  linha.classList.add('linha-selecionada');
-                  console.log('Linha selecionada:', linha);
-                }
-              });
-              
-        });
-    }
-    console.log(ocsAdded)
-    return ocsAdded
-}
-
-function btnRemoveOC(){
-    console.log(ocsAdded)
-}
 
 // Inicializando algumas funções
 renderizarLogin();
