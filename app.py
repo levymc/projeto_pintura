@@ -95,7 +95,6 @@ def dadosQuadroId():
 @app.route("/form40_inserir", methods=["POST", "GET"])
 def form40_inserir():
     dados = request.json
-    print(dados)
     DBForm_40.insert(**dados)
     return {"success": True}
 
@@ -104,6 +103,11 @@ def viscosimetro():
     cemb = request.args.get("cemb")
     return Relacao_Tintas.consultaViscosimetro(cemb)
 
+@app.route("/print161", methods=["POST", "GET"])
+def print161():
+    idForm73 = request.json['id']
+    print(idForm73)
+    return {"success": True}
 
 
 if __name__ == '__main__':

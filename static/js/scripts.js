@@ -388,7 +388,7 @@ function btnPrint(id){
         showConfirmButton: true,
     }).then(result => {
         if (result.isConfirmed){
-            console.log("Confirmado");
+            axios.post("/print161", {id: id})
         }else{
             console.log("Não")
         }
