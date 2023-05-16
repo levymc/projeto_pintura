@@ -78,7 +78,6 @@ class Mesclas(Toplevel):
                             ocs = cursor.execute(f"SELECT * FROM ocs WHERE track_form173={listaIds[i]}").fetchall()
                             nome = cursor.execute(f"SELECT nome FROM operadores WHERE codigo={form_173_tudo[0]['pintor']}").fetchall()[0]
                             contador = 1
-                            # mescla_n = tudo[i]['mescla']
                         
                             if not os.path.exists(self.path_gerado):
                                 os.makedirs(self.path_gerado)
