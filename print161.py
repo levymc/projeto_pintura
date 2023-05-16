@@ -2,7 +2,7 @@ from datetime import datetime
 import xlwings as xw
 import win32com.client as win32
 import win32api
-import sqlite3, shutil, win32print, re, os, local
+import shutil, win32print, re, os, local
 from DBfuncs import DBForm_173, OCs, Operadores, DBForm_161
 
 nomeImp = local.Local.nomeImpressora()
@@ -115,9 +115,4 @@ class Print161():
             'usuario': self.user
         })
     
-# Print161(89)
-# print(OCs.consultaEspecifica(161, 'track_form173'))
-# ocs = OCs.consultaEspecifica(161, 'track_form173')[1]['oc']
-# padrao = str(ocs)[:9]
-# oc = padrao + str(ocs).replace(padrao, '/')
-# print(oc)
+    

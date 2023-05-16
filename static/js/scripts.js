@@ -321,14 +321,14 @@ function carregarDadosQuadros() {
         addQuadro(Object(dado));
       });
     });
-  }
+}
   
 function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
   
     dados.ocs.map((oc) =>
-      oc.oc ? Ocs.push(`<li>${oc.oc}</li>`) : Ocs.push(`<li>Sem OCs adicionadas</li>`)
+      oc.oc && Ocs.push(`<li>${oc.oc}</li>`)
     );
 
     const objDados = {
@@ -367,11 +367,15 @@ function addQuadro(dados) {
           <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
           <button id="quadro-btnFinalizar" onclick="btnFinalizar(${dados.id})">Finalizar</button>
         </div>
-        <section class="btnPrint"><button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button></section>
+        <div class="quadro-btns">
+            <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button>
+            <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Editar OCs</button>
+        </div>
+        <section class="btnPrint"></section>
       </div>`;
   
     ocsAdded = [];
-  }
+}
   
 
 
