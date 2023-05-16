@@ -216,7 +216,6 @@ class DBForm_173(Base):
             return False
 
 
-
 class Operadores(Base):
     __tablename__ = 'operadores'
     
@@ -286,9 +285,9 @@ class OCs(Base):
     
     @classmethod
     def consultaEspecifica(cls, arg, coluna):
-        with Session.begin() as session:
-            consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
-            return consultaEspeficifica
+        session = Session()
+        consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        return consultaEspeficifica
     
     @staticmethod
     def removeOC(id_ocs):

@@ -60,7 +60,7 @@ class Mesclas(Toplevel):
                 x = 9999
                 y = 9999
 
-            def abrir(i):
+            def abrir(i): ######### a partir daqui!
                 # print(listaIds[i])
                 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
                 try:
