@@ -3,15 +3,17 @@ import xlwings as xw
 import win32com.client as win32
 import win32api
 import sqlite3, shutil, win32print, re, os, local
-from DBfuncs import DBForm_173, OCs, Operadores
+from DBfuncs import DBForm_173, OCs, Operadores, DBForm_161
 
 nomeImp = local.Local.nomeImpressora()
+dataHoraAtual = local.agora
 
 class Print161():
-    def __init__(self, idPassado):
+    def __init__(self, idPassado, user):
         super().__init__()
         self.path = local.Local.path()
         self.id = idPassado
+        self.user = user
         self.path_maior = local.Local.path_maior()
         self.path_gerado = local.Local.path_gerado()
         self.form_173_tudo = DBForm_173.consultaEspecifica(self.id, 'id') 
@@ -92,28 +94,30 @@ class Print161():
             ws.range("F"+f"{linha}").value = oc
             ws.range("I"+f"{linha}").value = i['quantidade']
             linha += 1
-        # print(idAgora)
-        # print(DBForm_173.consultaEspecifica(idAgora, 'Id_form_173'))
-        # DBForm_161.insert(idAgora, 1)
         ws.range("I4").value = DBForm_173.consultaEspecifica(self.id, 'id')[0]['data'].format('%d.%m.%Y')
         ws.range("C3").value = "Mescla"
         ws.range("C4").value = self.nomePintor
         ws.range("J3").value = self.form_173_tudo[0]['cemb']
         ws.range("K4").value = self.codPintor
-        
-        # # Definir a área de impressão
         ws.api.PageSetup.PrintArea = self.area
-        
         wb.save()
         wb.close()
         excel_app.quit()  
         
         win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
-        win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+ str(self.form_173_tudo[0]['cemb']) +" - "+ str(self.contador) + r".xlsx", None, self.path_gerado, 0)
+        # win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+ str(self.form_173_tudo[0]['cemb']) +" - "+ str(self.contador) + r".xlsx", None, self.path_gerado, 0)
+        self.atualizandoDB()
         
+    def atualizandoDB(self):
+        DBForm_161.insert({
+            'track_form173': self.id,
+            'data': dataHoraAtual,
+            'usuario': self.user
+        })
+    
 # Print161(89)
-print(OCs.consultaEspecifica(161, 'track_form173'))
-ocs = OCs.consultaEspecifica(161, 'track_form173')[1]['oc']
-padrao = str(ocs)[:9]
-oc = padrao + str(ocs).replace(padrao, '/')
+# print(OCs.consultaEspecifica(161, 'track_form173'))
+# ocs = OCs.consultaEspecifica(161, 'track_form173')[1]['oc']
+# padrao = str(ocs)[:9]
+# oc = padrao + str(ocs).replace(padrao, '/')
 # print(oc)

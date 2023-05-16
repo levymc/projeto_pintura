@@ -216,6 +216,59 @@ class DBForm_173(Base):
             return False
 
 
+class DBForm_161(Base):
+    __tablename__ = 'form161'
+    
+    id = Column(Integer, primary_key=True)
+    track_form173 = Column(Integer)
+    data = Column(String)
+    usuario = Column(String)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'track_form173': self.track_form173,
+            'data': self.data,
+            'usuario': self.usuario
+        }
+    
+    @classmethod
+    def consultaEspecifica(cls, arg, coluna):
+        consultaEspeficifica = [row.as_dict for row in Session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        return consultaEspeficifica
+    
+    @classmethod
+    def insert(cls, dados):
+        session = Session()
+        obj = cls(**dados)
+        session.add(obj)
+        try:
+            session.commit()
+            session.refresh(obj)  # Atualiza o objeto com os valores do banco de dados, incluindo o ID gerado
+            return obj.to_dict()  # Retorna um dicionário com os valores do objeto
+        except exc.SQLAlchemyError:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+
+    
+    @staticmethod
+    def ultimoId():
+        # Crie uma consulta para encontrar o último ID
+        consulta = select(DBForm_161.Id_form_161).order_by(DBForm_161.Id_form_161.desc()).limit(1)
+
+        # Execute a consulta e obtenha o resultado
+        resultado = Session.execute(consulta).fetchone()
+
+        # Se o resultado for None, a tabela está vazia
+        if resultado is None:
+            ultimo_id = 0
+        else:
+            ultimo_id = resultado[0]
+        return ultimo_id
+
+
 class Operadores(Base):
     __tablename__ = 'operadores'
     

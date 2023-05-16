@@ -367,7 +367,7 @@ function addQuadro(dados) {
           <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
           <button id="quadro-btnFinalizar" onclick="btnFinalizar(${dados.id})">Finalizar</button>
         </div>
-        <section class="btnPrint"><button id="quadro-btnPrint" onclick="btnPrint(${dados.id})" >Imprimir</button></section>
+        <section class="btnPrint"><button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button></section>
       </div>`;
   
     ocsAdded = [];
@@ -376,7 +376,7 @@ function addQuadro(dados) {
 
 
 //Imprimir o Form 161
-function btnPrint(id){
+function btnPrint(id, user){
     Swal.fire({
         title: `Confirma a impressão - Id: ${id}`,
         icon: "question",
@@ -388,7 +388,7 @@ function btnPrint(id){
         showConfirmButton: true,
     }).then(result => {
         if (result.isConfirmed){
-            axios.post("/print161", {id: id})
+            axios.post("/print161", {id: id, user: user})
         }else{
             console.log("Não")
         }
