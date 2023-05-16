@@ -378,6 +378,18 @@ function addQuadro(dados) {
 }
   
 
+// Editar OCs
+function btnEditar(id){
+    Swal.fire({
+        title: `Editar OCs - Id: ${id}`,
+        confirmButtonColor: "#E57373",
+        // html: html,
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Finalizar",
+        showConfirmButton: true,
+    })
+}
 
 //Imprimir o Form 161
 function btnPrint(id, user){

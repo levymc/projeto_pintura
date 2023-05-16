@@ -284,9 +284,9 @@ nav{
     color: #fff;
     border: none;
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    padding: 3px 6px;
+    padding: 4px 8px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
@@ -298,9 +298,9 @@ nav{
     color: #fff;
     border: none;
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    padding: 3px 6px;
+    padding: 4px 8px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
