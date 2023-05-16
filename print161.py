@@ -5,16 +5,19 @@ import win32api
 import sqlite3, shutil, win32print, re, os, local
 from DBfuncs import DBForm_173, OCs, Operadores
 
+nomeImp = local.Local.nomeImpressora()
 
 class Print161():
-    def __init__(self):
+    def __init__(self, idPassado):
         super().__init__()
         self.path = local.Local.path()
+        self.id = idPassado
         self.path_maior = local.Local.path_maior()
         self.path_gerado = local.Local.path_gerado()
-        self.form_173_tudo = DBForm_173.consultaEspecifica(89, 'id')
-        self.ocs = OCs.consultaEspecifica(89, 'track_form173')
+        self.form_173_tudo = DBForm_173.consultaEspecifica(self.id, 'id') 
+        self.ocs = OCs.consultaEspecifica(self.id, 'track_form173')
         self.nomePintor = Operadores.consultaEspecificaCodigo(self.form_173_tudo[0]['codPintor'])[0]['nome']
+        self.codPintor = self.form_173_tudo[0]['codPintor']
         self.contador = 1
         self.new = ''
         self.directory()
@@ -73,7 +76,44 @@ class Print161():
                 else:
                     os.makedirs(self.path_gerado)
                     shutil.copyfile(self.path_maior, str(self.new))
-                                        
-# Print161()
-# print(len(OCs.consultaEspecifica(89, 'track_form173')))
-  
+        self.insertInfos()
+                                      
+    def insertInfos(self):
+        excel_app = xw.App(visible=False)
+        wb = excel_app.books.open(self.new)  # connect to an existing file in the current working directory
+        wks = xw.sheets
+        ws = wks[0]
+        linha = 35
+        
+        for i in self.ocs:
+            padrao = str(i['oc'])[:9]
+            oc = padrao + str(i['oc']).replace(padrao, '/')
+            print(i)
+            ws.range("F"+f"{linha}").value = oc
+            ws.range("I"+f"{linha}").value = i['quantidade']
+            linha += 1
+        # print(idAgora)
+        # print(DBForm_173.consultaEspecifica(idAgora, 'Id_form_173'))
+        # DBForm_161.insert(idAgora, 1)
+        ws.range("I4").value = DBForm_173.consultaEspecifica(self.id, 'id')[0]['data'].format('%d.%m.%Y')
+        ws.range("C3").value = "Mescla"
+        ws.range("C4").value = self.nomePintor
+        ws.range("J3").value = self.form_173_tudo[0]['cemb']
+        ws.range("K4").value = self.codPintor
+        
+        # # Definir a área de impressão
+        ws.api.PageSetup.PrintArea = self.area
+        
+        wb.save()
+        wb.close()
+        excel_app.quit()  
+        
+        win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
+        win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+ str(self.form_173_tudo[0]['cemb']) +" - "+ str(self.contador) + r".xlsx", None, self.path_gerado, 0)
+        
+# Print161(89)
+print(OCs.consultaEspecifica(161, 'track_form173'))
+ocs = OCs.consultaEspecifica(161, 'track_form173')[1]['oc']
+padrao = str(ocs)[:9]
+oc = padrao + str(ocs).replace(padrao, '/')
+# print(oc)

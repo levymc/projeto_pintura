@@ -107,8 +107,7 @@ def viscosimetro():
 @app.route("/print161", methods=["POST", "GET"])
 def print161():
     idForm73 = request.json['id']
-    print(idForm73)
-    Print161()
+    Print161(idForm73)
     return {"success": True}
 
 

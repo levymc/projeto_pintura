@@ -127,7 +127,7 @@ function modalSolicitacao(){
         <div class="ocsForm173 divisoria-vertical">
             <div class="campoOC">
                 <input type="number" id="ocForm173" placeholder="OC" class="oc_solicitada">
-                <input type="number" id="qntOcForm173" placeholder="Quantidade" class="qnt_solicitada">
+                <input type="number" id="qntOcForm173" placeholder="QNT." class="qnt_solicitada">
             </div>
             <div class="btnAddOC">
                 <button class="display-none" id="btnRemoveOC" onclick="btnRemoveOC()">Remover OC</button>

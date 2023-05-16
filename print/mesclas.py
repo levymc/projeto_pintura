@@ -164,10 +164,10 @@ class Mesclas(Toplevel):
                         # lista_impressoras = win32print.EnumPrinters(2) #printar isso pra descobrir a impressora!
                         # impressora = lista_impressoras[3]
                         
-                        # win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
-                        # win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
-                        # self.finalizar(idform173)
-                        # cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
+                        win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
+                        win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+form_173_tudo[0]['cemb'] +" - "+ str(contador) + r".xlsx", None, self.path_gerado, 0)
+                        self.finalizar(idform173)
+                        cursor.execute(f"UPDATE form_40 SET print={1} WHERE mescla='{mescla_n}'")
                         banco.commit()
                         cursor.close()
                         banco.close()
