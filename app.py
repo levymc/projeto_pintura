@@ -4,6 +4,7 @@ from DBfuncs import Operadores, DBForm_173, OCs, DBForm_40, Relacao_Tintas
 import hashlib
 import json
 from interfaceDB import DadosQuadros
+from print161 import Print161
 
 mode = "dev" #prod ou dev
 
@@ -107,6 +108,7 @@ def viscosimetro():
 def print161():
     idForm73 = request.json['id']
     print(idForm73)
+    Print161()
     return {"success": True}
 
 

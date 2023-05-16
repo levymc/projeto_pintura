@@ -367,7 +367,7 @@ function addQuadro(dados) {
           <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
           <button id="quadro-btnFinalizar" onclick="btnFinalizar(${dados.id})">Finalizar</button>
         </div>
-        <section class="btnPrint"><button id="quadro-btnPrint" onclick="btnPrint(${dados.id})" >Imprimir 161</button></section>
+        <section class="btnPrint"><button id="quadro-btnPrint" onclick="btnPrint(${dados.id})" >Imprimir</button></section>
       </div>`;
   
     ocsAdded = [];

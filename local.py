@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 
 arg='dev'
-computador = 1  # 1 é a Sala da Preparação, 2 Mascaramento e 3 meu computador
+computador = 3  # 1 é a Sala da Preparação, 2 Mascaramento e 3 meu computador
 
 agora = datetime.today().strftime('%d.%m.%Y_%H.%M')
 meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
