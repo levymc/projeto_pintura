@@ -354,7 +354,7 @@ function carregarDadosQuadros() {
     });
 }
 
-let objDados;
+
 
 function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
@@ -366,7 +366,7 @@ function addQuadro(dados) {
       oc.oc && Ocs.push(`<li>${oc.oc}</li>`)
     );
 
-    objDados = {
+    let objDados = {
         cemb: dados.cemb, 
         mescla: dados.mescla,
         codPintor: dados.codPintor, 
@@ -440,63 +440,58 @@ function btnEditar(id){
                     modalEditarOCs(result.data ,resultOC.data)
                 })
         })  
-
-    let Ocs = [];
 }
   
 function modalEditarOCs(dadosQuadro, dadosOCs){
+    let Ocs = [];
     console.log(dadosQuadro, dadosOCs)
-    dadosOCs.ocs.map((oc) =>
+    dadosOCs.map((oc) =>
       oc.oc && Ocs.push(`
         <tr>
             <td>${oc.oc}</td>
-            <td>Eclair</td>
+            <td>${oc.quantidade}</td>
         </tr>
     `)
     );
     // console.log(dados)
     // console.log(dados.ocs)
-    // const html = `
-    // <div class="modalEditarOCs">
-    //     <div class="inputsModalEditar flex ">
-    //         <div class="divEditar flex input-field col s6">
-    //             <label for="ocsEditar">OCs</label>
-    //             <input type="number" class="validate" name="ocsEditar" id="ocsEditar">
-    //         </div>
-    //         <div class="divEditar flex input-field col s6">
-    //             <label for="qntEditar">Quantidade</label>
-    //             <input type="number" class="validate" name="qntEditar" id="qntEditar">
-    //         </div>
-    //     </div>
-    //     <div class="tabelaEditar">
-    //         <table class="responsive-table centered" >
-    //             <thead>
-    //             <tr>
-    //                 <th>OCs</th>
-    //                 <th>Quantidade</th>
-    //             </tr>
-    //             </thead>
+    const html = `
+        <div class="modalEditarOCs">
+            <div class="inputsModalEditar flex ">
+                <div class="divEditar flex input-field col s6">
+                    <label for="ocsEditar">OCs</label>
+                    <input type="number" class="validate" name="ocsEditar" id="ocsEditar">
+                </div>
+                <div class="divEditar flex input-field col s6">
+                    <label for="qntEditar">Quantidade</label>
+                    <input type="number" class="validate" name="qntEditar" id="qntEditar">
+                </div>
+            </div>
+            <div class="tabelaEditar">
+                <table class="responsive-table centered" >
+                    <thead>
+                    <tr>
+                        <th>OCs</th>
+                        <th>Quantidade</th>
+                    </tr>
+                    </thead>
 
-    //             <tbody>
-    //             <tr>
-    //                 <td>Alvin</td>
-    //                 <td>Eclair</td>
-    //             </tr>
-    //             ${Ocs.join('')}
-    //             </tbody>
-    //         </table>
-    //     </div>
-    // </div>
-    // `
-    // Swal.fire({
-    //     title: `Editar OCs - Id: ${dados.id}`,
-    //     confirmButtonColor: "#E57373",
-    //     html: html,
-    //     showCancelButton: true,
-    //     cancelButtonText: "Cancelar",
-    //     confirmButtonText: "Finalizar",
-    //     showConfirmButton: true,
-    // })
+                    <tbody>
+                        ${Ocs.join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `
+    Swal.fire({
+        title: `Editar OCs - Id: ${dadosQuadro.id}`,
+        confirmButtonColor: "#E57373",
+        html: html,
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Finalizar",
+        showConfirmButton: true,
+    })
 }
 
 
