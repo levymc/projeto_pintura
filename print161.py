@@ -9,11 +9,12 @@ nomeImp = local.Local.nomeImpressora()
 dataHoraAtual = local.agora
 
 class Print161():
-    def __init__(self, idPassado, user):
+    def __init__(self, idPassado, user, impressora):
         super().__init__()
         self.path = local.Local.path()
         self.id = idPassado
         self.user = user
+        self.impressora = impressora
         self.path_maior = local.Local.path_maior()
         self.path_gerado = local.Local.path_gerado()
         self.form_173_tudo = DBForm_173.consultaEspecifica(self.id, 'id') 
@@ -106,7 +107,8 @@ class Print161():
         
         print("3- Form_Controle Aplicação Tinta "+ str(self.form_173_tudo[0]['cemb']) +" - "+ str(self.contador) + r".xlsx")
         
-        # win32print.SetDefaultPrinter(nomeImp) # Coloca em Default a impressora a ser utilizada
+        print(self.impressora)
+        win32print.SetDefaultPrinter(self.impressora) # Coloca em Default a impressora a ser utilizada
         win32api.ShellExecute(0, "print", "3- Form_Controle Aplicação Tinta "+ str(self.form_173_tudo[0]['cemb']) +" - "+ str(self.contador) + r".xlsx", None, self.path_gerado, 0)
         self.atualizandoDB()
         

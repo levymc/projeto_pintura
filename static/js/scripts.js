@@ -85,8 +85,8 @@ let renderizarMain = () => {
                     <div class="topo">
                         <button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button> 
                         <section class="defImpressora">
-                            <select>
-                                <option value="pintura" disabled selected>Escolha a impressora</option>
+                            <select name="defImpressora">
+                                <option value="pintura" selected>Escolha a impressora</option>
                                 <option value="pintura">Pintura</option>
                                 <option value="pcp">PCP</option>
                                 <option value="3">...</option>
@@ -485,7 +485,7 @@ function btnPrint(id, user){
         showConfirmButton: true,
     }).then(result => {
         if (result.isConfirmed){
-            axios.post("/print161", {id: id, user: user})
+            axios.post("/print161", {id: id, user: user, impressora: impressora})
         }else{
             console.log("Não")
         }

@@ -108,7 +108,8 @@ def viscosimetro():
 def print161():
     idForm73 = request.json['id']
     user = request.json['user']
-    Print161(idForm73, user)
+    impressora = request.json['impressora']
+    Print161(idForm73, user, impressora)
     return {"success": True}
 
 
