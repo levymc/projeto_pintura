@@ -509,6 +509,7 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
                 console.log('Linha selecionada:', linha);
                 document.getElementById("btnApagar").addEventListener("click", function(){
                     if (confirm("Deseja apagar a OC?")){
+                        linha.remove()
                         btnApagar(linha.id)
                     }
                 })
