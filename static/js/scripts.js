@@ -439,6 +439,7 @@ function btnEditar(id){
   
 function modalEditarOCs(dadosQuadro, dadosOCs){
     let Ocs = [];
+    let ocsAdicionadas = [];
     console.log(dadosQuadro, dadosOCs)
     dadosOCs.map((oc) =>
       oc.oc && Ocs.push(`
@@ -491,11 +492,13 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
     })
 
     document.getElementById("btnAddOC_Editar").addEventListener("click", function(){
-        btnAddOC_Editar()
+        btnAddOC_Editar(ocsAdicionadas);
     })
-    const linhasTabela = document.querySelectorAll('.tabelaEditar table tbody tr');
+    selecionarLinha()   
+}
 
-    // Adicione um evento de clique a cada linha
+function selecionarLinha(){
+    const linhasTabela = document.querySelectorAll('.tabelaEditar table tbody tr');
     linhasTabela.forEach(linha => {
         linha.addEventListener('click', () => {
             const estaSelecionada = linha.classList.contains('linha-selecionada'); // Verifica se a linha já está selecionada
@@ -518,9 +521,9 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
                 })
             }
             });
-            
-    });
+        });
 }
+
 function btnApagar(idOC){
     console.log(idOC)
     axios.post("ocs_remove", {idOC: idOC}).then(result => {
@@ -532,11 +535,11 @@ function btnApagar(idOC){
     })
 }
 
-function btnAddOC_Editar(){
+function btnAddOC_Editar(ocsAdicionadas){
     // Obter os valores dos inputs
     const ocsInput = document.getElementById("ocsEditar").value;
     const qntInput = document.getElementById("qntEditar").value;
-    
+
     // Verificar se os campos estão preenchidos
     if (ocsInput && qntInput) {
         // Criar uma nova linha na tabela com os valores dos inputs
@@ -554,6 +557,10 @@ function btnAddOC_Editar(){
         // Limpar os inputs
         document.getElementById("ocsEditar").value = "";
         document.getElementById("qntEditar").value = "";
+        
+        // Adicionar as informações ao array
+        ocsAdicionadas.push({ ocs: ocsInput, quantidade: qntInput });
+        selecionarLinha();
     } else {
         // Exibir uma mensagem de erro caso algum campo esteja vazio
         Swal.fire({
