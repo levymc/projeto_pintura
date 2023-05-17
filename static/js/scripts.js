@@ -162,11 +162,11 @@ function modalSolicitacao(){
         <div class="ocsForm173 divisoria-vertical">
             <div class="campoOC">
                 <div class="input-field col s6"">
-                    <input class="validate" type="number" name="ocForm173" id="ocForm173" class="oc_solicitada">
+                    <input type="number" name="ocForm173" id="ocForm173" class="validate oc_solicitada">
                     <label for="ocForm173">OC</label>
                 </div>
                 <div class="input-field col s6"">
-                    <input class="validate" type="number" name="qntOcForm173" id="qntOcForm173" class="qnt_solicitada">
+                    <input type="number" name="qntOcForm173" id="qntOcForm173" class="validate qnt_solicitada">
                     <label for="qntOcForm173">QNT</label>
                 </div>
             </div>
@@ -268,12 +268,9 @@ let btnAddOC = () => {
             linha.addEventListener('click', () => {
                 // Verifica se a linha já está selecionada
                 const estaSelecionada = linha.classList.contains('linha-selecionada');
-              
-                // Remove a classe de seleção de todas as linhas
                 linhasTabela.forEach(linha => {
                   linha.classList.remove('linha-selecionada');
                 });
-              
                 // Se a linha já estiver selecionada, desseleciona-a
                 if (estaSelecionada) {
                   console.log('Linha desselecionada:', linha);
@@ -413,26 +410,12 @@ function addQuadro(dados) {
             <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button>
             <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Editar OCs</button>
         </div>
-        <section onclick="btnApagar(${dados.id})" class="btnApagar"><ion-icon id="btnApagar" name="trash-bin-outline"></ion-icon></section>
       </div>`;
   
     ocsAdded = [];
 }
   
 
-// Apagar Quadro de tal id
-function btnApagar(id){
-    Swal.fire({
-        title: `Deseja apagar esta Solicitação? - Id: ${id} - Impressora: ${impressora}`,
-        confirmButtonColor: "#E57373",
-        icon: 'question',
-        // html: html,
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-        confirmButtonText: "Finalizar",
-        showConfirmButton: true,
-    })
-}
 
 
 // Editar OCs
@@ -451,6 +434,11 @@ function btnEditar(id){
                 })
         })  
 }
+
+function btnApagar(){
+    confirm("Remover OC?")
+}
+
   
 function modalEditarOCs(dadosQuadro, dadosOCs){
     let Ocs = [];
@@ -491,6 +479,8 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
                     </tbody>
                 </table>
             </div>
+            <section class="btnApagar" onclick="btnApagar()"><ion-icon id="btnApagar" name="trash-bin-outline"></ion-icon></section>
+            <section class="btnAddOC_Editar"><ion-icon id="btnAddOC_Editar" name="add-outline"></ion-icon></section>
         </div>
     `
     Swal.fire({
@@ -502,6 +492,32 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
         confirmButtonText: "Finalizar",
         showConfirmButton: true,
     })
+
+    const linhasTabela = document.querySelectorAll('.tabelaEditar table tbody tr');
+
+    // Adicione um evento de clique a cada linha
+    linhasTabela.forEach(linha => {
+        linha.addEventListener('click', () => {
+            // Verifica se a linha já está selecionada
+            const estaSelecionada = linha.classList.contains('linha-selecionada');
+            
+            // Remove a classe de seleção de todas as linhas
+            linhasTabela.forEach(linha => {
+                linha.classList.remove('linha-selecionada');
+            });
+            
+            // Se a linha já estiver selecionada, desseleciona-a
+            if (estaSelecionada) {
+                console.log('Linha desselecionada:', linha);
+            }
+            // Caso contrário, seleciona-a
+            else {
+                linha.classList.add('linha-selecionada');
+                console.log('Linha selecionada:', linha);
+            }
+            });
+            
+    });
 }
 
 
