@@ -116,7 +116,7 @@ let renderizarMain = () => {
 function modalSolicitacao(){
     Swal.fire({
     title:"Formulário 173 - Solicitação de Preparação de Tinta",
-    width: '60%',
+    width: '50%',
     confirmButtonColor:"#b80000",
     confirmButtonText:"Enviar",
     cancelButtonText:"Cancelar",
@@ -132,33 +132,43 @@ function modalSolicitacao(){
             <div class="solicitante">
                 <h3>Solicitante: <b>${user}</b></h3>
             </div>
-            <div class="numeroForm">
-                <input type="number" id="numeroForm" placeholder="Formulário Nº">
+            <div class="numeroForm flex input-field col s6">
+                <input type="number" class="validate" name="numeroForm" id="numeroForm">
+                <label for="numeroForm">Formulário Nº</label>
             </div>
-            <div class="codPintor">
-                <input type="number" id="codPintor" placeholder="Código do Pintor">
+            <div class="codPintor flex input-field col s6"">
+                <input class="validate" type="number" name="codPintor" id="codPintor">
+                <label for="codPintor">Código do Pintor</label>
             </div>
-            <div class="cemb">
-                <input type="number" id="cemb" placeholder="CEMB">
+            <div class="cemb flex input-field col s6"">
+                <input class="validate" type="number" name="cemb" id="cemb">
+                <label for="cemb">CEMB</label>
             </div>
-            <div class="quantidade">
-                <input type="number" id="quantidade" placeholder="Quantidade Solicitada">
-                <div class="container-checkboxes">
-                    <div class="checkboxes">
-                        <input type="checkbox" id="g" name='g' value="g">
-                        <label for="g">g</label>
-                    </div>
-                    <div class="checkboxes">
-                        <input type="checkbox" id="ml" name='ml' value="ml">
-                        <label for="ml">ml</label>
-                    </div>
+            <div class="quantidade flex input-field col s6"">
+                <input class="validate" type="number" name="quantidade" id="quantidade">
+                <label for="quantidade">Quantidade Solicitada</label>
+            </div>
+            <div class="container-checkboxes flex">
+                <div class="checkboxes">
+                    <input type="checkbox" id="g" name='g' value="g">
+                    <label for="g">g</label>
+                </div>
+                <div class="checkboxes">
+                    <input type="checkbox" id="ml" name='ml' value="ml">
+                    <label for="ml">ml</label>
                 </div>
             </div>
         </div>
         <div class="ocsForm173 divisoria-vertical">
             <div class="campoOC">
-                <input type="number" id="ocForm173" placeholder="OC" class="oc_solicitada">
-                <input type="number" id="qntOcForm173" placeholder="QNT." class="qnt_solicitada">
+                <div class="input-field col s6"">
+                    <input class="validate" type="number" name="ocForm173" id="ocForm173" class="oc_solicitada">
+                    <label for="ocForm173">OC</label>
+                </div>
+                <div class="input-field col s6"">
+                    <input class="validate" type="number" name="qntOcForm173" id="qntOcForm173" class="qnt_solicitada">
+                    <label for="qntOcForm173">QNT</label>
+                </div>
             </div>
             <div class="btnAddOC">
                 <button class="display-none" id="btnRemoveOC" onclick="btnRemoveOC()">Remover OC</button>
