@@ -484,7 +484,7 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
         </div>
     `
     Swal.fire({
-        title: `Editar OCs - Id: ${dadosQuadro.id}`,
+        title: `Editar OCs - Id: ${dadosQuadro[0].id}`,
         confirmButtonColor: "#E57373",
         html: html,
         showCancelButton: true,
