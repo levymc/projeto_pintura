@@ -11,6 +11,7 @@ let main = document.querySelector("main");
 let user ;
 let ocsAdded = [];
 let dadosQuadros = [];
+let impressora ;
 
 
 
@@ -24,6 +25,22 @@ let enterKeyHandler = function(event) {
         acessoUserForm();
     }
 };
+
+function defImpressora(){
+    listaSuspensa = document.querySelector('.defImpressora select')
+    listaSuspensa.addEventListener('change', function() {
+        const valorSelecionado = listaSuspensa.value;
+    
+        if (valorSelecionado === 'pcp') {
+            console.log("pcp")
+            impressora = 'RICOH MP C2504ex PCL 6';
+        } else if (valorSelecionado === 'pintura') {
+            impressora = 'RICOH Aficio SP 3510DN PCL 6';
+            console.log("pintura")
+        }
+    });
+}
+
 
 
 
@@ -65,7 +82,17 @@ let renderizarMain = () => {
     container.innerHTML += `
             <div class="conteudo">
                 <div class="kaban">
-                    <div class="topo"><button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button></div>
+                    <div class="topo">
+                        <button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button> 
+                        <section class="defImpressora">
+                            <select>
+                                <option value="pintura" disabled selected>Escolha a impressora</option>
+                                <option value="pintura">Pintura</option>
+                                <option value="pcp">PCP</option>
+                                <option value="3">...</option>
+                            </select>
+                        </section>
+                    </div>
                     <div class="quadros-kanban">
                         Ainda não existem solicitações!
                     </div>
@@ -76,7 +103,7 @@ let renderizarMain = () => {
         modalSolicitacao();
     })
     carregarDadosQuadros()
-
+    defImpressora();
 }
 
 
@@ -381,7 +408,7 @@ function addQuadro(dados) {
 // Apagar Quadrode tal id
 function btnApagar(id){
     Swal.fire({
-        title: `Deseja apagar esta Solicitação? - Id: ${id}`,
+        title: `Deseja apagar esta Solicitação? - Id: ${id} - Impressora: ${impressora}`,
         confirmButtonColor: "#E57373",
         icon: 'question',
         // html: html,

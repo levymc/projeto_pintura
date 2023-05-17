@@ -193,9 +193,23 @@ nav{
     display: flex;
     width: 100%;
     padding-top: 0.5em;
+    position: relative;
 }
 .topo button{
     width: auto;
+}
+.defImpressora select {
+    border:1px solid #ccc !important;
+    border-radius:3px !important;
+    padding:0 3px !important;
+    display: flex !important;
+    font-size: 11px !important;
+    font-weight: bold;
+}
+.defImpressora{
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .quadros-kanban{
