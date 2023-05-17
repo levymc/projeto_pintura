@@ -429,27 +429,28 @@ function btnEditar(id){
           id: id,
         }
         }).then(result => {
-            console.log(result.data[0])
-            console.log(id)
             axios.get("/dadosOcsId", {
                 params: {
                     track_form173: id,
                 }
                 }).then(resultOC => {
-                    console.log(resultOC.data)
+                    modalEditarOCs(result.data ,resultOC.data)
                 })
         })  
 
     let Ocs = [];
+}
   
-    // dados.ocs.map((oc) =>
-    //   oc.oc && Ocs.push(`
-    //     <tr>
-    //         <td>${oc.oc}</td>
-    //         <td>Eclair</td>
-    //     </tr>
-    // `)
-    // );
+function modalEditarOCs(dadosQuadro, dadosOCs){
+    console.log(dadosQuadro, dadosOCs)
+    dadosOCs.ocs.map((oc) =>
+      oc.oc && Ocs.push(`
+        <tr>
+            <td>${oc.oc}</td>
+            <td>Eclair</td>
+        </tr>
+    `)
+    );
     // console.log(dados)
     // console.log(dados.ocs)
     // const html = `
