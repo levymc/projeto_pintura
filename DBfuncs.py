@@ -373,6 +373,8 @@ class OCs(Base):
             print("Envio completo", "Informações adicionadas!")
 
 
+# print(OCs.consultaEspecifica(168, "track_form173"))
+
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
     

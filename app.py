@@ -93,6 +93,11 @@ def dadosQuadroId():
     id = request.args.get("id")
     return DBForm_173.consultaEspecifica(id, "id")
 
+@app.route("/dadosOcsId", methods=["GET", "POST"])
+def dadosOcsId():
+    id = request.args.get("track_form173")
+    return OCs.consultaEspecifica(id, "track_form173")
+
 @app.route("/form40_inserir", methods=["POST", "GET"])
 def form40_inserir():
     dados = request.json

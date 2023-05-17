@@ -12,6 +12,7 @@ let user ;
 let ocsAdded = [];
 let dadosQuadros = [];
 let impressora ;
+let quadrosAdicionados = [] ;
 
 
 
@@ -349,16 +350,20 @@ function carregarDadosQuadros() {
       });
     });
 }
-  
+
+let objDados;
+
 function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
-  
+
+    quadrosAdicionados.push({id: dados.id, dados: dados})
+
     dados.ocs.map((oc) =>
       oc.oc && Ocs.push(`<li>${oc.oc}</li>`)
     );
 
-    const objDados = {
+    objDados = {
         cemb: dados.cemb, 
         mescla: dados.mescla,
         codPintor: dados.codPintor, 
@@ -370,10 +375,7 @@ function addQuadro(dados) {
         status: dados.status, 
         unidade: dados.unidade
     }
-    console.log(objDados)
-
     let contador = quadros.children.length + 1;
-  
     quadros.innerHTML += `
       <div class="quadro shadow-drop-center">
         <div class="quadro-contador">${contador}ª Solicitação</div>
@@ -405,7 +407,7 @@ function addQuadro(dados) {
 }
   
 
-// Apagar Quadrode tal id
+// Apagar Quadro de tal id
 function btnApagar(id){
     Swal.fire({
         title: `Deseja apagar esta Solicitação? - Id: ${id} - Impressora: ${impressora}`,
@@ -422,55 +424,77 @@ function btnApagar(id){
 
 // Editar OCs
 function btnEditar(id){
-    const html = `
-    <div class="modalEditarOCs">
-        <div class="inputsModalEditar flex ">
-            <div class="divEditar flex input-field col s6">
-                <label for="ocsEditar">OCs</label>
-                <input type="number" class="validate" name="ocsEditar" id="ocsEditar">
-            </div>
-            <div class="divEditar flex input-field col s6">
-                <label for="qntEditar">Quantidade</label>
-                <input type="number" class="validate" name="qntEditar" id="qntEditar">
-            </div>
-        </div>
-        <div class="tabelaEditar">
-            <table class="responsive-table centered" >
-                <thead>
-                <tr>
-                    <th>OCs</th>
-                    <th>Quantidade</th>
-                </tr>
-                </thead>
+    axios.get("/dadosQuadroId", {
+        params: {
+          id: id,
+        }
+        }).then(result => {
+            console.log(result.data[0])
+            console.log(id)
+            axios.get("/dadosOcsId", {
+                params: {
+                    track_form173: id,
+                }
+                }).then(resultOC => {
+                    console.log(resultOC.data)
+                })
+        })  
 
-                <tbody>
-                <tr>
-                    <td>Alvin</td>
-                    <td>Eclair</td>
-                </tr>
-                <tr>
-                    <td>Alan</td>
-                    <td>Jellybean</td>
-                </tr>
-                <tr>
-                    <td>Jonathan</td>
-                    <td>Lollipop</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    `
-    Swal.fire({
-        title: `Editar OCs - Id: ${id}`,
-        confirmButtonColor: "#E57373",
-        html: html,
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-        confirmButtonText: "Finalizar",
-        showConfirmButton: true,
-    })
+    let Ocs = [];
+  
+    // dados.ocs.map((oc) =>
+    //   oc.oc && Ocs.push(`
+    //     <tr>
+    //         <td>${oc.oc}</td>
+    //         <td>Eclair</td>
+    //     </tr>
+    // `)
+    // );
+    // console.log(dados)
+    // console.log(dados.ocs)
+    // const html = `
+    // <div class="modalEditarOCs">
+    //     <div class="inputsModalEditar flex ">
+    //         <div class="divEditar flex input-field col s6">
+    //             <label for="ocsEditar">OCs</label>
+    //             <input type="number" class="validate" name="ocsEditar" id="ocsEditar">
+    //         </div>
+    //         <div class="divEditar flex input-field col s6">
+    //             <label for="qntEditar">Quantidade</label>
+    //             <input type="number" class="validate" name="qntEditar" id="qntEditar">
+    //         </div>
+    //     </div>
+    //     <div class="tabelaEditar">
+    //         <table class="responsive-table centered" >
+    //             <thead>
+    //             <tr>
+    //                 <th>OCs</th>
+    //                 <th>Quantidade</th>
+    //             </tr>
+    //             </thead>
+
+    //             <tbody>
+    //             <tr>
+    //                 <td>Alvin</td>
+    //                 <td>Eclair</td>
+    //             </tr>
+    //             ${Ocs.join('')}
+    //             </tbody>
+    //         </table>
+    //     </div>
+    // </div>
+    // `
+    // Swal.fire({
+    //     title: `Editar OCs - Id: ${dados.id}`,
+    //     confirmButtonColor: "#E57373",
+    //     html: html,
+    //     showCancelButton: true,
+    //     cancelButtonText: "Cancelar",
+    //     confirmButtonText: "Finalizar",
+    //     showConfirmButton: true,
+    // })
 }
+
 
 //Imprimir o Form 161
 function btnPrint(id, user){
