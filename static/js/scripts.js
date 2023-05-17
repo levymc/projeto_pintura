@@ -435,9 +435,6 @@ function btnEditar(id){
         })  
 }
 
-function btnApagar(){
-    confirm("Remover OC?")
-}
 
   
 function modalEditarOCs(dadosQuadro, dadosOCs){
@@ -445,7 +442,7 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
     console.log(dadosQuadro, dadosOCs)
     dadosOCs.map((oc) =>
       oc.oc && Ocs.push(`
-        <tr>
+        <tr id="${oc.id}">
             <td>${oc.oc}</td>
             <td>${oc.quantidade}</td>
         </tr>
@@ -479,7 +476,7 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
                     </tbody>
                 </table>
             </div>
-            <section class="btnApagar" onclick="btnApagar()"><ion-icon id="btnApagar" name="trash-bin-outline"></ion-icon></section>
+            <section class="btnApagar" ><ion-icon id="btnApagar" name="trash-bin-outline"></ion-icon></section>
             <section class="btnAddOC_Editar"><ion-icon id="btnAddOC_Editar" name="add-outline"></ion-icon></section>
         </div>
     `
@@ -498,28 +495,32 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
     // Adicione um evento de clique a cada linha
     linhasTabela.forEach(linha => {
         linha.addEventListener('click', () => {
-            // Verifica se a linha já está selecionada
-            const estaSelecionada = linha.classList.contains('linha-selecionada');
-            
-            // Remove a classe de seleção de todas as linhas
-            linhasTabela.forEach(linha => {
+            const estaSelecionada = linha.classList.contains('linha-selecionada'); // Verifica se a linha já está selecionada
+            linhasTabela.forEach(linha => { // Remove a classe de seleção de todas as linhas
                 linha.classList.remove('linha-selecionada');
             });
             
-            // Se a linha já estiver selecionada, desseleciona-a
-            if (estaSelecionada) {
+            if (estaSelecionada) { // Se a linha já estiver selecionada, desseleciona-a
                 console.log('Linha desselecionada:', linha);
             }
             // Caso contrário, seleciona-a
             else {
                 linha.classList.add('linha-selecionada');
                 console.log('Linha selecionada:', linha);
+                document.getElementById("btnApagar").addEventListener("click", function(){
+                    if (confirm("Deseja apagar a OC?")){
+                        btnApagar(linha.id)
+                    }
+                })
             }
             });
             
     });
 }
-
+function btnApagar(linhaSelecionada){
+    console.log(linhaSelecionada)
+    // confirm("Remover OC?")
+}
 
 //Imprimir o Form 161
 function btnPrint(id, user){
