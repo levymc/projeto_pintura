@@ -38,6 +38,9 @@ function defImpressora(){
         } else if (valorSelecionado === 'pintura') {
             impressora = 'RICOH Aficio SP 3510DN PCL 6';
             console.log("pintura")
+        }else if (valorSelecionado === `dev`) {
+            impressora = 'Microsoft Print to PDF'
+            console.log('dev')
         }
     });
 }
@@ -90,7 +93,7 @@ let renderizarMain = () => {
                                 <option value="pintura" selected>Escolha a impressora</option>
                                 <option value="pintura">Pintura</option>
                                 <option value="pcp">PCP</option>
-                                <option value="3">...</option>
+                                <option value="dev">Dev</option>
                             </select>
                         </section>
                     </div>

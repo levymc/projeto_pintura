@@ -1,9 +1,10 @@
 from datetime import datetime
 import xlwings as xw
 import win32com.client as win32
-import win32api
+import win32api, win32com
 import shutil, win32print, re, os, local
 from DBfuncs import DBForm_173, OCs, Operadores, DBForm_161
+import pythoncom
 
 nomeImp = local.Local.nomeImpressora()
 dataHoraAtual = local.agora
@@ -82,6 +83,7 @@ class Print161():
         self.insertInfos()
                                       
     def insertInfos(self):
+        xl = win32com.client.Dispatch("Excel.Application",pythoncom.CoInitialize())
         excel_app = xw.App(visible=False)
         wb = excel_app.books.open(self.new)  # connect to an existing file in the current working directory
         wks = xw.sheets
