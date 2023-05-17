@@ -490,6 +490,9 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
         showConfirmButton: true,
     })
 
+    document.getElementById("btnAddOC_Editar").addEventListener("click", function(){
+        btnAddOC_Editar()
+    })
     const linhasTabela = document.querySelectorAll('.tabelaEditar table tbody tr');
 
     // Adicione um evento de clique a cada linha
@@ -527,6 +530,39 @@ function btnApagar(idOC){
         alert("Algum erro ocorreu")
         console.log(error)
     })
+}
+
+function btnAddOC_Editar(){
+    // Obter os valores dos inputs
+    const ocsInput = document.getElementById("ocsEditar").value;
+    const qntInput = document.getElementById("qntEditar").value;
+    
+    // Verificar se os campos estão preenchidos
+    if (ocsInput && qntInput) {
+        // Criar uma nova linha na tabela com os valores dos inputs
+        const novaLinha = `
+            <tr>
+                <td>${ocsInput}</td>
+                <td>${qntInput}</td>
+            </tr>
+        `;
+        
+        // Adicionar a nova linha à tabela
+        const tabelaEditar = document.querySelector(".tabelaEditar tbody");
+        tabelaEditar.insertAdjacentHTML("beforeend", novaLinha);
+        
+        // Limpar os inputs
+        document.getElementById("ocsEditar").value = "";
+        document.getElementById("qntEditar").value = "";
+    } else {
+        // Exibir uma mensagem de erro caso algum campo esteja vazio
+        Swal.fire({
+            title: "Erro!",
+            text: "Por favor, preencha todos os campos.",
+            icon: "error",
+            confirmButtonColor: "#E57373"
+        });
+    }
 }
 
 //Imprimir o Form 161
