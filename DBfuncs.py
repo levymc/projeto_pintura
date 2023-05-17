@@ -342,14 +342,17 @@ class OCs(Base):
         consultaEspeficifica = [row.as_dict for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
         return consultaEspeficifica
     
-    @staticmethod
-    def removeOC(id_ocs):
-        Session.query(OCs).filter_by(Id_ocs=id_ocs).delete()
-        # Atualizando o sqlite_sequence
-        # query = update(SQlite_Sequence).where(SQlite_Sequence.name == 'ocs').values(name=OCs.ultimoId())
-        Session.execute(query)
+    @classmethod
+    def removeOC(cls, oc_id):
+        session = Session()
+        oc = session.query(cls).filter_by(id=oc_id).first()
+        if oc:
+            session.delete(oc)
+            session.commit()
+            print("OC removido com sucesso!")
+        else:
+            print("OC não encontrado!")
         
-        Session.commit()
         
     @staticmethod
     def ultimoId():

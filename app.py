@@ -77,6 +77,14 @@ def ocs_inserir():
     ocsInseridas = OCs.insertOC(dados['id_form173'], dados['ocs'])
     return {"success": True}
 
+@app.route("/ocs_remove", methods=["POST", "GET"])
+def ocs_remove():
+    dados = request.json
+    print(dados)
+    OCs.removeOC(dados['idOC'])
+    return {"success": True}
+
+
 @app.route("/dadosQuadrosHoje", methods=["POST", "GET"])
 def dadosQuadrosHoje():
     status = request.args.get('status')

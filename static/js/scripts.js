@@ -518,9 +518,9 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
             
     });
 }
-function btnApagar(linhaSelecionada){
-    console.log(linhaSelecionada)
-    // confirm("Remover OC?")
+function btnApagar(idOC){
+    console.log(idOC)
+    axios.post("ocs_remove", {idOC: idOC})
 }
 
 //Imprimir o Form 161
