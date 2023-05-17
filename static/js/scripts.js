@@ -520,7 +520,13 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
 }
 function btnApagar(idOC){
     console.log(idOC)
-    axios.post("ocs_remove", {idOC: idOC})
+    axios.post("ocs_remove", {idOC: idOC}).then(result => {
+        console.log(result)
+        alert("OC removida com sucesso!")
+    }).catch(error => {
+        alert("Algum erro ocorreu")
+        console.log(error)
+    })
 }
 
 //Imprimir o Form 161
