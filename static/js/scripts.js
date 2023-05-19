@@ -395,11 +395,11 @@ function addQuadro(dados) {
           <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
         </ul>
         <div class="quadro-btns">
-          <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
+          <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40: Preparação</button>
           <button id="quadro-btnFinalizar" onclick="btnFinalizar(${dados.id})">Finalizar</button>
         </div>
         <div class="quadro-btns">
-            <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button>
+            <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Form. 161: Imprimir/Salvar</button>
             <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Ver OCs</button>
         </div>
       </div>`;
