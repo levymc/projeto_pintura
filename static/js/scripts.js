@@ -488,11 +488,11 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
     }).then(result => {
         if(result.isConfirmed && ocsAdicionadas.length != 0){
             console.log(ocsAdicionadas)
+            carregarDadosQuadros();
         }
     })
 
     document.getElementById("btnAddOC_Editar").addEventListener("click", function(){
-        
         insertOC_DB(dadosQuadro[0].id, ocsAdicionadas);
     })
     selecionarLinha()   
@@ -544,7 +544,10 @@ function insertOC_DB(id_form173, ocsAdicionadas){
 
     if (ocsInput && qntInput) {
         console.log(ocsInput, qntInput)
-        axios.post("/ocs_inserir", {id_form173: id_form173, ocs: [{oc: ocsInput, qnt_solicitada: qntInput}]}).then(response => {
+        axios.post("/ocs_inserir", {id_form173: id_form173, ocs: [{
+            oc: ocsInput, 
+            qnt_solicitada: qntInput
+        }]}).then(response => {
             btnAddOC_Editar(ocsAdicionadas);
         }).catch(error => {
             alert("Ocorreu um erro no sistema.")
@@ -579,6 +582,7 @@ function btnAddOC_Editar(ocsAdicionadas){
         alert("Preencha os campos para adicionar.")
     }
 }
+
 
 //Imprimir o Form 161
 function btnPrint(id, user){
