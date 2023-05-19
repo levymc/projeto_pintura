@@ -5,8 +5,8 @@ import hashlib
 import json
 from interfaceDB import DadosQuadros
 from print161 import Print161
-from endpoints.infosCEMB import *
-from endpoints.kaban import *
+from routes.infosCEMB import *
+from routes.kaban import *
 
 mode = "dev" #prod ou dev
 
