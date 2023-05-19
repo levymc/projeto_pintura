@@ -288,10 +288,6 @@ let btnAddOC = () => {
     return ocsAdded
 }
 
-function btnRemoveOC(){
-    console.log(ocsAdded)
-}
-
 
 
 // Renderização dos Quadros no Kanban
@@ -366,10 +362,14 @@ function addQuadro(dados) {
     let Ocs = [];
 
     quadrosAdicionados.push({id: dados.id, dados: dados})
-
+    console.log(dados.ocs)
     dados.ocs.map((oc) =>
-      oc.oc && Ocs.push(`<li>${oc.oc}</li>`)
-    );
+      oc.oc && Ocs.push(`
+        <tr>
+            <td>${oc.oc}</td>
+            <td>${oc.quantidade}</td>
+        </tr>
+    `));
 
     let objDados = {
         cemb: dados.cemb, 
@@ -394,19 +394,13 @@ function addQuadro(dados) {
           <li>Cemb: <b>${dados.cemb}</b></li>
           <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
         </ul>
-        <div class="ocsQuadro"> 
-          OCs:
-          <ul>
-            ${Ocs.join('')}
-          </ul>
-        </div> 
         <div class="quadro-btns">
           <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
           <button id="quadro-btnFinalizar" onclick="btnFinalizar(${dados.id})">Finalizar</button>
         </div>
         <div class="quadro-btns">
             <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button>
-            <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Editar OCs</button>
+            <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Ver OCs</button>
         </div>
       </div>`;
   
