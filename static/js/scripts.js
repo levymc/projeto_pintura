@@ -412,7 +412,7 @@ function addQuadro(dados) {
 // Especificações do CEMB
 function recebeInfosCEMB(cemb){
     axios.post("/infosCEMB", {cemb: cemb}).then(response => {
-
+        console.log(response)
     }).catch(error => {
         console.log(error)
         Swal.fire({

@@ -5,11 +5,14 @@ import hashlib
 import json
 from interfaceDB import DadosQuadros
 from print161 import Print161
+from endpoints.infosCEMB import *
 
 mode = "dev" #prod ou dev
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+app.register_blueprint(infosCEMB_bp)
 
 @app.route("/", methods=["POST", "GET"])
 def index():
@@ -125,6 +128,8 @@ def print161():
     impressora = request.json['impressora']
     Print161(idForm73, user, impressora)
     return {"success": True}
+
+
 
 
 if __name__ == '__main__':
