@@ -308,6 +308,10 @@ nav{
 #quadro-btnEditar:hover{
     background-color: #5d6634;
 }
+#infosCEMB{
+    cursor: pointer;
+    color: #1d0088;
+}
 .btnApagar{
     position: absolute;
     left: 16px;

@@ -391,7 +391,7 @@ function addQuadro(dados) {
         <ul>
           <li>Número do Formulário: <b>${dados.numeroForm}</b></li>
           <li>Código do Pintor: <b>${dados.codPintor}</b></li>
-          <li>Cemb: <b>${dados.cemb}</b></li>
+          <li>Cemb: <b onclick="infosCEMB(${dados.cemb})" id="infosCEMB"><u>${dados.cemb}</u></b></li>
           <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
         </ul>
         <div class="quadro-btns">
@@ -405,9 +405,31 @@ function addQuadro(dados) {
       </div>`;
   
     ocsAdded = [];
+
 }
   
 
+// Especificações do CEMB
+function recebeInfosCEMB(cemb){
+    axios.post("/infosCEMB", {cemb: cemb}).then(response => {
+
+    }).catch(error => {
+        console.log(error)
+        Swal.fire({
+            title: "Ocorreu um erro no sistema.",
+            icon: "error"
+        })
+    })
+}
+
+function infosCEMB(cemb){
+    recebeInfosCEMB(cemb)
+    Swal.fire({
+        title: `Especificações do CEMB <b>${cemb}</b>`,
+        icon: "info",
+        confirmButtonColor: "#E57373",
+    })
+}
 
 
 // Editar OCs
