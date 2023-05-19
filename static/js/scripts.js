@@ -361,8 +361,6 @@ function carregarDadosQuadros() {
     });
 }
 
-
-
 function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
@@ -436,7 +434,6 @@ function btnEditar(id){
 }
 
 
-  
 function modalEditarOCs(dadosQuadro, dadosOCs){
     let Ocs = [];
     let ocsAdicionadas = [];
@@ -486,14 +483,21 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
         showCancelButton: true,
         cancelButtonText: "Cancelar",
         confirmButtonText: "Finalizar",
+        allowOutsideClick: false,
         showConfirmButton: true,
+    }).then(result => {
+        if(result.isConfirmed && ocsAdicionadas.length != 0){
+            console.log(ocsAdicionadas)
+        }
     })
 
     document.getElementById("btnAddOC_Editar").addEventListener("click", function(){
-        btnAddOC_Editar(ocsAdicionadas);
+        // btnAddOC_Editar(ocsAdicionadas);
+        insertOC_DB(ocsAdicionadas);
     })
     selecionarLinha()   
 }
+
 
 function selecionarLinha(){
     const linhasTabela = document.querySelectorAll('.tabelaEditar table tbody tr');
@@ -522,6 +526,7 @@ function selecionarLinha(){
         });
 }
 
+
 function btnApagar(idOC){
     console.log(idOC)
     axios.post("ocs_remove", {idOC: idOC}).then(result => {
@@ -533,22 +538,26 @@ function btnApagar(idOC){
     })
 }
 
-function btnAddOC_Editar(ocsAdicionadas){
-    // Obter os valores dos inputs
+function insertOC_DB(ocsAdicionadas){
     const ocsInput = document.getElementById("ocsEditar").value;
     const qntInput = document.getElementById("qntEditar").value;
 
-    // Verificar se os campos estão preenchidos
     if (ocsInput && qntInput) {
-        // Criar uma nova linha na tabela com os valores dos inputs
+        console.log(ocsInput, qntInput)
+    }
+}
+
+function btnAddOC_Editar(ocsAdicionadas){
+    const ocsInput = document.getElementById("ocsEditar").value;
+    const qntInput = document.getElementById("qntEditar").value;
+
+    if (ocsInput && qntInput) {
         const novaLinha = `
             <tr>
                 <td>${ocsInput}</td>
                 <td>${qntInput}</td>
             </tr>
         `;
-        
-        // Adicionar a nova linha à tabela
         const tabelaEditar = document.querySelector(".tabelaEditar tbody");
         tabelaEditar.insertAdjacentHTML("beforeend", novaLinha);
         
@@ -556,17 +565,10 @@ function btnAddOC_Editar(ocsAdicionadas){
         document.getElementById("ocsEditar").value = "";
         document.getElementById("qntEditar").value = "";
         
-        // Adicionar as informações ao array
         ocsAdicionadas.push({ ocs: ocsInput, quantidade: qntInput });
         selecionarLinha();
     } else {
-        // Exibir uma mensagem de erro caso algum campo esteja vazio
-        Swal.fire({
-            title: "Erro!",
-            text: "Por favor, preencha todos os campos.",
-            icon: "error",
-            confirmButtonColor: "#E57373"
-        });
+        alert("Preencha os campos para adicionar.")
     }
 }
 
