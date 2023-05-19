@@ -450,7 +450,7 @@ function infosCEMB(infos){
             </div>
             <div class="colunaParametros">
                 <h5>Parâmetros</h5>
-                <img src="${infos.graph}" alt="Proporção" />
+                <img class="graphProp" src="${infos.graph}" alt="Proporção" />
             </div>
         </div>
     `

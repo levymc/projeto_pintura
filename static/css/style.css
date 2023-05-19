@@ -673,3 +673,8 @@ nav{
 .divEditar{
     flex-direction: column;
 }
+
+
+.graphProp{
+    user-select: none;
+}
