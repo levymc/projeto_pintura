@@ -449,8 +449,6 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
         </tr>
     `)
     );
-    // console.log(dados)
-    // console.log(dados.ocs)
     const html = `
         <div class="modalEditarOCs">
             <div class="inputsModalEditar flex ">
