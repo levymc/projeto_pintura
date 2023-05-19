@@ -376,7 +376,6 @@ class OCs(Base):
             print("Envio completo", "Informações adicionadas!")
 
 
-# print(OCs.consultaEspecifica(168, "track_form173"))
 
 class Relacao_Tintas(Base):
     __tablename__ = 'relacao_tintas'
@@ -394,8 +393,25 @@ class Relacao_Tintas(Base):
     bico = Column(String)
     pot_life = Column(String)
     
+    def to_dict(self):
+        return {
+            'cemb': self.cemb,
+            'descricao': self.descricao,
+            'norma': self.norma,
+            'norma_embraer': self.norma_embraer,
+            'pressao_especificada': self.pressao_especificada,
+            'flash_off': self.flash_off,
+            'temperatura_secagem': self.temperatura_secagem,
+            'viscosidade_min': self.viscosidade_min,
+            'viscosidade_max': self.viscosidade_max,
+            'viscosimetro': self.viscosimetro,
+            'bico': self.bico,
+            'pot_life': self.pot_life
+        }
+
+
     def __repr__(self):
-        return f"CEMB: {self.cemb}  -  Viscosidade: {self.viscosidade_min}s ~ {self.viscosidade_max}s  - Copo: {self.viscosimetro.replace('Copo', '')}"
+        return str(self.to_dict())
     
     @classmethod
     def consultaViscosimetro(cls, cemb):
@@ -423,5 +439,13 @@ class Relacao_Tintas(Base):
         return visc_max_min
     
     def conferenciaMescla(cembMescla): 
-        result = Session.query(exists().where(Relacao_Tintas.cemb == cembMescla)).scalar()
+        session = Session()
+        result = session.query(exists().where(Relacao_Tintas.cemb == cembMescla)).scalar()
         return result
+    
+    @classmethod
+    def consultaEspecifica(cls, arg, coluna):
+        session = Session()
+        consultaEspecifica = [row.to_dict() for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
+        session.close()
+        return consultaEspecifica

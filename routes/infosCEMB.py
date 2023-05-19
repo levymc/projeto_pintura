@@ -1,9 +1,9 @@
 from flask import Blueprint, request
+from DBfuncs import Operadores, DBForm_173, OCs, DBForm_40, Relacao_Tintas
 
 infosCEMB_bp = Blueprint('infosCEMB', __name__)
 
 @infosCEMB_bp.route("/infosCEMB", methods=["POST", "GET"])
 def infosCEMB():
     cemb = request.json
-    print(cemb)
-    return {"success": True}
+    return Relacao_Tintas.consultaEspecifica(cemb['cemb'], 'cemb')

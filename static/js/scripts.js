@@ -15,6 +15,13 @@ let impressora ;
 let quadrosAdicionados = [] ;
 
 
+function erro(){
+    Swal.fire({
+        title: "Ocorreu um erro no sistema.",
+        icon: "error"
+    })
+}
+
 
 // Definição de Eventos
 document.querySelector(".titulo h1").addEventListener("click", function(){
@@ -412,13 +419,15 @@ function addQuadro(dados) {
 // Especificações do CEMB
 function recebeInfosCEMB(cemb){
     axios.post("/infosCEMB", {cemb: cemb}).then(response => {
-        console.log(response)
+        if(response.data.length > 0){
+            console.log(response)
+        }else{
+            erro()
+        }
+        
     }).catch(error => {
         console.log(error)
-        Swal.fire({
-            title: "Ocorreu um erro no sistema.",
-            icon: "error"
-        })
+        erro()
     })
 }
 
