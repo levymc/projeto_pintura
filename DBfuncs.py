@@ -392,6 +392,7 @@ class Relacao_Tintas(Base):
     viscosimetro = Column(String)
     bico = Column(String)
     pot_life = Column(String)
+    graph = Column(String)
     
     def to_dict(self):
         return {
@@ -406,7 +407,8 @@ class Relacao_Tintas(Base):
             'viscosidade_max': self.viscosidade_max,
             'viscosimetro': self.viscosimetro,
             'bico': self.bico,
-            'pot_life': self.pot_life
+            'pot_life': self.pot_life,
+            'graph': self.graph
         }
 
 
