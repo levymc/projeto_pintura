@@ -288,10 +288,6 @@ let btnAddOC = () => {
     return ocsAdded
 }
 
-function btnRemoveOC(){
-    console.log(ocsAdded)
-}
-
 
 
 // Renderização dos Quadros no Kanban
@@ -361,17 +357,19 @@ function carregarDadosQuadros() {
     });
 }
 
-
-
 function addQuadro(dados) {
     let quadros = document.querySelector(".quadros-kanban");
     let Ocs = [];
 
     quadrosAdicionados.push({id: dados.id, dados: dados})
-
+    console.log(dados.ocs)
     dados.ocs.map((oc) =>
-      oc.oc && Ocs.push(`<li>${oc.oc}</li>`)
-    );
+      oc.oc && Ocs.push(`
+        <tr>
+            <td>${oc.oc}</td>
+            <td>${oc.quantidade}</td>
+        </tr>
+    `));
 
     let objDados = {
         cemb: dados.cemb, 
@@ -396,19 +394,13 @@ function addQuadro(dados) {
           <li>Cemb: <b>${dados.cemb}</b></li>
           <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
         </ul>
-        <div class="ocsQuadro"> 
-          OCs:
-          <ul>
-            ${Ocs.join('')}
-          </ul>
-        </div> 
         <div class="quadro-btns">
-          <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40</button>
+          <button id="quadro-btnForm40" onclick="btnForm40(${dados.id})" >Form. 40: Preparação</button>
           <button id="quadro-btnFinalizar" onclick="btnFinalizar(${dados.id})">Finalizar</button>
         </div>
         <div class="quadro-btns">
-            <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Imprimir</button>
-            <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Editar OCs</button>
+            <button id="quadro-btnPrint" onclick="btnPrint(${dados.id}, '${user}')" >Form. 161: Imprimir/Salvar</button>
+            <button id="quadro-btnEditar" onclick="btnEditar(${dados.id})">Ver OCs</button>
         </div>
       </div>`;
   
@@ -436,7 +428,6 @@ function btnEditar(id){
 }
 
 
-  
 function modalEditarOCs(dadosQuadro, dadosOCs){
     let Ocs = [];
     let ocsAdicionadas = [];
@@ -486,14 +477,21 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
         showCancelButton: true,
         cancelButtonText: "Cancelar",
         confirmButtonText: "Finalizar",
+        allowOutsideClick: false,
         showConfirmButton: true,
+    }).then(result => {
+        if(result.isConfirmed && ocsAdicionadas.length != 0){
+            console.log(ocsAdicionadas)
+            carregarDadosQuadros();
+        }
     })
 
     document.getElementById("btnAddOC_Editar").addEventListener("click", function(){
-        btnAddOC_Editar(ocsAdicionadas);
+        insertOC_DB(dadosQuadro[0].id, ocsAdicionadas);
     })
     selecionarLinha()   
 }
+
 
 function selecionarLinha(){
     const linhasTabela = document.querySelectorAll('.tabelaEditar table tbody tr');
@@ -522,6 +520,7 @@ function selecionarLinha(){
         });
 }
 
+
 function btnApagar(idOC){
     console.log(idOC)
     axios.post("ocs_remove", {idOC: idOC}).then(result => {
@@ -533,22 +532,37 @@ function btnApagar(idOC){
     })
 }
 
-function btnAddOC_Editar(ocsAdicionadas){
-    // Obter os valores dos inputs
+function insertOC_DB(id_form173, ocsAdicionadas){
     const ocsInput = document.getElementById("ocsEditar").value;
     const qntInput = document.getElementById("qntEditar").value;
 
-    // Verificar se os campos estão preenchidos
     if (ocsInput && qntInput) {
-        // Criar uma nova linha na tabela com os valores dos inputs
+        console.log(ocsInput, qntInput)
+        axios.post("/ocs_inserir", {id_form173: id_form173, ocs: [{
+            oc: ocsInput, 
+            qnt_solicitada: qntInput
+        }]}).then(response => {
+            btnAddOC_Editar(ocsAdicionadas);
+        }).catch(error => {
+            alert("Ocorreu um erro no sistema.")
+            console.log(error)
+        })
+    }else{
+        Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
+    }
+}
+
+function btnAddOC_Editar(ocsAdicionadas){
+    const ocsInput = document.getElementById("ocsEditar").value;
+    const qntInput = document.getElementById("qntEditar").value;
+
+    if (ocsInput && qntInput) {
         const novaLinha = `
             <tr>
                 <td>${ocsInput}</td>
                 <td>${qntInput}</td>
             </tr>
         `;
-        
-        // Adicionar a nova linha à tabela
         const tabelaEditar = document.querySelector(".tabelaEditar tbody");
         tabelaEditar.insertAdjacentHTML("beforeend", novaLinha);
         
@@ -556,19 +570,13 @@ function btnAddOC_Editar(ocsAdicionadas){
         document.getElementById("ocsEditar").value = "";
         document.getElementById("qntEditar").value = "";
         
-        // Adicionar as informações ao array
         ocsAdicionadas.push({ ocs: ocsInput, quantidade: qntInput });
         selecionarLinha();
     } else {
-        // Exibir uma mensagem de erro caso algum campo esteja vazio
-        Swal.fire({
-            title: "Erro!",
-            text: "Por favor, preencha todos os campos.",
-            icon: "error",
-            confirmButtonColor: "#E57373"
-        });
+        alert("Preencha os campos para adicionar.")
     }
 }
+
 
 //Imprimir o Form 161
 function btnPrint(id, user){
