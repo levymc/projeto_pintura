@@ -116,7 +116,6 @@ let renderizarMain = () => {
         modalSolicitacao();
     })
     document.getElementById("btnNewCEMB").addEventListener("click", function(){
-        modalNewCEMB();
         recebAllInfos();
     })
     carregarDadosQuadros()
@@ -131,13 +130,26 @@ function confereMEP(){
 
 function recebAllInfos(){
     try{
-        axios.get("/allInfoCEMB").then(response => console.log(response.data))
+        axios.get("/allInfoCEMB").then(response => {
+            modalNewCEMB(response.data)
+        }).catch(error => {
+            erro();
+            console.log(error);
+        })
     }catch{
-
+        erro();
     }
 }
 
-function modalNewCEMB(){
+function modalNewCEMB(allInfoCEMB){
+    let meps = []
+    allInfoCEMB.map((info, i) => !meps.includes(info.norma) && meps.push(info.norma))
+
+    const optionMeps = `
+        ${meps.map((mep, i) => `<option value="${mep}">${mep}</option>`).join('\n')}
+    `;
+    console.log(optionMeps)
+
     const html = `
         <div class="flex input-field col s6">
             <label for="newCEMB">Novo Código EMBRAER</label>
@@ -146,9 +158,7 @@ function modalNewCEMB(){
         <div class="newCEMB flex input-field col s6">
             <select name="newCEMB">
                 <option value="" selected>Selecione a MEP</option>
-                <option value="pintura">Pintura</option>
-                <option value="pcp">PCP</option>
-                <option value="dev">Dev</option>
+                ${optionMeps}
             </select>
         </div>  
     `;
