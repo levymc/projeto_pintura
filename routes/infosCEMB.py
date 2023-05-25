@@ -7,3 +7,7 @@ infosCEMB_bp = Blueprint('infosCEMB', __name__)
 def infosCEMB():
     cemb = request.json
     return Relacao_Tintas.consultaEspecifica(cemb['cemb'], 'cemb')
+
+@infosCEMB_bp.route("/allInfoCEMB", methods=["GET"])
+def allInfoCEMB():
+    return Relacao_Tintas.consulta()

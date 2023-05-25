@@ -429,7 +429,8 @@ class Relacao_Tintas(Base):
     
     @classmethod
     def consulta(cls):
-        conteudo  = [tinta.as_dict for tinta in Session.query(cls).all()]
+        session = Session()
+        conteudo  = [tinta.as_dict for tinta in session.query(cls).all()]
         return conteudo
     
     def consultaViscosidade(cls, cemb, valor_selecionado):

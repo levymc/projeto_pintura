@@ -96,7 +96,7 @@ let renderizarMain = () => {
                 <div class="kaban">
                     <div class="topo">
                         <button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button> 
-                        <section class="btnNewCEMB"><button class="waves-effect waves-light btn-flat light-green lighten-2">Nova CEMB</button></section>
+                        <section class="btnNewCEMB"><button id="btnNewCEMB" class="waves-effect waves-light btn-flat light-green lighten-2">Nova CEMB</button></section>
                         <section class="defImpressora">
                             <select name="defImpressora">
                                 <option value="pintura" selected>Escolha a impressora</option>
@@ -115,10 +115,56 @@ let renderizarMain = () => {
     document.getElementById("novaSolicitacao").addEventListener("click", function(){
         modalSolicitacao();
     })
+    document.getElementById("btnNewCEMB").addEventListener("click", function(){
+        modalNewCEMB();
+        recebAllInfos();
+    })
     carregarDadosQuadros()
     defImpressora();
 }
 
+
+// Modal Nova CEMB
+function confereMEP(){
+
+}
+
+function recebAllInfos(){
+    try{
+        axios.get("/allInfoCEMB").then(response => console.log(response.data))
+    }catch{
+
+    }
+}
+
+function modalNewCEMB(){
+    const html = `
+        <div class="flex input-field col s6">
+            <label for="newCEMB">Novo Código EMBRAER</label>
+            <input type="number" class="validate" name="newCEMB" id="newCEMB">
+        </div>  
+        <div class="newCEMB flex input-field col s6">
+            <select name="newCEMB">
+                <option value="" selected>Selecione a MEP</option>
+                <option value="pintura">Pintura</option>
+                <option value="pcp">PCP</option>
+                <option value="dev">Dev</option>
+            </select>
+        </div>  
+    `;
+    Swal.fire({
+        title:"Adicionar Nova Tinta",
+        icon:"success",
+        width: '50%',
+        confirmButtonColor:"#b80000",
+        confirmButtonText:"Adicionar",
+        cancelButtonText:"Cancelar",
+        allowOutsideClick: false,
+        showCloseButton: true,
+        showCancelButton: true,
+        html: html,
+    })
+}
 
 
 // Modal Form173
