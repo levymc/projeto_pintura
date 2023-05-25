@@ -151,16 +151,19 @@ function modalNewCEMB(allInfoCEMB){
     console.log(optionMeps)
 
     const html = `
+    <div id="modalNewCEMB">
         <div class="flex input-field col s6">
             <label for="newCEMB">Novo Código EMBRAER</label>
             <input type="number" class="validate" name="newCEMB" id="newCEMB">
         </div>  
-        <div class="newCEMB flex input-field col s6">
-            <select name="newCEMB">
+        <div class="newMEP flex input-field col s6">
+            <select id="newMEP" name="newMEP">
                 <option value="" selected>Selecione a MEP</option>
                 ${optionMeps}
+                <option value="new" >Nova MEP</option>
             </select>
         </div>  
+    </div>  
     `;
     Swal.fire({
         title:"Adicionar Nova Tinta",
@@ -173,6 +176,26 @@ function modalNewCEMB(allInfoCEMB){
         showCancelButton: true,
         html: html,
     })
+
+    document.getElementById("newMEP").addEventListener("change", function (){
+        const selected = this.value
+        novaMEP(selected)
+    })
+}
+
+function novaMEP(valor){
+    const modalNewCEMB = document.getElementById("modalNewCEMB");
+
+    if (valor === "new"){
+        !document.getElementById("newInput") ? modalNewCEMB.insertAdjacentHTML('beforeend', `
+            <div id="newInput" class="flex input-field col s6">
+                <label for="newCEMB">Novo Código EMBRAER</label>
+                <input type="number" class="validate" name="newCEMB" id="newCEMB">
+            </div>  
+        `) : document.getElementById("newInput").remove()
+    }else{
+        document.getElementById("newInput") && document.getElementById("newInput").remove()
+    }
 }
 
 
