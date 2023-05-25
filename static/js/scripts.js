@@ -96,6 +96,7 @@ let renderizarMain = () => {
                 <div class="kaban">
                     <div class="topo">
                         <button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button> 
+                        <section class="btnNewCEMB"><button class="waves-effect waves-light btn-flat light-green lighten-2">Nova CEMB</button></section>
                         <section class="defImpressora">
                             <select name="defImpressora">
                                 <option value="pintura" selected>Escolha a impressora</option>
