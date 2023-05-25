@@ -15,7 +15,6 @@ body,html{
     /* background: radial-gradient(#ffffff, #a8a8a8) !important; */
     background-color: #cdcbcb;
     background-size: cover !important;
-    overflow-x: hidden;
 }    
 main{
     flex-direction: column;
@@ -308,6 +307,36 @@ nav{
 #quadro-btnEditar:hover{
     background-color: #5d6634;
 }
+#infosCEMB{
+    cursor: pointer;
+    color: #1d0088;
+}
+
+
+.containerInfosCEMB{
+    display: flex;
+}
+.containerInfosCEMB .colunaEspecificacoes{
+    text-align: start;
+    padding-right: 2em;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.containerInfosCEMB .colunaEspecificacoes li{
+    line-height: 2em;
+}
+.colunaParametros{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    border-left: 1px dashed #ccc;
+    padding-left: 2em;
+    text-align: center;
+}
+
+
 .btnApagar{
     position: absolute;
     left: 16px;
@@ -643,4 +672,9 @@ nav{
 }
 .divEditar{
     flex-direction: column;
+}
+
+
+.graphProp{
+    user-select: none;
 }

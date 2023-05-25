@@ -15,6 +15,14 @@ let impressora ;
 let quadrosAdicionados = [] ;
 
 
+// Modal de Erros Gerais
+function erro(){
+    Swal.fire({
+        title: "Ocorreu um erro no sistema.",
+        icon: "error"
+    })
+}
+
 
 // Definição de Eventos
 document.querySelector(".titulo h1").addEventListener("click", function(){
@@ -391,7 +399,7 @@ function addQuadro(dados) {
         <ul>
           <li>Número do Formulário: <b>${dados.numeroForm}</b></li>
           <li>Código do Pintor: <b>${dados.codPintor}</b></li>
-          <li>Cemb: <b>${dados.cemb}</b></li>
+          <li>Cemb: <b onclick="recebeInfosCEMB(${dados.cemb})" id="infosCEMB"><u>${dados.cemb}</u></b></li>
           <li>Quantidade Solicitada: <b>${dados.quantidade} ${dados.unidade}</b></li>
         </ul>
         <div class="quadro-btns">
@@ -405,9 +413,63 @@ function addQuadro(dados) {
       </div>`;
   
     ocsAdded = [];
+
 }
   
 
+// Especificações do CEMB
+function recebeInfosCEMB(cemb){
+    axios.post("/infosCEMB", {cemb: cemb}).then(response => {
+        if(response.data.length > 0){
+            console.log(response.data[0])
+            infosCEMB(response.data[0])
+        }else{
+            erro()
+        }
+        
+    }).catch(error => {
+        console.log(error)
+        erro()
+    })
+}
+
+function infosCEMB(infos){
+    let listaHTML = '<ul>\n';
+    for (const chave in infos) {
+        if (infos.hasOwnProperty(chave)) {
+            listaHTML += `  <li><b>${chave}</b>: ${infos[chave]}</li>\n`;
+        }
+    }
+    listaHTML += '</ul>';
+
+    let html = `
+        <div class="containerInfosCEMB">
+            <div class="colunaEspecificacoes">
+                <h5>Especificações</h5>
+                ${listaHTML}
+            </div>
+            <div class="colunaParametros">
+                <h5>Parâmetros</h5>
+                <img class="graphProp" src="${infos.graph}" alt="Proporção" />
+            </div>
+        </div>
+    `
+    // Obtenha o elemento body
+    const body = document.querySelector('body');
+    const originalOverflowY = body.style.overflowY;
+    body.style.overflowY = 'hidden';
+    
+    Swal.fire({
+        title: `Especificações do CEMB <b>${infos.cemb}</b>`,
+        icon: "info",
+        width: '60%',
+        confirmButtonColor: "#E57373",
+        html: html,
+        onClose: () => {
+            body.style.overflowX = originalOverflowY;
+        },
+    })
+}
 
 
 // Editar OCs

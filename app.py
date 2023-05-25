@@ -5,11 +5,18 @@ import hashlib
 import json
 from interfaceDB import DadosQuadros
 from print161 import Print161
+from routes.infosCEMB import *
+from routes.kaban import *
 
 mode = "dev" #prod ou dev
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+
+app.register_blueprint(infosCEMB_bp)
+app.register_blueprint(kaban)
+
 
 @app.route("/", methods=["POST", "GET"])
 def index():
@@ -85,28 +92,6 @@ def ocs_remove():
     OCs.removeOC(dados['idOC'])
     return {"success": True}
 
-
-@app.route("/dadosQuadrosHoje", methods=["POST", "GET"])
-def dadosQuadrosHoje():
-    status = request.args.get('status')
-    data = request.args.get('data')
-    return DadosQuadros(status, data).dados()
-
-@app.route("/finalizarQuadro", methods=["POST"])
-def finalizarQuadro():
-    idForm173 = request.json["id"]
-    return {"response": DBForm_173.update_form_173(idForm173, status=1)}
-
-@app.route("/dadosQuadroId", methods=["GET", "POST"])
-def dadosQuadroId():
-    id = request.args.get("id")
-    return DBForm_173.consultaEspecifica(id, "id")
-
-@app.route("/dadosOcsId", methods=["GET", "POST"])
-def dadosOcsId():
-    id = request.args.get("track_form173")
-    return OCs.consultaEspecifica(id, "track_form173")
-
 @app.route("/form40_inserir", methods=["POST", "GET"])
 def form40_inserir():
     dados = request.json
@@ -125,6 +110,8 @@ def print161():
     impressora = request.json['impressora']
     Print161(idForm73, user, impressora)
     return {"success": True}
+
+
 
 
 if __name__ == '__main__':
