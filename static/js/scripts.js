@@ -435,9 +435,14 @@ function recebeInfosCEMB(cemb){
 
 function infosCEMB(infos){
     let listaHTML = '<ul>\n';
+    const nAparece = ['cemb', 'bico', 'flash_off', 'graph', 'temperatura_secagem', 'viscosimetro']
     for (const chave in infos) {
-        if (infos.hasOwnProperty(chave)) {
-            listaHTML += `  <li><b>${chave}</b>: ${infos[chave]}</li>\n`;
+        if (infos.hasOwnProperty(chave) && !nAparece.includes(chave)) {
+            if (chave == 'pot_life'){
+                listaHTML += `  <li><b>${chave}</b>: ${infos[chave]} horas</li>\n`;
+            }else{
+                listaHTML += `  <li><b>${chave}</b>: ${infos[chave]}</li>\n`;
+            }
         }
     }
     listaHTML += '</ul>';
