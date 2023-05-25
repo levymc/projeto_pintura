@@ -164,8 +164,7 @@ function modalNewCEMB(allInfoCEMB){
     `;
     Swal.fire({
         title:"Adicionar Nova Tinta",
-        icon:"success",
-        width: '50%',
+        width: '40%',
         confirmButtonColor:"#b80000",
         confirmButtonText:"Adicionar",
         cancelButtonText:"Cancelar",
