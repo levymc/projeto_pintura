@@ -179,19 +179,16 @@ function modalNewCEMB(allInfoCEMB){
         preConfirm: () => {
             const newCEMB = document.getElementById('newCEMB').value;
             const newMEP = document.getElementById('newMEP').value;
+            if (!newCEMB || !newMEP ) {
+                Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+            }
             if (selected === "new"){
                 const newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
-                const quantidade = document.getElementById('quantidade').value;
-                const g = document.getElementById('g');
-                const ml = document.getElementById('ml');
+                const imageProp = document.getElementById('imageProp').value;
+                if (!newMEP_adicionar || !imageProp ) {
+                    Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+                } 
             }
-            
-        
-            if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked)) {
-                Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
-                } else if (g.checked === ml.checked) {
-                Swal.showValidationMessage(`Selecione apenas uma opção entre "ml" e "g".`)
-                }
             }
     }).then(response => {
         console.log(selected)
@@ -215,7 +212,7 @@ function novaMEP(valor){
             <div id="imageInput" class="file-field input-field">
                 <div class="btn">
                     <span>Imagem Proporção de Mistura</span>
-                    <input type="file"  name="myImage" accept="image/*">
+                    <input type="file" id="imageProp" name="myImage" accept="image/*">
                 </div>
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">
