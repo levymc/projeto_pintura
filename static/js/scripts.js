@@ -912,7 +912,7 @@ function btnForm40(id) {
         }).then(tinta => {
             console.log(tinta.data)
             const viscosimetro = `${tinta.data.map((copo, i) => 
-                `<option value="${i}">${copo}</option>`
+                `<option value="${copo}">${copo}</option>`
             )}
             `;
             console.log(viscosimetro)       
@@ -981,6 +981,7 @@ function btnForm40(id) {
                 <section class="btnAutorizar"><button id="btnAutorizar">Excessão: Autorizar</button></section>
             </div>
             `
+            
             Swal.fire({
                 title: "Form. 40 - Preparação de Tinta",
                 confirmButtonColor: "#E57373",
@@ -1027,7 +1028,7 @@ function btnForm40(id) {
                         umidade: document.getElementById(`umidade`).value,
                         lotemp: document.getElementById(`lotemp`).value,
                         shelf_life: document.getElementById(`shelf_life`).value,
-                        // viscosimetro: document.getElementById(`viscosimetro`).value,
+                        viscosimetro: document.getElementById(`viscosimetro`).value,
                         viscosidade: document.getElementById(`viscosidade`).value,
                         proporcao: document.getElementById(`proporcao`).value,
                         responsavel: user,

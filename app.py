@@ -97,6 +97,7 @@ def ocs_remove():
 @app.route("/form40_inserir", methods=["POST", "GET"])
 def form40_inserir():
     dados = request.json
+    print(dados)
     DBForm_40.insert(**dados)
     return {"success": True}
 
