@@ -741,6 +741,7 @@ function btnApagar(idOC){
     })
 }
 
+
 function insertOC_DB(id_form173, ocsAdicionadas){
     const ocsInput = document.getElementById("ocsEditar").value;
     const qntInput = document.getElementById("qntEditar").value;
@@ -787,6 +788,7 @@ function btnAddOC_Editar(ocsAdicionadas){
 }
 
 
+
 //Imprimir o Form 161
 function btnPrint(id, user){
     Swal.fire({
@@ -808,9 +810,9 @@ function btnPrint(id, user){
 }
 
 // Modal Form40
+
 function btnForm40(id) {
     let idQuadro = id
-    let viscosimetro; 
 
     const clearFormInputs = (idQuadro) => {
         localStorage.removeItem(`form40_temperatura_${idQuadro}`);
@@ -909,7 +911,12 @@ function btnForm40(id) {
             }
         }).then(tinta => {
             console.log(tinta.data)
-            viscosimetro = tinta.data
+            const viscosimetro = `${tinta.data.map((copo, i) => 
+                `<option value="${i}">${copo}</option>`
+            )}
+            `;
+            console.log(viscosimetro)       
+            
             const html = `
             <div class="modalForm40">
                 <div class="coluna1">
@@ -932,8 +939,11 @@ function btnForm40(id) {
                     <div class="shelf_life">
                         <input type="number" id="shelf_life" placeholder="Shelf Life">
                     </div>
-                    <div class="viscosimetro">
-                        <input type="text" id="viscosimetro" placeholder="Viscosímetro">
+                    <div class="viscosimetro newMEP flex input-field col s6">
+                        <select id="viscosimetro" name="newMEP">
+                            <option value="" selected>Selecione o Viscosímetro</option>
+                            ${viscosimetro}
+                        </select>
                     </div>
                     <div class="viscosidade">
                         <input type="number" id="viscosidade" placeholder="Viscosidade">
