@@ -421,6 +421,13 @@ class Relacao_Tintas(Base):
         tintas = session.query(cls.viscosimetro).filter(cls.cemb == cemb).all()
         tintas = [row[0].replace('Copo', '') for row in tintas]
         return tintas
+    
+    def insert(self):
+        session = Session()
+        session.add(self)
+        session.flush()  # Obtém o ID gerado antes do commit
+        session.commit()
+        return self
 
     
     @hybrid_property

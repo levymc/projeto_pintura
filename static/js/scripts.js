@@ -23,6 +23,12 @@ function erro(){
     })
 }
 
+function sucesso(){
+    Swal.fire({
+        title: "Informações Enviadas com Sucesso!",
+        icon: "success"
+    })
+}
 
 // Definição de Eventos
 document.querySelector(".titulo h1").addEventListener("click", function(){
@@ -144,12 +150,12 @@ function recebAllInfos(){
 function modalNewCEMB(allInfoCEMB){
     let selected;
     let meps = []
-    allInfoCEMB.map((info, i) => !meps.includes(info.norma) && meps.push(info.norma))
+    allInfoCEMB.map((info, i) => !meps.includes(info.norma.replace(/MEP/g, '').trim()) && meps.push(info.norma.replace(/MEP/g, '').trim()))
 
     const optionMeps = `
         ${meps.map((mep, i) => `<option value="${mep}">${mep}</option>`).join('\n')}
     `;
-    console.log(optionMeps)
+    console.log(meps)
 
     const html = `
     <div id="modalNewCEMB">
@@ -181,23 +187,49 @@ function modalNewCEMB(allInfoCEMB){
             const newMEP = document.getElementById('newMEP').value;
             if (!newCEMB || !newMEP ) {
                 Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
-            }
-            if (selected === "new"){
+            }else if (selected === "new"){
                 const newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
                 const imageProp = document.getElementById('imageProp').value;
                 if (!newMEP_adicionar || !imageProp ) {
                     Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
-                } 
+                } else if (meps.includes(newMEP_adicionar.replace(/MEP/g, '').trim())){
+                    Swal.showValidationMessage(`A MEP adicionada já existe!`)
+                }
             }
             }
     }).then(response => {
-        console.log(selected)
+        if( response.isConfirmed ){
+            const dados ={
+                newCEMB: document.getElementById('newCEMB').value,
+                newMEP: document.getElementById('newMEP').value,
+            }
+            if (selected === "new"){
+                dados.newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
+                dados.imageProp = document.getElementById('imageProp').value;
+            }
+            console.log(dados)
+            insertDB_newMEP(dados);
+            
+        }
     })
 
     document.getElementById("newMEP").addEventListener("change", function (){
         selected = this.value
         novaMEP(selected)
     })
+}
+
+function insertDB_newMEP(dados){
+    try{
+        axios.post("/newMEP", dados).then(response => {
+            console.log(response)
+            sucesso();
+        }).catch(error => {
+            console.log(error)
+        })
+    }catch(e){
+        console.log(e)
+    }
 }
 
 function novaMEP(valor){
@@ -207,7 +239,7 @@ function novaMEP(valor){
         !document.getElementById("newInput") ? modalNewCEMB.insertAdjacentHTML('beforeend', `
             <div id="newInput" class="flex input-field col s6">
                 <label for="newMEP_adicionar">Nova MEP</label>
-                <input type="number" class="validate" name="newMEP_adicionar" id="newMEP_adicionar">
+                <input type="text" class="validate" name="newMEP_adicionar" id="newMEP_adicionar">
             </div>  
             <div id="imageInput" class="file-field input-field">
                 <div class="btn">
