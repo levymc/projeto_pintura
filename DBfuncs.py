@@ -421,6 +421,21 @@ class Relacao_Tintas(Base):
         tintas = session.query(cls.viscosimetro).filter(cls.cemb == cemb).all()
         tintas = [row[0].replace('Copo', '') for row in tintas]
         return tintas
+    
+    @classmethod
+    def insert(cls, dados):
+        session = Session()
+        obj = cls(**dados)
+        session.add(obj)
+        try:
+            session.commit()
+            session.refresh(obj)  # Atualiza o objeto com os valores do banco de dados, incluindo o ID gerado
+            return obj.to_dict()  # Retorna um dicionário com os valores do objeto
+        except exc.SQLAlchemyError:
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
     
     @hybrid_property

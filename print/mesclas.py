@@ -4,7 +4,7 @@ from datetime import datetime
 import xlwings as xw
 import win32com.client as win32
 import win32api
-import sqlite3, shutil, win32print, re, pend_new, os, local
+import sqlite3, shutil, win32print, re, os, local
 from DBfuncs import DBForm_40, DBForm_173, DBForm_161
 
 
