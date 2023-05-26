@@ -23,6 +23,12 @@ function erro(){
     })
 }
 
+function sucesso(){
+    Swal.fire({
+        title: "Informações Enviadas com Sucesso!",
+        icon: "success"
+    })
+}
 
 // Definição de Eventos
 document.querySelector(".titulo h1").addEventListener("click", function(){
@@ -96,7 +102,7 @@ let renderizarMain = () => {
                 <div class="kaban">
                     <div class="topo">
                         <button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button> 
-                        <section class="btnNewCEMB"><button id="btnNewCEMB" class="waves-effect waves-light btn-flat light-green lighten-2">Nova CEMB</button></section>
+                        <section class="btnNewCEMB"><button id="btnNewCEMB" class="waves-effect waves-light btn-flat red lighten-2">Nova CEMB</button></section>
                         <section class="defImpressora">
                             <select name="defImpressora">
                                 <option value="pintura" selected>Escolha a impressora</option>
@@ -125,7 +131,6 @@ let renderizarMain = () => {
 
 // Modal Nova CEMB
 function confereMEP(){
-
 }
 
 function recebAllInfos(){
@@ -142,19 +147,24 @@ function recebAllInfos(){
 }
 
 function modalNewCEMB(allInfoCEMB){
+    let selected;
     let meps = []
-    allInfoCEMB.map((info, i) => !meps.includes(info.norma) && meps.push(info.norma))
+    allInfoCEMB.map((info, i) => !meps.includes(info.norma.replace(/MEP/g, '').trim()) && meps.push(info.norma.replace(/MEP/g, '').trim()))
 
     const optionMeps = `
         ${meps.map((mep, i) => `<option value="${mep}">${mep}</option>`).join('\n')}
     `;
-    console.log(optionMeps)
+    console.log(meps)
 
     const html = `
     <div id="modalNewCEMB">
         <div class="flex input-field col s6">
             <label for="newCEMB">Novo Código EMBRAER</label>
             <input type="number" class="validate" name="newCEMB" id="newCEMB">
+        </div>  
+        <div class="flex input-field col s6">
+            <label for="newCEMB">Descrição</label>
+            <input type="text" class="validate" name="newDescription" id="newDescription">
         </div>  
         <div class="newMEP flex input-field col s6">
             <select id="newMEP" name="newMEP">
@@ -175,12 +185,56 @@ function modalNewCEMB(allInfoCEMB){
         showCloseButton: true,
         showCancelButton: true,
         html: html,
+        preConfirm: () => {
+            const newCEMB = document.getElementById('newCEMB').value;
+            const newMEP = document.getElementById('newMEP').value;
+            const newDescription = document.getElementById('newDescription').value;
+            if (!newCEMB || !newMEP || !newDescription) {
+                Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+            }else if (selected === "new"){
+                const newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
+                const imageProp = document.getElementById('imageProp').value;
+                if (!newMEP_adicionar || !imageProp ) {
+                    Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+                } else if (meps.includes(newMEP_adicionar.replace(/MEP/g, '').trim())){
+                    Swal.showValidationMessage(`A MEP adicionada já existe!`)
+                }
+            }
+            }
+    }).then(response => {
+        if( response.isConfirmed ){
+            const dados ={
+                newCEMB: document.getElementById('newCEMB').value,
+                newMEP: document.getElementById('newMEP').value,
+                newDescription: document.getElementById('newDescription').value,
+            }
+            if (selected === "new"){
+                dados.newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
+                dados.imageProp = document.getElementById('imageProp').value;
+            }
+            console.log(dados)
+            insertDB_newMEP(dados);
+            
+        }
     })
 
     document.getElementById("newMEP").addEventListener("change", function (){
-        const selected = this.value
+        selected = this.value
         novaMEP(selected)
     })
+}
+
+function insertDB_newMEP(dados){
+    try{
+        axios.post("/newMEP", dados).then(response => {
+            console.log(response)
+            sucesso();
+        }).catch(error => {
+            console.log(error)
+        })
+    }catch(e){
+        console.log(e)
+    }
 }
 
 function novaMEP(valor){
@@ -189,8 +243,17 @@ function novaMEP(valor){
     if (valor === "new"){
         !document.getElementById("newInput") ? modalNewCEMB.insertAdjacentHTML('beforeend', `
             <div id="newInput" class="flex input-field col s6">
-                <label for="newCEMB">Novo Código EMBRAER</label>
-                <input type="number" class="validate" name="newCEMB" id="newCEMB">
+                <label for="newMEP_adicionar">Nova MEP</label>
+                <input type="text" class="validate" name="newMEP_adicionar" id="newMEP_adicionar">
+            </div>  
+            <div id="imageInput" class="file-field input-field">
+                <div class="btn">
+                    <span>Imagem Proporção de Mistura</span>
+                    <input type="file" id="imageProp" name="myImage" accept="image/*">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
             </div>  
         `) : document.getElementById("newInput").remove()
     }else{
@@ -678,6 +741,7 @@ function btnApagar(idOC){
     })
 }
 
+
 function insertOC_DB(id_form173, ocsAdicionadas){
     const ocsInput = document.getElementById("ocsEditar").value;
     const qntInput = document.getElementById("qntEditar").value;
@@ -724,6 +788,7 @@ function btnAddOC_Editar(ocsAdicionadas){
 }
 
 
+
 //Imprimir o Form 161
 function btnPrint(id, user){
     Swal.fire({
@@ -745,9 +810,9 @@ function btnPrint(id, user){
 }
 
 // Modal Form40
+
 function btnForm40(id) {
     let idQuadro = id
-    let viscosimetro; 
 
     const clearFormInputs = (idQuadro) => {
         localStorage.removeItem(`form40_temperatura_${idQuadro}`);
@@ -846,7 +911,12 @@ function btnForm40(id) {
             }
         }).then(tinta => {
             console.log(tinta.data)
-            viscosimetro = tinta.data
+            const viscosimetro = `${tinta.data.map((copo, i) => 
+                `<option value="${copo}">${copo}</option>`
+            )}
+            `;
+            console.log(viscosimetro)       
+            
             const html = `
             <div class="modalForm40">
                 <div class="coluna1">
@@ -869,8 +939,11 @@ function btnForm40(id) {
                     <div class="shelf_life">
                         <input type="number" id="shelf_life" placeholder="Shelf Life">
                     </div>
-                    <div class="viscosimetro">
-                        <input type="text" id="viscosimetro" placeholder="Viscosímetro">
+                    <div class="viscosimetro newMEP flex input-field col s6">
+                        <select id="viscosimetro" name="newMEP">
+                            <option value="" selected>Selecione o Viscosímetro</option>
+                            ${viscosimetro}
+                        </select>
                     </div>
                     <div class="viscosidade">
                         <input type="number" id="viscosidade" placeholder="Viscosidade">
@@ -908,6 +981,7 @@ function btnForm40(id) {
                 <section class="btnAutorizar"><button id="btnAutorizar">Excessão: Autorizar</button></section>
             </div>
             `
+            
             Swal.fire({
                 title: "Form. 40 - Preparação de Tinta",
                 confirmButtonColor: "#E57373",
@@ -954,7 +1028,7 @@ function btnForm40(id) {
                         umidade: document.getElementById(`umidade`).value,
                         lotemp: document.getElementById(`lotemp`).value,
                         shelf_life: document.getElementById(`shelf_life`).value,
-                        // viscosimetro: document.getElementById(`viscosimetro`).value,
+                        viscosimetro: document.getElementById(`viscosimetro`).value,
                         viscosidade: document.getElementById(`viscosidade`).value,
                         proporcao: document.getElementById(`proporcao`).value,
                         responsavel: user,
