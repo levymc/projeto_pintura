@@ -96,7 +96,7 @@ let renderizarMain = () => {
                 <div class="kaban">
                     <div class="topo">
                         <button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button> 
-                        <section class="btnNewCEMB"><button id="btnNewCEMB" class="waves-effect waves-light btn-flat light-green lighten-2">Nova CEMB</button></section>
+                        <section class="btnNewCEMB"><button id="btnNewCEMB" class="waves-effect waves-light btn-flat red lighten-2">Nova CEMB</button></section>
                         <section class="defImpressora">
                             <select name="defImpressora">
                                 <option value="pintura" selected>Escolha a impressora</option>
@@ -142,6 +142,7 @@ function recebAllInfos(){
 }
 
 function modalNewCEMB(allInfoCEMB){
+    let selected;
     let meps = []
     allInfoCEMB.map((info, i) => !meps.includes(info.norma) && meps.push(info.norma))
 
@@ -175,10 +176,29 @@ function modalNewCEMB(allInfoCEMB){
         showCloseButton: true,
         showCancelButton: true,
         html: html,
+        preConfirm: () => {
+            const newCEMB = document.getElementById('newCEMB').value;
+            const newMEP = document.getElementById('newMEP').value;
+            if (selected === "new"){
+                const newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
+                const quantidade = document.getElementById('quantidade').value;
+                const g = document.getElementById('g');
+                const ml = document.getElementById('ml');
+            }
+            
+        
+            if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked)) {
+                Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+                } else if (g.checked === ml.checked) {
+                Swal.showValidationMessage(`Selecione apenas uma opção entre "ml" e "g".`)
+                }
+            }
+    }).then(response => {
+        console.log(selected)
     })
 
     document.getElementById("newMEP").addEventListener("change", function (){
-        const selected = this.value
+        selected = this.value
         novaMEP(selected)
     })
 }
@@ -189,8 +209,8 @@ function novaMEP(valor){
     if (valor === "new"){
         !document.getElementById("newInput") ? modalNewCEMB.insertAdjacentHTML('beforeend', `
             <div id="newInput" class="flex input-field col s6">
-                <label for="newCEMB">Novo Código EMBRAER</label>
-                <input type="number" class="validate" name="newCEMB" id="newCEMB">
+                <label for="newMEP_adicionar">Nova MEP</label>
+                <input type="number" class="validate" name="newMEP_adicionar" id="newMEP_adicionar">
             </div>  
             <div id="imageInput" class="file-field input-field">
                 <div class="btn">
