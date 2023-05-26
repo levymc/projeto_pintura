@@ -131,7 +131,6 @@ let renderizarMain = () => {
 
 // Modal Nova CEMB
 function confereMEP(){
-
 }
 
 function recebAllInfos(){
@@ -163,6 +162,10 @@ function modalNewCEMB(allInfoCEMB){
             <label for="newCEMB">Novo Código EMBRAER</label>
             <input type="number" class="validate" name="newCEMB" id="newCEMB">
         </div>  
+        <div class="flex input-field col s6">
+            <label for="newCEMB">Descrição</label>
+            <input type="text" class="validate" name="newDescription" id="newDescription">
+        </div>  
         <div class="newMEP flex input-field col s6">
             <select id="newMEP" name="newMEP">
                 <option value="" selected>Selecione a MEP</option>
@@ -185,7 +188,8 @@ function modalNewCEMB(allInfoCEMB){
         preConfirm: () => {
             const newCEMB = document.getElementById('newCEMB').value;
             const newMEP = document.getElementById('newMEP').value;
-            if (!newCEMB || !newMEP ) {
+            const newDescription = document.getElementById('newDescription').value;
+            if (!newCEMB || !newMEP || !newDescription) {
                 Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
             }else if (selected === "new"){
                 const newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
@@ -202,6 +206,7 @@ function modalNewCEMB(allInfoCEMB){
             const dados ={
                 newCEMB: document.getElementById('newCEMB').value,
                 newMEP: document.getElementById('newMEP').value,
+                newDescription: document.getElementById('newDescription').value,
             }
             if (selected === "new"){
                 dados.newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
