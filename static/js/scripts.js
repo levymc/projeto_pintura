@@ -192,6 +192,15 @@ function novaMEP(valor){
                 <label for="newCEMB">Novo Código EMBRAER</label>
                 <input type="number" class="validate" name="newCEMB" id="newCEMB">
             </div>  
+            <div id="imageInput" class="file-field input-field">
+                <div class="btn">
+                    <span>Imagem Proporção de Mistura</span>
+                    <input type="file"  name="myImage" accept="image/*">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>  
         `) : document.getElementById("newInput").remove()
     }else{
         document.getElementById("newInput") && document.getElementById("newInput").remove()

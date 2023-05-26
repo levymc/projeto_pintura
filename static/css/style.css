@@ -694,3 +694,16 @@ nav{
 .graphProp{
     user-select: none;
 }
+
+#modalNewCEMB{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+#imageInput{
+    display: flex;
+    /* gap: 0.5rem; */
+}
