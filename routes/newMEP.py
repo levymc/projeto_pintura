@@ -7,5 +7,15 @@ insertDB_newMEP = Blueprint('newMEP', __name__)
 @insertDB_newMEP.route("/newMEP", methods=["POST", "GET"])
 def newMEP():
     dados = request.json
-    print(dados)
-    return {'value': True}
+    print("EU",dados)
+    if 'newMEP_adicionar' in dados and 'imageProp' in dados:
+        return Relacao_Tintas.insert({
+            'cemb': dados['newCEMB'],
+            'norma': dados['newMEP_adicionar'],
+            'graph': dados['imageProp'],
+            })
+    else:
+        return Relacao_Tintas.insert({
+            'cemb': dados['newCEMB'],
+            'norma': dados['newMEP'],
+            })
