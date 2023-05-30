@@ -71,11 +71,14 @@ main{
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
     /* padding: 15px; */
     width: 100%;
+    font-weight: bold;
+    font-size: 40px;
 }
 .titulo h1{
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
+    text-align: center;
     color: #ede9e9;
 }
 .container{
@@ -139,15 +142,6 @@ input::placeholder{
 .userForm button:active{
     background-color: #a8a8a8;
 }
-.titulo {
-    width: 100vw;
-    font-weight: bold;
-    font-size: 40px;
-}
-.titulo h1{
-    text-align: center;
-    
-}    
 .titulo h3{
     margin-top: 1em;
     text-align: center;
