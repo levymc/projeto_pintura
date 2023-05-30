@@ -453,16 +453,18 @@ nav{
     align-items: center;
     width: 50%;
     flex-direction: column;
-    gap: 0.5em;
+    padding-right: 1.5rem;
+    /* gap: 0.5em; */
     position: relative;
 }
 .form173 div{
     width: 100%;
 }
 
-.numeroForm input, .codPintor input, .cemb input, #quantidade{
+.numeroForm .input-field, .codPintor .input-field, .cemb .input-field, #quantidade .input-field{
     margin-right: 2em !important;
     width: 100% !important;
+    margin-top: 0 !important;
 }
 
 
