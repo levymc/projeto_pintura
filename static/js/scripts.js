@@ -843,8 +843,8 @@ function btnPrint(id, user){
     })
 }
 
-// Modal Form40
 
+// Modal Form40
 function btnForm40(id) {
     let idQuadro = id
 

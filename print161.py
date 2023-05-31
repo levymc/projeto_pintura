@@ -97,8 +97,9 @@ class Print161():
             ws.range("F"+f"{linha}").value = oc
             ws.range("I"+f"{linha}").value = i['quantidade']
             linha += 1
-        ws.range("I4").value = DBForm_173.consultaEspecifica(self.id, 'id')[0]['data'].format('%d.%m.%Y')
-        ws.range("C3").value = "Mescla"
+        dataDB = DBForm_173.consultaEspecifica(self.id, 'id')[0]
+        ws.range("I4").value = dataDB['data'].format('%d.%m.%Y')
+        ws.range("C3").value = dataDB['mescla']
         ws.range("C4").value = self.nomePintor
         ws.range("J3").value = self.form_173_tudo[0]['cemb']
         ws.range("K4").value = self.codPintor
