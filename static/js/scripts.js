@@ -297,15 +297,16 @@ function modalSolicitacao(){
             <div class="quantidade flex input-field col s6"">
                 <input class="validate" type="number" name="quantidade" id="quantidade">
                 <label for="quantidade">Quantidade Solicitada</label>
-            </div>
-            <div class="container-checkboxes flex">
-                <div class="checkboxes">
-                    <input type="checkbox" id="g" name='g' value="g">
-                    <label for="g">g</label>
-                </div>
-                <div class="checkboxes">
-                    <input type="checkbox" id="ml" name='ml' value="ml">
-                    <label for="ml">ml</label>
+            
+                <div class="container-checkboxes flex">
+                    <div class="checkboxes">
+                        <input type="checkbox" id="g" name='g' value="g">
+                        <label for="g">g</label>
+                    </div>
+                    <div class="checkboxes">
+                        <input type="checkbox" id="ml" name='ml' value="ml">
+                        <label for="ml">ml</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -373,6 +374,10 @@ function modalSolicitacao(){
         checkboxG.checked = false;
     }
     });
+}
+
+function novoNumeroMescla(){
+    // Comunicação Axios com o endpoint parareceber a ultima mescla
 }
 
 let btnAddOC = () => {

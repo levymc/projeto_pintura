@@ -509,14 +509,17 @@ nav{
 }
 
 .quantidade{
-    width: 100%; gap: 3em;
-    justify-content: space-between;
+    width: 100%;
+    position: relative;
 }
 #quantidade{
     width: 100%;
 }
 .container-checkboxes{
+    flex-direction: column;
     gap: 0.2em;
+    position: absolute;
+    left: 10em;
 }
 .checkboxes{
     display: flex; 
