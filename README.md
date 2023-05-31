@@ -25,3 +25,5 @@ As seguintes tecnologias serão utilizadas no desenvolvimento deste projeto:
 - Python
 - MySQL
 - SqLite
+
+![sispint](https://github.com/levymc/projeto_pintura/assets/97532455/da7026f0-62a0-4ce8-a0a3-15da05ec3636)
