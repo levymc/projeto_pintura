@@ -458,28 +458,54 @@ function kaban() {
     `
 }
 
-function primeiroQuadro(){
-    const dados = {
-        numeroForm: document.querySelector(".numeroForm input").value,
-        solicitante: user,
-        codPintor: document.querySelector(".codPintor input").value,
-        cemb: document.querySelector(".cemb input").value,
-        quantidade: document.querySelector(".quantidade input").value,
-        unidade: getUnidade(),
-        ocs: ocsAdded,
-        data: dataAtual,
-        status: 0, // por padrão é 0, ou seja, ainda esta como pendente
-    }
-    //Enviar para o DB table form173 e ocs
-    axios.post("/form173_inserir", dados).then(response =>{ //form 173
-        dados.id = response.data.obj.id;
-        console.log(response.data)
-        axios.post("/ocs_inserir", {ocs: dados.ocs, id_form173: dados.id}).then(responseOCs => { //Ocs
+function primeiroQuadro() {
+    // Obter a última mescla do banco de dados
+    axios.get("/obterUltimaMescla").then(response => {
+        console.log(response)
+        const ultimaMescla = response.data.mescla;
+    
+        // Obter o ano atual
+        const anoAtual = new Date().getFullYear();
+    
+        // Extrair o prefixo e o sufixo da última mescla
+        const [prefixo, ultimoSufixo] = ultimaMescla.split("-");
+        const ultimoNumero = parseInt(ultimoSufixo, 10);
+    
+        // Verificar se é um novo ano
+        const novoAno = anoAtual.toString() !== prefixo;
+    
+        // Atualizar o prefixo e o sufixo da mescla
+        const novoPrefixo = novoAno ? `${anoAtual}-` : prefixo;
+        const novoSufixo = (novoAno || isNaN(ultimoNumero)) ? "0001" : (ultimoNumero + 1).toString().padStart(4, "0");
+    
+        // Construir a nova mescla
+        const novaMescla = `${novoPrefixo}${novoSufixo}`;
+    
+        const dados = {
+            numeroForm: document.querySelector(".numeroForm input").value,
+            solicitante: user,
+            codPintor: document.querySelector(".codPintor input").value,
+            cemb: document.querySelector(".cemb input").value,
+            quantidade: document.querySelector(".quantidade input").value,
+            unidade: getUnidade(),
+            ocs: ocsAdded,
+            data: dataAtual,
+            status: 0, // por padrão é 0, ou seja, ainda está como pendente
+            mescla: novaMescla // adicionar a nova mescla aos dados
+        };
+    
+        // Enviar para o DB table form173 e ocs
+        axios.post("/form173_inserir", dados).then(response => { //form 173
+            dados.id = response.data.obj.id;
+            console.log(response.data);
+            axios.post("/ocs_inserir", { ocs: dados.ocs, id_form173: dados.id }).then(responseOCs => { //Ocs
             console.log(responseOCs);
-            carregarDadosQuadros()
-        })
+            carregarDadosQuadros();
+            });
+        });
     });
-}
+  }
+  
 
 function getUnidade() {
   var checkboxML = document.getElementById("ml");

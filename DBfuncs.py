@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, create_engine, and_, func, updat
 from sqlalchemy.orm import sessionmaker, declarative_base, scoped_session
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
-from sqlalchemy import exc
+from sqlalchemy import exc, desc
 import datetime
 
 engine = create_engine(r'sqlite:///static/db/db.db', echo=False)
@@ -140,6 +140,14 @@ class DBForm_173(Base):
 
     def __repr__(self):
         return str(self.to_dict())
+    
+    @classmethod
+    def get_ultima_linha_form173(cls):
+        session = Session()
+        ultima_linha = session.query(cls).order_by(desc(cls.id)).first()
+        if ultima_linha is not None:
+            return ultima_linha.to_dict()
+        return None
     
     @classmethod
     def insert(cls, dados):
