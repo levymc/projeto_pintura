@@ -7,6 +7,8 @@ from interfaceDB import DadosQuadros
 from print161 import Print161
 from routes.infosCEMB import *
 from routes.kaban import *
+from routes.ultimaMescla import *
+from routes.newMEP import *
 
 mode = "dev" #prod ou dev
 
@@ -16,6 +18,8 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 app.register_blueprint(infosCEMB_bp)
 app.register_blueprint(kaban)
+app.register_blueprint(insertDB_newMEP)
+app.register_blueprint(ultimaMescla_bp)
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -70,7 +74,8 @@ def form173_inserir():
         'quantidade': dados['quantidade'],
         'unidade': dados['unidade'],
         'data': dados['data'],
-        'status': dados['status']
+        'status': dados['status'],
+        'mescla': dados['mescla']
     }
     objetoInserido = DBForm_173.insert(dadosInserir)
     return {
@@ -95,6 +100,7 @@ def ocs_remove():
 @app.route("/form40_inserir", methods=["POST", "GET"])
 def form40_inserir():
     dados = request.json
+    print(dados)
     DBForm_40.insert(**dados)
     return {"success": True}
 

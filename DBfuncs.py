@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, create_engine, and_, func, updat
 from sqlalchemy.orm import sessionmaker, declarative_base, scoped_session
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
-from sqlalchemy import exc
+from sqlalchemy import exc, desc
 import datetime
 
 engine = create_engine(r'sqlite:///static/db/db.db', echo=False)
@@ -122,6 +122,7 @@ class DBForm_173(Base):
     unidade = Column(String)
     data = Column(String)
     status = Column(Integer)
+    mescla = Column(String)
     
     
     def to_dict(self):
@@ -135,11 +136,20 @@ class DBForm_173(Base):
             'quantidade': self.quantidade,
             'unidade': self.unidade,
             'data': self.data,
-            'status': self.status
+            'status': self.status,
+            'mescla': self.mescla
         }
 
     def __repr__(self):
         return str(self.to_dict())
+    
+    @classmethod
+    def get_ultima_linha_form173(cls):
+        session = Session()
+        ultima_linha = session.query(cls).order_by(desc(cls.id)).first()
+        if ultima_linha is not None:
+            return ultima_linha.to_dict()
+        return None
     
     @classmethod
     def insert(cls, dados):
@@ -421,6 +431,21 @@ class Relacao_Tintas(Base):
         tintas = session.query(cls.viscosimetro).filter(cls.cemb == cemb).all()
         tintas = [row[0].replace('Copo', '') for row in tintas]
         return tintas
+    
+    @classmethod
+    def insert(cls, dados):
+        session = Session()
+        obj = cls(**dados)
+        session.add(obj)
+        try:
+            session.commit()
+            session.refresh(obj)  # Atualiza o objeto com os valores do banco de dados, incluindo o ID gerado
+            return obj.to_dict()  # Retorna um dicionário com os valores do objeto
+        except exc.SQLAlchemyError:
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
     
     @hybrid_property
@@ -429,7 +454,8 @@ class Relacao_Tintas(Base):
     
     @classmethod
     def consulta(cls):
-        conteudo  = [tinta.as_dict for tinta in Session.query(cls).all()]
+        session = Session()
+        conteudo  = [tinta.as_dict for tinta in session.query(cls).all()]
         return conteudo
     
     def consultaViscosidade(cls, cemb, valor_selecionado):

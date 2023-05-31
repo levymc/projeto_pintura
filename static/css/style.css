@@ -71,11 +71,14 @@ main{
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
     /* padding: 15px; */
     width: 100%;
+    font-weight: bold;
+    font-size: 40px;
 }
 .titulo h1{
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
+    text-align: center;
     color: #ede9e9;
 }
 .container{
@@ -139,15 +142,6 @@ input::placeholder{
 .userForm button:active{
     background-color: #a8a8a8;
 }
-.titulo {
-    width: 100vw;
-    font-weight: bold;
-    font-size: 40px;
-}
-.titulo h1{
-    text-align: center;
-    
-}    
 .titulo h3{
     margin-top: 1em;
     text-align: center;
@@ -197,7 +191,22 @@ nav{
 .topo button{
     width: auto;
 }
-.defImpressora select {
+.btnNewCEMB{
+    position: absolute;
+    top: 3.5rem;
+    width: 100%;
+}
+.btnNewCEMB button{
+    font-size: 8px;
+    height: 2rem;
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+}
+.defImpressora select , .newMEP select{
     border:1px solid #ccc !important;
     border-radius:3px !important;
     padding:0 3px !important;
@@ -444,16 +453,18 @@ nav{
     align-items: center;
     width: 50%;
     flex-direction: column;
-    gap: 0.5em;
+    padding-right: 1.5rem;
+    /* gap: 0.5em; */
     position: relative;
 }
 .form173 div{
     width: 100%;
 }
 
-.numeroForm input, .codPintor input, .cemb input, #quantidade{
+.numeroForm .input-field, .codPintor .input-field, .cemb .input-field, #quantidade .input-field{
     margin-right: 2em !important;
     width: 100% !important;
+    margin-top: 0 !important;
 }
 
 
@@ -498,14 +509,17 @@ nav{
 }
 
 .quantidade{
-    width: 100%; gap: 3em;
-    justify-content: space-between;
+    width: 100%;
+    position: relative;
 }
 #quantidade{
     width: 100%;
 }
 .container-checkboxes{
+    flex-direction: column;
     gap: 0.2em;
+    position: absolute;
+    left: 10em;
 }
 .checkboxes{
     display: flex; 
@@ -677,4 +691,17 @@ nav{
 
 .graphProp{
     user-select: none;
+}
+
+#modalNewCEMB{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+#imageInput{
+    display: flex;
+    /* gap: 0.5rem; */
 }
