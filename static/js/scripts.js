@@ -461,28 +461,28 @@ function kaban() {
 function primeiroQuadro() {
     // Obter a última mescla do banco de dados
     axios.get("/obterUltimaMescla").then(response => {
-        console.log(response)
         const ultimaMescla = response.data.mescla;
-        console.log("Mescla: ", ultimaMescla)
+        console.log("Mescla: ", ultimaMescla);
+    
+        // Extrair o prefixo e o sufixo da última mescla
+        const prefixo = ultimaMescla.slice(0, 3);
+        const ultimoSufixo = parseInt(ultimaMescla.slice(3), 10);
+    
         // Obter o ano atual
         const anoAtual = new Date().getFullYear();
     
-        // Extrair o prefixo e o sufixo da última mescla
-        const [prefixo, ultimoSufixo] = ultimaMescla.split("-");
-        const ultimoNumero = parseInt(ultimoSufixo, 10);
-    
         // Verificar se é um novo ano
-        const novoAno = anoAtual.toString() !== prefixo;
+        const novoAno = anoAtual.toString().slice(2) !== prefixo;
     
         // Atualizar o prefixo e o sufixo da mescla
-        const novoPrefixo = novoAno ? `${anoAtual}-` : prefixo;
-        const novoSufixo = (novoAno || isNaN(ultimoNumero)) ? "0001" : (ultimoNumero + 1).toString().padStart(4, "0");
+        const novoPrefixo = novoAno ? `${anoAtual.toString().slice(2)}-` : prefixo;
+        const novoSufixo = ultimoSufixo + 1;
     
         // Construir a nova mescla
-        const novaMescla = `${novoPrefixo}${novoSufixo}`;
-
-        console.log("new: ", novaMescla)
-
+        const novoSufixoFormatado = novoSufixo.toString().padStart(4, "0");
+        const novaMescla = `${novoPrefixo}${novoSufixoFormatado}`;
+        console.log("Nova Mescla: ", novaMescla);
+  
         const dados = {
             numeroForm: document.querySelector(".numeroForm input").value,
             solicitante: user,
@@ -495,18 +495,19 @@ function primeiroQuadro() {
             status: 0, // por padrão é 0, ou seja, ainda está como pendente
             mescla: novaMescla // adicionar a nova mescla aos dados
         };
-    
-        // Enviar para o DB table form173 e ocs
-        axios.post("/form173_inserir", dados).then(response => { //form 173
-            dados.id = response.data.obj.id;
-            console.log(response.data);
-            axios.post("/ocs_inserir", { ocs: dados.ocs, id_form173: dados.id }).then(responseOCs => { //Ocs
-            console.log(responseOCs);
-            carregarDadosQuadros();
-            });
+  
+      // Enviar para o DB table form173 e ocs
+      axios.post("/form173_inserir", dados).then(response => { //form 173
+        dados.id = response.data.obj.id;
+        console.log(response.data);
+        axios.post("/ocs_inserir", { ocs: dados.ocs, id_form173: dados.id }).then(responseOCs => { //Ocs
+          console.log(responseOCs);
+          carregarDadosQuadros();
         });
+      });
     });
   }
+  
   
 
 function getUnidade() {
@@ -545,7 +546,6 @@ function addQuadro(dados) {
     let Ocs = [];
 
     quadrosAdicionados.push({id: dados.id, dados: dados})
-    console.log(dados.ocs)
     dados.ocs.map((oc) =>
       oc.oc && Ocs.push(`
         <tr>
