@@ -463,7 +463,7 @@ function primeiroQuadro() {
     axios.get("/obterUltimaMescla").then(response => {
         console.log(response)
         const ultimaMescla = response.data.mescla;
-    
+        console.log("Mescla: ", ultimaMescla)
         // Obter o ano atual
         const anoAtual = new Date().getFullYear();
     
@@ -480,7 +480,9 @@ function primeiroQuadro() {
     
         // Construir a nova mescla
         const novaMescla = `${novoPrefixo}${novoSufixo}`;
-    
+
+        console.log("new: ", novaMescla)
+
         const dados = {
             numeroForm: document.querySelector(".numeroForm input").value,
             solicitante: user,

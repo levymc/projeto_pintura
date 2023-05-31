@@ -74,7 +74,8 @@ def form173_inserir():
         'quantidade': dados['quantidade'],
         'unidade': dados['unidade'],
         'data': dados['data'],
-        'status': dados['status']
+        'status': dados['status'],
+        'mescla': dados['mescla']
     }
     objetoInserido = DBForm_173.insert(dadosInserir)
     return {

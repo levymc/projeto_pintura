@@ -122,6 +122,7 @@ class DBForm_173(Base):
     unidade = Column(String)
     data = Column(String)
     status = Column(Integer)
+    mescla = Column(String)
     
     
     def to_dict(self):
@@ -135,7 +136,8 @@ class DBForm_173(Base):
             'quantidade': self.quantidade,
             'unidade': self.unidade,
             'data': self.data,
-            'status': self.status
+            'status': self.status,
+            'mescla': self.mescla
         }
 
     def __repr__(self):
