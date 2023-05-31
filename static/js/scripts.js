@@ -242,19 +242,21 @@ function novaMEP(valor){
 
     if (valor === "new"){
         !document.getElementById("newInput") ? modalNewCEMB.insertAdjacentHTML('beforeend', `
-            <div id="newInput" class="flex input-field col s6">
-                <label for="newMEP_adicionar">Nova MEP</label>
-                <input type="text" class="validate" name="newMEP_adicionar" id="newMEP_adicionar">
-            </div>  
-            <div id="imageInput" class="file-field input-field">
-                <div class="btn">
-                    <span>Imagem Proporção de Mistura</span>
-                    <input type="file" id="imageProp" name="myImage" accept="image/*">
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
-                </div>
-            </div>  
+            <div id="newInput">    
+                <div class="flex input-field col s6">
+                    <label for="newMEP_adicionar">Nova MEP</label>
+                    <input type="text" class="validate" name="newMEP_adicionar" id="newMEP_adicionar">
+                </div>  
+                <div id="imageInput" class="file-field input-field">
+                    <div class="btn">
+                        <span>Imagem Proporção de Mistura</span>
+                        <input type="file" id="imageProp" name="myImage" accept="image/*">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div> 
+            </div> 
         `) : document.getElementById("newInput").remove()
     }else{
         document.getElementById("newInput") && document.getElementById("newInput").remove()
