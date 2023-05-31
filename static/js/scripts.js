@@ -506,8 +506,7 @@ function primeiroQuadro() {
         });
       });
     });
-  }
-  
+}
   
 
 function getUnidade() {
