@@ -13,7 +13,7 @@ let ocsAdded = [];
 let dadosQuadros = [];
 let impressora ;
 let quadrosAdicionados = [] ;
-
+let statusSolicitacoes ;
 
 // Modal de Erros Gerais
 function erro(){
@@ -41,22 +41,39 @@ let enterKeyHandler = function(event) {
     }
 };
 
-function defImpressora(){
-    listaSuspensa = document.querySelector('.defImpressora select')
+
+function defStatus(){
+    const listaSuspensa = document.querySelector('.defStatus select')
     listaSuspensa.addEventListener('change', function() {
-        const valorSelecionado = listaSuspensa.value;
-    
-        if (valorSelecionado === 'pcp') {
-            console.log("pcp")
-            impressora = 'RICOH MP C2504ex PCL 6';
-        } else if (valorSelecionado === 'pintura') {
-            impressora = 'RICOH Aficio SP 3510DN PCL 6';
-            console.log("pintura")
-        }else if (valorSelecionado === `dev`) {
-            impressora = 'Microsoft Print to PDF'
-            console.log('dev')
-        }
+    const valorSelecionado = listaSuspensa.value;
+    if (valorSelecionado === 'pendentes') {
+        console.log("Pendentes")
+        statusSolicitacoes = 0;
+    } else if (valorSelecionado === 'finalizadas') {
+        statusSolicitacoes = 1;
+        console.log("Finalizadas")
+    }else if (valorSelecionado === `canceladas`) {
+        statusSolicitacoes = 2
+        console.log('Canceladas')
+    }
     });
+}
+
+function defImpressora(){
+    const listaSuspensa = document.querySelector('.defImpressora select')
+    listaSuspensa.addEventListener('change', function() {
+    const valorSelecionado = listaSuspensa.value;   
+    if (valorSelecionado === 'pcp') {
+        console.log("pcp")
+        impressora = 'RICOH MP C2504ex PCL 6';
+    } else if (valorSelecionado === 'pintura') {
+        impressora = 'RICOH Aficio SP 3510DN PCL 6';
+        console.log("pintura")
+    }else if (valorSelecionado === `dev`) {
+        impressora = 'Microsoft Print to PDF'
+        console.log('dev')
+    }
+});
 }
 
 
@@ -113,9 +130,9 @@ let renderizarMain = () => {
                         </section>
                         <section class="defStatus">
                             <select name="defStatus">
-                                <option value="pintura" selected>Pendentes</option>
-                                <option value="pintura">Finalizadas</option>
-                                <option value="pcp">Canceladas</option>
+                                <option value="pendentes" selected>Pendentes</option>
+                                <option value="finalizadas">Finalizadas</option>
+                                <option value="canceladas">Canceladas</option>
                             </select>
                         </section>
                     </div>
@@ -133,6 +150,7 @@ let renderizarMain = () => {
     })
     carregarDadosQuadros()
     defImpressora();
+    defStatus();
 }
 
 

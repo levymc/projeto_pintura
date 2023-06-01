@@ -221,7 +221,7 @@ nav{
 }
 .defStatus{
     position: absolute;
-    top: 4rem;
+    top: 3.5rem;
     right: 0;
 }
 
@@ -230,7 +230,7 @@ nav{
     flex-wrap: wrap;
     justify-content: space-evenly;
     gap: 2em;
-    padding-top:2em;
+    padding-top:4em;
     padding-bottom: 3em;
 }
 .quadro{
