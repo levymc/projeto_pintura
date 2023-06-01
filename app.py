@@ -9,6 +9,7 @@ from routes.infosCEMB import *
 from routes.kaban import *
 from routes.ultimaMescla import *
 from routes.newMEP import *
+from routes.acesso import *
 
 mode = "dev" #prod ou dev
 
@@ -16,6 +17,7 @@ app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
+app.register_blueprint(acesso_bp)
 app.register_blueprint(infosCEMB_bp)
 app.register_blueprint(kaban)
 app.register_blueprint(insertDB_newMEP)
@@ -25,8 +27,6 @@ app.register_blueprint(ultimaMescla_bp)
 @app.route("/", methods=["POST", "GET"])
 def index():
     return render_template('index.html')
-
-
 
 
 @app.route("/form173_inserir", methods=["POST", "GET"])

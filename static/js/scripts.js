@@ -13,7 +13,6 @@ let ocsAdded = [];
 let dadosQuadros = [];
 let impressora ;
 let quadrosAdicionados = [] ;
-let statusSolicitacoes ;
 
 // Modal de Erros Gerais
 function erro(){
@@ -48,13 +47,16 @@ function defStatus(){
     const valorSelecionado = listaSuspensa.value;
     if (valorSelecionado === 'pendentes') {
         console.log("Pendentes")
-        statusSolicitacoes = 0;
+        statusForm173 = 0;
+        carregarDadosQuadros();
     } else if (valorSelecionado === 'finalizadas') {
-        statusSolicitacoes = 1;
+        statusForm173 = 1;
         console.log("Finalizadas")
+        carregarDadosQuadros();
     }else if (valorSelecionado === `canceladas`) {
-        statusSolicitacoes = 2
+        statusForm173 = 2
         console.log('Canceladas')
+        carregarDadosQuadros();
     }
     });
 }
