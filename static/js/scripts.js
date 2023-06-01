@@ -111,6 +111,13 @@ let renderizarMain = () => {
                                 <option value="dev">Dev</option>
                             </select>
                         </section>
+                        <section class="defStatus">
+                            <select name="defStatus">
+                                <option value="pintura" selected>Pendentes</option>
+                                <option value="pintura">Finalizadas</option>
+                                <option value="pcp">Canceladas</option>
+                            </select>
+                        </section>
                     </div>
                     <div class="quadros-kanban">
                         Ainda não existem solicitações!
