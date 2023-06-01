@@ -4,14 +4,16 @@ const dia = String(data.getDate()).padStart(2, '0');
 const mes = String(data.getMonth() + 1).padStart(2, '0');
 const ano = data.getFullYear();
 let dataAtual = dia + '/' + mes + '/' + ano;
+console.log(dataAtual)
 
+let selectedDate = dataAtual
 let statusForm173 = 0;
 let container = document.querySelector(".container");
 let main = document.querySelector("main");
 let user ;
 let ocsAdded = [];
 let dadosQuadros = [];
-let impressora ;
+let impressora = 'Microsoft Print to PDF' ;
 let quadrosAdicionados = [] ;
 
 // Modal de Erros Gerais
@@ -61,20 +63,14 @@ function defStatus(){
     });
 }
 
-function defImpressora(){
-    const listaSuspensa = document.querySelector('.defImpressora select')
+function defData(){
+    const listaSuspensa = document.querySelector('.defData input')
     listaSuspensa.addEventListener('change', function() {
     const valorSelecionado = listaSuspensa.value;   
-    if (valorSelecionado === 'pcp') {
-        console.log("pcp")
-        impressora = 'RICOH MP C2504ex PCL 6';
-    } else if (valorSelecionado === 'pintura') {
-        impressora = 'RICOH Aficio SP 3510DN PCL 6';
-        console.log("pintura")
-    }else if (valorSelecionado === `dev`) {
-        impressora = 'Microsoft Print to PDF'
-        console.log('dev')
-    }
+    console.log(valorSelecionado);
+    var partesData = valorSelecionado.split("-");
+    selectedDate = partesData[2] + "/" + partesData[1] + "/" + partesData[0];
+    carregarDadosQuadros();
 });
 }
 
@@ -111,6 +107,14 @@ let acessoUserForm = () => {
     })
 }
 
+{/* <section class="defData">
+                            <select name="defData">
+                                <option value="pintura" selected>Escolha a impressora</option>
+                                <option value="pintura">Pintura</option>
+                                <option value="pcp">PCP</option>
+                                <option value="dev">Dev</option>
+                            </select>
+                        </section> */} // CAIXA DE SELEÇÃO DA IMPRESSORA
 
 
 // Main
@@ -122,13 +126,8 @@ let renderizarMain = () => {
                     <div class="topo">
                         <button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button> 
                         <section class="btnNewCEMB"><button id="btnNewCEMB" class="waves-effect waves-light btn-flat red lighten-2">Nova CEMB</button></section>
-                        <section class="defImpressora">
-                            <select name="defImpressora">
-                                <option value="pintura" selected>Escolha a impressora</option>
-                                <option value="pintura">Pintura</option>
-                                <option value="pcp">PCP</option>
-                                <option value="dev">Dev</option>
-                            </select>
+                        <section class="defData">
+                            <input type="date" placeholder="Data" />
                         </section>
                         <section class="defStatus">
                             <select name="defStatus">
@@ -151,7 +150,7 @@ let renderizarMain = () => {
         recebAllInfos();
     })
     carregarDadosQuadros()
-    defImpressora();
+    defData();
     defStatus();
 }
 
@@ -559,7 +558,7 @@ function carregarDadosQuadros() {
     axios.get("/dadosQuadrosHoje", {
       params: {
         status: statusForm173,
-        data: dataAtual
+        data: selectedDate
       }
     }).then(response => {
       console.log(response.data);
