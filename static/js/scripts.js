@@ -350,15 +350,19 @@ function modalSolicitacao(){
                 </div>
             </div>
             <div class="btnAddOC">
-                <button class="display-none" id="btnRemoveOC" onclick="btnRemoveOC()">Remover OC</button>
+                <button class="display-none" id="btnRemoveOC">Remover OC</button>
                 <button id="btnAddOC" onclick="btnAddOC()">Adicionar OC</button>
             </div>
             <div class="container-listaOCs">
                 <table class="listaOCs text-center display-none">
                     <tr class="text-center">
-                        <th>OC</th>
-                        <th>Quantidade</th>
+                        <thead>
+                            <th>OC</th>
+                            <th>Quantidade</th>
+                        </thead>
                     </tr>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
             <div class="contadorOCs"></div>
@@ -402,10 +406,7 @@ function modalSolicitacao(){
         checkboxG.checked = false;
     }
     });
-}
-
-function novoNumeroMescla(){
-    // Comunicação Axios com o endpoint parareceber a ultima mescla
+    
 }
 
 let btnAddOC = () => {
@@ -431,10 +432,10 @@ let btnAddOC = () => {
             });
             
             listaOCs.innerHTML += `
-            <tr>
-                <td>${oc}</td>
-                <td>${qnt_solicitada}</td>
-            </tr>
+                <tr>
+                    <td>${oc}</td>
+                    <td>${qnt_solicitada}</td>
+                </tr>
             `
             contadorOCs.innerHTML = '';
             contadorOCs.innerHTML += `<h3>Quantidade adicionada: ${listaOCs.rows.length - 1}</h3>`
@@ -444,28 +445,31 @@ let btnAddOC = () => {
         
         document.querySelector(".oc_solicitada").value = '';
         document.querySelector(".qnt_solicitada").value = '';
-        const linhasTabela = document.querySelectorAll('.listaOCs td');
+        const linhasTabela = document.querySelectorAll('.listaOCs tbody td');
+        
+        console.log(linhasTabela, linhasTabela.length)
+        selecionarLinha('.container-listaOCs table tbody tr', "btnRemoveOC")
 
         // Adicione um evento de clique a cada linha
-        linhasTabela.forEach(linha => {
-            linha.addEventListener('click', () => {
-                // Verifica se a linha já está selecionada
-                const estaSelecionada = linha.classList.contains('linha-selecionada');
-                linhasTabela.forEach(linha => {
-                  linha.classList.remove('linha-selecionada');
-                });
-                // Se a linha já estiver selecionada, desseleciona-a
-                if (estaSelecionada) {
-                  console.log('Linha desselecionada:', linha);
-                }
-                // Caso contrário, seleciona-a
-                else {
-                  linha.classList.add('linha-selecionada');
-                  console.log('Linha selecionada:', linha);
-                }
-              });
+        // linhasTabela.forEach(linha => {
+        //     linha.addEventListener('click', () => {
+        //         // Verifica se a linha já está selecionada
+                
+        //         linhasTabela.forEach(linha => {
+        //           linha.classList.remove('linha-selecionada');
+        //         });
+        //         // Se a linha já estiver selecionada, desseleciona-a
+        //         if (estaSelecionada) {
+        //           console.log('Linha desselecionada:', linha);
+        //         }
+        //         // Caso contrário, seleciona-a
+        //         else {
+        //           linha.classList.add('linha-selecionada');
+        //           console.log('Linha selecionada:', linha);
+        //         }
+        //       });
               
-        });
+        // });
     }
     console.log(ocsAdded)
     return ocsAdded
@@ -758,12 +762,12 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
     document.getElementById("btnAddOC_Editar").addEventListener("click", function(){
         insertOC_DB(dadosQuadro[0].id, ocsAdicionadas);
     })
-    selecionarLinha()   
+    selecionarLinha('.tabelaEditar table tbody tr', "btnApagar")   
 }
 
 
-function selecionarLinha(){
-    const linhasTabela = document.querySelectorAll('.tabelaEditar table tbody tr');
+function selecionarLinha(seletor, btnApagar){
+    const linhasTabela = document.querySelectorAll(seletor);
     linhasTabela.forEach(linha => {
         linha.addEventListener('click', () => {
             const estaSelecionada = linha.classList.contains('linha-selecionada'); // Verifica se a linha já está selecionada
@@ -778,10 +782,10 @@ function selecionarLinha(){
             else {
                 linha.classList.add('linha-selecionada');
                 console.log('Linha selecionada:', linha);
-                document.getElementById("btnApagar").addEventListener("click", function(){
+                document.getElementById(btnApagar).addEventListener("click", function(){
                     if (confirm("Deseja apagar a OC?")){
                         linha.remove()
-                        btnApagar(linha.id)
+                        btnApagar === "btnApagar" && btnApagar(linha.id)
                     }
                 })
             }
@@ -841,7 +845,7 @@ function btnAddOC_Editar(ocsAdicionadas){
         document.getElementById("qntEditar").value = "";
         
         ocsAdicionadas.push({ ocs: ocsInput, quantidade: qntInput });
-        selecionarLinha();
+        selecionarLinha('.tabelaEditar table tbody tr', 'btnApagar');
     } else {
         alert("Preencha os campos para adicionar.")
     }
