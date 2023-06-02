@@ -766,7 +766,7 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
 }
 
 
-function selecionarLinha(seletor, btnApagar){
+function selecionarLinha(seletor, btn){
     const linhasTabela = document.querySelectorAll(seletor);
     linhasTabela.forEach(linha => {
         linha.addEventListener('click', () => {
@@ -782,10 +782,12 @@ function selecionarLinha(seletor, btnApagar){
             else {
                 linha.classList.add('linha-selecionada');
                 console.log('Linha selecionada:', linha);
-                document.getElementById(btnApagar).addEventListener("click", function(){
-                    if (confirm("Deseja apagar a OC?")){
+                document.getElementById(btn).addEventListener("click", function(){
+                    const oi = confirm("Deseja apagar a OC?")
+                    console.log(oi)
+                    if (oi){
                         linha.remove()
-                        btnApagar === "btnApagar" && btnApagar(linha.id)
+                        btn === "btnApagar" && btnApagar(linha.id)
                     }
                 })
             }
