@@ -516,20 +516,22 @@ nav{
 .quantidade{
     width: 100%;
     position: relative;
+    /* padding-left: 4rem; */
 }
 #quantidade{
     width: 100%;
 }
 .container-checkboxes{
+    width: auto;
     flex-direction: column;
     gap: 0.2em;
     position: absolute;
-    left: 10em;
+    right: 0;
 }
 .checkboxes{
     display: flex; 
     gap: 0.25em;
-    width: fit-content;
+    width: auto !important; 
 }
 .checkboxes label{
     font-size: 12px;

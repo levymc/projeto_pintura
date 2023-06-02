@@ -324,9 +324,9 @@ function modalSolicitacao(){
             </div>
             <div class="quantidade flex input-field col s6"">
                 <input class="validate" type="number" name="quantidade" id="quantidade">
-                <label for="quantidade">Quantidade Solicitada</label>
+                <label for="quantidade" id="labelQnt" >Quantidade</label>
             
-                <div class="container-checkboxes flex">
+                <section class="container-checkboxes flex">
                     <div class="checkboxes">
                         <input type="checkbox" id="g" name='g' value="g">
                         <label for="g">g</label>
@@ -335,7 +335,7 @@ function modalSolicitacao(){
                         <input type="checkbox" id="ml" name='ml' value="ml">
                         <label for="ml">ml</label>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
         <div class="ocsForm173 divisoria-vertical">
