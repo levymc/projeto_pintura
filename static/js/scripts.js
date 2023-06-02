@@ -294,7 +294,7 @@ function novaMEP(valor){
 function modalSolicitacao(){
     Swal.fire({
     title:"Formulário 173 - Solicitação de Preparação de Tinta",
-    width: '50%',
+    width: '60%',
     confirmButtonColor:"#b80000",
     confirmButtonText:"Enviar",
     cancelButtonText:"Cancelar",
