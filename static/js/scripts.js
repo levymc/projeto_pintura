@@ -4,16 +4,17 @@ const dia = String(data.getDate()).padStart(2, '0');
 const mes = String(data.getMonth() + 1).padStart(2, '0');
 const ano = data.getFullYear();
 let dataAtual = dia + '/' + mes + '/' + ano;
+console.log(dataAtual)
 
+let selectedDate = dataAtual
 let statusForm173 = 0;
 let container = document.querySelector(".container");
 let main = document.querySelector("main");
 let user ;
 let ocsAdded = [];
 let dadosQuadros = [];
-let impressora ;
+let impressora = 'Microsoft Print to PDF' ;
 let quadrosAdicionados = [] ;
-
 
 // Modal de Erros Gerais
 function erro(){
@@ -23,6 +24,12 @@ function erro(){
     })
 }
 
+function sucesso(){
+    Swal.fire({
+        title: "Informações Enviadas com Sucesso!",
+        icon: "success"
+    })
+}
 
 // Definição de Eventos
 document.querySelector(".titulo h1").addEventListener("click", function(){
@@ -35,22 +42,36 @@ let enterKeyHandler = function(event) {
     }
 };
 
-function defImpressora(){
-    listaSuspensa = document.querySelector('.defImpressora select')
+
+function defStatus(){
+    const listaSuspensa = document.querySelector('.defStatus select')
     listaSuspensa.addEventListener('change', function() {
-        const valorSelecionado = listaSuspensa.value;
-    
-        if (valorSelecionado === 'pcp') {
-            console.log("pcp")
-            impressora = 'RICOH MP C2504ex PCL 6';
-        } else if (valorSelecionado === 'pintura') {
-            impressora = 'RICOH Aficio SP 3510DN PCL 6';
-            console.log("pintura")
-        }else if (valorSelecionado === `dev`) {
-            impressora = 'Microsoft Print to PDF'
-            console.log('dev')
-        }
+    const valorSelecionado = listaSuspensa.value;
+    if (valorSelecionado === 'pendentes') {
+        console.log("Pendentes")
+        statusForm173 = 0;
+        carregarDadosQuadros();
+    } else if (valorSelecionado === 'finalizadas') {
+        statusForm173 = 1;
+        console.log("Finalizadas")
+        carregarDadosQuadros();
+    }else if (valorSelecionado === `canceladas`) {
+        statusForm173 = 2
+        console.log('Canceladas')
+        carregarDadosQuadros();
+    }
     });
+}
+
+function defData(){
+    const listaSuspensa = document.querySelector('.defData input')
+    listaSuspensa.addEventListener('change', function() {
+    const valorSelecionado = listaSuspensa.value;   
+    console.log(valorSelecionado);
+    var partesData = valorSelecionado.split("-");
+    selectedDate = partesData[2] + "/" + partesData[1] + "/" + partesData[0];
+    carregarDadosQuadros();
+});
 }
 
 
@@ -86,6 +107,14 @@ let acessoUserForm = () => {
     })
 }
 
+{/* <section class="defData">
+                            <select name="defData">
+                                <option value="pintura" selected>Escolha a impressora</option>
+                                <option value="pintura">Pintura</option>
+                                <option value="pcp">PCP</option>
+                                <option value="dev">Dev</option>
+                            </select>
+                        </section> */} // CAIXA DE SELEÇÃO DA IMPRESSORA
 
 
 // Main
@@ -96,12 +125,15 @@ let renderizarMain = () => {
                 <div class="kaban">
                     <div class="topo">
                         <button class="waves-effect waves-light btn-small red lighten-2" id="novaSolicitacao">Solicitar Nova Mescla</button> 
-                        <section class="defImpressora">
-                            <select name="defImpressora">
-                                <option value="pintura" selected>Escolha a impressora</option>
-                                <option value="pintura">Pintura</option>
-                                <option value="pcp">PCP</option>
-                                <option value="dev">Dev</option>
+                        <section class="btnNewCEMB"><button id="btnNewCEMB" class="waves-effect waves-light btn-flat red lighten-2">Nova CEMB</button></section>
+                        <section class="defData">
+                            <input type="date" placeholder="Data" />
+                        </section>
+                        <section class="defStatus">
+                            <select name="defStatus">
+                                <option value="pendentes" selected>Pendentes</option>
+                                <option value="finalizadas">Finalizadas</option>
+                                <option value="canceladas">Canceladas</option>
                             </select>
                         </section>
                     </div>
@@ -114,17 +146,155 @@ let renderizarMain = () => {
     document.getElementById("novaSolicitacao").addEventListener("click", function(){
         modalSolicitacao();
     })
+    document.getElementById("btnNewCEMB").addEventListener("click", function(){
+        recebAllInfos();
+    })
     carregarDadosQuadros()
-    defImpressora();
+    defData();
+    defStatus();
 }
 
+
+// Modal Nova CEMB
+function confereMEP(){
+}
+
+function recebAllInfos(){
+    try{
+        axios.get("/allInfoCEMB").then(response => {
+            modalNewCEMB(response.data)
+        }).catch(error => {
+            erro();
+            console.log(error);
+        })
+    }catch{
+        erro();
+    }
+}
+
+function modalNewCEMB(allInfoCEMB){
+    let selected;
+    let meps = []
+    allInfoCEMB.map((info, i) => !meps.includes(info.norma.replace(/MEP/g, '').trim()) && meps.push(info.norma.replace(/MEP/g, '').trim()))
+
+    const optionMeps = `
+        ${meps.map((mep, i) => `<option value="${mep}">${mep}</option>`).join('\n')}
+    `;
+    console.log(meps)
+
+    const html = `
+    <div id="modalNewCEMB">
+        <div class="flex input-field col s6">
+            <label for="newCEMB">Novo Código EMBRAER</label>
+            <input type="number" class="validate" name="newCEMB" id="newCEMB">
+        </div>  
+        <div class="flex input-field col s6">
+            <label for="newCEMB">Descrição</label>
+            <input type="text" class="validate" name="newDescription" id="newDescription">
+        </div>  
+        <div class="newMEP flex input-field col s6">
+            <select id="newMEP" name="newMEP">
+                <option value="" selected>Selecione a MEP</option>
+                ${optionMeps}
+                <option value="new" >Nova MEP</option>
+            </select>
+        </div>  
+    </div>  
+    `;
+    Swal.fire({
+        title:"Adicionar Nova Tinta",
+        width: '40%',
+        confirmButtonColor:"#b80000",
+        confirmButtonText:"Adicionar",
+        cancelButtonText:"Cancelar",
+        allowOutsideClick: false,
+        showCloseButton: true,
+        showCancelButton: true,
+        html: html,
+        preConfirm: () => {
+            const newCEMB = document.getElementById('newCEMB').value;
+            const newMEP = document.getElementById('newMEP').value;
+            const newDescription = document.getElementById('newDescription').value;
+            if (!newCEMB || !newMEP || !newDescription) {
+                Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+            }else if (selected === "new"){
+                const newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
+                const imageProp = document.getElementById('imageProp').value;
+                if (!newMEP_adicionar || !imageProp ) {
+                    Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
+                } else if (meps.includes(newMEP_adicionar.replace(/MEP/g, '').trim())){
+                    Swal.showValidationMessage(`A MEP adicionada já existe!`)
+                }
+            }
+            }
+    }).then(response => {
+        if( response.isConfirmed ){
+            const dados ={
+                newCEMB: document.getElementById('newCEMB').value,
+                newMEP: document.getElementById('newMEP').value,
+                newDescription: document.getElementById('newDescription').value,
+            }
+            if (selected === "new"){
+                dados.newMEP_adicionar = document.getElementById('newMEP_adicionar').value;
+                dados.imageProp = document.getElementById('imageProp').value;
+            }
+            console.log(dados)
+            insertDB_newMEP(dados);
+            
+        }
+    })
+
+    document.getElementById("newMEP").addEventListener("change", function (){
+        selected = this.value
+        novaMEP(selected)
+    })
+}
+
+function insertDB_newMEP(dados){
+    try{
+        axios.post("/newMEP", dados).then(response => {
+            console.log(response)
+            sucesso();
+        }).catch(error => {
+            console.log(error)
+        })
+    }catch(e){
+        console.log(e)
+    }
+}
+
+function novaMEP(valor){
+    const modalNewCEMB = document.getElementById("modalNewCEMB");
+
+    if (valor === "new"){
+        !document.getElementById("newInput") ? modalNewCEMB.insertAdjacentHTML('beforeend', `
+            <div id="newInput">    
+                <div class="flex input-field col s6">
+                    <label for="newMEP_adicionar">Nova MEP</label>
+                    <input type="text" class="validate" name="newMEP_adicionar" id="newMEP_adicionar">
+                </div>  
+                <div id="imageInput" class="file-field input-field">
+                    <div class="btn">
+                        <span>Imagem Proporção de Mistura</span>
+                        <input type="file" id="imageProp" name="myImage" accept="image/*">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div> 
+            </div> 
+        `) : document.getElementById("newInput").remove()
+    }else{
+        document.getElementById("newInput") && document.getElementById("newInput").remove()
+    }
+}
 
 
 // Modal Form173
 function modalSolicitacao(){
     Swal.fire({
     title:"Formulário 173 - Solicitação de Preparação de Tinta",
-    width: '50%',
+    width: '60%',
     confirmButtonColor:"#b80000",
     confirmButtonText:"Enviar",
     cancelButtonText:"Cancelar",
@@ -154,17 +324,18 @@ function modalSolicitacao(){
             </div>
             <div class="quantidade flex input-field col s6"">
                 <input class="validate" type="number" name="quantidade" id="quantidade">
-                <label for="quantidade">Quantidade Solicitada</label>
-            </div>
-            <div class="container-checkboxes flex">
-                <div class="checkboxes">
-                    <input type="checkbox" id="g" name='g' value="g">
-                    <label for="g">g</label>
-                </div>
-                <div class="checkboxes">
-                    <input type="checkbox" id="ml" name='ml' value="ml">
-                    <label for="ml">ml</label>
-                </div>
+                <label for="quantidade" id="labelQnt" >Quantidade</label>
+            
+                <section class="container-checkboxes flex">
+                    <div class="checkboxes">
+                        <input type="checkbox" id="g" name='g' value="g">
+                        <label for="g">g</label>
+                    </div>
+                    <div class="checkboxes">
+                        <input type="checkbox" id="ml" name='ml' value="ml">
+                        <label for="ml">ml</label>
+                    </div>
+                </section>
             </div>
         </div>
         <div class="ocsForm173 divisoria-vertical">
@@ -179,15 +350,19 @@ function modalSolicitacao(){
                 </div>
             </div>
             <div class="btnAddOC">
-                <button class="display-none" id="btnRemoveOC" onclick="btnRemoveOC()">Remover OC</button>
+                <button class="display-none" id="btnRemoveOC">Remover OC</button>
                 <button id="btnAddOC" onclick="btnAddOC()">Adicionar OC</button>
             </div>
             <div class="container-listaOCs">
                 <table class="listaOCs text-center display-none">
                     <tr class="text-center">
-                        <th>OC</th>
-                        <th>Quantidade</th>
+                        <thead>
+                            <th>OC</th>
+                            <th>Quantidade</th>
+                        </thead>
                     </tr>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
             <div class="contadorOCs"></div>
@@ -231,6 +406,7 @@ function modalSolicitacao(){
         checkboxG.checked = false;
     }
     });
+    
 }
 
 let btnAddOC = () => {
@@ -256,10 +432,10 @@ let btnAddOC = () => {
             });
             
             listaOCs.innerHTML += `
-            <tr>
-                <td>${oc}</td>
-                <td>${qnt_solicitada}</td>
-            </tr>
+                <tr>
+                    <td>${oc}</td>
+                    <td>${qnt_solicitada}</td>
+                </tr>
             `
             contadorOCs.innerHTML = '';
             contadorOCs.innerHTML += `<h3>Quantidade adicionada: ${listaOCs.rows.length - 1}</h3>`
@@ -269,28 +445,31 @@ let btnAddOC = () => {
         
         document.querySelector(".oc_solicitada").value = '';
         document.querySelector(".qnt_solicitada").value = '';
-        const linhasTabela = document.querySelectorAll('.listaOCs td');
+        const linhasTabela = document.querySelectorAll('.listaOCs tbody td');
+        
+        console.log(linhasTabela, linhasTabela.length)
+        selecionarLinha('.container-listaOCs table tbody tr', "btnRemoveOC")
 
         // Adicione um evento de clique a cada linha
-        linhasTabela.forEach(linha => {
-            linha.addEventListener('click', () => {
-                // Verifica se a linha já está selecionada
-                const estaSelecionada = linha.classList.contains('linha-selecionada');
-                linhasTabela.forEach(linha => {
-                  linha.classList.remove('linha-selecionada');
-                });
-                // Se a linha já estiver selecionada, desseleciona-a
-                if (estaSelecionada) {
-                  console.log('Linha desselecionada:', linha);
-                }
-                // Caso contrário, seleciona-a
-                else {
-                  linha.classList.add('linha-selecionada');
-                  console.log('Linha selecionada:', linha);
-                }
-              });
+        // linhasTabela.forEach(linha => {
+        //     linha.addEventListener('click', () => {
+        //         // Verifica se a linha já está selecionada
+                
+        //         linhasTabela.forEach(linha => {
+        //           linha.classList.remove('linha-selecionada');
+        //         });
+        //         // Se a linha já estiver selecionada, desseleciona-a
+        //         if (estaSelecionada) {
+        //           console.log('Linha desselecionada:', linha);
+        //         }
+        //         // Caso contrário, seleciona-a
+        //         else {
+        //           linha.classList.add('linha-selecionada');
+        //           console.log('Linha selecionada:', linha);
+        //         }
+        //       });
               
-        });
+        // });
     }
     console.log(ocsAdded)
     return ocsAdded
@@ -311,28 +490,56 @@ function kaban() {
     `
 }
 
-function primeiroQuadro(){
-    const dados = {
-        numeroForm: document.querySelector(".numeroForm input").value,
-        solicitante: user,
-        codPintor: document.querySelector(".codPintor input").value,
-        cemb: document.querySelector(".cemb input").value,
-        quantidade: document.querySelector(".quantidade input").value,
-        unidade: getUnidade(),
-        ocs: ocsAdded,
-        data: dataAtual,
-        status: 0, // por padrão é 0, ou seja, ainda esta como pendente
-    }
-    //Enviar para o DB table form173 e ocs
-    axios.post("/form173_inserir", dados).then(response =>{ //form 173
+function primeiroQuadro() {
+    // Obter a última mescla do banco de dados
+    axios.get("/obterUltimaMescla").then(response => {
+        const ultimaMescla = response.data.mescla;
+        console.log("Mescla: ", ultimaMescla);
+    
+        // Extrair o prefixo e o sufixo da última mescla
+        const prefixo = ultimaMescla.slice(0, 3);
+        const ultimoSufixo = parseInt(ultimaMescla.slice(3), 10);
+    
+        // Obter o ano atual
+        const anoAtual = new Date().getFullYear();
+    
+        // Verificar se é um novo ano
+        const novoAno = anoAtual.toString().slice(2) !== prefixo;
+    
+        // Atualizar o prefixo e o sufixo da mescla
+        const novoPrefixo = novoAno ? `${anoAtual.toString().slice(2)}-` : prefixo;
+        const novoSufixo = ultimoSufixo + 1;
+    
+        // Construir a nova mescla
+        const novoSufixoFormatado = novoSufixo.toString().padStart(4, "0");
+        const novaMescla = `${novoPrefixo}${novoSufixoFormatado}`;
+        console.log("Nova Mescla: ", novaMescla);
+  
+        const dados = {
+            numeroForm: document.querySelector(".numeroForm input").value,
+            solicitante: user,
+            codPintor: document.querySelector(".codPintor input").value,
+            cemb: document.querySelector(".cemb input").value,
+            quantidade: document.querySelector(".quantidade input").value,
+            unidade: getUnidade(),
+            ocs: ocsAdded,
+            data: dataAtual,
+            status: 0, // por padrão é 0, ou seja, ainda está como pendente
+            mescla: novaMescla // adicionar a nova mescla aos dados
+        };
+  
+      // Enviar para o DB table form173 e ocs
+      axios.post("/form173_inserir", dados).then(response => { //form 173
         dados.id = response.data.obj.id;
-        console.log(response.data)
-        axios.post("/ocs_inserir", {ocs: dados.ocs, id_form173: dados.id}).then(responseOCs => { //Ocs
-            console.log(responseOCs);
-            carregarDadosQuadros()
-        })
+        console.log(response.data);
+        axios.post("/ocs_inserir", { ocs: dados.ocs, id_form173: dados.id }).then(responseOCs => { //Ocs
+          console.log(responseOCs);
+          carregarDadosQuadros();
+        });
+      });
     });
 }
+  
 
 function getUnidade() {
   var checkboxML = document.getElementById("ml");
@@ -355,7 +562,7 @@ function carregarDadosQuadros() {
     axios.get("/dadosQuadrosHoje", {
       params: {
         status: statusForm173,
-        data: dataAtual
+        data: selectedDate
       }
     }).then(response => {
       console.log(response.data);
@@ -370,7 +577,6 @@ function addQuadro(dados) {
     let Ocs = [];
 
     quadrosAdicionados.push({id: dados.id, dados: dados})
-    console.log(dados.ocs)
     dados.ocs.map((oc) =>
       oc.oc && Ocs.push(`
         <tr>
@@ -556,12 +762,12 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
     document.getElementById("btnAddOC_Editar").addEventListener("click", function(){
         insertOC_DB(dadosQuadro[0].id, ocsAdicionadas);
     })
-    selecionarLinha()   
+    selecionarLinha('.tabelaEditar table tbody tr', "btnApagar")   
 }
 
 
-function selecionarLinha(){
-    const linhasTabela = document.querySelectorAll('.tabelaEditar table tbody tr');
+function selecionarLinha(seletor, btn){
+    const linhasTabela = document.querySelectorAll(seletor);
     linhasTabela.forEach(linha => {
         linha.addEventListener('click', () => {
             const estaSelecionada = linha.classList.contains('linha-selecionada'); // Verifica se a linha já está selecionada
@@ -576,10 +782,12 @@ function selecionarLinha(){
             else {
                 linha.classList.add('linha-selecionada');
                 console.log('Linha selecionada:', linha);
-                document.getElementById("btnApagar").addEventListener("click", function(){
-                    if (confirm("Deseja apagar a OC?")){
+                document.getElementById(btn).addEventListener("click", function(){
+                    const oi = confirm("Deseja apagar a OC?")
+                    console.log(oi)
+                    if (oi){
                         linha.remove()
-                        btnApagar(linha.id)
+                        btn === "btnApagar" && btnApagar(linha.id)
                     }
                 })
             }
@@ -598,6 +806,7 @@ function btnApagar(idOC){
         console.log(error)
     })
 }
+
 
 function insertOC_DB(id_form173, ocsAdicionadas){
     const ocsInput = document.getElementById("ocsEditar").value;
@@ -638,11 +847,12 @@ function btnAddOC_Editar(ocsAdicionadas){
         document.getElementById("qntEditar").value = "";
         
         ocsAdicionadas.push({ ocs: ocsInput, quantidade: qntInput });
-        selecionarLinha();
+        selecionarLinha('.tabelaEditar table tbody tr', 'btnApagar');
     } else {
         alert("Preencha os campos para adicionar.")
     }
 }
+
 
 
 //Imprimir o Form 161
@@ -665,10 +875,10 @@ function btnPrint(id, user){
     })
 }
 
+
 // Modal Form40
 function btnForm40(id) {
     let idQuadro = id
-    let viscosimetro; 
 
     const clearFormInputs = (idQuadro) => {
         localStorage.removeItem(`form40_temperatura_${idQuadro}`);
@@ -767,7 +977,12 @@ function btnForm40(id) {
             }
         }).then(tinta => {
             console.log(tinta.data)
-            viscosimetro = tinta.data
+            const viscosimetro = `${tinta.data.map((copo, i) => 
+                `<option value="${copo}">${copo}</option>`
+            )}
+            `;
+            console.log(viscosimetro)       
+            
             const html = `
             <div class="modalForm40">
                 <div class="coluna1">
@@ -790,8 +1005,11 @@ function btnForm40(id) {
                     <div class="shelf_life">
                         <input type="number" id="shelf_life" placeholder="Shelf Life">
                     </div>
-                    <div class="viscosimetro">
-                        <input type="text" id="viscosimetro" placeholder="Viscosímetro">
+                    <div class="viscosimetro newMEP flex input-field col s6">
+                        <select id="viscosimetro" name="newMEP">
+                            <option value="" selected>Selecione o Viscosímetro</option>
+                            ${viscosimetro}
+                        </select>
                     </div>
                     <div class="viscosidade">
                         <input type="number" id="viscosidade" placeholder="Viscosidade">
@@ -829,6 +1047,7 @@ function btnForm40(id) {
                 <section class="btnAutorizar"><button id="btnAutorizar">Excessão: Autorizar</button></section>
             </div>
             `
+            
             Swal.fire({
                 title: "Form. 40 - Preparação de Tinta",
                 confirmButtonColor: "#E57373",
@@ -875,7 +1094,7 @@ function btnForm40(id) {
                         umidade: document.getElementById(`umidade`).value,
                         lotemp: document.getElementById(`lotemp`).value,
                         shelf_life: document.getElementById(`shelf_life`).value,
-                        // viscosimetro: document.getElementById(`viscosimetro`).value,
+                        viscosimetro: document.getElementById(`viscosimetro`).value,
                         viscosidade: document.getElementById(`viscosidade`).value,
                         proporcao: document.getElementById(`proporcao`).value,
                         responsavel: user,
