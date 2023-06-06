@@ -325,7 +325,7 @@ class Operadores(Base):
             result = session.query(cls).filter_by(usuario=userInput).first()
             return result
 
-print(Operadores.consultaEspecificaCodigo(18880))
+# print(Operadores.consultaEspecificaCodigo(18880))
 
 class OCs(Base):
     __tablename__ = 'ocs'
@@ -459,11 +459,12 @@ class Relacao_Tintas(Base):
         conteudo  = [tinta.as_dict for tinta in session.query(cls).all()]
         return conteudo
     
+    @classmethod
     def consultaViscosidade(cls, cemb, valor_selecionado):
-        # conteudo  = [viscosidade.as_dict for viscosidade in Session.query(cls).filter(Relacao_Tintas.cemb == cemb AND ).all()]
-        visc_max_min = Session.query(Relacao_Tintas.viscosidade_min, Relacao_Tintas.viscosidade_max)\
-                      .filter(and_(Relacao_Tintas.cemb == cemb,
-                                    Relacao_Tintas.viscosimetro.like(f'%{valor_selecionado}%')))\
+        session = Session()
+        visc_max_min = session.query(cls.viscosidade_min, cls.viscosidade_max)\
+                      .filter(and_(cls.cemb == cemb,
+                                    cls.viscosimetro.like(f'%{valor_selecionado}%')))\
                       .first()
         return visc_max_min
     

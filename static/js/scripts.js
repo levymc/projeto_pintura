@@ -1085,7 +1085,7 @@ function btnForm40(id) {
                 cancelButtonText: "Minimizar",
                 confirmButtonText: "Enviar",
                 showConfirmButton: true,
-                preConfirm: () => {
+                preConfirm: async () => {
                     dados = {
                             track_form173: idQuadro,
                             mescla: 1,
@@ -1107,9 +1107,13 @@ function btnForm40(id) {
                             ini_inducao: document.getElementById(`ini_inducao`).value,
                             ini_adequacao: document.getElementById(`ini_adequacao`).value,
                     }
+                    const viscCorreta = await confereViscosidade(response.data[0].cemb, dados.viscosidade, dados.viscosimetro);
+
                     const hasZeroValue = Object.values(dados).some(value => value === '');
                     if (hasZeroValue) {
-                    Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
+                        Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
+                    } else if(!viscCorreta){
+                        Swal.showValidationMessage("O valor de viscosidade está fora do esperado");
                     }
                 }
                 }).then((result) => {
@@ -1202,6 +1206,16 @@ function btnForm40(id) {
         
 )}
 
+async function confereViscosidade(cemb, viscosidade, viscosimetro){
+    try {
+        const response = await axios.post("/infoViscosidade", {cemb: cemb, viscosidade: viscosidade, viscosimetro: viscosimetro})
+        console.log(response.data)
+        return true
+    } catch (error) {
+        console.error(error);
+        return false
+    }
+}
 
 
 // Finalização do Quadro no Kanban -> solicitação de tinta finalizada.
