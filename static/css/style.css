@@ -209,10 +209,20 @@ nav{
 .defData select , .newMEP select, .defStatus select{
     border:1px solid #ccc !important;
     border-radius:3px !important;
-    padding:0 3px !important;
+    /* padding:0 3px !important; */
     display: flex !important;
     font-size: 11px !important;
     font-weight: bold;
+}
+.newMEP select{
+    height: auto !important;
+}
+.newMEP{
+    flex-direction: column;
+    color: grey;
+    align-items: start !important;
+    gap: 0.3rem;
+    padding-top: 0.4rem; padding-bottom: 0.2rem;
 }
 .defData{
     position: absolute;

@@ -327,7 +327,7 @@ function modalSolicitacao(){
                 <section class="container-checkboxes flex">
                     <div class="checkboxes">
                         <input type="checkbox" id="g" name='g' value="g">
-                        <label for="g">g</label>
+                        <label for="g">g.</label>
                     </div>
                     <div class="checkboxes">
                         <input type="checkbox" id="ml" name='ml' value="ml">
@@ -1032,12 +1032,13 @@ function btnForm40(id) {
                     <div class="shelf_life">
                         <input type="number" id="shelf_life" placeholder="Shelf Life">
                     </div>
-                    <div class="viscosimetro newMEP flex input-field col s6">
+                    <div class="viscosimetro newMEP flex">
+                        <label for="viscosimetro"> Viscosímetro </label>
                         <select id="viscosimetro" name="newMEP">
-                            <option value="" selected>Selecione o Viscosímetro</option>
                             ${viscosimetro}
                         </select>
                     </div>
+
                     <div class="viscosidade">
                         <input type="number" id="viscosidade" placeholder="Viscosidade">
                     </div>
@@ -1084,33 +1085,33 @@ function btnForm40(id) {
                 cancelButtonText: "Minimizar",
                 confirmButtonText: "Enviar",
                 showConfirmButton: true,
-                // preConfirm: () => {
-                //     dados = {
-                            // track_form173: idQuadro,
-                            // mescla: 1,
-                            // data_prep: dataAtual,
-                            // cod_mp: response.data[0].cemb,
-                            // temperatura: document.getElementById(`temperatura`).value,
-                            // umidade: document.getElementById(`umidade`).value,
-                            // lotemp: document.getElementById(`lotemp`).value,
-                            // shelf_life: document.getElementById(`shelf_life`).value,
-                            // viscosimetro: document.getElementById(`viscosimetro`).value,
-                            // viscosidade: document.getElementById(`viscosidade`).value,
-                            // proporcao: document.getElementById(`proporcao`).value,
-                            // responsavel: user,
-                            // excessao: 0,
-                            // pot_life: document.getElementById(`pot_life`).value,
-                            // ini_agitador: document.getElementById(`ini_agitador`).value,
-                            // ini_mistura: document.getElementById(`ini_mistura`).value,
-                            // ini_diluentes: document.getElementById(`ini_diluentes`).value,
-                            // ini_inducao: document.getElementById(`ini_inducao`).value,
-                            // ini_adequacao: document.getElementById(`ini_adequacao`).value,
-                //     }
-                //     const hasZeroValue = Object.values(dados).some(value => value === '');
-                //     if (hasZeroValue) {
-                //     Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
-                //     }
-                // }
+                preConfirm: () => {
+                    dados = {
+                            track_form173: idQuadro,
+                            mescla: 1,
+                            data_prep: dataAtual,
+                            cod_mp: response.data[0].cemb,
+                            temperatura: document.getElementById(`temperatura`).value,
+                            umidade: document.getElementById(`umidade`).value,
+                            lotemp: document.getElementById(`lotemp`).value,
+                            shelf_life: document.getElementById(`shelf_life`).value,
+                            viscosimetro: document.getElementById(`viscosimetro`).value,
+                            viscosidade: document.getElementById(`viscosidade`).value,
+                            proporcao: document.getElementById(`proporcao`).value,
+                            responsavel: user,
+                            excessao: 0,
+                            pot_life: document.getElementById(`pot_life`).value,
+                            ini_agitador: document.getElementById(`ini_agitador`).value,
+                            ini_mistura: document.getElementById(`ini_mistura`).value,
+                            ini_diluentes: document.getElementById(`ini_diluentes`).value,
+                            ini_inducao: document.getElementById(`ini_inducao`).value,
+                            ini_adequacao: document.getElementById(`ini_adequacao`).value,
+                    }
+                    const hasZeroValue = Object.values(dados).some(value => value === '');
+                    if (hasZeroValue) {
+                    Swal.showValidationMessage("Todos os campos devem ser preenchidos corretamente.");
+                    }
+                }
                 }).then((result) => {
                     dados = {
                         track_form173: idQuadro,
