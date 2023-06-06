@@ -10,6 +10,7 @@ from routes.kaban import *
 from routes.ultimaMescla import *
 from routes.newMEP import *
 from routes.acesso import *
+from routes.operadores import *
 
 mode = "dev" #prod ou dev
 
@@ -22,6 +23,7 @@ app.register_blueprint(infosCEMB_bp)
 app.register_blueprint(kaban)
 app.register_blueprint(insertDB_newMEP)
 app.register_blueprint(ultimaMescla_bp)
+app.register_blueprint(operadores_bp)
 
 
 @app.route("/", methods=["POST", "GET"])

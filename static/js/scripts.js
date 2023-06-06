@@ -374,17 +374,19 @@ function modalSolicitacao(){
         const quantidade = document.getElementById('quantidade').value;
         const g = document.getElementById('g');
         const ml = document.getElementById('ml');
-    
+        const cembCorreto = await confereCEMB(cemb);
+        const codPintorCorreto = await conferePintor(codPintor);
+        
         if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked)) {
             Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
         }else if (g.checked === ml.checked) {
             Swal.showValidationMessage(`Selecione apenas uma opção entre "ml" e "g".`)
-        }else {
-            const cembCorreto = await confereCEMB(cemb);
-            if (!cembCorreto) {
-              Swal.showValidationMessage(`O código CEMB não está correto!`);
-            }
-          }
+        }else if (!cembCorreto) {
+            Swal.showValidationMessage(`O Código CEMB não está correto!`);
+        }else if (!codPintorCorreto) {
+            Swal.showValidationMessage(`O Código do Pintor não está correto!`);
+        }
+          
         }
     }).then(response => {
         if (response.isConfirmed){
@@ -487,7 +489,18 @@ async function confereCEMB(cemb) {
       console.error(error);
       return false;
     }
-  }
+}
+
+async function conferePintor(codPintor) {
+    try {
+      const response = await axios.post("/confereCOD", { codPintor: codPintor });
+      console.log(response.data)
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+}
   
 
 

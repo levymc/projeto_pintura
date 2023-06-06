@@ -325,6 +325,7 @@ class Operadores(Base):
             result = session.query(cls).filter_by(usuario=userInput).first()
             return result
 
+print(Operadores.consultaEspecificaCodigo(18880))
 
 class OCs(Base):
     __tablename__ = 'ocs'
