@@ -477,3 +477,5 @@ class Relacao_Tintas(Base):
         consultaEspecifica = [row.to_dict() for row in session.query(cls).filter(getattr(cls, coluna) == arg).all()]
         session.close()
         return consultaEspecifica
+
+# print(Relacao_Tintas.consultaEspecifica(917221, 'cemb'))

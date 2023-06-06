@@ -156,8 +156,6 @@ let renderizarMain = () => {
 
 
 // Modal Nova CEMB
-function confereMEP(){
-}
 
 function recebAllInfos(){
     try{
@@ -369,7 +367,7 @@ function modalSolicitacao(){
         </div>
     </div>
     `,
-    preConfirm: () => {
+    preConfirm: async () => {
         const numeroForm = document.getElementById('numeroForm').value;
         const codPintor = document.getElementById('codPintor').value;
         const cemb = document.getElementById('cemb').value;
@@ -379,9 +377,14 @@ function modalSolicitacao(){
     
         if (!numeroForm || !codPintor || !cemb || !quantidade || (!g.checked && !ml.checked) || (g.checked && ml.checked)) {
             Swal.showValidationMessage(`Todos os campos devem ser preenchidos corretamente.`)
-            } else if (g.checked === ml.checked) {
+        }else if (g.checked === ml.checked) {
             Swal.showValidationMessage(`Selecione apenas uma opção entre "ml" e "g".`)
+        }else {
+            const cembCorreto = await confereCEMB(cemb);
+            if (!cembCorreto) {
+              Swal.showValidationMessage(`O código CEMB não está correto!`);
             }
+          }
         }
     }).then(response => {
         if (response.isConfirmed){
@@ -475,6 +478,17 @@ let btnAddOC = () => {
     return ocsAdded
 }
 
+async function confereCEMB(cemb) {
+    try {
+      const response = await axios.post("/infosCEMB", { cemb: cemb });
+      console.log(response.data)
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  
 
 
 // Renderização dos Quadros no Kanban
