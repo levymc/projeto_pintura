@@ -455,28 +455,7 @@ let btnAddOC = () => {
         console.log(linhasTabela, linhasTabela.length)
         selecionarLinha('.container-listaOCs table tbody tr', "btnRemoveOC")
 
-        // Adicione um evento de clique a cada linha
-        // linhasTabela.forEach(linha => {
-        //     linha.addEventListener('click', () => {
-        //         // Verifica se a linha já está selecionada
-                
-        //         linhasTabela.forEach(linha => {
-        //           linha.classList.remove('linha-selecionada');
-        //         });
-        //         // Se a linha já estiver selecionada, desseleciona-a
-        //         if (estaSelecionada) {
-        //           console.log('Linha desselecionada:', linha);
-        //         }
-        //         // Caso contrário, seleciona-a
-        //         else {
-        //           linha.classList.add('linha-selecionada');
-        //           console.log('Linha selecionada:', linha);
-        //         }
-        //       });
-              
-        // });
     }
-    console.log(ocsAdded)
     return ocsAdded
 }
 
@@ -793,34 +772,40 @@ function modalEditarOCs(dadosQuadro, dadosOCs){
 }
 
 
-function selecionarLinha(seletor, btn){
+function selecionarLinha(seletor, btn) {
     const linhasTabela = document.querySelectorAll(seletor);
     linhasTabela.forEach(linha => {
-        linha.addEventListener('click', () => {
-            const estaSelecionada = linha.classList.contains('linha-selecionada'); // Verifica se a linha já está selecionada
-            linhasTabela.forEach(linha => { // Remove a classe de seleção de todas as linhas
-                linha.classList.remove('linha-selecionada');
-            });
-            
-            if (estaSelecionada) { // Se a linha já estiver selecionada, desseleciona-a
-                console.log('Linha desselecionada:', linha);
-            }
-            // Caso contrário, seleciona-a
-            else {
-                linha.classList.add('linha-selecionada');
-                console.log('Linha selecionada:', linha);
-                document.getElementById(btn).addEventListener("click", function(){
-                    const oi = confirm("Deseja apagar a OC?")
-                    console.log(oi)
-                    if (oi){
-                        linha.remove()
-                        btn === "btnApagar" && btnApagar(linha.id)
-                    }
-                })
-            }
-            });
+      linha.addEventListener('click', () => {
+        const estaSelecionada = linha.classList.contains('linha-selecionada'); // Verifica se a linha já está selecionada
+        linhasTabela.forEach(linha => { // Remove a classe de seleção de todas as linhas
+          linha.classList.remove('linha-selecionada');
         });
-}
+  
+        if (estaSelecionada) { // Se a linha já estiver selecionada, desseleciona-a
+          console.log('Linha desselecionada:', linha);
+        } else {
+          linha.classList.add('linha-selecionada');
+          console.log('Linha selecionada:', linha);
+          document.getElementById(btn).addEventListener("click", function() {
+            const oi = confirm("Deseja apagar a OC?");
+            console.log(ocsAdded);
+            if (oi) {
+              const oc = linha.cells[0].innerText; // Obtém o valor da coluna OC da linha
+              const qnt_solicitada = linha.cells[1].innerText; // Obtém o valor da coluna Quantidade da linha
+              linha.remove();
+              console.log(qnt_solicitada)
+              const ocIndex = ocsAdded.findIndex(item => item.oc === oc && item.qnt_solicitada === qnt_solicitada);
+              if (ocIndex !== -1) {
+                ocsAdded.splice(ocIndex, 1);
+              }
+              btn === "btnApagar" && btnApagar(linha.id);
+            }
+          });
+        }
+      });
+    });
+  }
+  
 
 
 function btnApagar(idOC){
