@@ -1,0 +1,725 @@
+/* @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"; */
+
+*{
+    font-family: "Roboto", sans-serif;
+    /* user-select: none; */
+    box-sizing: border-box !important;
+}
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body,html{
+    height: 100%;
+    /* background: radial-gradient(#ffffff, #a8a8a8) !important; */
+    background-color: #E5E5E5;
+    background-size: cover !important;
+}    
+main{
+    flex-direction: column;
+    padding-top: 2em;
+    gap : 2em;
+}
+.text-center{
+    text-align: center;
+}
+.display-none{
+    display: none;
+}
+.linha-selecionada {
+    background-color: rgb(138, 138, 252);
+    transition: background-color 0.7s ease;
+    color: #ffffff;
+}
+
+.shadow-drop-center {
+	-webkit-animation: shadow-drop-center 0.4s ease-in-out both;
+	        animation: shadow-drop-center 0.4s ease-in-out both;
+}
+@-webkit-keyframes shadow-drop-center {
+    0% {
+      -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+              box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+      -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+              box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    }
+  }
+  @keyframes shadow-drop-center {
+    0% {
+      -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+              box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+    100% {
+      -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+              box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    }
+  }
+  
+  
+
+/* Principal */
+
+.titulo {
+    position: absolute;
+    text-align: center;
+    top: 0;
+    background:  #8f0000;
+    height: 2em;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+    /* padding: 15px; */
+    width: 100%;
+    font-weight: bold;
+    font-size: 40px;
+}
+.titulo h1{
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    color: #ede9e9;
+}
+.container{
+    margin-top: 70px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+    /* height: 100vh; */
+    width: 80%;
+}
+.userForm {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 15px;
+    gap:0.5em;
+    padding: 50px;
+    align-items: center;
+    margin-top: 6em;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+    width: 40vw;
+}
+    
+.userInput, .passInput {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 24px;
+    outline: none;
+    transition: border-bottom-color 0.2s ease-in-out;
+}
+    
+input::placeholder{
+    color: rgb(152, 152, 152);
+}
+
+.userInput:focus, .passInput:focus {
+    border-bottom-color: #6200ee;
+}
+    
+#btn-userForm {
+    background-color: #b80000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+    
+#btn-userForm:hover {
+    background-color: #660000;
+}
+.userForm button:active{
+    background-color: #a8a8a8;
+}
+.titulo h3{
+    margin-top: 1em;
+    text-align: center;
+    font-size: 16px;
+    color: rgb(95, 34, 34);
+}
+body.swal2-height-auto {
+    height: 100% !important;
+}
+nav{
+    padding: 0 !important;
+    width: auto !important;
+    height: 100vh !important;
+    z-index: 2;
+    background-color: #ffadad !important;
+}
+.btn{
+    margin: 0 !important;
+    cursor: pointer;
+    width: 100%; height: 3em !important;
+    align-items: center !important;
+    z-index: 2;
+    background-color: #ffadad !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+.btn:hover{
+    background-color: #660000 !important;
+}
+
+.kaban{
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 1em;
+}
+
+.topo{
+    display: flex;
+    width: 100%;
+    padding-top: 0.5em;
+    position: relative;
+}
+.topo button{
+    width: auto;
+}
+.btnNewCEMB{
+    position: absolute;
+    top: 3.5rem;
+    width: 100%;
+}
+.btnNewCEMB button{
+    font-size: 8px;
+    height: 2rem;
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+}
+.defData select , .newMEP select, .defStatus select{
+    border:1px solid #ccc !important;
+    border-radius:3px !important;
+    /* padding:0 3px !important; */
+    display: flex !important;
+    font-size: 11px !important;
+    font-weight: bold;
+}
+.newMEP select{
+    height: auto !important;
+}
+.newMEP{
+    flex-direction: column;
+    color: grey;
+    align-items: start !important;
+    gap: 0.3rem;
+    padding-top: 0.4rem; padding-bottom: 0.2rem;
+}
+.defData{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.defStatus{
+    position: absolute;
+    top: 3.5rem;
+    right: 0;
+}
+
+.quadros-kanban{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 2em;
+    padding-top:4em;
+    padding-bottom: 3em;
+}
+.quadro{
+    width: 20vw;
+    height: 60vh;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    gap: 0.75em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    padding: 1em;
+    position: relative;
+}
+.quadro-data{
+    display: flex;
+    width: 100%;
+    font-size: 13px;
+    justify-content: end;
+}
+.quadro ul{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    font-size: 15px;
+    padding-bottom: 3em;
+}
+.quadro-btns{
+    width: 100%;
+    display: flex;
+    gap: 0.5em;
+    justify-content: end;
+}
+#quadro-btnFinalizar{
+    background-color: #246600be;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#quadro-btnFinalizar:hover{
+    background-color: #60cb27be;
+}
+#quadro-btnForm40{
+    background-color: #E57373;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#quadro-btnForm40:hover{
+    background-color: #8f4747;
+}
+#quadro-btnPrint{
+    background-color: #7b73e5;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#quadro-btnPrint:hover{
+    background-color: #474e8f;
+}
+#quadro-btnEditar{
+    background-color: #888c46;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#quadro-btnEditar:hover{
+    background-color: #5d6634;
+}
+#infosCEMB{
+    cursor: pointer;
+    color: #1d0088;
+}
+
+
+.containerInfosCEMB{
+    display: flex;
+}
+.containerInfosCEMB .colunaEspecificacoes{
+    text-align: start;
+    padding-right: 2em;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.containerInfosCEMB .colunaEspecificacoes li{
+    line-height: 2em;
+}
+.colunaParametros{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    border-left: 1px dashed #ccc;
+    padding-left: 2em;
+    text-align: center;
+}
+
+
+.btnApagar{
+    position: absolute;
+    left: 16px;
+    bottom: 10px;
+}
+#btnApagar{
+    color: rgb(122, 0, 0);
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#btnApagar:hover{
+    color: red;
+}
+.btnAddOC_Editar{
+    position: absolute;
+    right: 16px;
+    bottom: 10px;
+}
+#btnAddOC_Editar{
+    color: rgb(0, 122, 0);
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#btnAddOC_Editar:hover{
+    color: rgb(0, 255, 47);
+}
+.container-Form40{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.menu-superior{
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: auto;
+    height: 60px;
+    display: none;
+    align-items: start;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5em;
+    box-sizing: border-box;
+    padding-left: 1em;
+}
+.menu-superior button{
+    width: 8vw;    
+    height: 8vh;
+    letter-spacing: -1px; line-height: 1.2;
+    font-size: 10px !important;
+    border: 1px solid rgba(128, 128, 128, 0.493);
+    border-radius: 5px;
+    cursor: pointer;
+    color: rgb(70, 70, 70);
+}
+.menu-superior button:active{
+    background-color: #cecece;
+}
+.menu-superior button:hover{
+    background-color: #6200ee;
+}
+.conteudo{
+    width: 100%;
+    display: flex;
+    height: 100vh;
+    position: absolute;
+    align-items: center;
+    left: auto;
+    top: 70px;
+    padding-bottom: 3em;
+}
+.conteudo-form173{
+    background-color: #ffffff;
+    padding: 2em;   
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: start;
+    justify-content: space-around;
+}
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: inherit !important;
+    opacity: 1 !important;
+    pointer-events: visible !important;
+    width: 12px !important;
+}
+
+.tabelaEditar table tbody{
+    border-radius: 0;
+}
+
+.divisoria-vertical {
+    border-left: 1px dashed #ccc;
+    height: 100%;
+    padding-top: 2em;
+    padding-bottom: 1em;
+}
+.form173{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    flex-direction: column;
+    padding-right: 3rem;
+    /* gap: 0.5em; */
+    position: relative;
+}
+.form173 div{
+    width: 100%;
+}
+
+.numeroForm .input-field, .codPintor .input-field, .cemb .input-field, #quantidade .input-field{
+    margin-right: 2em !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+}
+
+
+#btnAddOC {
+    background-color: #5c3bd3be;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#btnAddOC:hover {
+    background-color: #1d0088;
+}
+#btnRemoveOC {
+    background-color: #eb7263;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#btnRemoveOC:hover {
+    background-color: #8d3b3b;
+}
+.btnAddOC button:active{
+    background-color: #a8a8a8;
+}
+
+.solicitante{
+    display: flex;
+    width: 13em;
+}
+.solicitante h3{
+    font-size: 16px;
+}
+
+.quantidade{
+    width: 100%;
+    position: relative;
+    /* padding-left: 4rem; */
+}
+#quantidade{
+    width: 100%;
+}
+.container-checkboxes{
+    width: auto;
+    flex-direction: column;
+    gap: 0.2em;
+    position: absolute;
+    right: -40px;
+    top: 5px;
+}
+.checkboxes{
+    display: flex; 
+    gap: 0.25em;
+    width: auto !important; 
+}
+.checkboxes label{
+    font-size: 12px;
+    display: flex;
+}
+.ocsForm173{ 
+    gap: 0.5em;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.45em;
+    padding-left: 3em;
+}
+.my-validation-message::before {
+    display: none;
+  }  
+.ocsForm173 .campoOC{
+    display: flex;
+    gap: 0.5em;
+}
+#qntOcForm173{
+    width: 30%;
+}
+.qnt_solicitada{
+    width: 8vw;
+}
+.btnAddOC{
+    width: 100%;
+    display: flex;
+    gap: 0.5em;
+    justify-content: end;
+    align-items: end;
+} 
+.ocsForm173 button{
+    width: 30%;
+}
+.contadorOCs{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+.contadorOCs h3{
+    width: auto;
+    margin-top: 0.2em;
+    margin-right: 0.2em;
+    font-size: 11px;
+    font-weight: bold;
+}
+.listaOCs{
+    margin-top: 1em;
+    padding: 0.75em;
+    border: 1px rgba(128, 128, 128, 0.545) solid;
+    border-radius: 10px;
+}
+.listaOCs th{
+    font-size: 15px;
+    border-bottom: 1px rgba(128, 128, 128, 0.376) dashed;
+    padding-bottom: 0.5em;
+}
+.listaOCs td{
+    text-align: center;
+    padding-top: 0.5em;
+    font-size: 13px;
+    border-bottom: 1px rgba(128, 128, 128, 0.376) dashed;
+}
+.container-listaOCs{
+    height: 15em;
+    overflow-y: auto;
+}
+.conteudo-form40{
+    background-color: #6200ee;
+    width: 100%;
+    height: 100vh;
+}
+.modalForm40{
+    display: flex;
+    padding-top: 2em;
+}
+.modalForm40 label{
+    color: black;
+}
+.modalForm40 input::placeholder{
+    font-size: 13px;
+}
+.modalForm40 .coluna1, .modalForm40 .coluna2, .modalForm40 .colunaTempos{
+    display: flex;
+    flex-direction: column;
+}
+.modalForm40 .coluna1{
+    width: 20%;
+    padding-right: 1.5em;
+    justify-content: space-evenly;
+    text-align: start;
+    font-size: 13px;
+}
+.modalForm40 .coluna1 b{
+    font-size: 15px;
+}
+.modalForm40 .coluna2{
+    padding-left: 1.5em; padding-right: 1.5em;
+    border-left: 1px dashed #ccc;
+    width: 40%;
+}
+.modalForm40 .colunaTempos{
+    padding-left: 1.5em;
+    border-left: 1px dashed #ccc;
+    width: 40%;
+}
+.colunaTempos{
+    text-align: start;
+}
+
+.btnReset{
+    position: absolute;
+    bottom: 1em;
+}
+#btnReset {
+    background-color: #949c00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+    
+#btnReset:hover {
+    background-color: #666b00;
+}
+.btnAutorizar{
+    position: absolute;
+    bottom: 1em;
+    right: 2em;
+}
+#btnAutorizar {
+    background-color: #4d4d4d7f;
+    color: #e6e6e6;
+    border: 1px rgb(74, 74, 74) dashed;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+    
+#btnAutorizar:hover {
+    background-color: rgba(155, 154, 154, 0.498);
+    color: rgb(93, 93, 93);
+}
+
+/* Modal Editar OCs */
+.inputsModalEditar{
+    gap: 1em;
+}
+.divEditar label{
+    width: max-content;
+}
+.divEditar{
+    flex-direction: column;
+}
+
+
+.graphProp{
+    user-select: none;
+}
+
+#modalNewCEMB{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+#imageInput{
+    display: flex;
+    /* gap: 0.5rem; */
+}
